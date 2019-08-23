@@ -1,0 +1,70 @@
+[
+  {
+    "id": "demo_root_1",
+    "text": "Root 1",
+    "icon": "/static/3.3.8/assets/images/tree_icon.png",
+    "li_attr": {
+      "id": "demo_root_1"
+    },
+    "a_attr": {
+      "href": "#",
+      "id": "demo_root_1_anchor"
+    },
+    "state": {
+      "loaded": true,
+      "opened": true,
+      "selected": false,
+      "disabled": false,
+      "failed": false,
+      "loading": false
+    },
+    "data": [
+      "adsfsad123"
+    ],
+    "children": [
+      {
+        "id": "j1_3",
+        "text": "asdfasdf",
+        "icon": true,
+        "li_attr": {
+          "id": "j1_3"
+        },
+        "a_attr": {
+          "href": "#",
+          "id": "j1_3_anchor"
+        },
+        "state": {
+          "loaded": true,
+          "opened": false,
+          "selected": true,
+          "disabled": false
+        },
+        "data": {},
+        "children": [],
+        "type": "default"
+      }
+    ],
+    "type": "root"
+  },
+  {
+    "id": "demo_root_2",
+    "text": "Root 2",
+    "icon": "/static/3.3.8/assets/images/tree_icon.png",
+    "li_attr": {
+      "id": "demo_root_2"
+    },
+    "a_attr": {
+      "href": "#",
+      "id": "demo_root_2_anchor"
+    },
+    "state": {
+      "loaded": true,
+      "opened": false,
+      "selected": false,
+      "disabled": false
+    },
+    "data": {},
+    "children": [],
+    "type": "root"
+  }
+]

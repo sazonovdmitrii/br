@@ -1,0 +1,224 @@
+easy_admin:
+    site_name: 'Laparfumerie'
+    entities:
+        Tags:
+            class: App\Entity\Tags
+            form:
+                fields:
+                    - guid
+        Urls:
+            class: App\Entity\Urls
+            list:
+                fields: ['id', 'url', 'created']
+        ProductUrl:
+            class: App\Entity\ProductUrl
+            list:
+                fields: ['id', 'url', 'created']
+            form:
+                fields:
+                    - url
+        CatalogUrl:
+            class: App\Entity\CatalogUrl
+            list:
+                fields: ['id', 'url', 'created']
+        Users:
+            class: App\Entity\Users
+            list:
+                fields: ['id', 'email', 'roles']
+        Menu:
+            class: App\Entity\Menu
+            controller: App\Controller\Admin\MenuController
+            list:
+                fields: ['id', 'name', 'title']
+        MenuItem:
+            class: App\Entity\MenuItem
+            list:
+                fields: ['id', 'title']
+        Catalog:
+            class: App\Entity\Catalog
+            controller: App\Controller\Admin\CatalogController
+            list:
+                fields: ['id', 'name', 'visible']
+            form:
+              fields:
+                  - { type: 'tab' , label: 'General' }
+                  - visible
+                  - name
+                  - created
+                  - updated
+                  - { type: 'tab', label: 'Virtual Urls' }
+                  - { property: 'catalogUrls', type: 'easyadmin_autocomplete' }
+                  - { type: 'tab', label: 'Tags' }
+                  - { property: 'productTagItems', type_options: { block_name: 'catalogs_tags' }}
+        Items:
+            class: App\Entity\ProductItem
+            controller: App\Controller\Admin\ItemsController
+            list:
+                fields:
+                    - id
+                    - name
+                    - visible
+            form:
+                fields:
+                    - name
+                    - price
+                    - { property: 'imageFile', type: 'App\Form\Type\MultipleImage', type_options: { multiple: true, block_name: 'custom_image' } }
+
+        Product:
+            class: App\Entity\Product
+            controller: App\Controller\Admin\ProductController
+            list:
+                fields: ['id', 'name', 'visible']
+            form:
+                fields:
+                    - { type: 'tab' , label: 'General' }
+                    - visible
+                    - name
+                    - created
+                    - updated
+                    - { type: 'tab', label: 'Categories' }
+                    - { property: 'catalogs', type_options: { block_name: 'products_catalogs' }}
+                    - { type: 'tab', label: 'Product Items'}
+                    - { property: 'productItems', type_options: { block_name: 'products_items' }}
+                    - { type: 'tab', label: 'Virtual Urls' }
+                    - { property: 'productUrls', type: 'form', type_options: {block_name: 'products_urls'}}
+                    - { type: 'tab', label: 'Tags' }
+                    - { property: 'producttagitem', type_options: { block_name: 'products_tags_items' }}
+        Order:
+            class: App\Entity\Orders
+            controller: App\Controller\Admin\OrderController
+            list:
+                fields: ['id', 'name', 'visible']
+        Delivery:
+              class: App\Entity\Delivery
+              list:
+                  fields: ['id', 'name', 'visible']
+        PaymentMethod:
+            class: App\Entity\PaymentMethod
+            list:
+                fields: ['id', 'name']
+        ImportProduct:
+            class: App\Entity\ImportProduct
+            controller: App\Controller\Admin\ImportProductController
+        ProductTag:
+            class: App\Entity\ProductTag
+            controller: App\Controller\Admin\ProductTagController
+            form:
+              fields:
+                - name
+                - { property: 'type', type: 'choice', type_options: {multiple: false, choices: {bool: 'bool', string: 'string', int: 'int', float: 'float', enum: 'enum'}} }
+                - { property: 'input_type', type: 'choice', type_options: {multiple: false, choices: {multiple: 'multiple', once: 'once'}} }
+                - { property: 'visible', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
+                - { property: 'productTagItems', type_options: { block_name: 'products_tags_items' }}
+        ProductTagItem:
+            class: App\Entity\ProductTagItem
+            form:
+              fields:
+                - name
+                - slug
+        CatalogTag:
+            class: App\Entity\CatalogTag
+            controller: App\Controller\Admin\ProductTagController
+            form:
+              fields:
+                - name
+                - { property: 'type', type: 'choice', type_options: {multiple: false, choices: {bool: 'bool', string: 'string', int: 'int', float: 'float', enum: 'enum'}} }
+                - { property: 'visible', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
+                - { property: 'catalogTagItems', type_options: { block_name: 'catalogs_tags_items' }}
+
+        Configuration:
+            class: App\Entity\ProductTag
+            controller: App\Controller\Admin\ConfigurationController
+        Address:
+            class: App\Entity\Address
+            list:
+                fields: ['id', 'city', 'street']
+            form:
+                fields:
+                    - person
+                    - user_id
+                    - zip
+                    - region_id
+                    - city
+                    - street
+                    - house
+                    - corp
+                    - level
+                    - flat
+                    - code
+                    - comment
+                    - active
+        Banner:
+            class: App\Entity\Banner
+            list:
+                fields:
+                    - id
+                    - path
+                    - link
+            form:
+                fields:
+                    - { property: 'pathFile', type: 'App\Form\Type\MultipleImage', type_options: { multiple: true, block_name: 'custom_title' } }
+                    - link
+        Sale:
+            class: App\Entity\Sale
+            form:
+                fields:
+                    - { type: 'tab' , label: 'General' }
+                    - start
+                    - finish
+                    - category
+                    - discount
+                    - enabled
+                    - featured
+                    - type
+                    - prior
+                    - { property: 'imagePath', type: 'App\Form\Type\MultipleImage', type_options: { multiple: true, block_name: 'custom_image' } }
+                    - { type: 'tab' , label: 'Products' }
+                    - products
+        City:
+            class: App\Entity\City
+        Direction:
+            class: App\Entity\Direction
+        District:
+            class: App\Entity\District
+        Pickup:
+            class: App\Entity\Pickup
+        Region:
+            class: App\Entity\Region
+        Courier:
+            class: App\Entity\Courier
+        UserAddress:
+            class: App\Entity\UserAddress
+    design:
+        brand_color: 'black'
+        form_theme:
+            - 'admin/form/bootstrap_3_layout.html.twig'
+            - 'admin/form/bootstrap_3_horizontal_layout.html.twig'
+            - 'admin/form/images.html.twig'
+            - 'admin/form/tags.html.twig'
+            - 'admin/form/products_items.html.twig'
+            - 'admin/form/products_catalogs.html.twig'
+            - 'admin/form/products_tags_items.html.twig'
+            - 'admin/form/catalogs_tags.html.twig'
+            - 'admin/form/products_urls.html.twig'
+        menu:
+          - label: 'Urls'
+            children: ['ProductUrl', 'CatalogUrl']
+          - label: 'Catalog'
+            children: ['Catalog', 'CatalogTag', 'Product', 'Items', 'ProductTag']
+          - label: 'Order'
+            children: ['Order', 'Delivery', 'ProductTag']
+          - label: 'User'
+            children: ['Users', 'Address', 'UserAddress']
+          - ImportProduct
+          - label: 'Menu'
+            children: ['Menu', 'MenuItem']
+          - Banner
+          - Sale
+          - Configuration
+          - Tags
+          - label: 'Delivery & Payment'
+            children: ['City', 'Direction', 'District', 'Pickup', 'Region', 'Courier', 'PaymentMethod']
+        assets:
+            css:
+                - '/bundles/lp/css/lp.css'

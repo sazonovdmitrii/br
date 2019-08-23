@@ -1,0 +1,11 @@
+{
+  basket {
+    products {
+      item_id,
+      qty,
+      name,
+      product_name
+    }
+  }
+}
+  

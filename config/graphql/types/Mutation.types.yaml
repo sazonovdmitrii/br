@@ -1,0 +1,58 @@
+Mutation:
+  type: object
+  config:
+    fields:
+      auth:
+        type: AuthorizedUser!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\UserMutation::auth", [args])'
+        args:
+          input:
+            type: UserInput!
+      register:
+        type: AuthorizedUser!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\UserMutation::register", [args])'
+        args:
+          input:
+            type: RegisterInput!
+      addBasket:
+        type: Basket!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\BasketMutation::add", [args])'
+        args:
+          input:
+            type: AddBasketInput!
+      removeBasket:
+        type: Basket!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\BasketMutation::remove", [args])'
+        args:
+          input:
+            type: AddBasketInput!
+      updateBasket:
+        type: Basket!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\BasketMutation::update", [args])'
+        args:
+          input:
+            type: UpdateBasketInput!
+      order:
+        type: Order!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\OrderMutation::create", [args])'
+        args:
+          input:
+            type: OrderInput
+      createAddress:
+        type: Address!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\AddressMutation::create", [args])'
+        args:
+          input:
+            type: CreateAddressInput!
+      updateAddress:
+        type: Addresses!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\AddressMutation::update", [args])'
+        args:
+          input:
+            type: UpdateAddressInput!
+      removeAddress:
+        type: Addresses!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\AddressMutation::remove", [args])'
+        args:
+          input:
+            type: RemoveAddressInput!

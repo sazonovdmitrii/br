@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../ShirteeApiAutoTests" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../dropshipping-new" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../dropshipping-shirtee" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../easy-admin-demo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../limeit" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../m2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../shirtee-apiautotests" vcs="Git" />
+  </component>
+</project>

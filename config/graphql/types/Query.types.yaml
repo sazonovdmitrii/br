@@ -1,0 +1,116 @@
+Query:
+  type: object
+  config:
+    description: "Product Item ORM repository"
+    fields:
+      productitem:
+        type: "ProductItem"
+        args:
+            id:
+              description: "Resolves using the product item id."
+              type: "Int"
+        resolve: "@=resolver('ProductItem', [args])"
+      user:
+        type: "User"
+        args:
+            id:
+              description: "Resolves using the user id."
+              type: "Int"
+        resolve: "@=resolver('User', [args])"
+      product:
+        type: "Product"
+        args:
+            id:
+              description: "Resolves using the product ID."
+              type: "Int"
+            slug:
+              description: "Resolves using the product slug."
+              type: "String"
+        resolve: "@=resolver('Product', [args])"
+      catalog:
+        type: "Catalog"
+        args:
+            id:
+              description: "Resolves using the catalog ID."
+              type: "Int"
+            slug:
+              description: "Resolves using the catalog slug."
+              type: "String"
+            products:
+              description: 'Products'
+              type: "String"
+            tags:
+              description: 'Tags'
+              type: "[Int]"
+        resolve: "@=resolver('Catalogs', [args])"
+      addresses:
+        type: "Addresses"
+        args:
+          token:
+            description: "User Token"
+            type: "String"
+        resolve: "@=resolver('Addresses', [args])"
+      basket:
+        type: "Basket"
+        resolve: "@=resolver('Basket', [args])"
+      users_orders:
+        type: "UsersOrders"
+        resolve: "@=resolver('UsersOrders', [args])"
+      banner:
+        type: "Banner"
+        resolve: "@=resolver('Banner', [args])"
+      sale:
+        type: "Sale"
+        args:
+            limit:
+              description: "Sale Limit"
+              type: "Int"
+        resolve: "@=resolver('Sales', [args])"
+      regions:
+        type: "Regions"
+        resolve: "@=resolver('Regions', [args])"
+      cities:
+        type: "Cities"
+        resolve: "@=resolver('Cities', [args])"
+      directions:
+        type: "Directions"
+        resolve: "@=resolver('Directions', [args])"
+      districts:
+        type: "Districts"
+        resolve: "@=resolver('Districts', [args])"
+      pickups:
+        type: "Pickups"
+        resolve: "@=resolver('Pickups', [args])"
+        args:
+            city_id:
+              description: "City ID"
+              type: "Int"
+      couriers:
+        type: "Couriers"
+        resolve: "@=resolver('Couriers', [args])"
+        args:
+            city_id:
+              description: "City ID"
+              type: "Int"
+      payments_methods:
+        type: "PaymentsMethods"
+        resolve: "@=resolver('PaymentsMethods', [args])"
+      top_menu:
+        type: "Menu"
+        resolve: "@=resolver('TopMenu', [args])"
+      brands_list:
+        type: "CatalogThumb"
+        resolve: "@=resolver('BrandsList', [args])"
+      address:
+        type: "Address"
+        resolve: "@=resolver('Address', [args])"
+        args:
+            id:
+              description: "Address ID"
+              type: "Int"
+DateTime:
+    type: custom-scalar
+    config:
+        serialize: ["App\\GraphQL\\Type\\DateTimeType", "serialize"]
+        parseValue: ["App\\GraphQL\\Type\\DateTimeType", "parseValue"]
+        parseLiteral: ["App\\GraphQL\\Type\\DateTimeType", "parseLiteral"]

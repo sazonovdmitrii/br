@@ -1,0 +1,29 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+b,
+strong {
+    font-weight: 500;
+}
+
+body {
+    font-family: var(--font-serif);
+    line-height: 1.5;
+    /* font-size: 15px; */
+    color: var(--color-font);
+    background: var(--color-background);
+}
+
+img {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
+}
+
+button {
+    background: none;
+}

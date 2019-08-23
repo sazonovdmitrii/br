@@ -1,0 +1,120 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    background: none;
+    font-size: var(--font-size-base);
+    font-family: var(--font-cond-serif);
+    font-weight: 400;
+    line-height: 1.5;
+    text-shadow: none;
+    user-select: none;
+    color: var(--color-font);
+    border-radius: 4px;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+
+.outlined-primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+
+    &:hover {
+        color: var(--color-white);
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+    }
+
+    &:disabled {
+        color: var(--color-primary);
+        background-color: transparent;
+    }
+}
+
+.outlined-secondary {
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+
+    &:hover {
+        color: var(--color-white);
+        background-color: var(--color-secondary);
+        border-color: var(--color-secondary);
+    }
+
+    &:disabled {
+        color: var(--color-secondary);
+        background-color: transparent;
+    }
+}
+
+.primary {
+    color: var(--color-white);
+    border: 2px solid var(--color-primary);
+    background-color: var(--color-primary);
+
+    &:hover,
+    &:focus {
+        color: var(--color-primary);
+        background-color: var(--color-white);
+
+        &.disabled,
+        &:disabled {
+            color: var(--color-white);
+            background-color: var(--color-primary);
+        }
+    }
+}
+
+.secondary {
+    border: 2px solid var(--color-secondary);
+    background-color: var(--color-secondary);
+    color: #333;
+
+    &:hover,
+    &:focus {
+        background-color: var(--color-white);
+
+        &.disabled,
+        &:disabled {
+            background-color: var(--color-secondary);
+        }
+    }
+}
+
+.bold {
+    font-weight: 500;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.rounded {
+    border-radius: 2em;
+}
+
+.large {
+    padding: 8px 16px;
+    font-size: var(--font-size-large);
+}
+
+.small {
+    padding: 4px 8px;
+    font-size: var(--font-size-small);
+    border-radius: 3.2px;
+}
+
+.fullWidth {
+    width: 100%;
+    display: block;
+}

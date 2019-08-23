@@ -1,0 +1,31 @@
+Basket:
+  type: object
+  config:
+    description: "Basket"
+    fields:
+      products:
+        type: "[BasketProduct]"
+        description: "Basket Id."
+BasketProduct:
+  type: object
+  config:
+    description: "Basket Product"
+    fields:
+      item_id:
+        type: "Int"
+        description: "Item Id"
+      qty:
+        type: "Int"
+        description: "Qty"
+      price:
+        type: "String"
+        description: "Price"
+      name:
+        type: "String"
+        description: "Basket Product Name"
+      product_name:
+        type: "String"
+        description: "Basket Product Name"
+      url:
+        type: "String"
+        description: "Product Url"

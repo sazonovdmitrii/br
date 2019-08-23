@@ -1,0 +1,43 @@
+@include new('sale-info') {
+    @include row();
+
+    @include has('title') {
+        @include TextProExtraThin;
+
+        line-height: 1.2;
+        font-size: calculateRem(50px);
+        letter-spacing: 1px;
+        margin-bottom: 16px;
+    }
+
+    @include has('body') {
+        flex: 1;
+        padding: 0 15px;
+        font-size: 0.9375rem;
+        line-height: 1.5;
+    }
+
+    @include has('date') {
+        @include TextProMedium;
+
+        display: none;
+        font-size: calculateRem(15px);
+        color: $FOOTERTEXT;
+
+        @include breakpoint($screen-md) {
+            display: block;
+        }
+    }
+
+    @include has('image') {
+        order: 2;
+        display: none;
+        height: 290px;
+        flex: 1;
+        padding: 0 15px;
+
+        @include breakpoint($screen-md) {
+            display: block;
+        }
+    }
+}

@@ -1,0 +1,48 @@
+Address:
+  type: object
+  config:
+    description: "User Address"
+    fields:
+      id:
+        type: "Int"
+        description: "Product Id."
+      name:
+        type: "String"
+        description: "Address Name"
+      user_id:
+        type: "User"
+        description: "User"
+      person:
+        type: "String"
+        description: "Person Address Name"
+      zip:
+        type: "String"
+        description: "Post Code"
+      region_id:
+        type: "String"
+        description: "Region ID"
+      city:
+        type: "String"
+        description: "City"
+      street:
+        type: "String"
+        description: "Street"
+      house:
+        type: "String"
+        description: "House"
+      corp:
+        type: "String"
+        description: "Corp"
+      level:
+        type: "String"
+        description: "Level"
+      flat:
+        type: "String"
+        description: "Flat"
+      code:
+        type: "String"
+        description: "Code"
+      active:
+        type: "String"
+        description: "Active"
+

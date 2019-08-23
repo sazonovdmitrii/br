@@ -1,0 +1,13 @@
+.row {
+    display: flex;
+}
+
+.tab {
+    cursor: pointer;
+
+    &.active {
+        border-color: #ccc;
+        background-color: #fff;
+        z-index: 3;
+    }
+}

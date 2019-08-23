@@ -1,0 +1,52 @@
+Catalog:
+  type: object
+  config:
+    description: "Catalog"
+    resolveField: '@=resolver("App\\GraphQL\\Resolver\\CatalogFieldResolver", [info, value, args])'
+    fields:
+      id:
+        type: "Int!"
+        description: "Catalog Id."
+      name:
+        type: "String"
+        description: "Catalog Name"
+      products:
+        type: ProductConnection
+        argsBuilder: PaginatoringBuilder
+        resolve: '@=resolver("CatalogProduct", [value, args])'
+      count:
+        type: "Int!"
+        description: "Count of products"
+      tags:
+        type: "[CatalogFilters]"
+        description: "Catalog Filter"
+
+CatalogFilters:
+  type: object
+  config:
+    description: "Catalog Filter Item"
+    fields:
+      id:
+        type: "Int!"
+        description: "Catalog Id."
+      name:
+        type: "String"
+        description: "Catalog Filter Item Name"
+      childrens:
+        type: "[CatalogFilterItem]"
+        description: "Catalog Filter Items Childrens"
+
+CatalogFilterItem:
+  type: object
+  config:
+    description: "Catalog Filter Item"
+    fields:
+      id:
+        type: "Int!"
+        description: "Catalog Filter Item Id."
+      name:
+        type: "String"
+        description: "Catalog Filter Item Name"
+      count:
+        type: "Int"
+        description: "Count products in selected filter"

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../shirtee-apiautotests/.idea/ShirteeApiAutoTests.iml" filepath="$PROJECT_DIR$/../shirtee-apiautotests/.idea/ShirteeApiAutoTests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dino/.idea/dino.iml" filepath="$PROJECT_DIR$/../dino/.idea/dino.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dolphin/.idea/dolphin.iml" filepath="$PROJECT_DIR$/../dolphin/.idea/dolphin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dropshipping-new/.idea/dropshipping-new.iml" filepath="$PROJECT_DIR$/../dropshipping-new/.idea/dropshipping-new.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dropshipping-shirtee/.idea/dropshipping-shirtee.iml" filepath="$PROJECT_DIR$/../dropshipping-shirtee/.idea/dropshipping-shirtee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../easy-admin-demo/.idea/easy-admin-demo.iml" filepath="$PROJECT_DIR$/../easy-admin-demo/.idea/easy-admin-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../limeit/.idea/limeit.iml" filepath="$PROJECT_DIR$/../limeit/.idea/limeit.iml" />
+      <module fileurl="file:///Volumes/Second/murata-docs/2018-11-15 data/mps/live-httpd/.idea/live-httpd.iml" filepath="/Volumes/Second/murata-docs/2018-11-15 data/mps/live-httpd/.idea/live-httpd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lpnew.iml" filepath="$PROJECT_DIR$/.idea/lpnew.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../m2/.idea/m2.iml" filepath="$PROJECT_DIR$/../m2/.idea/m2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../orange/.idea/orange.iml" filepath="$PROJECT_DIR$/../orange/.idea/orange.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dino/public_html/.idea/public_html.iml" filepath="$PROJECT_DIR$/../dino/public_html/.idea/public_html.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../saze/.idea/saze.iml" filepath="$PROJECT_DIR$/../saze/.idea/saze.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../saze2/.idea/saze2.iml" filepath="$PROJECT_DIR$/../saze2/.idea/saze2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../shirtee/.idea/shirtee.iml" filepath="$PROJECT_DIR$/../shirtee/.idea/shirtee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../backupmps2/var/.idea/var.iml" filepath="$PROJECT_DIR$/../backupmps2/var/.idea/var.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../magento_2.x_power_wireless_mps/web/.idea/web.iml" filepath="$PROJECT_DIR$/../magento_2.x_power_wireless_mps/web/.idea/web.iml" />
+    </modules>
+  </component>
+</project>

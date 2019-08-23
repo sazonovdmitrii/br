@@ -1,0 +1,29 @@
+mutation ($input: UpdateAddressInput!) {
+  data{
+    id
+    name
+    user_id {
+      id
+    }
+    region_id
+    city
+    street
+  }
+}
+
+{
+  "input": {
+    "id" : "",
+    "name": "Rostov Dobrovolskogo",
+    "person": "hey hello",
+    "zip": "353614",
+    "region_id": "34",
+    "city": "Rostov",
+    "street": "Dobrovolskogo",
+    "house": "40",
+    "corp": "9",
+    "level": "8",
+    "flat": "62",
+    "code": "1514"
+  }
+}

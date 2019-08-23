@@ -1,0 +1,82 @@
+.root {
+    display: flex;
+    list-style: none;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+.item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0 5px;
+
+    @media (--viewport-tablet) {
+        min-width: 64px;
+        height: 3.75rem;
+        border-bottom: 0.125rem solid var(--color-white);
+
+        &:hover {
+            border-color: #666;
+
+            & .dropdown {
+                display: block;
+            }
+
+            & .submenu {
+                height: auto;
+                border: 0.0625rem solid #ccc;
+                overflow: visible;
+                border-radius: 0.125rem;
+                padding-top: 0.9375rem;
+            }
+        }
+    }
+}
+
+.link {
+    font: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    text-decoration: none;
+    color: #666;
+    display: block;
+    position: relative;
+}
+
+.icon {
+    display: inline-flex;
+    justify-content: center;
+    cursor: pointer;
+    padding-top: 10px;
+    width: 20px;
+    height: 30px;
+}
+
+.label {
+    font-size: 12px;
+    text-transform: capitalize;
+    display: none;
+
+    @media (--viewport-tablet) {
+        white-space: nowrap;
+        display: block;
+    }
+}
+
+.submenu {
+    z-index: 4;
+    height: 0;
+    position: absolute;
+    text-align: left;
+    background: var(--color-white);
+    overflow: hidden;
+    width: 300%;
+    left: -50%;
+    top: 100%;
+    margin-top: 0.125rem;
+}
