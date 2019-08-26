@@ -1,7 +1,6 @@
 import './polyfills';
-// import 'destyle.css';
+import 'destyle.css';
 import './fonts';
-import './styles/index.scss';
 import './globalStyles.css';
 
 import React from 'react';
@@ -10,24 +9,26 @@ import { Router } from 'react-router';
 import { hot } from 'react-hot-loader/root';
 import { ApolloProvider } from '@apollo/react-components';
 import { createBrowserHistory } from 'history';
-import hardtack from 'hardtack';
 import { loadableReady } from '@loadable/component';
 
-import { isProd, createSessionKey } from 'utils';
+import { isProd } from 'utils';
 import { useApp } from 'hooks';
 import { AppProvider } from 'AppContext';
 
 import App from './App';
 
+// if (isProd && process.env.REACT_APP_GA_TRACKING_ID) {
+//     const ReactGA = require('react-ga');
+
+//     ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
+// }
+
 const history = createBrowserHistory();
-
-const sessionKey = hardtack.get('session_key');
-if (!sessionKey) createSessionKey();
-
 const HotApp = hot(App);
 
 const RootApp = () => {
-    const { client } = useApp();
+    const { client, createSession } = useApp();
+    createSession();
 
     return (
         <ApolloProvider client={client}>

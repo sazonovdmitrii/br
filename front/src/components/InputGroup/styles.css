@@ -1,6 +1,7 @@
 .field {
     position: relative;
     margin: 8px 0 16px;
+    text-align: left;
 }
 
 .row {

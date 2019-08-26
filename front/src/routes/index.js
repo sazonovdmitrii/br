@@ -46,7 +46,7 @@ export default [
         component: getComponent('Success'),
     },
     {
-        path: '/user/:slug?',
+        path: '/account/:slug?',
         component: getComponent('User', { ssr: false }),
     },
     {

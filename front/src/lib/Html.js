@@ -1,11 +1,11 @@
 import React from 'react';
 
 export default ({ bundle, helmet, html, window = {} }) => (
-    <html lang="ru" {...helmet.htmlAttributes.toString()}>
+    <html lang="en" {...helmet.htmlAttributes.toString()}>
         <head>
             <meta charSet="utf-8" />
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-            <meta httpEquiv="Content-Language" content="ru" />
+            <meta httpEquiv="Content-Language" content="en" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             {helmet.title.toComponent()}
             {bundle.getLinkElements()}

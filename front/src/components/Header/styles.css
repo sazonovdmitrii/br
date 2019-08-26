@@ -1,0 +1,89 @@
+.root {
+    height: 50px;
+
+    @media (--viewport-tablet) {
+        height: 100px;
+    }
+}
+
+.row {
+    display: flex;
+    padding: 22px 22px 0;
+    align-items: center;
+
+    @media (--viewport-tablet) {
+        margin-top: 12px;
+    }
+}
+
+.button {
+    height: 20px;
+    width: 20px;
+
+    @media (--viewport-tablet) {
+        display: none;
+    }
+}
+
+.burgerIcon {
+    display: block;
+    height: inherit;
+    width: inherit;
+    max-height: inherit;
+    min-height: inherit;
+
+    &.open {
+        & rect:nth-child(2) {
+            opacity: 0;
+        }
+
+        & rect:nth-child(2) {
+            transition: opacity 50ms ease;
+        }
+
+        & rect:nth-child(3) {
+            transform-origin: left center;
+            transform: rotate(-45deg) scaleX(1) translate(-1px);
+        }
+
+        & rect {
+            transition: transform 0.2s ease;
+        }
+
+        & rect:first-child {
+            transform: rotate(43deg) scaleX(1) translate(0);
+        }
+    }
+}
+
+.open {
+}
+
+.content {
+    z-index: 960;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--color-background);
+
+    @media (--viewport-tablet) {
+        /*height: 100px;*/
+        z-index: 970;
+        position: relative;
+    }
+}
+
+.item {
+    flex: 1;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto;
+    max-width: 151px;
+
+    @media (--viewport-tablet) {
+        max-width: 193px;
+    }
+}

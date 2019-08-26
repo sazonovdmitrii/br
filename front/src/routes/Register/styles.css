@@ -1,0 +1,19 @@
+.root {
+    max-width: 384px;
+    margin: 48px auto;
+    text-align: center;
+}
+
+.header {
+    margin-bottom: 24px;
+}
+
+.hr {
+    margin: 24px 0;
+    border-color: #d2d6d9;
+}
+
+.link {
+    color: var(--color-primary);
+    font-weight: 600;
+}

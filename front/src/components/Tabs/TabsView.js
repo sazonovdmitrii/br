@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({ children: childrenProp, value }) => {
+export default ({ children: childrenProp, value, className }) => {
     let childIndex = 0;
     const children = React.Children.map(childrenProp, child => {
         if (!React.isValidElement(child)) {
@@ -13,13 +13,10 @@ export default ({ children: childrenProp, value }) => {
 
         childIndex += 1;
 
-        if (!active) return null;
-
         return React.cloneElement(child, {
             active,
-            value: childValue,
         });
     });
 
-    return children;
+    return <div className={className}>{children}</div>;
 };

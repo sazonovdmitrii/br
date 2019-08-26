@@ -9,12 +9,10 @@ const cx = classnames.bind(styles);
 const Tab = ({ onClick, value, active, children, className }) => {
     if (!children.length) return null;
 
-    const buttonClassName = cx(styles.tab, className, {
-        active,
-    });
+    const buttonClassName = cx(styles.tab, className);
 
     return (
-        <button className={buttonClassName} type="button" onClick={() => onClick({ value })}>
+        <button className={buttonClassName} type="button" onClick={() => onClick(value)}>
             {children}
         </button>
     );

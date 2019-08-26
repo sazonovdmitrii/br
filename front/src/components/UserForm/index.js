@@ -1,7 +1,8 @@
 import React from 'react';
-
-import { Query, Mutation } from 'react-apollo';
+import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+
+import { useApp } from 'hooks';
 
 import UserForm from './UserForm';
 
@@ -54,29 +55,32 @@ export default ({ type, onSubmit, onCompleted }) => {
         // </Mutation>
         // );
         case 'registration':
+            const { login } = useApp();
+            const [createUser] = useMutation(CREATE_USER_MUTATION, { onCompleted: handleCompleted });
+            const handleCompleted = ({ register: { hash } }) => {
+                login(hash);
+                if (onCompleted) onCompleted();
+            };
+
             return (
-                <Mutation mutation={CREATE_USER_MUTATION} onCompleted={onCompleted}>
-                    {createUser => (
-                        <UserForm
-                            type={type}
-                            onSubmit={({ firstname, lastname, phone, email, password, gender }) => {
-                                createUser({
-                                    variables: {
-                                        input: {
-                                            firstname,
-                                            lastname,
-                                            phone,
-                                            email,
-                                            password,
-                                            gender,
-                                            confirm_password: password,
-                                        },
-                                    },
-                                });
-                            }}
-                        />
-                    )}
-                </Mutation>
+                <UserForm
+                    type={type}
+                    onSubmit={({ firstname, lastname, phone, email, password, gender }) => {
+                        createUser({
+                            variables: {
+                                input: {
+                                    firstname,
+                                    lastname,
+                                    phone,
+                                    email,
+                                    password,
+                                    gender,
+                                    confirm_password: password,
+                                },
+                            },
+                        });
+                    }}
+                />
             );
         default:
             return <UserForm type={type} onSubmit={onSubmit} />;

@@ -1,41 +1,79 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import classnames from 'classnames/bind';
 
-import Select from 'components/Select';
-import OldSelect from 'components/Select/oldSelect';
+import { Tabs, Tab, TabsView } from 'components/Tabs';
+import Checkbox from 'components/Checkbox';
 
 import styles from './styles.css';
 
-const Filters = ({ items }) => {
-    const handleChange = value => {
-        console.log(value);
+const cx = classnames.bind(styles);
+
+const Filters = ({ list }) => {
+    const [{ value, active }, setState] = useState({
+        value: null,
+        active: false,
+    });
+
+    const handleChange = newValue => {
+        console.log(newValue);
+
+        setState(prevState => ({
+            ...prevState,
+            value: value === newValue ? null : newValue,
+            active: value !== newValue,
+        }));
     };
 
-    return (
-        <div className={styles.row}>
-            {items.map(({ id, name, childrens }) => {
-                if (!childrens.length) return null;
+    const handleChangeFilter = () => {};
 
-                return (
-                    <div key={id} className={styles.col}>
-                        <OldSelect label={name} items={childrens} />
-                    </div>
-                );
-            })}
-            {/* <Select
-                    label="Брэнд"
-                    items={[
-                        { value: 'Hugo Boss (241)', id: 1 },
-                        { value: 'Nouvelle Etoile (Новая Заря) (237)', id: 2 },
-                    ]}
-                    onChange={handleChange}
-                /> */}
+    return (
+        <div className={styles.wrapper}>
+            <div className={styles.inner}>
+                {list.length ? (
+                    <Tabs className={styles.tabs} value={value} onChange={handleChange}>
+                        {list.map(item => {
+                            if (!item.childrens.length) return null;
+                            const tabClassName = cx(styles.tab, {
+                                active: value === item.id,
+                            });
+
+                            return (
+                                <Tab key={item.id} className={tabClassName} value={item.id}>
+                                    {item.name}
+                                </Tab>
+                            );
+                        })}
+                    </Tabs>
+                ) : null}
+                {list.length
+                    ? list.map(item => {
+                          if (!item.childrens.length) return null;
+                          const tabContentClassName = cx(styles.tabContent, {
+                              active: item.id === value,
+                          });
+
+                          return (
+                              <TabsView key={item.id} value={value} className={tabContentClassName}>
+                                  {item.childrens.map(({ name, id }) => {
+                                      if (!name) return null;
+
+                                      return (
+                                          <div key={id} className={styles.filterItem}>
+                                              <Checkbox
+                                                  label={name}
+                                                  name={id}
+                                                  onChange={handleChangeFilter}
+                                              />
+                                          </div>
+                                      );
+                                  })}
+                              </TabsView>
+                          );
+                      })
+                    : null}
+            </div>
         </div>
     );
-};
-
-Filters.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Filters;

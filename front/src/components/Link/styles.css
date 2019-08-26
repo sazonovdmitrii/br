@@ -1,0 +1,10 @@
+.root {
+    font-weight: 600;
+    color: var(--color-primary);
+    transition: color 0.2s ease;
+
+    &:hover,
+    &:focus {
+        color: color(var(--color-primary) shade(15%));
+    }
+}

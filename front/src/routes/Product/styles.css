@@ -1,0 +1,94 @@
+.carouselWrapper {
+    margin-bottom: 20px;
+    max-height: 428px;
+}
+
+.slide {
+    display: flex;
+}
+
+.slideImage {
+    max-height: 100px;
+    margin: auto;
+
+    @media (--viewport-desktop) {
+        max-width: 70%;
+        max-height: 428px;
+    }
+}
+
+.meta {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.colorsWrapper {
+    display: inline-block;
+}
+
+.buttons {
+    margin: 18px 0 12px;
+}
+
+.styledButton {
+    width: 100%;
+
+    @media (--viewport-desktop) {
+        width: 284px;
+    }
+}
+
+.info {
+    margin: 24px 0 10px;
+    font-size: 16px;
+    line-height: calc(1em + 10px);
+    color: #676f78;
+}
+
+.section {
+    margin: 72px 0;
+}
+
+.title {
+    font-size: 24px;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--color-font);
+
+    @media (--viewport-ipad) {
+        font-size: 30px;
+    }
+
+    @media (--viewport-desktop) {
+        font-size: 34px;
+    }
+}
+
+.description {
+    font-style: italic;
+    font-weight: var(--font-serif);
+    color: #a1a4a6;
+    margin-top: 4px;
+
+    @media (--viewport-ipad) {
+        font-size: 18px;
+    }
+}
+
+.sectionTitle {
+    font-size: 30px;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-top: 0;
+    color: var(--color-font);
+    margin-bottom: 36px;
+    text-align: center;
+
+    @media (--viewport-desktop) {
+        text-align: left;
+    }
+}

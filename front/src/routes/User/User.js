@@ -15,29 +15,32 @@ import Security from 'routes/Security';
 import LogIn from 'routes/LogIn';
 
 const routes = [
-    { path: '/user/register', component: Register },
-    { path: '/user/login', component: LogIn },
-    { path: '/user/remind-password', component: RemindPassword },
+    { path: '/account/register', component: Register },
+    { path: '/account/login', component: LogIn },
+    { path: '/account/remind-password', component: RemindPassword },
     { component: NotFound },
 ];
 
 const loggedInRoutes = [
-    { path: '/user/addressbook', component: AddressBook },
-    { path: '/user/orders', component: Orders },
-    { path: '/user/personal', component: Personal },
-    { path: '/user/security', component: Security },
+    { path: '/account/addresses', component: AddressBook },
+    { path: '/account/orders', component: Orders },
+    { path: '/account/profile', component: Personal },
+    { path: '/account/security', component: Security },
+    { path: '/account/prescription', component: null },
 ];
 
 const getTitle = (params = '') => {
     switch (params) {
-        case 'personal':
+        case 'profile':
             return 'Персональные данные';
-        case 'addressbook':
+        case 'addresses':
             return 'Адреса';
         case 'security':
-            return 'Смена пароля';
+            return 'How do I reset my password?';
         case 'orders':
             return 'Мои заказы';
+        case 'prescription':
+            return 'Рецепты';
         default:
             return 'Личный кабинет';
     }
@@ -67,22 +70,19 @@ const User = ({
     }
 
     return (
-        <div className="cabinet">
+        <>
             <Helmet>
                 <title>{title}</title>
             </Helmet>
-            <div className="page-header">
-                <h1 className="page-header__title">{title}</h1>
-                <Nav />
+            <div className={styles.header}>
+                <Title>{title}</Title>
             </div>
-            <div className="cabinet-content">
-                <Switch>
-                    {loggedInRoutes.map(({ component, path }, index) => (
-                        <Route key={index} path={path} component={component} exact />
-                    ))}
-                </Switch>
-            </div>
-        </div>
+            <Switch>
+                {loggedInRoutes.map(({ component, path }, index) => (
+                    <Route key={index} path={path} component={component} exact />
+                ))}
+            </Switch>
+        </>
     );
 };
 
