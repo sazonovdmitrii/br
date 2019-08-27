@@ -21,20 +21,6 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const ADD_TO_BASKET = gql`
-    mutation AddBasket($input: AddBasketInput!) {
-        addBasket(input: $input) {
-            products {
-                item_id
-                qty
-                price
-                name
-                product_name
-            }
-        }
-    }
-`;
-
 const Product = ({ name, id, items, images, description, tags, history, text }) => {
     const [tabIndex, setTabIndex] = useState(0);
     const [error, setError] = useState(null);
