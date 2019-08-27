@@ -1,102 +1,74 @@
 version: '2'
 services:
-    postgres:
-        image: postgres
-        container_name: postgres
-        environment:
-        - POSTGRES_DB=symfony
-        - POSTGRES_USER=symfony
-        - POSTGRES_PASSWORD=symfony
-        - PGDATA=/var/lib/postgresql/data/db-files/
-#        volumes:
-#        - db-data:/var/lib/postgresql/data:rw
-        ports:
-        - "5432:5432"
-        networks:
-            main:
-                aliases:
-                    - postgres
-    php:
+    br_php:
         build: php-fpm
         ports:
-            - '9002:9000'
+            - '9005:9000'
         volumes:
             - ${PWD}:/var/www/symfony
             - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
             - ./docker/php/php.ini:/usr/local/etc/php/php.ini
         links:
-            - postgres
-            - db_lp:mysql
-            - redis
+            - br_db
+            - br_redis
         environment:
-            REDIS_HOST: redis
+            REDIS_HOST: br_redis
             REDIS_PORT: 6379
         networks:
             main:
                 aliases:
-                    - php
-    redis:
-        container_name: redis
-        image: redis:4-alpine
+                    - br_php
+    br_postgres:
+        image: postgres
+        container_name: br_postgres
+        environment:
+        - POSTGRES_DB=symfony
+        - POSTGRES_USER=symfony
+        - POSTGRES_PASSWORD=symfony
+        - PGDATA=/var/lib/postgresql/data/db-files/
+        ports:
+        - "5432:5432"
         networks:
             main:
                 aliases:
-                    - redis
-
-    nginx:
+                    - br_postgres
+    br_nginx:
         build: nginx
         ports:
-            - '8081:80'
-            - '1337:1337'
+            - '8084:80'
+            - '1341:1341'
         volumes_from:
-            - php
+            - br_php
         volumes:
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-#            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./logs/nginx/:/var/log/nginx:cached
         networks:
             main:
                 aliases:
-                    - nginx
-    db_lp:
+                    - br_nginx
+    br_db:
         image: mariadb:latest
         restart: on-failure
         ports:
-          - "3310:3306"
+          - "3313:3306"
         volumes:
           - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
           - ./db:/var/lib/mysql
         environment:
           - MYSQL_ROOT_PASSWORD=root
-          - MYSQL_DATABASE=lp
+          - MYSQL_DATABASE=br
           - MYSQL_USER=root
         networks:
             main:
                 aliases:
-                    - db_lp:mysql
-    memcached:
-        image: memcached:1.4
-        ports:
-          - "11212:11211"
+                    - mysql
+    br_redis:
+        container_name: br_redis
+        image: redis:4-alpine
         networks:
             main:
                 aliases:
-                    - memcached
-    # node:
-    #     image: "node:lts"
-    #     restart: on-failure
-    #     working_dir: /home/node/app
-    #     volumes:
-    #         - ./front:/home/node/app
-    #     environment:
-    #         - GRAPHQL=http://nginx:1337/graphql/
-    #         - DATABASE=postgres
-    #     command: "sh node.sh"
-    #     expose:
-    #         - "3000"
-    #     networks:
-    #         main:
-    #             aliases:
-    #                 - node
+                    - br_redis
+
 networks:
     main:
