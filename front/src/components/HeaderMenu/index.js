@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import { GET_HEADER_MENU } from 'query';
 
 import HeaderMenu from './HeaderMenu';
 import MobileMenu from './MobileMenu';
