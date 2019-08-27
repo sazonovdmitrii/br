@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
         {
-            name: process.env.PROJECT_NAME,
+            name: 'br',
             script: './serverBabel/index.js',
             exec_mode: 'cluster',
             watch: './dist/node/loadable-stats.json',
