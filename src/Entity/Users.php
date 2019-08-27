@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Users implements UserInterface
 {
     const ROLE_USER = 'ROLE_USER';
-    
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -50,11 +50,6 @@ class Users implements UserInterface
     private $addresses;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserAddress", mappedBy="entity")
-     */
-    private $userAddresses;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $gender;
@@ -68,6 +63,11 @@ class Users implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastname;
+
+    /**
+     * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
+     */
+    private $created;
 
     public function __construct()
     {
@@ -233,37 +233,6 @@ class Users implements UserInterface
         return self::class;
     }
 
-    /**
-     * @return Collection|UserAddress[]
-     */
-    public function getUserAddresses(): Collection
-    {
-        return $this->created;
-    }
-
-    public function addUserAddresses(UserAddress $userAddresses): self
-    {
-        if (!$this->userAddresses->contains($userAddresses)) {
-            $this->userAddresses[] = $userAddresses;
-            $userAddresses->setEntity($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserAddresses(UserAddress $userAddresses): self
-    {
-        if ($this->userAddresses->contains($userAddresses)) {
-            $this->userAddresses->removeElement($userAddresses);
-            // set the owning side to null (unless already changed)
-            if ($userAddresses->getEntity() === $this) {
-                $userAddresses->setEntity(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getGender(): ?string
     {
         return $this->gender;
@@ -296,6 +265,18 @@ class Users implements UserInterface
     public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
 
         return $this;
     }

@@ -5,23 +5,21 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CityRepository")
  */
 class City
 {
+    use ORMBehaviors\Translatable\Translatable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $title;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -78,6 +76,11 @@ class City
      */
     private $couriers;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $title;
+
     public function __construct()
     {
         $this->pickups = new ArrayCollection();
@@ -87,18 +90,6 @@ class City
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     public function getLatitude(): ?float
@@ -272,6 +263,18 @@ class City
                 $courier->setCity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }

@@ -24,8 +24,6 @@ final class Version20190709170146 extends AbstractMigration
 
         $this->addSql('ALTER TABLE city DROP CONSTRAINT fk_8d69ad0ae5498001');
         $this->addSql('DROP INDEX idx_8d69ad0ae5498001');
-        $this->addSql('ALTER TABLE city ADD fias_id VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE city ADD kladr_id VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE city DROP "вdistrict_id"');
     }
 
@@ -36,8 +34,6 @@ final class Version20190709170146 extends AbstractMigration
 
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE City ADD "вdistrict_id" INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE City DROP fias_id');
-        $this->addSql('ALTER TABLE City DROP kladr_id');
         $this->addSql('ALTER TABLE City ADD CONSTRAINT fk_8d69ad0ae5498001 FOREIGN KEY ("вdistrict_id") REFERENCES district (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX idx_8d69ad0ae5498001 ON City (вdistrict_id)');
     }

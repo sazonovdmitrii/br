@@ -4,10 +4,10 @@ options:
   compose-dev-file-path: './docker-compose-dev.yml'
   verbose: true
 syncs:
-  symfony-sync:
+  br-sync:
     src: './'
     sync_strategy: 'rsync'
-    sync_host_port: 10871
+    sync_host_port: 10872
     sync_excludes:
       - '.git'
       - 'composer.lock'

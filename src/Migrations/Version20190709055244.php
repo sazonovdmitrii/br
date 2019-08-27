@@ -23,7 +23,7 @@ final class Version20190709055244 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SEQUENCE City_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE City (id INT NOT NULL, title VARCHAR(255) DEFAULT NULL, latitude DOUBLE PRECISION DEFAULT NULL, longitude DOUBLE PRECISION DEFAULT NULL, description VARCHAR(255) DEFAULT NULL, visible BOOLEAN DEFAULT NULL, short_title VARCHAR(255) DEFAULT NULL, fias_id VARCHAR(255) DEFAULT NULL, kladr_id INT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE City (id INT NOT NULL, title VARCHAR(255) DEFAULT NULL, latitude DOUBLE PRECISION DEFAULT NULL, longitude DOUBLE PRECISION DEFAULT NULL, description VARCHAR(255) DEFAULT NULL, visible BOOLEAN DEFAULT NULL, short_title VARCHAR(255) DEFAULT NULL, fias_id VARCHAR(255) DEFAULT NULL, kladr_id VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
     }
 
     public function down(Schema $schema) : void
