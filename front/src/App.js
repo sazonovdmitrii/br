@@ -2,15 +2,14 @@ import React from 'react';
 import { withRouter, Switch, Route } from 'react-router';
 import Helmet from 'react-helmet';
 
-// import NotifyDevGraphql from 'utils/NotifyDevGraphql';
-
 import routes from 'routes';
+import SEO from 'globalMeta';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Container from 'components/Container';
-import Breadcrumbs from 'components/Breadcrumbs';
 import ScrollToTop from 'components/ScrollToTop';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 const FAVS = [
     {
@@ -75,10 +74,7 @@ const App = props => {
     return (
         <>
             <ScrollToTop />
-            <Helmet
-                defaultTitle="Интернет магазин парфюмерии и косметики - низкие цены, большой каталог, фото и отзывы. Купить духи с доставкой по Москве и России - Laparfumerie.ru"
-                titleTemplate="%s | Интернет магазин парфюмерии и косметики – Laparfumerie.ru"
-            >
+            <Helmet defaultTitle={SEO.defaultTitle} titleTemplate={SEO.titleTemplate}>
                 <link rel="shortcut icon" href="/favicon.ico" />
                 {FAVS.map(({ sizes, path }, index) => (
                     <link key={index} rel="icon" type="image/png" sizes={sizes} href={path} />
@@ -94,20 +90,16 @@ const App = props => {
                 <meta name="author" content="Laparfumerie.Ru" />
                 <meta name="wmail-verification" content="9bfc3f8e92e7da82009fa3fd0e7ca511" />
             </Helmet>
-            <Container>
-                <Header />
-                {!isHomePage && (
-                    <Breadcrumbs items={[{ name: 'Главная', url: '/' }, { name: 'Парфюмерия' }]} />
-                )}
+            <Header />
+            <ErrorBoundary>
                 <Switch>
                     {routes.map((route, index) => (
                         <Route key={index} {...route} />
                     ))}
                 </Switch>
-                <Footer />
-            </Container>
+            </ErrorBoundary>
+            <Footer />
             <div className="scroll-to-top" data-behavior="scrollToTop" />
-            {/*<NotifyDevGraphql />*/}
         </>
     );
 };

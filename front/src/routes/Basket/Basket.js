@@ -55,7 +55,6 @@ const Basket = ({
     addresses,
     isLoggedIn,
 }) => {
-    const { login } = useApp();
     const [success, setSuccess] = useState(false);
     const [products, setProducts] = useState(productsProps);
     const [promocode, setPromocode] = useState(null);
@@ -245,12 +244,6 @@ const Basket = ({
         }
 
         return !valid.length;
-    };
-    const handleLogInCompleted = ({ auth: { hash } }) => {
-        login(hash);
-    };
-    const handleRegisterCompleted = ({ register: { hash } }) => {
-        login(hash);
     };
     const handleChangeAddress = data => {
         setValues(prevState => ({ ...prevState, address: data }));
@@ -600,14 +593,14 @@ const Basket = ({
                             <div className="basket__node">
                                 <div className="basket__form">
                                     <h3 className={styles.blockTitle}>Я зарегистрирован на La Parfumerie</h3>
-                                    <LoginForm onCompleted={handleLogInCompleted} />
+                                    <LoginForm />
                                 </div>
                             </div>
                             <div className="basket__node">
                                 <div className="basket__form">
                                     <h3 className={styles.blockTitle}>Я новый пользователь</h3>
                                     <div style={{ textAlign: 'left' }}>
-                                        <UserForm type="registration" onCompleted={handleRegisterCompleted} />
+                                        <UserForm type="registration" />
                                     </div>
                                 </div>
                             </div>

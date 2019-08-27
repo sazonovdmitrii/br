@@ -35,65 +35,15 @@ const Products = ({ title, page, slug, limit, offset, col, className }) => {
 
     return (
         <>
-            {title || null}
-            <div className={'catalog' || rowClassName}>
+            {title}
+            <div className={rowClassName}>
                 {products &&
                     products.edges.map((item, index, array) => (
-                        <div key={item.node.id} className={'catalog__item' || colClassName}>
+                        <div key={item.node.id} className={colClassName}>
                             <ProductCard {...item.node} loading={loading} />
-                            {!SERVER && // seohide
-                            page === 'brand' &&
-                            array.length !== index + 1 && // skip last row
-                            index &&
-                            parseInt((index + 1) / 8, 10) === (index + 1) / 8 ? (
-                                <div className="brand-banner">
-                                    <Link to="/">
-                                        <img
-                                            className="brand-banner__image"
-                                            src="https://laparfumerie.ru/catalog/2013/08/22/25981_236427.jpg"
-                                            style={{ width: '100%' }}
-                                            alt=""
-                                        />
-                                    </Link>
-                                </div>
-                            ) : null}
                         </div>
                     ))}
-                {page === 'aromat' && <BrandSale />}
             </div>
-            {count !== products.edges.length && (
-                <Button
-                    className="button--load-more"
-                    onClick={() =>
-                        fetchMore({
-                            variables: {
-                                offset: products.edges.length,
-                            },
-                            updateQuery: (prev, { fetchMoreResult }) => {
-                                if (!fetchMoreResult) return prev;
-
-                                const newEdges = fetchMoreResult.catalog.products.edges;
-
-                                return newEdges.length
-                                    ? {
-                                          catalog: {
-                                              ...prev.catalog,
-                                              products: {
-                                                  __typename: prev.catalog.products.__typename,
-                                                  edges: [...prev.catalog.products.edges, ...newEdges],
-                                              },
-                                          },
-                                      }
-                                    : prev;
-                            },
-                        })
-                    }
-                    kind="secondary"
-                    fullWidth
-                >
-                    Показать еще ...
-                </Button>
-            )}
         </>
     );
 };

@@ -12,16 +12,13 @@
     text-align: center;
     position: relative;
     box-sizing: border-box;
-    margin: 0 5px;
+
+    &:not(:last-child) {
+        margin-right: 20px;
+    }
 
     @media (--viewport-tablet) {
-        min-width: 64px;
-        height: 3.75rem;
-        border-bottom: 0.125rem solid var(--color-white);
-
         &:hover {
-            border-color: #666;
-
             & .dropdown {
                 display: block;
             }
@@ -52,9 +49,8 @@
     display: inline-flex;
     justify-content: center;
     cursor: pointer;
-    padding-top: 10px;
     width: 20px;
-    height: 30px;
+    height: 20px;
 }
 
 .label {

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import Button from 'components/Button';
+import Colors from 'components/Colors';
 
 import Loader from './Loader';
 import styles from './styles.css';
@@ -22,91 +22,28 @@ const ProductCard = ({
     loading,
     price,
 }) => {
-    const [
-        {
-            node: { price: lowerPrice },
-        },
-    ] = items.edges.sort((a, b) => {
-        if (a.price > b.price) return -1;
-    });
-    const myPrice = () => {
-        if (lowerPrice) {
-            return (
-                <>
-                    от <span>{lowerPrice}</span> руб.
-                </>
-            );
-        }
-
-        return <span className="catalog__item_price--soldout">Ожидается поступление</span>;
-    };
+    const [color, setColor] = useState(1);
 
     if (loading) return <Loader />;
 
+    console.log(color);
     return (
-        <div className={0 && styles.wrapper}>
-            <div className="catalog__item-inner">
-                <span className="criteo-data" data-dtl="id" data-id={id} style={{ display: 'none' }}>
-                    {id}
-                </span>
-                <Link to={url} className="catalog__item_link">
-                    {sale && sale.discount > 0 && (
-                        <span className="sale-item__bubble sale-item__bubble_role_discount">
-                            -{sale.discount}%
-                        </span>
-                    )}
-                    <div className="catalog__item_img">
-                        {secondary_image && primary_image ? (
-                            <>
-                                <img
-                                    src={'https://placehold.it/213x239/000' || primary_image}
-                                    className="catalog__item_img-im--first"
-                                    alt=""
-                                />
-                                <img
-                                    src={'https://placehold.it/213x239' || secondary_image}
-                                    className="catalog__item_img-im--second"
-                                    alt=""
-                                />
-                            </>
-                        ) : (
-                            <img
-                                src={'https://placehold.it/213x239/000' || primary_image}
-                                className="catalog__item_img-im"
-                            />
-                        )}
-                    </div>
-                    {!SEOHIDE && <h2 className="catalog__item_brand">{brand_name}</h2>}
-                    <h3 className="catalog__item_name">{name}</h3>
-                </Link>
-                <p className="catalog__item_price">{myPrice()}</p>
-                <div className="catalog__item_prd">
-                    {items.edges.length ? (
-                        <>
-                            {items.edges.map(({ node: item }) => {
-                                if (!item.price) return null;
-
-                                return (
-                                    <p key={item.id} className="catalog__item_prd_type">
-                                        <span className="catalog__item_prd_type_name">{item.name}</span>
-                                        <strong className="catalog__item_prd_type_price">
-                                            {item.price}
-                                            <span className="catalog__item_prd_type_price_curren">р.</span>
-                                        </strong>
-                                    </p>
-                                );
-                            })}
-                            {items.edges.length > 9 && (
-                                <p className="catalog__item_prd_type">
-                                    <small>Ещё {items.edges.length - 9} предложений в товаре</small>
-                                </p>
-                            )}
-                        </>
-                    ) : null}
-                    <Button className={styles.button} href={url} kind="primary">
-                        {price ? 'КУПИТЬ' : 'ОБЗОР'}
-                    </Button>
-                </div>
+        <div className={styles.root}>
+            <Link href={url} className={styles.imageWrapper} title={`Очки ${name}`}>
+                <img className={styles.image} src="https://placehold.it/377x167" alt={`Очки ${name}`} />
+            </Link>
+            <h2 className={styles.title}>{name}</h2>
+            <div className={styles.colors}>
+                <Colors
+                    value={color}
+                    list={[
+                        { id: 1, image: 'https://placehold.it/20x20/000' },
+                        { id: 2, image: 'https://placehold.it/20x20/ccc' },
+                        { id: 3, image: 'https://placehold.it/20x20/rrr' },
+                    ]}
+                    onChange={value => setColor(value)}
+                />
+                {/*<AddToFave className={styles.fave} id={id} faved={false} />*/}
             </div>
         </div>
     );

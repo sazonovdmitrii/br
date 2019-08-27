@@ -1,40 +1,40 @@
-.wrapper {
-    display: block;
+.root {
     text-align: center;
-    color: var(--color-black);
-    border-width: 1px 1px 0;
-    border-color: var(--color-white);
-    border-style: solid;
+}
+
+.imageWrapper {
+    display: block;
+    padding: 0 2.43%;
+    height: 120px;
+}
+
+.image {
+    max-height: 120px;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 6px;
+    margin-top: 24px;
+    font-weight: 600;
+    font-family: var(--font-serif);
+    line-height: calc(1em + 6px);
+}
+
+.colors {
+    display: flex;
+    justify-content: center;
     position: relative;
-    padding-top: 10px;
-    height: 380px;
+    padding: 0 30px;
     box-sizing: border-box;
-
-    &:hover {
-        border-color: #ccc;
-    }
+    min-height: 40px;
 }
 
-.button {
-    margin: 10px auto 0;
-    display: inline-block;
-    padding: 2px 30px;
-    text-transform: uppercase;
-
-    &::after {
-        content: '»';
-        font-weight: 700;
-        font-size: 30px;
-        position: relative;
-        top: 2px;
-        line-height: 0;
-        margin-left: 5px;
-        display: inline-block;
-    }
-}
-
-.chevronRightIcon {
-    width: 24px;
-    height: 24px;
-    fill: var(--color-white);
+.fave {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 21px;
+    height: 21px;
 }

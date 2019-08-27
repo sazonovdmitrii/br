@@ -1,30 +1,19 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 
-import RemindPassword from './RemindPassword';
+import Title from 'components/Title';
+import Link from 'components/Link';
+import RemindPasswordForm from 'components/RemindPasswordForm';
+import styles from './styles.css';
 
-const REMIND_PASSWORD_MUTATION = gql`
-    mutation remindPassword($email: String!) {
-        remindPassword(email: $email) {
-            status
-        }
-    }
-`;
-
-export default () => {
-    return (
-        <Mutation mutation={REMIND_PASSWORD_MUTATION}>
-            {(remindPassword, { data }) => (
-                <div className="cabinet">
-                    <div className="page-header">
-                        <h1 className="page-header__title">Напомнить пароль</h1>
-                    </div>
-                    <div className="cabinet-content">
-                        <RemindPassword onSubmit={remindPassword} {...data} />
-                    </div>
-                </div>
-            )}
-        </Mutation>
-    );
-};
+export default () => (
+    <div className={styles.root}>
+        <div className={styles.header}>
+            <Title>How do I reset my password?</Title>
+            <div class={styles.subTitle}>
+                Enter your email and we’ll send you a link with instructions to reset your password :-)
+            </div>
+        </div>
+        <RemindPasswordForm />
+        <Link to="/account/login">Go back to sign in</Link>
+    </div>
+);

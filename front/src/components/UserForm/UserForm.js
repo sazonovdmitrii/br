@@ -57,29 +57,27 @@ const UserForm = ({ data, type, onSubmit }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="cabinet-content__row">
-                <div className="cabinet-content__column">
-                    <InputGroup>
-                        <Input
-                            type="text"
-                            name="lastname"
-                            label="Фамилия"
-                            value={lastname}
-                            onChange={handleChange}
-                            required
-                        />
-                    </InputGroup>
-                    <InputGroup>
-                        <Input
-                            type="text"
-                            name="firstname"
-                            label="Имя"
-                            value={firstname}
-                            onChange={handleChange}
-                            required
-                        />
-                    </InputGroup>
-                    {/* TODO <InputGroup>
+            <InputGroup>
+                <Input
+                    type="text"
+                    name="lastname"
+                    label="Фамилия"
+                    value={lastname}
+                    onChange={handleChange}
+                    required
+                />
+            </InputGroup>
+            <InputGroup>
+                <Input
+                    type="text"
+                    name="firstname"
+                    label="Имя"
+                    value={firstname}
+                    onChange={handleChange}
+                    required
+                />
+            </InputGroup>
+            {/* TODO <InputGroup>
                         <Input
                             type="text"
                             name="midname"
@@ -88,89 +86,85 @@ const UserForm = ({ data, type, onSubmit }) => {
                             onChange={handleChange}
                         />
                     </InputGroup> */}
-                    Пол:
-                    <InputGroup>
-                        <RadioGroup name="gender" value={gender} onChange={handleChange}>
-                            <RadioButton value="" label="Не указан" />
-                            <RadioButton value="male" label="Мужской" />
-                            <RadioButton value="female" label="Женский" />
-                        </RadioGroup>
-                    </InputGroup>
-                </div>
-                <div className="cabinet-content__column">
-                    <InputGroup>
-                        <Input
-                            name="email"
-                            label="Email"
-                            type="email"
-                            value={email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </InputGroup>
-                    <InputGroup>
-                        <Input
-                            type="tel"
-                            name="phone"
-                            value={phone}
-                            label="Телефон"
-                            placeholder="+7 (000) 000-00-00"
-                            mask="+{7} (000) 000-00-00"
-                            onChange={handleChange}
-                            required
-                        />
-                    </InputGroup>
-                    {isRegistration && (
-                        <InputGroup>
-                            <Input
-                                name="password"
-                                type="password"
-                                label="Пароль"
-                                value={password}
-                                onChange={handleChange}
-                                required
-                            />
-                        </InputGroup>
-                    )}
-                    <InputGroup>
-                        <Checkbox
-                            label="Я принимаю правила и условия"
-                            name="disclaimer"
-                            checked={disclaimer}
-                            onChange={handleChange}
-                            required
-                        />
-                    </InputGroup>
-                    <InputGroup>
-                        <Checkbox
-                            label="Получать уведомления о новых распродажах"
-                            name="email_subscription"
-                            checked={email_subscription}
-                            onChange={handleChange}
-                        />
-                    </InputGroup>
-                    <InputGroup>
-                        <Checkbox
-                            label="Получать SMS-сообщения"
-                            name="sms_subscription"
-                            checked={sms_subscription}
-                            onChange={handleChange}
-                        />
-                    </InputGroup>
-                </div>
-                {(isRegistration || isPersonal) && (
-                    <div className="cabinet-content__column cabinet-content__buttons">
-                        <Button type="submit" kind="primary" bold>
-                            {isRegistration ? 'Зарегистрироваться' : 'Сохранить'}
+            Пол:
+            <InputGroup>
+                <RadioGroup name="gender" value={gender} onChange={handleChange}>
+                    <RadioButton value="" label="Не указан" />
+                    <RadioButton value="male" label="Мужской" />
+                    <RadioButton value="female" label="Женский" />
+                </RadioGroup>
+            </InputGroup>
+            <InputGroup>
+                <Input
+                    name="email"
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={handleChange}
+                    required
+                />
+            </InputGroup>
+            <InputGroup>
+                <Input
+                    type="tel"
+                    name="phone"
+                    value={phone}
+                    label="Телефон"
+                    placeholder="+7 (000) 000-00-00"
+                    mask="+{7} (000) 000-00-00"
+                    onChange={handleChange}
+                    required
+                />
+            </InputGroup>
+            {isRegistration && (
+                <InputGroup>
+                    <Input
+                        name="password"
+                        type="password"
+                        label="Пароль"
+                        value={password}
+                        onChange={handleChange}
+                        required
+                    />
+                </InputGroup>
+            )}
+            <InputGroup>
+                <Checkbox
+                    label="Я принимаю правила и условия"
+                    name="disclaimer"
+                    checked={disclaimer}
+                    onChange={handleChange}
+                    required
+                />
+            </InputGroup>
+            <InputGroup>
+                <Checkbox
+                    label="Получать уведомления о новых распродажах"
+                    name="email_subscription"
+                    checked={email_subscription}
+                    onChange={handleChange}
+                />
+            </InputGroup>
+            <InputGroup>
+                <Checkbox
+                    label="Получать SMS-сообщения"
+                    name="sms_subscription"
+                    checked={sms_subscription}
+                    onChange={handleChange}
+                />
+            </InputGroup>
+            {(isRegistration || isPersonal) && (
+                <>
+                    <Button type="submit" kind="primary" size="large" bold fullWidth={isRegistration}>
+                        {isRegistration ? 'Зарегистрироваться' : 'Сохранить'}
+                    </Button>
+                    {isPersonal && (
+                        <Button type="reset" kind="secondary" size="large">
+                            Отменить
                         </Button>
-                        {isPersonal && (
-                            <Button type="reset" kind="secondary">
-                                Отменить
-                            </Button>
-                        )}
-                    </div>
-                )}
-            </div>
+                    )}
+                </>
+            )}
         </form>
     );
 };

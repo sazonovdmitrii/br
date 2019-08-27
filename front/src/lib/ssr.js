@@ -12,7 +12,6 @@ import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 import jwt from 'jsonwebtoken';
 
 import Html from './Html';
-import ErrorPage from './500';
 import config from './config';
 
 const checkToken = token => {

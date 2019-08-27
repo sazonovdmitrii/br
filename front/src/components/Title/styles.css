@@ -1,0 +1,16 @@
+.root {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    line-height: 1.2;
+    font-size: 24px;
+    color: var(--color-font);
+    margin-bottom: 18px;
+
+    @media (--viewport-tablet) {
+        font-size: 30px;
+    }
+
+    @media (--viewport-desktop) {
+        font-size: 34px;
+    }
+}

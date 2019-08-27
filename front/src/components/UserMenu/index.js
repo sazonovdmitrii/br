@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import { ShoppingBag as ShoppingBagIcon, User as UserIcon } from 'react-feather';
@@ -8,37 +8,19 @@ import { useApp } from 'hooks';
 
 import BasketShort from 'components/BasketShort';
 import Button from 'components/Button';
-import LoginForm from 'components/LoginForm';
 import Badge from 'components/Badge';
-import { Dialog, DialogTitle, DialogContent } from 'components/Dialog';
 
 import styles from './styles.css';
 
 const UserMenu = () => {
     const { logout, login } = useApp();
-    const [openModal, setOpenModal] = useState(false);
     const {
         data: { isLoggedIn },
     } = useQuery(IS_LOGGED_IN);
-    const {
-        loading,
-        error,
-        data: { basket },
-    } = useQuery(GET_SHORT_BASKET, { ssr: false });
+    const { loading, error, data: { basket } = {} } = useQuery(GET_SHORT_BASKET, { ssr: false });
 
     const handleLogOut = () => {
         logout();
-    };
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
-    const handleCompleted = ({ auth }) => {
-        if (auth && auth.hash) {
-            login(auth.hash);
-            handleCloseModal();
-        } else {
-            // todo error
-        }
     };
 
     return (
@@ -47,9 +29,8 @@ const UserMenu = () => {
                 <li className={styles.item}>
                     <Link className={styles.link} to="/user/personal/">
                         <div className={styles.icon}>
-                            <UserIcon size="24" />
+                            <UserIcon size="20" />
                         </div>
-                        <div className={styles.label}>Ваш кабинет</div>
                     </Link>
                     <ul className={styles.submenu}>
                         <li className="usermenu__subitem">
@@ -82,37 +63,22 @@ const UserMenu = () => {
                 </li>
             ) : (
                 <li className={styles.item}>
-                    <button type="button" className={styles.link} onClick={() => setOpenModal(true)}>
+                    <Link type="button" className={styles.link} to="/account/login">
                         <div className={styles.icon}>
-                            <UserIcon size="24" />
+                            <UserIcon size="20" />
                         </div>
-                        <div className={styles.label}>Войти</div>
-                    </button>
-                    {openModal && (
-                        <Dialog open={openModal} onClose={handleCloseModal}>
-                            <DialogTitle>
-                                Добро пожаловать на LaParfumerie.ru! Присоединяйтесь к нам!
-                            </DialogTitle>
-                            <DialogContent>
-                                <LoginForm onCompleted={handleCompleted} />
-                            </DialogContent>
-                        </Dialog>
-                    )}
+                    </Link>
                 </li>
             )}
             <li className={styles.item}>
                 {loading || error ? null : (
-                    <>
-                        <Link className={styles.link} to="/basket">
-                            <div className={styles.icon}>
-                                <Badge badgeContent={basket.products.length} kind="primary">
-                                    <ShoppingBagIcon size="24" />
-                                </Badge>
-                            </div>
-                            <span className={styles.label}>Корзина</span>
-                        </Link>
-                        <BasketShort products={basket.products} className={styles.dropdown} />
-                    </>
+                    <Link className={styles.link} to="/basket">
+                        <div className={styles.icon}>
+                            <Badge badgeContent={basket.products.length} kind="primary">
+                                <ShoppingBagIcon size="20" />
+                            </Badge>
+                        </div>
+                    </Link>
                 )}
             </li>
         </ul>

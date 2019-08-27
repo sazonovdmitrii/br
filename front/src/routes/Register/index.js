@@ -2,7 +2,11 @@ import React from 'react';
 
 import { useApp } from 'hooks';
 
+import Link from 'components/Link';
+import Title from 'components/Title';
 import UserForm from 'components/UserForm';
+
+import styles from './styles.css';
 
 export default ({ history }) => {
     const { login } = useApp();
@@ -12,13 +16,16 @@ export default ({ history }) => {
     };
 
     return (
-        <div className="cabinet">
-            <div className="page-header">
-                <h1 className="page-header__title">Регистрация</h1>
+        <div className={styles.root}>
+            <div className={styles.header}>
+                <Title>Nice to meet you!</Title>
             </div>
-            <div className="cabinet-content">
-                <UserForm type="registration" onCompleted={handleCompleted} />
-            </div>
+            <UserForm type="registration" onCompleted={handleCompleted} />
+            <hr className={styles.hr} />
+            <Title className={styles.title}>I have an account</Title>
+            <Link to="/account/login" className={styles.link}>
+                Sign in
+            </Link>
         </div>
     );
 };
