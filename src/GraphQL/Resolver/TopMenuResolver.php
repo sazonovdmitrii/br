@@ -20,7 +20,7 @@ class TopMenuResolver implements ResolverInterface, AliasedInterface
     {
         $topMenu = $this->em->getRepository('App:Menu')->find(1);
         $result = [];
-        if($topMenu->getMenu()) {
+        if($topMenu && $topMenu->getMenu()) {
             $menu = json_decode($topMenu->getMenu(), true);
             $result = $menu[0]['children'];
         }
