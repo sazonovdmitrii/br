@@ -8,7 +8,7 @@ services:
         ports:
             - '9005:9000'
         volumes:
-            - ${PWD}:/var/www/symfony
+            - br-sync:/var/www/symfony
             - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
             - ./docker/php/php.ini:/usr/local/etc/php/php.ini
         links:
@@ -39,7 +39,7 @@ services:
         build: nginx
         ports:
             - '8084:80'
-            - '1342:1342'
+            - '1342:1341'
         volumes_from:
             - br_php
         volumes:

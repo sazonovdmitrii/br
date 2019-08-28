@@ -1,5 +1,5 @@
 {
-  top_menu{
+  top_menu(locale:"ru"){
     data {
     	text
       url

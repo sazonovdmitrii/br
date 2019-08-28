@@ -5,9 +5,12 @@
         "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "a2lix/translation-form-bundle": "^3.0",
         "assoconnect/graphql-mutation-validator-bundle": "^1.0",
+        "bukashk0zzz/yml-generator": "dev-master",
         "doctrine/doctrine-bundle": "^1.9",
         "easycorp/easyadmin-bundle": "^1.17",
+        "knplabs/doctrine-behaviors": "~1.1",
         "lexik/jwt-authentication-bundle": "^2.6",
         "onurb/excel-bundle": "^1.0",
         "overblog/graphql-bundle": "^0.11.11",
@@ -31,8 +34,7 @@
         "symfony/validator": "4.3.*",
         "symfony/web-link": "4.3.*",
         "symfony/yaml": "4.3.*",
-        "vich/uploader-bundle": "^1.9",
-        "bukashk0zzz/yml-generator": "dev-master"
+        "vich/uploader-bundle": "^1.9"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",

@@ -7,7 +7,9 @@ syncs:
   br-sync:
     src: './'
     sync_strategy: 'rsync'
-    sync_host_port: 10872
+    sync_host_port: 10871
     sync_excludes:
       - '.git'
       - 'composer.lock'
+      - 'vendor/bin/doctrine'
+      - 'vendor/bin/doctrine-dbal'

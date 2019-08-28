@@ -76,11 +76,6 @@ class City
      */
     private $couriers;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $title;
-
     public function __construct()
     {
         $this->pickups = new ArrayCollection();
@@ -263,18 +258,6 @@ class City
                 $courier->setCity(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
 
         return $this;
     }

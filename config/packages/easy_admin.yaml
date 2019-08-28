@@ -1,5 +1,5 @@
 easy_admin:
-    site_name: 'Laparfumerie'
+    site_name: 'BrillenHof'
     entities:
         Tags:
             class: App\Entity\Tags
@@ -30,6 +30,10 @@ easy_admin:
             controller: App\Controller\Admin\MenuController
             list:
                 fields: ['id', 'name', 'title']
+            form:
+                fields:
+                  - name
+                  - title
         MenuItem:
             class: App\Entity\MenuItem
             list:
@@ -180,7 +184,10 @@ easy_admin:
             form:
                 fields:
                     - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType }
-                    - { property: 'title'}
+#                    - { property: 'title'}
+                    - { property: 'longitude'}
+                    - { property: 'short_title'}
+                    - { property: 'region'}
         Direction:
             class: App\Entity\Direction
         District:

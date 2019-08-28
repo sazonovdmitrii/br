@@ -18,7 +18,13 @@ class TopMenuResolver implements ResolverInterface, AliasedInterface
 
     public function resolve(Argument $args)
     {
-        $topMenu = $this->em->getRepository('App:Menu')->find(1);
+        if(!isset($args['locale'])) {
+            return [];
+        }
+
+        $topMenu = $this->em->getRepository('App:Menu')
+            ->findOneBy(['name' => 'top_menu_' . $args['locale']]);
+
         $result = [];
         if($topMenu && $topMenu->getMenu()) {
             $menu = json_decode($topMenu->getMenu(), true);
