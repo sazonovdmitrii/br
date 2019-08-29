@@ -21,6 +21,9 @@ easy_admin:
             class: App\Entity\CatalogUrl
             list:
                 fields: ['id', 'url', 'created']
+            form:
+                fields:
+                  - url
         Users:
             class: App\Entity\Users
             list:
@@ -48,10 +51,8 @@ easy_admin:
                   - { type: 'tab' , label: 'General' }
                   - visible
                   - name
-                  - created
-                  - updated
                   - { type: 'tab', label: 'Virtual Urls' }
-                  - { property: 'catalogUrls', type: 'easyadmin_autocomplete' }
+                  - { property: 'catalogUrls', type_options: { block_name: 'catalog_urls' }}
                   - { type: 'tab', label: 'Tags' }
                   - { property: 'productTagItems', type_options: { block_name: 'catalogs_tags' }}
         Items:
@@ -78,8 +79,6 @@ easy_admin:
                     - { type: 'tab' , label: 'General' }
                     - visible
                     - name
-                    - created
-                    - updated
                     - { type: 'tab', label: 'Categories' }
                     - { property: 'catalogs', type_options: { block_name: 'products_catalogs' }}
                     - { type: 'tab', label: 'Product Items'}
@@ -212,6 +211,7 @@ easy_admin:
             - 'admin/form/products_tags_items.html.twig'
             - 'admin/form/catalogs_tags.html.twig'
             - 'admin/form/products_urls.html.twig'
+            - 'admin/form/catalog_urls.html.twig'
         menu:
           - label: 'Urls'
             children: ['ProductUrl', 'CatalogUrl']
@@ -233,3 +233,5 @@ easy_admin:
         assets:
             css:
                 - '/bundles/lp/css/lp.css'
+            js:
+                - 'http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js'

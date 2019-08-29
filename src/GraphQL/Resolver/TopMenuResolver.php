@@ -7,7 +7,7 @@ use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 use Overblog\GraphQLBundle\Definition\Argument;
 use GraphQL\Error\UserError;
 
-class TopMenuResolver implements ResolverInterface, AliasedInterface
+class TopMenuResolver extends LocaleAlias
 {
     private $em;
 
@@ -18,12 +18,10 @@ class TopMenuResolver implements ResolverInterface, AliasedInterface
 
     public function resolve(Argument $args)
     {
-        if(!isset($args['locale'])) {
-            return [];
-        }
-
         $topMenu = $this->em->getRepository('App:Menu')
-            ->findOneBy(['name' => 'top_menu_' . $args['locale']]);
+            ->findOneBy(
+                ['name' => 'top_menu_' . $this->getLocale()]
+            );
 
         $result = [];
         if($topMenu && $topMenu->getMenu()) {

@@ -2,18 +2,26 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\CatalogUrl;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use App\Service\AdminTagService;
 use App\Entity\Catalog;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Response;
 
 class CatalogController extends BaseAdminController
 {
     private $tagService;
 
-    public function __construct(AdminTagService $tagService)
-    {
+    private $entityManager;
+
+    public function __construct(
+        AdminTagService $tagService,
+        EntityManager $entityManager
+    ) {
         $this->tagService = $tagService;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -78,5 +86,34 @@ class CatalogController extends BaseAdminController
         );
 
         return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
+    }
+
+    protected function addUrlAction()
+    {
+        $url = $this->request->request->get('url');
+
+        $checkUrl = $this->entityManager->getRepository('App:CatalogUrl')->findOneBy(
+            ['url' => $url]
+        );
+
+        if($checkUrl) {
+            $id = $checkUrl->getId();
+        } else {
+            $catalogUrl = new CatalogUrl();
+            $catalogUrl->setUrl($url);
+
+            $this->entityManager->persist($catalogUrl);
+            $this->entityManager->flush();
+
+            $id = $catalogUrl->getId();
+        }
+
+
+        $response = new Response();
+        $response->setContent(json_encode([
+            'id' => $id
+        ]));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 }

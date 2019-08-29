@@ -85,6 +85,8 @@ class Product
         $this->productTags = new ArrayCollection();
         $this->producttagitem = new ArrayCollection();
         $this->sales = new ArrayCollection();
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
     }
 
     public function getId(): ?int

@@ -5,3 +5,4 @@ twig:
     globals:
         basket: '@App\Service\Twig\Basket'
         tags: '@App\Service\Twig\Tags'
+        catalog_urls: '@App\Service\Twig\CatalogUrls'
