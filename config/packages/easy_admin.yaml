@@ -106,6 +106,8 @@ easy_admin:
         ProductTag:
             class: App\Entity\ProductTag
             controller: App\Controller\Admin\ProductTagController
+            list:
+              fields: ['id', 'name', 'created', 'visible', 'input_type']
             form:
               fields:
                 - name
@@ -122,12 +124,13 @@ easy_admin:
         CatalogTag:
             class: App\Entity\CatalogTag
             controller: App\Controller\Admin\ProductTagController
+            list:
+                fields: ['id', 'name', 'created', 'visible']
             form:
               fields:
                 - name
                 - { property: 'type', type: 'choice', type_options: {multiple: false, choices: {bool: 'bool', string: 'string', int: 'int', float: 'float', enum: 'enum'}} }
                 - { property: 'visible', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
-                - { property: 'catalogTagItems', type_options: { block_name: 'catalogs_tags_items' }}
 
         Configuration:
             class: App\Entity\ProductTag

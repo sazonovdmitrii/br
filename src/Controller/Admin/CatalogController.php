@@ -2,12 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Catalog;
 use App\Entity\CatalogUrl;
+use App\Service\AdminTagService;
+use App\Service\CatalogService;
+use Doctrine\ORM\EntityManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
-use App\Service\AdminTagService;
-use App\Entity\Catalog;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
 
 class CatalogController extends BaseAdminController
@@ -16,12 +17,16 @@ class CatalogController extends BaseAdminController
 
     private $entityManager;
 
+    private $catalogService;
+
     public function __construct(
         AdminTagService $tagService,
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        CatalogService $catalogService
     ) {
-        $this->tagService = $tagService;
-        $this->entityManager = $entityManager;
+        $this->tagService     = $tagService;
+        $this->entityManager  = $entityManager;
+        $this->catalogService = $catalogService;
     }
 
     /**
@@ -33,35 +38,39 @@ class CatalogController extends BaseAdminController
     {
         $this->dispatch(EasyAdminEvents::PRE_EDIT);
 
-        $id = $this->request->query->get('id');
+        $id        = $this->request->query->get('id');
         $easyadmin = $this->request->attributes->get('easyadmin');
-        $entity = $easyadmin['item'];
+        $entity    = $easyadmin['item'];
 
-        if($tags = $this->tagService->parseRequest($this->request->request->all())) {
+        if ($tags = $this->tagService->parseRequest($this->request->request->all())) {
             $this->tagService
                 ->setTags($tags)
                 ->setEntityType(Catalog::class)
                 ->setEntity($entity)
                 ->update();
         }
+        if ($urlsIds = $this->request->request->get('url')) {
+            $this->catalogService
+                ->setCatalog($entity)
+                ->updateCatalogUrls($urlsIds);
+        }
 
         if ($this->request->isXmlHttpRequest() && $property = $this->request->query->get('property')) {
-            $newValue = 'true' === mb_strtolower($this->request->query->get('newValue'));
+            $newValue       = 'true' === mb_strtolower($this->request->query->get('newValue'));
             $fieldsMetadata = $this->entity['list']['fields'];
 
             if (!isset($fieldsMetadata[$property]) || 'toggle' !== $fieldsMetadata[$property]['dataType']) {
                 throw new \RuntimeException(sprintf('The type of the "%s" property is not "toggle".', $property));
             }
-
             $this->updateEntityProperty($entity, $property, $newValue);
 
             // cast to integer instead of string to avoid sending empty responses for 'false'
-            return new Response((int) $newValue);
+            return new Response((int)$newValue);
         }
 
         $fields = $this->entity['edit']['fields'];
 
-        $editForm = $this->executeDynamicMethod('create<EntityName>EditForm', array($entity, $fields));
+        $editForm   = $this->executeDynamicMethod('create<EntityName>EditForm', array($entity, $fields));
         $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
 
         $editForm->handleRequest($this->request);
@@ -79,13 +88,70 @@ class CatalogController extends BaseAdminController
         $this->dispatch(EasyAdminEvents::POST_EDIT);
 
         $parameters = array(
-            'form' => $editForm->createView(),
+            'form'          => $editForm->createView(),
             'entity_fields' => $fields,
-            'entity' => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'entity'        => $entity,
+            'delete_form'   => $deleteForm->createView(),
         );
 
         return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
+    }
+
+    protected function newAction()
+    {
+        $this->dispatch(EasyAdminEvents::PRE_NEW);
+
+        $entity = $this->executeDynamicMethod('createNew<EntityName>Entity');
+
+        $easyadmin         = $this->request->attributes->get('easyadmin');
+        $easyadmin['item'] = $entity;
+        $this->request->attributes->set('easyadmin', $easyadmin);
+
+        $fields = $this->entity['new']['fields'];
+
+        $newForm = $this->executeDynamicMethod('create<EntityName>NewForm', array($entity, $fields));
+
+        $newForm->handleRequest($this->request);
+        if ($newForm->isSubmitted() && $newForm->isValid()) {
+            $this->dispatch(EasyAdminEvents::PRE_PERSIST, array('entity' => $entity));
+
+            $this->executeDynamicMethod('prePersist<EntityName>Entity', array($entity, true));
+            $this->executeDynamicMethod('persist<EntityName>Entity', array($entity, $newForm));
+
+            $this->dispatch(EasyAdminEvents::POST_PERSIST, array('entity' => $entity));
+            if ($tags = $this->tagService->parseRequest($this->request->request->all())) {
+                $this->tagService
+                    ->setTags($tags)
+                    ->setEntityType(Catalog::class)
+                    ->setEntity($entity)
+                    ->update();
+            }
+
+            if ($urlsIds = $this->request->request->get('url')) {
+                $this->catalogService
+                    ->setCatalog($entity)
+                    ->updateCatalogUrls(
+                        $this->request->request->get('url')
+                    );
+            }
+
+            return $this->redirectToReferrer();
+        }
+
+        $this->dispatch(EasyAdminEvents::POST_NEW, array(
+            'entity_fields' => $fields,
+            'form'          => $newForm,
+            'entity'        => $entity,
+        )
+        );
+
+        $parameters = array(
+            'form'          => $newForm->createView(),
+            'entity_fields' => $fields,
+            'entity'        => $entity,
+        );
+
+        return $this->executeDynamicMethod('render<EntityName>Template', array('new', $this->entity['templates']['new'], $parameters));
     }
 
     protected function addUrlAction()
@@ -96,7 +162,7 @@ class CatalogController extends BaseAdminController
             ['url' => $url]
         );
 
-        if($checkUrl) {
+        if ($checkUrl) {
             $id = $checkUrl->getId();
         } else {
             $catalogUrl = new CatalogUrl();
@@ -112,7 +178,9 @@ class CatalogController extends BaseAdminController
         $response = new Response();
         $response->setContent(json_encode([
             'id' => $id
-        ]));
+        ]
+        )
+        );
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

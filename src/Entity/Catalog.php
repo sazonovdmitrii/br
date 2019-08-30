@@ -88,6 +88,8 @@ class Catalog
         $this->catalogTags = new ArrayCollection();
         $this->productTags = new ArrayCollection();
         $this->productTagItems = new ArrayCollection();
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
     }
 
     public function getId(): ?int

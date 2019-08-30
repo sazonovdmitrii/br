@@ -1,5 +1,6 @@
 #easyadmin-new-ProductTag label[for=producttag_productTagItems],
-label[for=catalog_catalogUrls]
+label[for=catalog_catalogUrls],
+label[for=catalog_productTagItems]
 {
     display: none;
 }

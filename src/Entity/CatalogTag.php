@@ -52,6 +52,7 @@ class CatalogTag
     {
         $this->entity = new ArrayCollection();
         $this->catalogTagItems = new ArrayCollection();
+        $this->created = new \DateTime();
     }
 
     public function getId(): ?int
