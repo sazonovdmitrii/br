@@ -219,20 +219,14 @@ easy_admin:
           - label: 'Urls'
             children: ['ProductUrl', 'CatalogUrl']
           - label: 'Catalog'
-            children: ['Catalog', 'CatalogTag', 'Product', 'Items', 'ProductTag']
-          - label: 'Order'
-            children: ['Order', 'Delivery', 'ProductTag']
+            children: ['Catalog', 'Product', 'Items', 'ProductTag']
           - label: 'User'
-            children: ['Users', 'Address', 'UserAddress']
-          - ImportProduct
+            children: ['Users']
           - label: 'Menu'
             children: ['Menu', 'MenuItem']
           - Banner
           - Sale
           - Configuration
-          - Tags
-          - label: 'Delivery & Payment'
-            children: ['City', 'Direction', 'District', 'Pickup', 'Region', 'Courier', 'PaymentMethod']
         assets:
             css:
                 - '/bundles/lp/css/lp.css'
