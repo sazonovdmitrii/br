@@ -5,9 +5,9 @@ import classnames from 'classnames/bind';
 
 import { GET_SOCIALS } from 'query';
 
-const cx = classnames.bind(styles);
-
 import styles from './styles.css';
+
+const cx = classnames.bind(styles);
 
 const Socials = ({ className }) => {
     // const { loading, error, data: { socials = [] } = {} } = useQuery(GET_SOCIALS);

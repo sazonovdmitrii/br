@@ -3,12 +3,12 @@ import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { GET_HEADER_MENU } from 'query';
 
+import SearchForm from 'components/SearchForm';
 import HeaderMenu from './HeaderMenu';
 import MobileMenu from './MobileMenu';
 
-const isClient = typeof window !== 'undefined';
 
-import SearchForm from 'components/SearchForm';
+const isClient = typeof window !== 'undefined';
 
 export default props => {
     const {

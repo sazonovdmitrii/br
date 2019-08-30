@@ -5,7 +5,6 @@ import { onError } from 'apollo-link-error';
 import { createHttpLink } from 'apollo-link-http';
 // mb todo use get for better cache
 // import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
-import locales from '../locale';
 
 const isServer = process.env.SERVER;
 const isBrowser = process.browser;
