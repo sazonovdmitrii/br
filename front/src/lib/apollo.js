@@ -68,9 +68,9 @@ const create = ({ token } = {}) => {
                 getMessages: async (_root, variables, { cache }) => {
                     const {
                         default: intlMessages,
-                    } = await import(/* webpackChunkName: 'i18n-[request]' */ `../locale/${
-                        variables.lang
-                    }.json`);
+                    } = await import(/* webpackChunkName: 'i18n-[request]' */ isServer
+                        ? `../src/locale/${variables.lang}.json`
+                        : `../locale/${variables.lang}.json`);
 
                     // cache.writeData({
                     //     data: {
