@@ -1,0 +1,40 @@
+.title {
+    font-family: var(--font-serif);
+    margin-bottom: 18px;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--color-font);
+}
+
+.text {
+    font-size: 14px;
+    color: #676f78;
+    margin-bottom: 18px;
+
+    & p {
+        margin: 0 0 5px;
+        line-height: 1.6;
+    }
+}
+
+.items {
+    margin: 0 auto;
+    width: 75%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+}
+
+.icon {
+    width: 34px;
+    height: 34px;
+}
+
+.itemTitle {
+    margin-top: 4px;
+    font-size: 14px;
+}

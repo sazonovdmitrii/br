@@ -11,6 +11,16 @@ const isClient = typeof window !== 'undefined';
 import SearchForm from 'components/SearchForm';
 
 export default props => {
+    const {
+        data: { lang },
+    } = useQuery(
+        gql`
+            {
+                lang @client
+            }
+        `
+    );
+
     const [isDesktop, setDesktop] = useState(isClient ? window.innerWidth > 768 : true);
 
     if (isClient) {
@@ -19,31 +29,18 @@ export default props => {
             setDesktop(window.innerWidth > 768);
         });
     }
+
     const {
         loading,
         error,
         data: { top_menu },
-    } = useQuery(GET_HEADER_MENU);
+    } = useQuery(GET_HEADER_MENU, { variables: { locale: lang } });
 
     if (loading) return null;
 
     return isDesktop ? (
-        <HeaderMenu
-            {...props}
-            items={[
-                { text: 'Бренды', url: '/brands/', children: [] },
-                ...top_menu.data,
-                { text: 'Акции', url: '/sales/', children: [] },
-            ].filter(Boolean)}
-        />
+        <HeaderMenu {...props} items={top_menu.data} />
     ) : (
-        <MobileMenu
-            {...props}
-            items={[
-                { text: 'Бренды', url: '/brands/', children: [] },
-                ...top_menu.data,
-                { text: 'Акции', url: '/sales/', children: [] },
-            ].filter(Boolean)}
-        />
+        <MobileMenu {...props} items={top_menu.data} />
     );
 };

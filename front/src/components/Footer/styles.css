@@ -110,47 +110,6 @@
     }
 }
 
-.helpTitle {
-    font-family: var(--font-serif);
-    margin-bottom: 18px;
-    font-weight: 600;
-    font-size: 20px;
-    color: var(--color-font);
-}
-
-.helpText {
-    font-size: 14px;
-    color: #676f78;
-    margin-bottom: 18px;
-
-    & p {
-        margin: 0 0 5px;
-        line-height: 1.6;
-    }
-}
-
-.helpItems {
-    margin: 0 auto;
-    width: 75%;
-    display: flex;
-    justify-content: space-around;
-}
-
-.helpItem {
-    display: flex;
-    flex-direction: column;
-}
-
-.helpIcon {
-    width: 34px;
-    height: 34px;
-}
-
-.helpItemTitle {
-    margin-top: 4px;
-    font-size: 14px;
-}
-
 .bottom {
     width: 91.66667%;
     margin: 0 auto;

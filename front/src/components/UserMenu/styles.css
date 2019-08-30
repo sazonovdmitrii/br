@@ -7,7 +7,7 @@
 
 .item {
     display: inline-flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     text-align: center;
     position: relative;

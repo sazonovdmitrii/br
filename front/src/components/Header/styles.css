@@ -68,7 +68,6 @@
     background: var(--color-background);
 
     @media (--viewport-tablet) {
-        /*height: 100px;*/
         z-index: 970;
         position: relative;
     }

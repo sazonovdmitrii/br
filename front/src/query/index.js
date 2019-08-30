@@ -9,8 +9,8 @@ export const IS_LOGGED_IN = gql`
 `;
 
 export const GET_HEADER_MENU = gql`
-    {
-        top_menu {
+    query headerMenu($locale: String) {
+        top_menu(locale: $locale) {
             data {
                 text
                 url

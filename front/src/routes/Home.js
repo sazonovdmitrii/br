@@ -1,14 +1,9 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
-
+import { FormattedMessage } from 'react-intl';
 import { GET_BANNERS } from 'query';
 
-import Banners from 'components/Banners';
-import Benefits from 'components/Benefits';
-// import BestSales from 'components/BestSales';
-import Sales from 'components/Sales';
 import Hero from 'components/Hero';
 import Button from 'components/Button';
 
@@ -20,7 +15,7 @@ export default () => {
     } = useQuery(GET_BANNERS);
 
     return (
-        <div className="homepage">
+        <>
             <Helmet>
                 <meta
                     name="description"
@@ -36,14 +31,14 @@ export default () => {
                 actions={
                     <>
                         <Button kind="primary" bold outlined rounded>
-                            Shop Men
+                            <FormattedMessage id="shop_men" />
                         </Button>
                         <Button kind="primary" bold outlined rounded>
-                            Shop Women
+                            <FormattedMessage id="shop_women" />
                         </Button>
                     </>
                 }
             />
-        </div>
+        </>
     );
 };

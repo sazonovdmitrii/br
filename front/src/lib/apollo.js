@@ -5,6 +5,7 @@ import { onError } from 'apollo-link-error';
 import { createHttpLink } from 'apollo-link-http';
 // mb todo use get for better cache
 // import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
+import locales from '../locale';
 
 const isServer = process.env.SERVER;
 const isBrowser = process.browser;
@@ -63,7 +64,37 @@ const create = ({ token } = {}) => {
         //         }
         //     },
         // }),
-        resolvers: {},
+        resolvers: {
+            Query: {
+                getMessages: async (_root, variables, { cache }) => {
+                    const {
+                        default: intlMessages,
+                    } = await import(/* webpackChunkName: 'i18n-[request]' */ `../locale/${
+                        variables.lang
+                    }.json`);
+
+                    // cache.writeData({
+                    //     data: {
+                    //         intlMessages,
+                    //     },
+                    // });
+
+                    return intlMessages;
+                },
+            },
+            Mutation: {
+                setLang: async (_root, variables, { cache }) => {
+                    console.log(variables, 'variables');
+
+                    cache.writeData({
+                        data: {
+                            lang: variables.lang,
+                        },
+                    });
+                    return null;
+                },
+            },
+        },
         link: ApolloLink.from([
             onError(({ graphQLErrors, networkError }) => {
                 if (graphQLErrors) {
@@ -86,6 +117,7 @@ const create = ({ token } = {}) => {
     const data = {
         ...initialStore,
         isLoggedIn: !!token,
+        lang: 'ru',
     };
 
     cache.writeData({
