@@ -55,7 +55,6 @@ export default () => {
                     </div>
                 </div>
             </Container>
-
             <HeaderMenu active={showMobileMenu} />
         </header>
     );

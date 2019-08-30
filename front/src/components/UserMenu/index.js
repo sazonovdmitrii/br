@@ -1,62 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
-import { ShoppingBag as ShoppingBagIcon, User as UserIcon } from 'react-feather';
+import { User as UserIcon, Search as SearchIcon } from 'react-feather';
 
-import { IS_LOGGED_IN, GET_SHORT_BASKET } from 'query';
 import { useApp } from 'hooks';
+import { IS_LOGGED_IN } from 'query';
 
-import BasketShort from 'components/BasketShort';
 import Button from 'components/Button';
-import Badge from 'components/Badge';
+import SearchForm from 'components/SearchForm';
 
 import styles from './styles.css';
 
 const UserMenu = () => {
-    const { logout, login } = useApp();
+    const { logout, login, locale } = useApp();
     const {
         data: { isLoggedIn },
     } = useQuery(IS_LOGGED_IN);
-    const { loading, error, data: { basket } = {} } = useQuery(GET_SHORT_BASKET, { ssr: false });
-
     const handleLogOut = () => {
         logout();
     };
+    const [showSearch, setShowSearch] = useState(false);
 
     return (
         <ul className={styles.root}>
+            <SearchForm show={showSearch} onClose={() => setShowSearch(false)} />
+            <li className={styles.item}>
+                <div className={styles.icon}>
+                    <button type="button" className={styles.link} onClick={() => setShowSearch(!showSearch)}>
+                        <SearchIcon size="20" />
+                    </button>
+                </div>
+            </li>
             {isLoggedIn ? (
                 <li className={styles.item}>
-                    <Link className={styles.link} to="/user/personal/">
+                    <Link className={styles.link} to="/account">
                         <div className={styles.icon}>
                             <UserIcon size="20" />
                         </div>
                     </Link>
                     <ul className={styles.submenu}>
-                        <li className="usermenu__subitem">
-                            <Link className="usermenu__sublink" to="/user/personal">
-                                Персональные данные
-                            </Link>
+                        <li className={styles.sbmenuItem}>
+                            <Link to="/account/profile">Profile</Link>
                         </li>
-                        <li className="usermenu__subitem">
-                            <Link className="usermenu__sublink" to="/user/addressbook">
-                                Адресная книга
-                            </Link>
-                        </li>
-                        <li className="usermenu__subitem">
-                            <Link className="usermenu__sublink" to="/user/orders">
-                                Ваши заказы
-                            </Link>
-                        </li>
-                        <li className="usermenu__subitem">
-                            <Button
-                                className="usermenu__sublink"
-                                kind="primary"
-                                size="small"
-                                onClick={handleLogOut}
-                                outlined
-                            >
-                                Выход
+                        <li className={styles.sbmenuItem}>
+                            <Button kind="primary" size="small" onClick={handleLogOut} outlined>
+                                Sign out
                             </Button>
                         </li>
                     </ul>
@@ -71,15 +59,9 @@ const UserMenu = () => {
                 </li>
             )}
             <li className={styles.item}>
-                {loading || error ? null : (
-                    <Link className={styles.link} to="/basket">
-                        <div className={styles.icon}>
-                            <Badge badgeContent={basket.products.length} kind="primary">
-                                <ShoppingBagIcon size="20" />
-                            </Badge>
-                        </div>
-                    </Link>
-                )}
+                <Link type="button" className={styles.link} to="/account/login">
+                    <div className={styles.icon}>{locale}</div>
+                </Link>
             </li>
         </ul>
     );

@@ -16,10 +16,15 @@ const Dialog = ({ children, open, onClose, fullWidth, maxWidth }) => {
         [maxWidth]: !!maxWidth,
     });
     const overlayNode = useRef(null);
+
+    if (typeof document === 'undefined') return null;
+
     const domNode = document.body;
     useEffect(() => {
         if (open) {
-            if (window.innerWidth !== overlayNode.current.clientWidth) domNode.style.paddingRight = '15px';
+            if (window.innerWidth !== overlayNode.current.clientWidth) {
+                domNode.style.paddingRight = '15px';
+            }
             domNode.style.overflow = 'hidden';
         }
 
@@ -43,7 +48,7 @@ const Dialog = ({ children, open, onClose, fullWidth, maxWidth }) => {
         </div>
     );
 
-    if (typeof document !== 'undefined' && domNode) return createPortal($Dialog, domNode);
+    if (domNode) return createPortal($Dialog, domNode);
 
     return null;
 };

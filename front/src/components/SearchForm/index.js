@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+import { X as CloseIcon } from 'react-feather';
 
 import Input from 'components/Input';
 
-const SearchForm = ({ history }) => {
+import styles from './styles.css';
+
+const SearchForm = ({ history, show, onClose }) => {
     const [search, setSearch] = useState('');
+    const overlayNode = useRef(null);
+
     const handleSubmit = e => {
         e.preventDefault();
 
@@ -14,21 +20,56 @@ const SearchForm = ({ history }) => {
         history.push(`/search/?search=${search}`);
     };
 
-    return (
-        <form method="GET" action="/search/" className="searchform" onSubmit={handleSubmit}>
-            <Input
-                name="search"
-                value={search}
-                placeholder="Искать"
-                theme={{ input: 'searchform__input' }}
-                onChange={({ target: { value } }) => setSearch(value)}
-            />
-            <button type="submit" className="searchform__icon flaticon-magnifying-glass" />
-        </form>
+    if (typeof document === 'undefined') return null;
+    const domNode = document.body;
+
+    useEffect(() => {
+        if (show) {
+            if (window.innerWidth !== overlayNode.current.clientWidth) {
+                domNode.style.paddingRight = '15px';
+            }
+            domNode.style.overflow = 'hidden';
+        }
+
+        return () => {
+            domNode.style = null;
+        };
+    }, [domNode.style, show]);
+
+    const Root = (
+        <div className={styles.root} ref={overlayNode}>
+            <div className={styles.inner}>
+                <button className={styles.closeButton}>
+                    <CloseIcon className={styles.closeIcon} size="16" onClick={onClose} />
+                </button>
+                <div className={styles.title}>Search WARBY PARKER</div>
+                <input
+                    type="text"
+                    className={styles.input}
+                    name="search"
+                    placeholder="Search"
+                    value={search}
+                    onChange={({ target: { value } }) => setSearch(value)}
+                />
+            </div>
+            <hr className={styles.hr} />
+            <div className={styles.inner}>
+                <div className="u-pt6 u-grid__row" />
+            </div>
+        </div>
     );
+
+    if (domNode && show) return createPortal(Root, domNode);
+
+    return null;
+};
+
+SearchForm.defaultProps = {
+    show: false,
 };
 
 SearchForm.propTypes = {
+    show: PropTypes.bool,
     history: PropTypes.object.isRequired,
 };
 

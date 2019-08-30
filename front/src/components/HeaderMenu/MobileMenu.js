@@ -14,7 +14,7 @@ const cx = classnames.bind(styles);
 
 const MobileMenu = ({ items, active }) => {
     const [activeItem, setActiveItem] = useState(null);
-    const rootClassName = cx(styles.root, { active: active });
+    const rootClassName = cx(styles.root, { active });
     const overlayNode = useRef(null);
 
     useOnClickOutside(overlayNode, () => {

@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import hardtack from 'hardtack';
-import { createClient } from 'lib/apollo';
 
-const initialStore = {
-    currency: 'Руб.',
+const initialState = {
     notifications: [],
 };
-const AppContext = React.createContext([initialStore, () => {}]);
 
-const AppProvider = ({ children }) => {
-    const token = hardtack.get('token');
-    const client = createClient({ token });
+const AppContext = React.createContext([initialState, () => {}]);
 
-    const [state, setState] = useState({
-        ...initialStore,
-        client,
-    });
+const AppProvider = ({ children, initialStore = {}, value }) => {
+    const [state, setState] = useState({ ...initialState, ...initialStore });
 
     return <AppContext.Provider value={[state, setState]}>{children}</AppContext.Provider>;
 };

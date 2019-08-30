@@ -5,8 +5,8 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import classnames from 'classnames/bind';
 
-import { ADD_TO_BASKET } from 'mutations';
-import { GET_SHORT_BASKET } from 'query';
+// import { ADD_TO_BASKET } from 'mutations';
+// import { GET_SHORT_BASKET } from 'query';
 
 import { seoHead } from 'utils';
 import Button from 'components/Button';
@@ -25,39 +25,39 @@ const Product = ({ name, id, items, images, description, tags, history, text }) 
     const [tabIndex, setTabIndex] = useState(0);
     const [error, setError] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(items.edges[0].node);
-    const [addToCard, { data: addBasket, loadingMutation }] = useMutation(ADD_TO_BASKET, {
-        variables: {
-            input: {
-                item_id: selectedProduct.id,
-            },
-        },
-        onCompleted({ addBasket: { products } }) {
-            if (products) {
-                console.warn('product added to basket', products);
-                history.push('/basket');
-            }
-        },
-        onError(error) {
-            setError(error.message);
-        },
-        // TODO
-        update(
-            cache,
-            {
-                data: { addBasket },
-            }
-        ) {
-            cache.writeQuery({
-                query: GET_SHORT_BASKET,
-                data: {
-                    basket: {
-                        products: addBasket.products,
-                        __typename: 'Basket',
-                    },
-                },
-            });
-        },
-    });
+    // const [addToCard, { data: addBasket, loadingMutation }] = useMutation(ADD_TO_BASKET, {
+    //     variables: {
+    //         input: {
+    //             item_id: selectedProduct.id,
+    //         },
+    //     },
+    //     onCompleted({ addBasket: { products } }) {
+    //         if (products) {
+    //             console.warn('product added to basket', products);
+    //             history.push('/basket');
+    //         }
+    //     },
+    //     onError(error) {
+    //         setError(error.message);
+    //     },
+    //     // TODO
+    //     update(
+    //         cache,
+    //         {
+    //             data: { addBasket },
+    //         }
+    //     ) {
+    //         cache.writeQuery({
+    //             query: GET_SHORT_BASKET,
+    //             data: {
+    //                 basket: {
+    //                     products: addBasket.products,
+    //                     __typename: 'Basket',
+    //                 },
+    //             },
+    //         });
+    //     },
+    // });
     const handleChangeItem = ({ id, price: itemPrice }) => {
         if (!itemPrice) return;
         const newSelectedProduct = items.edges.find(item => item.node.id === id);

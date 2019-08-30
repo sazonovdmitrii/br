@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { withRouter, Switch, Route } from 'react-router';
 import Helmet from 'react-helmet';
+import gql from 'graphql-tag';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { IntlProvider } from 'react-intl';
 
 import routes from 'routes';
 import SEO from 'globalMeta';
 
+import NotFound from 'routes/NotFound';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Container from 'components/Container';
 import ScrollToTop from 'components/ScrollToTop';
-import ErrorBoundary from 'components/ErrorBoundary';
+// import ErrorBoundary from 'components/ErrorBoundary';
 
 const FAVS = [
     {
@@ -68,11 +72,36 @@ const APPLE_TOUCH_ICON = [
     },
 ];
 
-const App = props => {
-    const isHomePage = props.location.pathname === '/';
+const defaultLang = 'ru';
+
+const GET_MESSAGES = gql`
+    query getMessages($lang: String) {
+        getMessages(lang: $lang) @client
+    }
+`;
+
+const SET_LANG_MUTATION = gql`
+    mutation setLang($lang: String) {
+        setLang(lang: $lang) @client
+    }
+`;
+
+const App = ({ lang }) => {
+    const {
+        data: { getMessages },
+    } = useQuery(GET_MESSAGES, { variables: { lang } });
+    const [setLang] = useMutation(SET_LANG_MUTATION, {
+        variables: { lang: lang },
+    });
+
+    useMemo(() => {
+        setLang();
+    }, [lang]);
+
+    if (!getMessages) return null;
 
     return (
-        <>
+        <IntlProvider locale={lang} messages={getMessages}>
             <ScrollToTop />
             <Helmet defaultTitle={SEO.defaultTitle} titleTemplate={SEO.titleTemplate}>
                 <link rel="shortcut icon" href="/favicon.ico" />
@@ -91,17 +120,24 @@ const App = props => {
                 <meta name="wmail-verification" content="9bfc3f8e92e7da82009fa3fd0e7ca511" />
             </Helmet>
             <Header />
-            <ErrorBoundary>
-                <Switch>
-                    {routes.map((route, index) => (
-                        <Route key={index} {...route} />
-                    ))}
-                </Switch>
-            </ErrorBoundary>
+            <Switch>
+                {routes(lang !== defaultLang && lang).map((route, index) => (
+                    <Route key={index} {...route} />
+                ))}
+            </Switch>
             <Footer />
-            <div className="scroll-to-top" data-behavior="scrollToTop" />
-        </>
+        </IntlProvider>
     );
 };
 
-export default withRouter(App);
+export default () => {
+    return (
+        <Switch>
+            {['en'].map((lang, index) => (
+                <Route key={index} path={`/${lang}`} component={() => <App lang={lang} />} exact />
+            ))}
+            <Route path={`/`} component={() => <App lang={defaultLang} />} exact />
+            <Route component={NotFound} />
+        </Switch>
+    );
+};
