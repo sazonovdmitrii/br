@@ -49,11 +49,6 @@ class Catalog
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="catalogs")
-     */
-    private $products;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\CatalogUrl", mappedBy="entity")
      */
     private $catalogUrls;
@@ -80,9 +75,13 @@ class Catalog
      */
     private $productTagItems;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="catalog")
+     */
+    private $products;
+
     public function __construct()
     {
-        $this->products = new ArrayCollection();
         $this->catalogUrls = new ArrayCollection();
         $this->sales = new ArrayCollection();
         $this->catalogTags = new ArrayCollection();
@@ -90,6 +89,7 @@ class Catalog
         $this->productTagItems = new ArrayCollection();
         $this->created = new \DateTime();
         $this->updated = new \DateTime();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,34 +165,6 @@ class Catalog
     public function setName(?string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Product[]
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->addCatalog($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
-            $product->removeCatalog($this);
-        }
 
         return $this;
     }
@@ -354,6 +326,34 @@ class Catalog
         if ($this->productTagItems->contains($productTagItem)) {
             $this->productTagItems->removeElement($productTagItem);
             $productTagItem->removeCatalog($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->addCatalog($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            $product->removeCatalog($this);
         }
 
         return $this;

@@ -43,6 +43,14 @@ class CatalogRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function flushByProduct($product)
+    {
+        $query = 'DELETE FROM product_catalog WHERE product_id = :product_id';
+        $statement = $this->_em->getConnection()->prepare($query);
+        $statement->bindValue('product_id', $product->getId());
+        $statement->execute();
+    }
+
     // /**
     //  * @return Catalog[] Returns an array of Catalog objects
     //  */

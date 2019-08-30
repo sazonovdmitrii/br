@@ -4,9 +4,18 @@ namespace App\Controller\Admin;
 
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use Doctrine\ORM\EntityManager;
 
 class ItemsController extends BaseAdminController
 {
+    private $entityManager;
+
+    public function __construct(
+        EntityManager $entityManager
+    ) {
+        $this->entityManager = $entityManager;
+    }
+
     public function editItemsAction()
     {
         $this->dispatch(EasyAdminEvents::PRE_EDIT);
@@ -56,5 +65,64 @@ class ItemsController extends BaseAdminController
         );
 
         return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
+    }
+
+    protected function newAction()
+    {
+        $productId = $this->request->query->get('entity_id');
+
+        $this->dispatch(EasyAdminEvents::PRE_NEW);
+
+        $entity = $this->executeDynamicMethod('createNew<EntityName>Entity');
+
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        $easyadmin['item'] = $entity;
+        $this->request->attributes->set('easyadmin', $easyadmin);
+
+        $fields = $this->entity['new']['fields'];
+
+        $newForm = $this->executeDynamicMethod('create<EntityName>NewForm', array($entity, $fields));
+
+        $newForm->handleRequest($this->request);
+        if ($newForm->isSubmitted() && $newForm->isValid()) {
+            $this->dispatch(EasyAdminEvents::PRE_PERSIST, array('entity' => $entity));
+
+            $this->executeDynamicMethod('prePersist<EntityName>Entity', array($entity, true));
+            $this->executeDynamicMethod('persist<EntityName>Entity', array($entity, $newForm));
+
+            $this->dispatch(EasyAdminEvents::POST_PERSIST, array('entity' => $entity));
+
+            $entity->setProduct($this->entityManager
+                ->getRepository('App:Product')
+                ->find(
+                    $this->request->request->get('entity_id')
+                )
+            );
+            $this->entityManager->persist($entity);
+            $this->entityManager->flush();
+
+            return $this->redirectToReferrer();
+        }
+
+        $this->dispatch(EasyAdminEvents::POST_NEW, array(
+            'entity_fields' => $fields,
+            'form' => $newForm,
+            'entity' => $entity,
+        ));
+
+        $product = $this->entityManager
+            ->getRepository('App:Product')
+            ->find($productId);
+
+        $entity->setProduct($product);
+
+        $parameters = array(
+            'form' => $newForm->createView(),
+            'entity_fields' => $fields,
+            'entity' => $entity,
+            'product_id' => $productId
+        );
+        $template = 'admin/Items/new.html.twig';
+        return $this->executeDynamicMethod('render<EntityName>Template', array('new', $template, $parameters));
     }
 }

@@ -44,19 +44,9 @@ class Product
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Catalog", inversedBy="products")
-     */
-    private $catalogs;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProductUrl", mappedBy="entity")
      */
     private $productUrls;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductItem", mappedBy="entity")
-     */
-    private $productItems;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\ProductTag", mappedBy="entity_id")
@@ -69,6 +59,7 @@ class Product
     private $producttagitem;
 
     private $tagsArray;
+
     private $allTagsArray;
 
     /**
@@ -76,17 +67,27 @@ class Product
      */
     private $sales;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Catalog", inversedBy="products")
+     */
+    private $catalog;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductItem", mappedBy="product")
+     */
+    private $productItems;
+
     public function __construct()
     {
         $this->catalog = new ArrayCollection();
         $this->catalogs = new ArrayCollection();
         $this->productUrls = new ArrayCollection();
-        $this->productItems = new ArrayCollection();
         $this->productTags = new ArrayCollection();
         $this->producttagitem = new ArrayCollection();
         $this->sales = new ArrayCollection();
         $this->created = new \DateTime();
         $this->updated = new \DateTime();
+        $this->productItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,32 +155,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection|Catalog[]
-     */
-    public function getCatalogs(): Collection
-    {
-        return $this->catalogs;
-    }
-
-    public function addCatalog(Catalog $catalog): self
-    {
-        if (!$this->catalogs->contains($catalog)) {
-            $this->catalogs[] = $catalog;
-        }
-
-        return $this;
-    }
-
-    public function removeCatalog(Catalog $catalog): self
-    {
-        if ($this->catalogs->contains($catalog)) {
-            $this->catalogs->removeElement($catalog);
-        }
-
-        return $this;
-    }
-
     public function __toString(){
         return $this->name;
     }
@@ -209,37 +184,6 @@ class Product
             // set the owning side to null (unless already changed)
             if ($productUrl->getEntity() === $this) {
                 $productUrl->setEntity(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ProductItem[]
-     */
-    public function getProductItems(): Collection
-    {
-        return $this->productItems;
-    }
-
-    public function addProductItem(ProductItem $productItem): self
-    {
-        if (!$this->productItems->contains($productItem)) {
-            $this->productItems[] = $productItem;
-            $productItem->setEntity($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductItem(ProductItem $productItem): self
-    {
-        if ($this->productItems->contains($productItem)) {
-            $this->productItems->removeElement($productItem);
-            // set the owning side to null (unless already changed)
-            if ($productItem->getEntity() === $this) {
-                $productItem->setEntity(null);
             }
         }
 
@@ -343,6 +287,63 @@ class Product
         if ($this->sales->contains($sale)) {
             $this->sales->removeElement($sale);
             $sale->removeProduct($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Catalog[]
+     */
+    public function getCatalog(): Collection
+    {
+        return $this->catalog;
+    }
+
+    public function addCatalog(Catalog $catalog): self
+    {
+        if (!$this->catalog->contains($catalog)) {
+            $this->catalog[] = $catalog;
+        }
+
+        return $this;
+    }
+
+    public function removeCatalog(Catalog $catalog): self
+    {
+        if ($this->catalog->contains($catalog)) {
+            $this->catalog->removeElement($catalog);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductItem[]
+     */
+    public function getProductItems(): Collection
+    {
+        return $this->productItems;
+    }
+
+    public function addProductItem(ProductItem $productItem): self
+    {
+        if (!$this->productItems->contains($productItem)) {
+            $this->productItems[] = $productItem;
+            $productItem->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductItem(ProductItem $productItem): self
+    {
+        if ($this->productItems->contains($productItem)) {
+            $this->productItems->removeElement($productItem);
+            // set the owning side to null (unless already changed)
+            if ($productItem->getProduct() === $this) {
+                $productItem->setProduct(null);
+            }
         }
 
         return $this;

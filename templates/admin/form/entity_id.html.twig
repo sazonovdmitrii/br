@@ -1,0 +1,6 @@
+{% block _items_entity_id_widget %}
+    {% set product = form.parent.vars.value.product %}
+    {% if product %}
+    <input type="hidden" name="entity_id" value="{{ product.id }}"/>
+    {% endif %}
+{% endblock %}

@@ -1,6 +1,13 @@
 #easyadmin-new-ProductTag label[for=producttag_productTagItems],
 label[for=catalog_catalogUrls],
-label[for=catalog_productTagItems]
+label[for=catalog_productTagItems],
+label[for=product_producttagitem],
+label[for=product_productItems],
+label[for=product_catalog],
+label[for=product_producttagitem],
+.easyadmin.edit-product #_easyadmin_form_design_element_7 label,
+.new-items label[for=items_product_id],
+.edit-items label[for=items_product_id]
 {
     display: none;
 }

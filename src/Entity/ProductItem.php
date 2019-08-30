@@ -7,14 +7,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Entity\File as EmbeddedFile;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\EntityManagerInterface;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductItemRepository")
- * @Vich\Uploadable
  */
 class ProductItem
 {
@@ -44,12 +41,6 @@ class ProductItem
      * @ORM\OneToMany(targetEntity="App\Entity\BasketItem", mappedBy="product_item_id")
      */
     private $basketItems;
-
-    /**
-     * @Vich\UploadableField(mapping="product_images", fileNameProperty="productItemImages")
-     * @var File
-     */
-    private $imageFile;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProductItemImage", mappedBy="product_item_id", cascade={"persist", "remove" })
@@ -91,6 +82,11 @@ class ProductItem
      */
     private $orderItems;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="productItems")
+     */
+    private $product;
+
     public function __construct()
     {
         $this->product_id = new ArrayCollection();
@@ -99,6 +95,7 @@ class ProductItem
         $this->productItemImages = new ArrayCollection();
         $this->importRelations = new ArrayCollection();
         $this->orderItems = new ArrayCollection();
+        $this->created = new \DateTime();
     }
 
     public function getId(): ?int
@@ -361,6 +358,18 @@ class ProductItem
                 $orderItem->setItem(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

@@ -2,10 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Catalog;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use App\Service\AdminTagService;
 use App\Entity\Product;
+use App\Service\ProductService;
 
 class ProductController extends BaseAdminController
 {
@@ -13,9 +15,14 @@ class ProductController extends BaseAdminController
 
     private $tagService;
 
-    public function __construct(AdminTagService $tagService)
-    {
+    private $productService;
+
+    public function __construct(
+        AdminTagService $tagService,
+        ProductService $productService
+    ) {
         $this->tagService = $tagService;
+        $this->productService = $productService;
     }
 
     protected function editAction()
@@ -73,6 +80,11 @@ class ProductController extends BaseAdminController
                     ->setEntityType(Product::class)
                     ->setEntity($entity)
                     ->update();
+            }
+            if($catalogsIds = $this->request->request->get('catalogs')) {
+                $this->productService
+                    ->setProduct($entity)
+                    ->updateCatalogs($catalogsIds);
             }
             return $this->redirectToReferrer();
         }

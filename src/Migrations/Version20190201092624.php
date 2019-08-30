@@ -24,11 +24,6 @@ final class Version20190201092624 extends AbstractMigration
 
         $this->addSql('ALTER TABLE product_catalogproduct DROP CONSTRAINT fk_cb14854bf2252dfa');
         $this->addSql('DROP SEQUENCE catalogproduct_id_seq CASCADE');
-        $this->addSql('CREATE TABLE product_catalog (product_id INT NOT NULL, catalog_id INT NOT NULL, PRIMARY KEY(product_id, catalog_id))');
-        $this->addSql('CREATE INDEX IDX_CAF529F74584665A ON product_catalog (product_id)');
-        $this->addSql('CREATE INDEX IDX_CAF529F7CC3C66FC ON product_catalog (catalog_id)');
-        $this->addSql('ALTER TABLE product_catalog ADD CONSTRAINT FK_CAF529F74584665A FOREIGN KEY (product_id) REFERENCES Product (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE product_catalog ADD CONSTRAINT FK_CAF529F7CC3C66FC FOREIGN KEY (catalog_id) REFERENCES Catalog (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('DROP TABLE product_catalogproduct');
         $this->addSql('DROP TABLE catalogproduct');
     }
@@ -46,6 +41,5 @@ final class Version20190201092624 extends AbstractMigration
         $this->addSql('CREATE TABLE catalogproduct (id INT NOT NULL, product_id INT NOT NULL, catalog_id INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('ALTER TABLE product_catalogproduct ADD CONSTRAINT fk_cb14854b4584665a FOREIGN KEY (product_id) REFERENCES product (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE product_catalogproduct ADD CONSTRAINT fk_cb14854bf2252dfa FOREIGN KEY (catalogproduct_id) REFERENCES catalogproduct (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('DROP TABLE product_catalog');
     }
 }
