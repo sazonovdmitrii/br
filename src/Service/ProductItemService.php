@@ -38,8 +38,9 @@ class ProductItemService extends AbstractController
             $productItemImage = $this->entityManager
                 ->getRepository('App:ProductItemImage')
                 ->find($imagesId);
-
-            $productItem->addProductItemImage($productItemImage);
+            if($productItemImage) {
+                $productItem->addProductItemImage($productItemImage);
+            }
         }
 
         $this->entityManager->persist($productItem);
