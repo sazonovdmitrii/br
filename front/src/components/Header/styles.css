@@ -1,5 +1,6 @@
 .root {
-    height: 50px;
+    height: 60px;
+    background: var(--color-background);
 
     @media (--viewport-tablet) {
         height: 100px;
@@ -60,17 +61,8 @@
 }
 
 .content {
-    z-index: 960;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: var(--color-background);
-
-    @media (--viewport-tablet) {
-        z-index: 970;
-        position: relative;
-    }
+    z-index: 970;
+    position: relative;
 }
 
 .item {

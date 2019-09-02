@@ -134,7 +134,7 @@ export default () => {
     return (
         <Switch>
             {['en'].map((lang, index) => (
-                <Route key={index} path={`/${lang}`} component={() => <App lang={lang} />} exact />
+                <Route key={index} path={`/${lang}`} component={() => <App lang={lang} />} />
             ))}
             <Route path={`/`} component={() => <App lang={defaultLang} />} exact />
             <Route component={NotFound} />

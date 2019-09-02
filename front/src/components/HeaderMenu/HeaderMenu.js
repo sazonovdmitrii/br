@@ -9,14 +9,7 @@ const cx = classnames.bind(styles);
 
 const HeaderMenu = ({ items }) => {
     const [state, setState] = useState({ active: null });
-
     const rootClassName = cx(styles.root, { active: state.active });
-    const handleMouseEnter = index => {
-        setState({ active: index });
-    };
-    const handleMouseLeave = () => {
-        setState({ active: null });
-    };
 
     if (!items.length) return null;
 
@@ -32,24 +25,32 @@ const HeaderMenu = ({ items }) => {
 
                 return (
                     <li key={url} className={styles.item}>
-                        <button
-                            type="button"
-                            className={linkClassName}
-                            onClick={() => handleMouseEnter(state.active === index ? null : index)}
-                        >
-                            {text}
-                        </button>
                         {children.length ? (
-                            <ul className={submenuClassName}>
-                                {children.map(child => (
-                                    <li key={child.url} className={styles.childCol}>
-                                        <Link className={styles.childLink} to={child.url}>
-                                            <span className={styles.childText}>{child.text}</span>
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : null}
+                            <>
+                                <button
+                                    type="button"
+                                    className={linkClassName}
+                                    onClick={() =>
+                                        setState({ active: state.active === index ? null : index })
+                                    }
+                                >
+                                    {text}
+                                </button>
+                                <ul className={submenuClassName}>
+                                    {children.map(child => (
+                                        <li key={child.url} className={styles.childCol}>
+                                            <Link className={styles.childLink} to={child.url}>
+                                                <span className={styles.childText}>{child.text}</span>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
+                        ) : (
+                            <Link className={styles.link} to={url}>
+                                {text}
+                            </Link>
+                        )}
                     </li>
                 );
             })}
@@ -58,13 +59,11 @@ const HeaderMenu = ({ items }) => {
 };
 
 HeaderMenu.defaultProps = {
-    className: null,
     items: [],
 };
 
 HeaderMenu.propTypes = {
     items: PropTypes.arrayOf(PropTypes.string),
-    className: PropTypes.string,
 };
 
 export default HeaderMenu;
