@@ -7,7 +7,8 @@ label[for=product_catalog],
 label[for=product_producttagitem],
 .easyadmin.edit-product #_easyadmin_form_design_element_7 label,
 .new-items label[for=items_product_id],
-.edit-items label[for=items_product_id]
+.edit-items label[for=items_product_id],
+.edit-items label[for=items_productItemImages]
 {
     display: none;
 }

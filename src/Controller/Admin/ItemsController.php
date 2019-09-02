@@ -5,15 +5,21 @@ namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Doctrine\ORM\EntityManager;
+use App\Service\ProductItemService;
+use Symfony\Component\HttpFoundation\Response;
 
 class ItemsController extends BaseAdminController
 {
     private $entityManager;
 
+    private $productItemService;
+
     public function __construct(
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        ProductItemService $productItemService
     ) {
         $this->entityManager = $entityManager;
+        $this->productItemService = $productItemService;
     }
 
     public function editItemsAction()
@@ -51,6 +57,12 @@ class ItemsController extends BaseAdminController
             $this->executeDynamicMethod('update<EntityName>Entity', array($entity, $editForm));
 
             $this->dispatch(EasyAdminEvents::POST_UPDATE, array('entity' => $entity));
+
+            if($imagesIds = $this->request->request->get('images')) {
+                $this->productItemService
+                    ->setProductItem($entity)
+                    ->updateImages($imagesIds);
+            }
 
             return $this->redirectToReferrer();
         }
@@ -124,5 +136,19 @@ class ItemsController extends BaseAdminController
         );
         $template = 'admin/Items/new.html.twig';
         return $this->executeDynamicMethod('render<EntityName>Template', array('new', $template, $parameters));
+    }
+
+    public function deleteImageAction()
+    {
+        $image = $this->entityManager
+            ->getRepository('App:ProductItemImage')
+            ->find((int)$this->request->query->get('eid'));
+        $this->entityManager->remove($image);
+        $this->entityManager->flush();
+
+        $response = new Response();
+        $response->setContent(json_encode([]));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 }

@@ -62,13 +62,14 @@ easy_admin:
                 fields:
                     - id
                     - name
-                    - visible
             form:
                 fields:
+                    - { type: 'tab' , label: 'General' }
                     - name
                     - price
                     - { property: 'product_id', type_options: { block_name: 'entity_id'} }
-
+                    - { type: 'tab', label: 'Images' }
+                    - { property: 'productItemImages', type_options: { block_name: 'item_images' }}
         Product:
             class: App\Entity\Product
             controller: App\Controller\Admin\ProductController
@@ -216,6 +217,7 @@ easy_admin:
             - 'admin/form/catalogs_tags.html.twig'
             - 'admin/form/products_urls.html.twig'
             - 'admin/form/catalog_urls.html.twig'
+            - 'admin/form/item_images.html.twig'
         menu:
           - label: 'Urls'
             children: ['ProductUrl', 'CatalogUrl']
@@ -233,3 +235,5 @@ easy_admin:
                 - '/bundles/lp/css/lp.css'
             js:
                 - 'http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js'
+                - '/bundles/lp/js/jq-ui.js'
+                - '/bundles/lp/js/fileupload.js'

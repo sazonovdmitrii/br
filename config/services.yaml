@@ -7,6 +7,8 @@ parameters:
     locale: 'en'
     app.path.product_images: /uploads/images/products
     app.path.import_product: /public/uploads/import/
+    app.path.ProductItemImage: '%kernel.project_dir%/public/uploads/items'
+    app.url.ProductItemImage: '/uploads/items'
 
 services:
     # default configuration for services in *this* file
@@ -32,6 +34,10 @@ services:
     Doctrine\ORM\EntityManager: "@doctrine.orm.default_entity_manager"
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%app.path.ProductItemImage%'
 
     Redis:
         class: Redis

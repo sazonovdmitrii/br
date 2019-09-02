@@ -7,3 +7,4 @@ twig:
         tags: '@App\Service\Twig\Tags'
         catalog_urls: '@App\Service\Twig\CatalogUrls'
         catalogs: '@App\Service\Twig\Catalogs'
+        config: '@App\Service\Twig\Config'

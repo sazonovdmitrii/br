@@ -10,6 +10,10 @@ basket:
 profile:
     resource: "Lp/ProfileBundle/Resources/config/routing.yaml"
 
+images_upload:
+    path: /admin/images/upload
+    controller: App\Controller\Admin\ImagesController::upload
+
 easy_admin_bundle:
     resource: 'App\Controller\AdminController'
     prefix: /admin

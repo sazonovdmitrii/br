@@ -43,11 +43,6 @@ class ProductItem
     private $basketItems;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductItemImage", mappedBy="product_item_id", cascade={"persist", "remove" })
-     */
-    private $productItemImages;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
@@ -86,6 +81,11 @@ class ProductItem
      * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="productItems")
      */
     private $product;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductItemImage", mappedBy="product_item")
+     */
+    private $productItemImages;
 
     public function __construct()
     {
@@ -187,57 +187,6 @@ class ProductItem
         }
 
         return $this;
-    }
-
-    /**
-     * @return Collection|ProductItemImage[]
-     */
-    public function getProductItemImages(): Collection
-    {
-        return $this->productItemImages;
-    }
-
-    public function addProductItemImage(ProductItemImage $productItemImage): self
-    {
-        if (!$this->productItemImages->contains($productItemImage)) {
-            $this->productItemImages[] = $productItemImage;
-            $productItemImage->setProductItemId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductItemImage(ProductItemImage $productItemImage): self
-    {
-        if ($this->productItemImages->contains($productItemImage)) {
-            $this->productItemImages->removeElement($productItemImage);
-            // set the owning side to null (unless already changed)
-            if ($productItemImage->getProductItemId() === $this) {
-                $productItemImage->setProductItemId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function setImageFile($image = null)
-    {
-        foreach($image as $uploadedFile)
-        {
-            $file = new ProductItemImage();
-            $path = sha1(uniqid(mt_rand(), true)).'.'.$uploadedFile->guessExtension();
-            $file->setPath($path);
-            $file->setProductItemId($this);
-            $file->setTitle($uploadedFile->getClientOriginalName());
-            $uploadedFile->move(__DIR__ . '/../../public/uploads/images/products', $path);
-//            $this->addProductItemImage($file);
-//            unset($uploadedFile);
-        }
-    }
-
-    public function getImageFile()
-    {
-        return $this->getProductItemImages()->getValues();
     }
 
     public function getUpdated(): ?\DateTimeInterface
@@ -370,6 +319,37 @@ class ProductItem
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductItemImage[]
+     */
+    public function getProductItemImages(): Collection
+    {
+        return $this->productItemImages;
+    }
+
+    public function addProductItemImage(ProductItemImage $productItemImage): self
+    {
+        if (!$this->productItemImages->contains($productItemImage)) {
+            $this->productItemImages[] = $productItemImage;
+            $productItemImage->setProductItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductItemImage(ProductItemImage $productItemImage): self
+    {
+        if ($this->productItemImages->contains($productItemImage)) {
+            $this->productItemImages->removeElement($productItemImage);
+            // set the owning side to null (unless already changed)
+            if ($productItemImage->getProductItem() === $this) {
+                $productItemImage->setProductItem(null);
+            }
+        }
 
         return $this;
     }

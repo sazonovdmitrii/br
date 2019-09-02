@@ -2,12 +2,14 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Catalog;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use App\Service\AdminTagService;
 use App\Entity\Product;
+use App\Entity\ProductUrl;
 use App\Service\ProductService;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends BaseAdminController
 {
@@ -17,12 +19,75 @@ class ProductController extends BaseAdminController
 
     private $productService;
 
+    private $entityManager;
+
     public function __construct(
         AdminTagService $tagService,
-        ProductService $productService
+        ProductService $productService,
+        EntityManager $entityManager
     ) {
         $this->tagService = $tagService;
         $this->productService = $productService;
+        $this->entityManager = $entityManager;
+    }
+
+    protected function newAction()
+    {
+        $this->dispatch(EasyAdminEvents::PRE_NEW);
+
+        $entity = $this->executeDynamicMethod('createNew<EntityName>Entity');
+
+        $easyadmin         = $this->request->attributes->get('easyadmin');
+        $easyadmin['item'] = $entity;
+        $this->request->attributes->set('easyadmin', $easyadmin);
+
+        $fields = $this->entity['new']['fields'];
+
+        $newForm = $this->executeDynamicMethod('create<EntityName>NewForm', array($entity, $fields));
+
+        $newForm->handleRequest($this->request);
+        if ($newForm->isSubmitted() && $newForm->isValid()) {
+            $this->dispatch(EasyAdminEvents::PRE_PERSIST, array('entity' => $entity));
+
+            $this->executeDynamicMethod('prePersist<EntityName>Entity', array($entity, true));
+            $this->executeDynamicMethod('persist<EntityName>Entity', array($entity, $newForm));
+
+            $this->dispatch(EasyAdminEvents::POST_PERSIST, array('entity' => $entity));
+            if($tags = $this->tagService->parseRequest($this->request->request->all())) {
+                $this->tagService
+                    ->setTags($tags)
+                    ->setEntityType(Product::class)
+                    ->setEntity($entity)
+                    ->update();
+            }
+            if($catalogsIds = $this->request->request->get('catalogs')) {
+                $this->productService
+                    ->setProduct($entity)
+                    ->updateCatalogs($catalogsIds);
+            }
+            if ($urlsIds = $this->request->request->get('url')) {
+                $this->productService
+                    ->setProduct($entity)
+                    ->updateProductUrls($urlsIds);
+            }
+
+            return $this->redirectToReferrer();
+        }
+
+        $this->dispatch(EasyAdminEvents::POST_NEW, array(
+                'entity_fields' => $fields,
+                'form'          => $newForm,
+                'entity'        => $entity,
+            )
+        );
+
+        $parameters = array(
+            'form'          => $newForm->createView(),
+            'entity_fields' => $fields,
+            'entity'        => $entity,
+        );
+
+        return $this->executeDynamicMethod('render<EntityName>Template', array('new', $this->entity['templates']['new'], $parameters));
     }
 
     protected function editAction()
@@ -86,6 +151,11 @@ class ProductController extends BaseAdminController
                     ->setProduct($entity)
                     ->updateCatalogs($catalogsIds);
             }
+            if ($urlsIds = $this->request->request->get('url')) {
+                $this->productService
+                    ->setProduct($entity)
+                    ->updateProductUrls($urlsIds);
+            }
             return $this->redirectToReferrer();
         }
 
@@ -100,5 +170,36 @@ class ProductController extends BaseAdminController
         );
 
         return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->_template, $parameters));
+    }
+
+    protected function addUrlAction()
+    {
+        $url = $this->request->request->get('url');
+
+        $checkUrl = $this->entityManager->getRepository('App:ProductUrl')->findOneBy(
+            ['url' => $url]
+        );
+
+        if ($checkUrl) {
+            $id = $checkUrl->getId();
+        } else {
+            $productUrl = new ProductUrl();
+            $productUrl->setUrl($url);
+
+            $this->entityManager->persist($productUrl);
+            $this->entityManager->flush();
+
+            $id = $productUrl->getId();
+        }
+
+
+        $response = new Response();
+        $response->setContent(json_encode([
+                    'id' => $id
+                ]
+            )
+        );
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 }

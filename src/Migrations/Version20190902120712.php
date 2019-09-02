@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190313174047 extends AbstractMigration
+final class Version20190902120712 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,7 @@ final class Version20190313174047 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('CREATE SEQUENCE ProductItemImage_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE ProductItemImage (id INT NOT NULL, path VARCHAR(255) NOT NULL, created TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('ALTER TABLE productitem ALTER image SET NOT NULL');
+        $this->addSql('ALTER TABLE productitemimage ALTER title DROP NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -33,8 +31,6 @@ final class Version20190313174047 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('DROP SEQUENCE ProductItemImage_id_seq CASCADE');
-        $this->addSql('DROP TABLE ProductItemImage');
-        $this->addSql('ALTER TABLE ProductItem ALTER image DROP NOT NULL');
+        $this->addSql('ALTER TABLE ProductItemImage ALTER title SET NOT NULL');
     }
 }

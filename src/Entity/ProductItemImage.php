@@ -17,41 +17,33 @@ class ProductItemImage
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ProductItem", inversedBy="productItemImages")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $product_item_id;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $path;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ProductItem", inversedBy="productItemImages")
+     */
+    private $product_item;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $title;
+
+    public function __construct()
+    {
+        $this->created = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getProductItemId(): ?ProductItem
-    {
-        return $this->product_item_id;
-    }
-
-    public function setProductItemId(?ProductItem $product_item_id): self
-    {
-        $this->product_item_id = $product_item_id;
-
-        return $this;
     }
 
     public function getPath(): ?string
@@ -66,18 +58,6 @@ class ProductItemImage
         return $this;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
     public function getCreated(): ?\DateTimeInterface
     {
         return $this->created;
@@ -88,5 +68,33 @@ class ProductItemImage
         $this->created = $created;
 
         return $this;
+    }
+
+    public function getProductItem(): ?ProductItem
+    {
+        return $this->product_item;
+    }
+
+    public function setProductItem(?ProductItem $product_item): self
+    {
+        $this->product_item = $product_item;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return self::class;
     }
 }
