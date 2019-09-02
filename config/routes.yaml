@@ -14,6 +14,10 @@ images_upload:
     path: /admin/images/upload
     controller: App\Controller\Admin\ImagesController::upload
 
+images_delete:
+    path: /admin/images/delete
+    controller: App\Controller\Admin\ImagesController::delete
+
 easy_admin_bundle:
     resource: 'App\Controller\AdminController'
     prefix: /admin

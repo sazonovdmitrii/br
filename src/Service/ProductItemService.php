@@ -33,10 +33,6 @@ class ProductItemService extends AbstractController
     {
         $productItem = $this->getProductItem();
 
-        $this->getDoctrine()
-            ->getRepository(ProductItemImage::class)
-            ->flushByProductItem($productItem);
-
         foreach($imagesIds as $imagesId) {
 
             $productItemImage = $this->entityManager

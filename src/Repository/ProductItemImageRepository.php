@@ -19,14 +19,6 @@ class ProductItemImageRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductItemImage::class);
     }
 
-    public function flushByProductItem($productItem)
-    {
-        $query = 'DELETE FROM productitemimage WHERE product_item_id = :product_item_id';
-        $statement = $this->_em->getConnection()->prepare($query);
-        $statement->bindValue('product_item_id', $productItem->getId());
-        $statement->execute();
-    }
-
     // /**
     //  * @return ProductItemImage[] Returns an array of ProductItemImage objects
     //  */

@@ -49,6 +49,28 @@ class ImagesController extends BaseAdminController
         return $response;
     }
 
+    public function delete(Request $request)
+    {
+        $type = $request->query->get('type');
+
+        $image = $this->entityManager
+            ->getRepository('App:' . $type)
+            ->find((int)$request->query->get('eid'));
+
+        if($image) {
+            $this->entityManager->remove($image);
+            $this->entityManager->flush();
+        }
+
+        @unlink($this->getPath($type) . '/' . $image->getPath());
+
+        $response = new Response();
+        $response->setContent(json_encode([]));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
     public function getPath($type)
     {
         return $this->getParameter('app.path.' . $type);

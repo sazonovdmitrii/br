@@ -104,14 +104,20 @@ class ItemsController extends BaseAdminController
 
             $this->dispatch(EasyAdminEvents::POST_PERSIST, array('entity' => $entity));
 
-            $entity->setProduct($this->entityManager
-                ->getRepository('App:Product')
-                ->find(
-                    $this->request->request->get('entity_id')
-                )
-            );
+            if($entityId = $this->request->request->get('entity_id')) {
+                $entity->setProduct($this->entityManager
+                    ->getRepository('App:Product')
+                    ->find($entity)
+                );
+            }
             $this->entityManager->persist($entity);
             $this->entityManager->flush();
+
+            if($imagesIds = $this->request->request->get('images')) {
+                $this->productItemService
+                    ->setProductItem($entity)
+                    ->updateImages($imagesIds);
+            }
 
             return $this->redirectToReferrer();
         }
@@ -122,11 +128,16 @@ class ItemsController extends BaseAdminController
             'entity' => $entity,
         ));
 
-        $product = $this->entityManager
-            ->getRepository('App:Product')
-            ->find($productId);
+        $product = false;
+        if($productId) {
+            $product = $this->entityManager
+                ->getRepository('App:Product')
+                ->find($productId);
+        }
 
-        $entity->setProduct($product);
+        if($product) {
+            $entity->setProduct($product);
+        }
 
         $parameters = array(
             'form' => $newForm->createView(),
@@ -136,19 +147,5 @@ class ItemsController extends BaseAdminController
         );
         $template = 'admin/Items/new.html.twig';
         return $this->executeDynamicMethod('render<EntityName>Template', array('new', $template, $parameters));
-    }
-
-    public function deleteImageAction()
-    {
-        $image = $this->entityManager
-            ->getRepository('App:ProductItemImage')
-            ->find((int)$this->request->query->get('eid'));
-        $this->entityManager->remove($image);
-        $this->entityManager->flush();
-
-        $response = new Response();
-        $response->setContent(json_encode([]));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
     }
 }

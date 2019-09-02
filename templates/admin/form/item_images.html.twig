@@ -46,7 +46,7 @@
         function delete_image(btn) {
             if(confirm('Удалить картинку?')) {
                 var img = $(btn).parents(".image_item");
-                $.post("/admin/?" + $.param({'entity': 'Items', 'action': 'deleteImage', 'eid': img.attr('eid')}), {}, function(data) {
+                $.get("/admin/images/delete?" + $.param({'eid': img.attr('eid'), 'type': 'ProductItemImage'}), {}, function(data) {
                     if(data.error) {
                         alert(data.error);
                     } else {
@@ -62,7 +62,7 @@
 	        <img src="${path}" class="img-thumbnail">
 	        <div>
 	            <button onclick="delete_image(this)" class="btn btn-default" type="button">
-	                <span class="glyphicon glyphicon-trash"></span>
+	                <span class="glyphicon glyphicon-trash">Удалить</span>
 	            </button>
 	        </div>
 	    </div>
