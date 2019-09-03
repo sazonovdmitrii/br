@@ -28,7 +28,7 @@ class ProductResolver implements ResolverInterface, AliasedInterface {
     {
         $productUrl = $this->em
             ->getRepository('App:ProductUrl')
-            ->findByUrl($args['slug']);
+            ->findByUrl($args['slug'] . '/');
 
         if($productUrl) {
             return $productUrl->getEntity();

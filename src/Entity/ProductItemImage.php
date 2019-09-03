@@ -48,7 +48,7 @@ class ProductItemImage
 
     public function getPath(): ?string
     {
-        return $this->path;
+        return '/uploads/items/' . $this->path;
     }
 
     public function setPath(string $path): self

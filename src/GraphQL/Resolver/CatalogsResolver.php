@@ -34,7 +34,7 @@ class CatalogsResolver implements ResolverInterface, AliasedInterface {
         if($parsed['path']) {
             $catalogUrl = $this->em
                 ->getRepository('App:CatalogUrl')
-                ->findByUrl($parsed['path']);
+                ->findByUrl($parsed['path'] . '/');
         }
 
         if($catalogUrl) {

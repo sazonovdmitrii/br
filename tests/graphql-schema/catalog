@@ -1,5 +1,5 @@
 {
-  catalog(slug: "parfumeriya") {
+  catalog(slug: "asdfasdf") {
     id
     name
     count

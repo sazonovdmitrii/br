@@ -1,5 +1,5 @@
 {
-  product(slug: "paco-rabanne-tualetnaya-voda-1-million.htm"){
+  product(slug: "asdfasdf"){
     id,
     name,
     items(limit: 40, offset:0) {
@@ -8,24 +8,16 @@
           id
           name
           price
+          productItemImages {
+            id
+            path
+          }
         }
       }
     }
     tags{
       name
       value
-    }
-    other_fragrance{
-      id
-      name
-    }
-    other_brand{
-      id
-      name
-    }
-    similars {
-      id
-      name
     }
   }
 }

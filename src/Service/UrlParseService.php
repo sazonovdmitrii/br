@@ -49,6 +49,9 @@ class UrlParseService extends AbstractController
                     if($stopTags) {
                         $stopTags = explode(',', $stopTags);
                     }
+                    if(!$stopTags) {
+                        $stopTags = [];
+                    }
 
                     $pathExists = false;
                     foreach (explode('-', $urlComponent) as $urlTagPart) {

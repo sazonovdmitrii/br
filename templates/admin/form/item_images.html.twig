@@ -15,7 +15,7 @@
     <div id="images_list">
         {% for key, image in entity.productItemImages %}
             <div class="image_item col-sm-2" eid="{{ image.id }}">
-                <img src="{{ config.get('app.url.ProductItemImage') }}/{{ image.path }}" class="img-thumbnail">
+                <img src="{{ image.path }}" class="img-thumbnail">
                 <div>
                     <button onclick="delete_image(this)" class="btn btn-default" type="button">
                         <span class="glyphicon glyphicon-trash">Удалить</span>

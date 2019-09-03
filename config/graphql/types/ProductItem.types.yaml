@@ -12,3 +12,17 @@ ProductItem:
       price:
         type: "String"
         description: "Product Item Price"
+      productItemImages:
+        type: "[ProductItemImage]"
+        description: "Product Item Image"
+ProductItemImage:
+  type: object
+  config:
+    description: "Product Item Image"
+    fields:
+      id:
+        type: "String"
+        description: "Product Image Id"
+      path:
+        type: "String"
+        description: "Product Image Path"
