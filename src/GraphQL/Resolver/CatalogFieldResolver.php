@@ -44,6 +44,11 @@ class CatalogFieldResolver implements ResolverInterface, AliasedInterface {
         return $catalog->getName();
     }
 
+    public function catalogUrls(Catalog $catalog)
+    {
+        return $catalog->getCatalogUrls();
+    }
+
     public function id(Catalog $catalog)
     {
         return $catalog->getId();

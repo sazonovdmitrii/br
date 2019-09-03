@@ -16,6 +16,9 @@ Product:
       items:
         type: ItemConnection
         argsBuilder: PaginatoringBuilder
+      catalog:
+        type: "[Catalog]"
+        description: "Product Catalog"
       tags:
         type: "[ProductFilters]"
         description: "Product Filter"
@@ -30,3 +33,14 @@ ProductFilters:
       value:
         type: "String"
         description: "Product Filter Value"
+ProductCatalog:
+  type: object
+  config:
+    description: "Product Catalog Item"
+    fields:
+      name:
+        type: "String"
+        description: "Product Catalog Name."
+      value:
+        type: "String"
+        description: "Product Catalog Value"

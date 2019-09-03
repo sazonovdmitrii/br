@@ -73,6 +73,11 @@ class ProductFieldResolver implements ResolverInterface
         return $product->getName();
     }
 
+    public function catalog(Product $product)
+    {
+        return $product->getCatalog();
+    }
+
     /**
      * @param Product $product
      * @return mixed|string

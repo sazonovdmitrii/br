@@ -20,6 +20,9 @@ Catalog:
       tags:
         type: "[CatalogFilters]"
         description: "Catalog Filter"
+      catalogUrls:
+        type: "[CatalogUrl]"
+        description: "Catalog Urls"
 
 CatalogFilters:
   type: object
@@ -50,3 +53,15 @@ CatalogFilterItem:
       count:
         type: "Int"
         description: "Count products in selected filter"
+
+CatalogUrl:
+  type: object
+  config:
+    description: "Catalog Url Item"
+    fields:
+      id:
+        type: "Int!"
+        description: "Catalog Url Item Id."
+      url:
+        type: "String"
+        description: "Catalog Url Item Name"
