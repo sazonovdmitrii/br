@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { isProd } from 'utils';
+
 import Colors from 'components/Colors';
 
 import Loader from './Loader';
@@ -23,7 +25,7 @@ const ProductCard = ({
     price,
 }) => {
     const [color, setColor] = useState(1);
-    const image = items.edges[0].node.productItemImages[0].length
+    const image = items.edges[0].node.productItemImages.length
         ? `${isProd ? '' : 'http://br.morphes.ru'}${items.edges[0].node.productItemImages[0].path}`
         : 'https://placehold.it/377x167';
 
