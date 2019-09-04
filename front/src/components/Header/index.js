@@ -14,13 +14,13 @@ import styles from './styles.css';
 const cx = classnames.bind(styles);
 
 export default () => {
-    const [showMobileMenu, setMobileMenu] = useState(false);
+    const [open, setOpen] = useState(false);
     const iconClassName = cx(styles.burgerIcon, {
-        open: showMobileMenu,
+        open,
     });
 
     const handleClick = () => {
-        setMobileMenu(!showMobileMenu);
+        setOpen(!open);
     };
 
     return (
@@ -55,7 +55,7 @@ export default () => {
                     </div>
                 </div>
             </Container>
-            <HeaderMenu active={showMobileMenu} />
+            <HeaderMenu active={open} />
         </header>
     );
 };

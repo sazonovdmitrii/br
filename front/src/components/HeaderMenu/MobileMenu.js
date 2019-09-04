@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -13,6 +13,7 @@ const cx = classnames.bind(styles);
 const MobileMenu = ({ items, active }) => {
     const [activeItem, setActiveItem] = useState(null);
     const rootClassName = cx(styles.root, { active });
+    const rootNode = useRef(null);
     const overlayNode = useRef(null);
 
     useOnClickOutside(overlayNode, () => {
@@ -20,9 +21,24 @@ const MobileMenu = ({ items, active }) => {
     });
 
     if (!items.length) return null;
+    if (typeof document === 'undefined') return null;
+
+    const domNode = document.body;
+    useEffect(() => {
+        if (active) {
+            if (window.innerWidth !== rootNode.current.clientWidth) {
+                domNode.style.paddingRight = '15px';
+            }
+            domNode.style.overflow = 'hidden';
+        }
+
+        return () => {
+            domNode.style = null;
+        };
+    }, [domNode.style, active]);
 
     return (
-        <div className={rootClassName}>
+        <div ref={rootNode} className={rootClassName}>
             <div className={styles.inner}>
                 <ul className={styles.menu}>
                     {items.map(({ text, url, children }, index) => {
@@ -38,7 +54,11 @@ const MobileMenu = ({ items, active }) => {
                         });
 
                         return (
-                            <li key={url} className={styles.item} ref={children.length ? overlayNode : null}>
+                            <li
+                                key={index}
+                                className={styles.item}
+                                ref={children.length ? overlayNode : null}
+                            >
                                 {children.length ? (
                                     <>
                                         <button
@@ -92,7 +112,7 @@ MobileMenu.defaultProps = {
 };
 
 MobileMenu.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.string),
+    items: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default MobileMenu;

@@ -4,9 +4,12 @@ import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import classnames from 'classnames/bind';
+import { FormattedMessage } from 'react-intl';
 
 // import { ADD_TO_BASKET } from 'mutations';
 // import { GET_SHORT_BASKET } from 'query';
+
+import { isProd } from 'utils';
 
 import { seoHead } from 'utils';
 import Button from 'components/Button';
@@ -21,7 +24,7 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Product = ({ name, id, items, images, description, tags, history, text }) => {
+const Product = ({ name, id, items, description, tags, history, text }) => {
     const [tabIndex, setTabIndex] = useState(0);
     const [error, setError] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(items.edges[0].node);
@@ -74,6 +77,7 @@ const Product = ({ name, id, items, images, description, tags, history, text }) 
     const handleShowCL = () => {
         setShowChooseLenses(!showChooseLenses);
     };
+    const images = items.edges.reduce((acc, { node }) => acc.concat(node.productItemImages), []);
 
     return (
         <>
@@ -83,8 +87,12 @@ const Product = ({ name, id, items, images, description, tags, history, text }) 
                     <div className={styles.carouselWrapper}>
                         <Carousel>
                             {images.map(item => (
-                                <div key={item} className={styles.slide}>
-                                    <img className={styles.slideImage} src={item} alt="" />
+                                <div key={item.id} className={styles.slide}>
+                                    <img
+                                        className={styles.slideImage}
+                                        src={`${isProd ? '' : 'http://br.morphes.ru'}${item.path}`}
+                                        alt=""
+                                    />
                                 </div>
                             ))}
                         </Carousel>
@@ -135,7 +143,9 @@ const Product = ({ name, id, items, images, description, tags, history, text }) 
             >
                 {tags.length && (
                     <>
-                        <h2 className={styles.sectionTitle}>О оправе</h2>
+                        <h2 className={styles.sectionTitle}>
+                            <FormattedMessage id="about_the_frames" />
+                        </h2>
                         {tags.map(({ name, value }) => {
                             return (
                                 <p key={value}>
@@ -152,13 +162,11 @@ const Product = ({ name, id, items, images, description, tags, history, text }) 
                     <RichText expanded={false}>{text}</RichText>
                 </div>
             )}
-            <div className={styles.section}>
-                <Delivery
-                    title="Free shipping and free returns on every order"
-                    text="We have a 30-day, hassle-free return or exchange policy as well as a one-year, no scratch
+            <Delivery
+                title="Free shipping and free returns on every order"
+                text="We have a 30-day, hassle-free return or exchange policy as well as a one-year, no scratch
             guarantee for our lenses; we'll replace your scratched lenses for free within the first 12 months."
-                />
-            </div>
+            />
             <div className={styles.section}>
                 <h2 styles={styles.sectionTitle}>Другие товары</h2>
             </div>
@@ -169,10 +177,6 @@ const Product = ({ name, id, items, images, description, tags, history, text }) 
 Product.defaultProps = {
     items: [],
     name: 'Без названия',
-    images: [
-        'https://laparfumerie.ru/product/2016/07/18/4271_80597_658713_ru.jpg.normal.jpg',
-        'https://laparfumerie.ru/product/2016/07/01/4478_78658_656163_ru.jpg.normal.jpg',
-    ],
     tags: [],
     text: null,
 };

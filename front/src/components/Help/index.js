@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import classnames from 'classnames/bind';
 
@@ -12,9 +13,16 @@ const Help = ({ className }) => {
 
     return (
         <div className={rootClassName}>
-            <h4 className={styles.title}>Need a hand?</h4>
+            <h4 className={styles.title}>
+                <FormattedMessage id="need_a_hand" />?
+            </h4>
             <div className={styles.text}>
-                <p>We’re available by phone (888.492.7297) every day from 9 a.m.–9 p.m. ET.</p>
+                <p>
+                    <FormattedMessage
+                        id="help_subtitle"
+                        values={{ phone: '+7 (999) 1234-56-78', time: '9' }}
+                    />
+                </p>
             </div>
             <ul className={styles.items}>
                 <li>
@@ -27,7 +35,9 @@ const Help = ({ className }) => {
                                 role="presentation"
                             />
                         </span>
-                        <span className={styles.itemTitle}>Call</span>
+                        <span className={styles.itemTitle}>
+                            <FormattedMessage id="call" />
+                        </span>
                     </a>
                 </li>
                 <li>
@@ -40,7 +50,9 @@ const Help = ({ className }) => {
                                 role="presentation"
                             />
                         </span>
-                        <span className={styles.itemTitle}>FAQ</span>
+                        <span className={styles.itemTitle}>
+                            <FormattedMessage id="faq" />
+                        </span>
                     </a>
                 </li>
                 <li>
@@ -53,7 +65,9 @@ const Help = ({ className }) => {
                                 role="presentation"
                             />
                         </span>
-                        <span className={styles.itemTitle}>Email</span>
+                        <span className={styles.itemTitle}>
+                            <FormattedMessage id="email" />
+                        </span>
                     </a>
                 </li>
                 <li>
@@ -66,7 +80,9 @@ const Help = ({ className }) => {
                                 role="presentation"
                             />
                         </span>
-                        <span className={styles.itemTitle}>Text</span>
+                        <span className={styles.itemTitle}>
+                            <FormattedMessage id="text" />
+                        </span>
                     </a>
                 </li>
                 <li>
@@ -79,7 +95,9 @@ const Help = ({ className }) => {
                                 role="presentation"
                             />
                         </span>
-                        <span className={styles.itemTitle}>Chat</span>
+                        <span className={styles.itemTitle}>
+                            <FormattedMessage id="chat" />
+                        </span>
                     </a>
                 </li>
             </ul>

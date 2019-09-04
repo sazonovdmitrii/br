@@ -26,10 +26,9 @@ const ProductCard = ({
 
     if (loading) return <Loader />;
 
-    console.log(color);
     return (
         <div className={styles.root}>
-            <Link href={url} className={styles.imageWrapper} title={`Очки ${name}`}>
+            <Link to={url} className={styles.imageWrapper} title={`Очки ${name}`}>
                 <img className={styles.image} src="https://placehold.it/377x167" alt={`Очки ${name}`} />
             </Link>
             <h2 className={styles.title}>{name}</h2>

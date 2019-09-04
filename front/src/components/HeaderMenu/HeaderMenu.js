@@ -24,7 +24,7 @@ const HeaderMenu = ({ items }) => {
                 });
 
                 return (
-                    <li key={url} className={styles.item}>
+                    <li key={index} className={styles.item}>
                         {children.length ? (
                             <>
                                 <button
@@ -63,7 +63,7 @@ HeaderMenu.defaultProps = {
 };
 
 HeaderMenu.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.string),
+    items: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default HeaderMenu;
