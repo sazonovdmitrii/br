@@ -192,6 +192,9 @@ easy_admin:
                     - { property: 'region'}
         Page:
             class: App\Entity\Page
+            form:
+                fields:
+                    - { property: 'content', type: 'fos_ckeditor' }
         Direction:
             class: App\Entity\Direction
         District:
