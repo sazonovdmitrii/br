@@ -1,8 +1,8 @@
 .root {
     position: relative;
     padding: 15px;
-    border-bottom: 1px solid #eaecec;
     font-size: var(--font-size-base);
+    border-bottom: 1px solid #eaecec;
 }
 
 .inner {
@@ -15,13 +15,13 @@
 }
 
 .imageWrapper {
-    flex: none;
-    margin-right: 10px;
-    width: 60px;
-    height: 60px;
     display: flex;
+    flex: none;
     align-items: center;
     justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
 
     & img {
         max-height: 100%;
@@ -34,28 +34,28 @@
 }
 
 .info {
-    padding-top: 7px;
     display: flex;
     flex-direction: column;
+    padding-top: 7px;
 }
 
 .name {
     display: block;
-    line-height: 1.2;
     max-width: 80%;
     height: 40px;
     overflow: hidden;
+    line-height: 1.2;
 
     @media (--viewport-desktop) {
         max-width: 100%;
-        overflow: auto;
         height: auto;
+        overflow: auto;
     }
 }
 
 .description {
-    margin-top: 7px;
     flex-grow: 1;
+    margin-top: 7px;
     color: #757575;
 }
 
@@ -69,8 +69,8 @@
 }
 
 .price {
-    font-weight: 500;
     color: var(--color-primary);
+    font-weight: 500;
 }
 
 .amount {
@@ -86,21 +86,21 @@
 }
 
 .amountSelect {
-    font-size: var(--font-size-base);
     color: #757575;
+    font-size: var(--font-size-base);
     background: none;
     border: 0;
 }
 
 .removeButton {
-    background: none;
-    border: 0;
-    padding: 0;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
     position: absolute;
     right: 0;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
     transition: color 0.2s ease;
 
     &:hover,

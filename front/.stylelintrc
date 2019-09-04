@@ -1,0 +1,3 @@
+{
+    "extends": ["stylelint-config-km", "stylelint-config-rational-order"]
+}

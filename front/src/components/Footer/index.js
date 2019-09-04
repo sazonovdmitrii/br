@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import FooterTopBrands from 'components/FooterTopBrands';
 import FooterMenu from 'components/FooterMenu';
 import Socials from 'components/Socials';
 import Help from 'components/Help';
@@ -15,18 +14,15 @@ export default () => {
         <footer className={styles.root}>
             <section className={styles.top}>
                 <div className={styles.row}>
-                    <nav className={styles.menus}>
-                        <div className={styles.menu}>
-                            <h4 className={styles.menuTitle}>Products</h4>
-                            <ul className={styles.list}>
-                                <li className={styles.listItem}>
-                                    <Link className={styles.link} to="/eyeglasses">
-                                        Eyeglasses
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
+                    <FooterMenu
+                        className={styles.menu}
+                        items={[
+                            {
+                                name: 'products',
+                                childrens: [{ name: 'Мужские оправы', url: '/opravi-dlya-ochkov/' }],
+                            },
+                        ]}
+                    />
                     <Help className={styles.help} />
                 </div>
             </section>
@@ -34,20 +30,20 @@ export default () => {
                 <div className={styles.countries}>
                     <ul className="c-footer-country-selector u-db u-list-reset">
                         <li className="c-footer-country-selector__item u-dib">
-                            <a
+                            <Link
                                 href="/country/us"
                                 className="c-footer-country-selector__link u-color--dark-gray-alt-3 u-dib u-p10 u-fs10 u-fs12--600 u-link--nav -active"
                             >
                                 USA
-                            </a>
+                            </Link>
                         </li>
                         <li className="c-footer-country-selector__item u-dib">
-                            <a
+                            <Link
                                 href="/country/ca"
                                 className="c-footer-country-selector__link u-color--dark-gray-alt-3 u-dib u-p10 u-fs10 u-fs12--600 u-link--nav"
                             >
                                 Canada
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                     <div className={styles.socials}>
@@ -56,19 +52,19 @@ export default () => {
                 </div>
                 <ul className={styles.bottomMenu}>
                     <li className={styles.bottomMenuItem}>
-                        <a href="/privacy-policy">Privacy Policy</a>
+                        <Link href="/privacy-policy">Privacy Policy</Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <a href="/notice-of-privacy-practices">Notice of Privacy Practices</a>
+                        <Link href="/notice-of-privacy-practices">Notice of Privacy Practices</Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <a href="/terms-of-use">Terms of Use</a>
+                        <Link href="/terms-of-use">Terms of Use</Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <a href="/accessibility">Accessibility</a>
+                        <Link href="/accessibility">Accessibility</Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <a href="/process/ca-transparency-act">CA Transparency Act</a>
+                        <Link href="/process/ca-transparency-act">CA Transparency Act</Link>
                     </li>
                 </ul>
             </section>

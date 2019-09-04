@@ -1,5 +1,6 @@
 .root {
-    height: 50px;
+    height: 60px;
+    background: var(--color-background);
 
     @media (--viewport-tablet) {
         height: 100px;
@@ -8,8 +9,8 @@
 
 .row {
     display: flex;
-    padding: 22px 22px 0;
     align-items: center;
+    padding: 22px 22px 0;
 
     @media (--viewport-tablet) {
         margin-top: 12px;
@@ -17,8 +18,8 @@
 }
 
 .button {
-    height: 20px;
     width: 20px;
+    height: 20px;
 
     @media (--viewport-tablet) {
         display: none;
@@ -27,10 +28,10 @@
 
 .burgerIcon {
     display: block;
-    height: inherit;
     width: inherit;
-    max-height: inherit;
+    height: inherit;
     min-height: inherit;
+    max-height: inherit;
 
     &.open {
         & rect:nth-child(2) {
@@ -42,8 +43,8 @@
         }
 
         & rect:nth-child(3) {
-            transform-origin: left center;
             transform: rotate(-45deg) scaleX(1) translate(-1px);
+            transform-origin: left center;
         }
 
         & rect {
@@ -60,17 +61,8 @@
 }
 
 .content {
-    z-index: 960;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: var(--color-background);
-
-    @media (--viewport-tablet) {
-        z-index: 970;
-        position: relative;
-    }
+    position: relative;
+    z-index: 970;
 }
 
 .item {
@@ -79,8 +71,8 @@
 
 .logo {
     display: block;
-    margin: 0 auto;
     max-width: 151px;
+    margin: 0 auto;
 
     @media (--viewport-tablet) {
         max-width: 193px;

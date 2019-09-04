@@ -7,40 +7,40 @@
 }
 
 .header {
+    position: relative;
     display: flex;
     justify-content: center;
     padding: 15px;
-    position: relative;
     border-bottom: 2px solid #f2f5f4;
 }
 
 .title {
-    font-size: 20px;
     margin: 0;
+    font-size: 20px;
 
     @media (--viewport-desktop) {
-        font-size: 32px;
-        font-weight: 300;
         color: #424242;
+        font-weight: 300;
+        font-size: 32px;
     }
 }
 
 .amountSelect {
-    font-size: var(--font-size-base);
     color: #757575;
+    font-size: var(--font-size-base);
     background: none;
     border: 0;
 }
 
 .removeButton {
-    background: none;
-    border: 0;
-    padding: 0;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
     position: absolute;
     right: 0;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
     transition: color 0.2s ease;
 
     &:hover,
@@ -52,8 +52,8 @@
 .productsFooter {
     display: flex;
     flex-wrap: wrap;
-    padding: 15px;
     justify-content: space-between;
+    padding: 15px;
 }
 
 .productsFooterItem {
@@ -69,21 +69,21 @@
 }
 
 .blockTitle {
-    font-size: 20px;
     margin-bottom: 15px;
+    font-size: 20px;
 }
 
 .sidebar {
     position: fixed;
+    right: 0;
     bottom: 0;
     left: 0;
-    right: 0;
     z-index: 1300;
 
     @media (--viewport-tablet) {
         position: static;
-        box-shadow: none;
         margin-top: 40px;
+        box-shadow: none;
     }
 }
 

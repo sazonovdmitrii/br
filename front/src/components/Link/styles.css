@@ -1,6 +1,6 @@
 .root {
-    font-weight: 600;
     color: var(--color-primary);
+    font-weight: 600;
     transition: color 0.2s ease;
 
     &:hover,

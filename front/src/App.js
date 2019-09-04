@@ -7,6 +7,7 @@ import { IntlProvider } from 'react-intl';
 
 import routes from 'routes';
 import SEO from 'globalMeta';
+import LANGS from 'lang';
 
 import NotFound from 'routes/NotFound';
 import Header from 'components/Header';
@@ -72,8 +73,6 @@ const APPLE_TOUCH_ICON = [
     },
 ];
 
-const defaultLang = 'ru';
-
 const GET_MESSAGES = gql`
     query getMessages($lang: String) {
         getMessages(lang: $lang) @client
@@ -86,10 +85,10 @@ const SET_LANG_MUTATION = gql`
     }
 `;
 
+const defaultLang = LANGS.find(item => item.default);
+
 const App = ({ lang }) => {
-    const {
-        data: { getMessages },
-    } = useQuery(GET_MESSAGES, { variables: { lang } });
+    const { data: { getMessages = {} } = {} } = useQuery(GET_MESSAGES, { variables: { lang } });
     const [setLang] = useMutation(SET_LANG_MUTATION, {
         variables: { lang: lang },
     });
@@ -116,12 +115,10 @@ const App = ({ lang }) => {
                 <meta name="msapplication-TileImage" content="/favicons/ms-icon-144x144.png" />
                 <meta name="msapplication-config" content="/browserconfig.xml" />
                 <meta name="theme-color" content="#ffffff" />
-                <meta name="author" content="Laparfumerie.Ru" />
-                <meta name="wmail-verification" content="9bfc3f8e92e7da82009fa3fd0e7ca511" />
             </Helmet>
             <Header />
             <Switch>
-                {routes(lang !== defaultLang && lang).map((route, index) => (
+                {routes({ lang, defaultLang }).map((route, index) => (
                     <Route key={index} {...route} />
                 ))}
             </Switch>
@@ -133,10 +130,13 @@ const App = ({ lang }) => {
 export default () => {
     return (
         <Switch>
-            {['en'].map((lang, index) => (
-                <Route key={index} path={`/${lang}`} component={() => <App lang={lang} />} exact />
+            {LANGS.map((item, index) => (
+                <Route
+                    key={index}
+                    path={`/${item.default ? '' : item.value}`}
+                    component={() => <App lang={item.value} />}
+                />
             ))}
-            <Route path={`/`} component={() => <App lang={defaultLang} />} exact />
             <Route component={NotFound} />
         </Switch>
     );

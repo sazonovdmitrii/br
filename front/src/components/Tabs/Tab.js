@@ -6,13 +6,13 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Tab = ({ onClick, value, active, children, className }) => {
+const Tab = ({ onClick, value, active, children, className, ...props }) => {
     if (!children.length) return null;
 
     const buttonClassName = cx(styles.tab, className);
 
     return (
-        <button className={buttonClassName} type="button" onClick={() => onClick(value)}>
+        <button className={buttonClassName} type="button" onClick={() => onClick(value)} {...props}>
             {children}
         </button>
     );

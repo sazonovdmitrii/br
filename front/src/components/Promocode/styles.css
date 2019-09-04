@@ -29,17 +29,17 @@
 }
 
 .badge {
-    padding: 0 8px;
-    font-size: 16px;
     position: relative;
-    text-align: center;
-    white-space: nowrap;
     min-width: 90px;
     height: 25px;
-    line-height: 25px;
-    background: #ffa648;
+    padding: 0 8px;
     color: #fff;
+    font-size: 16px;
+    line-height: 25px;
+    white-space: nowrap;
+    text-align: center;
     text-transform: uppercase;
+    background: #ffa648;
 
     &::after {
         left: -4px;
@@ -51,13 +51,13 @@
 
     &::after,
     &::before {
-        content: '';
-        background: #fff;
         position: absolute;
+        top: 50%;
         width: 8px;
         height: 8px;
+        background: #fff;
         border-radius: 8px;
-        top: 50%;
         transform: translateY(-50%);
+        content: '';
     }
 }

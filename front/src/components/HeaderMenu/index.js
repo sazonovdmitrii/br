@@ -3,14 +3,12 @@ import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { GET_HEADER_MENU } from 'query';
 
-import SearchForm from 'components/SearchForm';
 import HeaderMenu from './HeaderMenu';
 import MobileMenu from './MobileMenu';
 
-
 const isClient = typeof window !== 'undefined';
 
-export default props => {
+export default ({ active }) => {
     const {
         data: { lang },
     } = useQuery(
@@ -21,11 +19,11 @@ export default props => {
         `
     );
 
+    console.log(lang, '🤡');
     const [isDesktop, setDesktop] = useState(isClient ? window.innerWidth > 768 : true);
 
     if (isClient) {
-        window.matchMedia('(max-width: 768px)').addListener(event => {
-            console.log('test');
+        window.matchMedia('(max-width: 768px)').addListener(() => {
             setDesktop(window.innerWidth > 768);
         });
     }
@@ -33,14 +31,14 @@ export default props => {
     const {
         loading,
         error,
-        data: { top_menu },
+        data: { top_menu: topMenu },
     } = useQuery(GET_HEADER_MENU, { variables: { locale: lang } });
 
-    if (loading) return null;
+    if (loading || error) return null;
 
     return isDesktop ? (
-        <HeaderMenu {...props} items={top_menu.data} />
+        <HeaderMenu active={active} items={topMenu.data} />
     ) : (
-        <MobileMenu {...props} items={top_menu.data} />
+        <MobileMenu active={active} items={topMenu.data} />
     );
 };

@@ -3,12 +3,13 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { X as CloseIcon } from 'react-feather';
-
+import { injectIntl, intlShape } from 'react-intl';
 import Input from 'components/Input';
 
 import styles from './styles.css';
 
-const SearchForm = ({ history, show, onClose }) => {
+const SearchForm = ({ history, show, onClose, intl }) => {
+    const placeholder = intl.formatMessage({ id: 'search' });
     const [search, setSearch] = useState('');
     const overlayNode = useRef(null);
 
@@ -39,15 +40,15 @@ const SearchForm = ({ history, show, onClose }) => {
     const Root = (
         <div className={styles.root} ref={overlayNode}>
             <div className={styles.inner}>
-                <button className={styles.closeButton}>
-                    <CloseIcon className={styles.closeIcon} size="16" onClick={onClose} />
+                <button className={styles.closeButton} onClick={onClose}>
+                    <CloseIcon className={styles.closeIcon} size="16" />
                 </button>
-                <div className={styles.title}>Search WARBY PARKER</div>
+                <div className={styles.title}>{placeholder} WARBY PARKER</div>
                 <input
                     type="text"
                     className={styles.input}
                     name="search"
-                    placeholder="Search"
+                    placeholder={placeholder}
                     value={search}
                     onChange={({ target: { value } }) => setSearch(value)}
                 />
@@ -73,4 +74,4 @@ SearchForm.propTypes = {
     history: PropTypes.object.isRequired,
 };
 
-export default withRouter(SearchForm);
+export default injectIntl(withRouter(SearchForm));

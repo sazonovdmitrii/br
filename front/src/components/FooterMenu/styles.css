@@ -1,0 +1,53 @@
+.menu {
+    position: relative;
+    margin-right: 18px;
+    margin-left: 18px;
+    padding-top: 30px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #d2d6d9;
+
+    &:last-child {
+        border-bottom: 0;
+    }
+
+    @media (--viewport-ipad) {
+        margin: 0;
+        padding: 0;
+        border-bottom: 0;
+    }
+}
+
+.title {
+    margin-bottom: 21px;
+    font-weight: 600;
+    font-size: 16px;
+
+    @media (--viewport-ipad) {
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+}
+
+.list {
+    margin: 0 -9px;
+}
+
+.item {
+    width: 0 0 50%;
+    margin-bottom: 18px;
+    padding: 0 9px;
+
+    @media (--viewport-ipad) {
+        width: 100%;
+    }
+}
+
+.link {
+    color: #676f78;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: var(--color-font);
+    }
+}

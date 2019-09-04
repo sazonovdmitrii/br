@@ -2,35 +2,26 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { isProd } from 'utils';
+
 import Colors from 'components/Colors';
 
 import Loader from './Loader';
 import styles from './styles.css';
 
-const ProductCard = ({
-    id,
-    url,
-    items = [],
-    sale,
-    secondary_image,
-    primary_image,
-    brand_name,
-    texts = {},
-    cantbuy,
-    min_price,
-    name,
-    loading,
-    price,
-}) => {
+const ProductCard = ({ id, url, items, name, loading, price }) => {
     const [color, setColor] = useState(1);
+    const image =
+        items.edges.length && items.edges[0].node.productItemImages.length
+            ? `${isProd ? '' : 'http://br.morphes.ru'}${items.edges[0].node.productItemImages[0].path}`
+            : 'https://placehold.it/377x167';
 
-    if (loading) return <Loader />;
+    // if (loading) return <Loader />;
 
-    console.log(color);
     return (
         <div className={styles.root}>
-            <Link href={url} className={styles.imageWrapper} title={`Очки ${name}`}>
-                <img className={styles.image} src="https://placehold.it/377x167" alt={`Очки ${name}`} />
+            <Link to={url} className={styles.imageWrapper} title={name}>
+                <img className={styles.image} src={image} alt={name} />
             </Link>
             <h2 className={styles.title}>{name}</h2>
             <div className={styles.colors}>
@@ -43,7 +34,7 @@ const ProductCard = ({
                     ]}
                     onChange={value => setColor(value)}
                 />
-                {/*<AddToFave className={styles.fave} id={id} faved={false} />*/}
+                {/* <AddToFave className={styles.fave} id={id} faved={false} /> */}
             </div>
         </div>
     );

@@ -10,8 +10,8 @@ strong {
 }
 
 body {
-    font: 400 16px/1.5 var(--font-sans-serif);
     color: var(--color-font);
+    font: 400 16px/1.5 var(--font-sans-serif);
     background: var(--color-background);
 }
 
@@ -25,9 +25,9 @@ a:active {
 
 img {
     display: inline-block;
-    vertical-align: middle;
     max-width: 100%;
     height: auto;
+    vertical-align: middle;
 }
 
 button {

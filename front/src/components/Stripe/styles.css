@@ -1,7 +1,7 @@
 .root {
-    border-radius: 4px;
-    background-color: rgb(49, 49, 49);
     padding: 12px 24px;
+    background-color: rgb(49, 49, 49);
+    border-radius: 4px;
 }
 
 .primary {

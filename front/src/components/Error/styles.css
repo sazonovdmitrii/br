@@ -1,5 +1,5 @@
 .errorMessage {
-    margin: 20px;
     display: flex;
     justify-content: center;
+    margin: 20px;
 }

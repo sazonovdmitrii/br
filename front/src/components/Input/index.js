@@ -101,7 +101,8 @@ const Input = ({
             <div className={wrapperClassName}>
                 {label && (
                     <label className={labelClassName} htmlFor={id}>
-                        {required ? `${label}*` : label}
+                        {label}
+                        {required && `*`}
                     </label>
                 )}
                 <textarea
@@ -129,7 +130,8 @@ const Input = ({
         <div className={wrapperClassName}>
             {label && (
                 <label className={labelClassName} htmlFor={id}>
-                    {required ? `${label}*` : label}
+                    {label}
+                    {required && `*`}
                 </label>
             )}
             <$Input

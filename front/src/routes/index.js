@@ -11,24 +11,23 @@ const getComponent = (component, opts) => {
     });
 };
 
-export default lang => {
-    const LANG_PREFIX = lang ? `/${lang}` : '';
+export default ({ lang, defaultLang }) => {
+    const LANG_PREFIX = defaultLang.value === lang ? '' : `/${lang}`;
 
     return [
-        {
-            component: getComponent('Home'),
-            exact: true,
-            path: `${LANG_PREFIX}/`,
-        },
         {
             path: '/account/:slug?',
             component: getComponent('User', { ssr: false }),
         },
         {
+            path: `${LANG_PREFIX}/retail`,
+            exact: true,
+            component: getComponent('Retail'),
+        },
+        {
             type: 'product',
             path: `${LANG_PREFIX}/:catalog?/:subcatalog?/:product.htm`,
             exact: true,
-            strict: true,
             component: getComponent('Product'),
         },
         {
@@ -36,6 +35,11 @@ export default lang => {
             path: `${LANG_PREFIX}/:catalog/:subcatalog?/:filter?`,
             exact: true,
             component: getComponent('Catalog'),
+        },
+        {
+            component: getComponent('Home'),
+            exact: true,
+            path: `${LANG_PREFIX}/`,
         },
         {
             component: NotFound,

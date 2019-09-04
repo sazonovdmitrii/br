@@ -4,8 +4,8 @@
 
 .imageWrapper {
     display: block;
-    padding: 0 2.43%;
     height: 120px;
+    padding: 0 2.43%;
 }
 
 .image {
@@ -13,28 +13,28 @@
 }
 
 .title {
-    font-size: 24px;
-    margin-bottom: 6px;
     margin-top: 24px;
+    margin-bottom: 6px;
     font-weight: 600;
+    font-size: 24px;
     font-family: var(--font-serif);
     line-height: calc(1em + 6px);
 }
 
 .colors {
+    position: relative;
     display: flex;
     justify-content: center;
-    position: relative;
-    padding: 0 30px;
     box-sizing: border-box;
     min-height: 40px;
+    padding: 0 30px;
 }
 
 .fave {
     position: absolute;
     top: 50%;
     right: 0;
-    transform: translateY(-50%);
     width: 21px;
     height: 21px;
+    transform: translateY(-50%);
 }

@@ -17,7 +17,7 @@ const Carousel = ({ children, className, color, disabledClassName, navigation, p
     };
 
     useEffect(() => {
-        if (carouselRef.current && children.length <= perPage) return;
+        if (!carouselRef.current && children.length <= perPage) return;
 
         const carousel = new Siema({
             selector: carouselRef.current,

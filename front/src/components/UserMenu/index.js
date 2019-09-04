@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+// import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
-import { User as UserIcon, Search as SearchIcon } from 'react-feather';
+import {
+    // User as UserIcon,
+    Search as SearchIcon,
+    MapPin as MapPinIcon,
+} from 'react-feather';
 
-import { useApp } from 'hooks';
-import { IS_LOGGED_IN } from 'query';
+// import { useApp } from 'hooks';
+// import { IS_LOGGED_IN } from 'query';
 
-import Button from 'components/Button';
+// import Button from 'components/Button';
 import SearchForm from 'components/SearchForm';
 
 import styles from './styles.css';
 
 const UserMenu = () => {
-    const { logout, login, locale } = useApp();
-    const {
-        data: { isLoggedIn },
-    } = useQuery(IS_LOGGED_IN);
-    const handleLogOut = () => {
-        logout();
-    };
+    // const { logout, login } = useApp();
+    // const {
+    //     data: { isLoggedIn },
+    // } = useQuery(IS_LOGGED_IN);
+    // const handleLogOut = () => {
+    //     logout();
+    // };
     const [showSearch, setShowSearch] = useState(false);
 
     return (
@@ -26,12 +30,19 @@ const UserMenu = () => {
             <SearchForm show={showSearch} onClose={() => setShowSearch(false)} />
             <li className={styles.item}>
                 <div className={styles.icon}>
+                    <Link to="/retail" className={styles.link}>
+                        <MapPinIcon size="20" />
+                    </Link>
+                </div>
+            </li>
+            <li className={styles.item}>
+                <div className={styles.icon}>
                     <button type="button" className={styles.link} onClick={() => setShowSearch(!showSearch)}>
                         <SearchIcon size="20" />
                     </button>
                 </div>
             </li>
-            {isLoggedIn ? (
+            {/* isLoggedIn ? (
                 <li className={styles.item}>
                     <Link className={styles.link} to="/account">
                         <div className={styles.icon}>
@@ -57,12 +68,7 @@ const UserMenu = () => {
                         </div>
                     </Link>
                 </li>
-            )}
-            <li className={styles.item}>
-                <Link type="button" className={styles.link} to="/account/login">
-                    <div className={styles.icon}>{locale}</div>
-                </Link>
-            </li>
+            ) */}
         </ul>
     );
 };
