@@ -27,7 +27,7 @@ const cx = classnames.bind(styles);
 const Product = ({ name, id, items, description, tags, history, text }) => {
     const [tabIndex, setTabIndex] = useState(0);
     const [error, setError] = useState(null);
-    const [selectedProduct, setSelectedProduct] = useState(items.edges[0].node);
+    const [selectedProduct, setSelectedProduct] = useState(items.edges.length ? items.edges[0].node : {});
     // const [addToCard, { data: addBasket, loadingMutation }] = useMutation(ADD_TO_BASKET, {
     //     variables: {
     //         input: {

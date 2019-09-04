@@ -1,20 +1,37 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames/bind';
+import { Link } from 'react-router-dom';
 
-export default ({ items = [] }) => {
-    return items.map((item, index) => {
-        return SEOHIDE && index >= 4 ? null : (
-            <div key={index} className="footer__colum">
-                <p className="footer__head">{item.title}</p>
-                {item.children.map((child, i) => (
-                    <ul key={i} className="footer__list">
-                        <li className="footer__list_item">
-                            <a href={child.url} className="footer__list_item_link">
-                                {child.title}
-                            </a>
-                        </li>
+import styles from './styles.css';
+
+const cx = classnames.bind(styles);
+
+const FooterMenu = ({ className, items, name }) => {
+    const rootClassName = cx(styles.root, className);
+
+    return (
+        <nav className={rootClassName}>
+            {items.map(item => (
+                <div className={styles.menu}>
+                    <h4 className={styles.title}>{item.name}</h4>
+                    <ul className={styles.list}>
+                        {item.childrens.map(child => (
+                            <li className={styles.item}>
+                                <Link className={styles.link} to={child.url}>
+                                    {child.name}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
-                ))}
-            </div>
-        );
-    });
+                </div>
+            ))}
+        </nav>
+    );
 };
+
+FooterMenu.defaultProps = {};
+
+FooterMenu.propTypes = {};
+
+export default FooterMenu;

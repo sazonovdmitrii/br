@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 // import { useQuery } from '@apollo/react-hooks';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
     // User as UserIcon,
     Search as SearchIcon,
+    MapPin as MapPinIcon,
 } from 'react-feather';
 
 // import { useApp } from 'hooks';
@@ -27,6 +28,13 @@ const UserMenu = () => {
     return (
         <ul className={styles.root}>
             <SearchForm show={showSearch} onClose={() => setShowSearch(false)} />
+            <li className={styles.item}>
+                <div className={styles.icon}>
+                    <Link to="/retail" className={styles.link}>
+                        <MapPinIcon size="20" />
+                    </Link>
+                </div>
+            </li>
             <li className={styles.item}>
                 <div className={styles.icon}>
                     <button type="button" className={styles.link} onClick={() => setShowSearch(!showSearch)}>

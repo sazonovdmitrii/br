@@ -9,7 +9,7 @@ export default () => (
     <div className={styles.root}>
         <div className={styles.header}>
             <Title>How do I reset my password?</Title>
-            <div class={styles.subTitle}>
+            <div className={styles.subTitle}>
                 Enter your email and we’ll send you a link with instructions to reset your password :-)
             </div>
         </div>

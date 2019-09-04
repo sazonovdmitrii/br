@@ -20,6 +20,11 @@ export default ({ lang, defaultLang }) => {
             component: getComponent('User', { ssr: false }),
         },
         {
+            path: `${LANG_PREFIX}/retail`,
+            exact: true,
+            component: getComponent('Retail'),
+        },
+        {
             type: 'product',
             path: `${LANG_PREFIX}/:catalog?/:subcatalog?/:product.htm`,
             exact: true,

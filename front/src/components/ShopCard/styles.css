@@ -1,0 +1,40 @@
+.root {
+}
+
+.title {
+    font-weight: 600;
+    font-family: var(--font-serif);
+    margin-bottom: 12px;
+
+    @media (--viewport-ipad) {
+        font-size: 24px;
+    }
+
+    @media (--viewport-desktop) {
+        font-size: 26px;
+    }
+}
+
+.subtitle {
+    font-weight: 600;
+    font-family: var(--font-serif);
+    line-height: calc(1em + 10px);
+    margin: 0;
+    font-size: 18px;
+    color: #414b56;
+}
+
+.text {
+    line-height: calc(1em + 10px);
+    font-size: 16px;
+    color: #676f78;
+    margin-bottom: 24px;
+
+    @media (--viewport-ipad) {
+        font-size: 16px;
+    }
+
+    @media (--viewport-desktop) {
+        font-size: 18px;
+    }
+}
