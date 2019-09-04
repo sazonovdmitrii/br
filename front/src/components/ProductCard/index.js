@@ -23,13 +23,16 @@ const ProductCard = ({
     price,
 }) => {
     const [color, setColor] = useState(1);
+    const image = items.edges[0].node.productItemImages[0].length
+        ? `${isProd ? '' : 'http://br.morphes.ru'}${items.edges[0].node.productItemImages[0].path}`
+        : 'https://placehold.it/377x167';
 
     if (loading) return <Loader />;
 
     return (
         <div className={styles.root}>
             <Link to={url} className={styles.imageWrapper} title={`Очки ${name}`}>
-                <img className={styles.image} src="https://placehold.it/377x167" alt={`Очки ${name}`} />
+                <img className={styles.image} src={image} alt={`Очки ${name}`} />
             </Link>
             <h2 className={styles.title}>{name}</h2>
             <div className={styles.colors}>
