@@ -56,6 +56,10 @@ export const GET_PRODUCT = gql`
                         id
                         name
                         price
+                        productItemImages {
+                            id
+                            path
+                        }
                     }
                 }
             }
@@ -91,6 +95,10 @@ export const GET_PRODUCTS = gql`
                                     id
                                     name
                                     price
+                                    productItemImages {
+                                        id
+                                        path
+                                    }
                                 }
                             }
                         }

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import classnames from 'classnames/bind';
+import { Filter as FilterIcon, Search as SearchIcon, X as CloseIcon } from 'react-feather';
 
 import { Tabs, Tab, TabsView } from 'components/Tabs';
 import Checkbox from 'components/Checkbox';
+import Button from 'components/Button';
 
 import styles from './styles.css';
 
@@ -15,62 +17,107 @@ const Filters = ({ list }) => {
     });
 
     const handleChange = newValue => {
-        console.log(newValue);
-
         setState(prevState => ({
             ...prevState,
             value: value === newValue ? null : newValue,
             active: value !== newValue,
         }));
     };
-
     const handleChangeFilter = () => {};
 
+    const tabWrapperClassName = cx(styles.tabWrapper, { active });
+    const innerClassName = cx(styles.inner, { active });
+    const wrapperClassName = cx(styles.wrapper, { expanded: active });
+    const modalClassName = cx(styles.modal, { expanded: active });
+    const tabsClassName = cx(styles.tabs, { expanded: active });
+    const buttonsClassName = cx(styles.buttons, { expanded: active });
+
     return (
-        <div className={styles.wrapper}>
-            <div className={styles.inner}>
+        <div className={wrapperClassName}>
+            <div className={modalClassName}>
+                <h2 className={styles.modalHeader}>Filter frame selection</h2>
+                <button
+                    type="button"
+                    className={styles.modalClose}
+                    onClick={() => setState({ value: null, active: false })}
+                >
+                    <CloseIcon />
+                </button>
+                <div className={styles.modalFooter}>
+                    <span className="c-gallery-filters__clear-filters -disabled">Clear filters (0)</span>
+                    <Button className={styles.modalButton} kind="simple">
+                        See 90 frames
+                    </Button>
+                </div>
+            </div>
+            <div className={innerClassName}>
                 {list.length ? (
-                    <Tabs className={styles.tabs} value={value} onChange={handleChange}>
+                    <Tabs className={tabsClassName} value={value} onChange={handleChange}>
                         {list.map(item => {
                             if (!item.childrens.length) return null;
                             const tabClassName = cx(styles.tab, {
-                                active: value === item.id,
+                                active: value ? value === item.id : true,
+                                inactive: value !== item.id,
                             });
 
                             return (
-                                <Tab key={item.id} className={tabClassName} value={item.id}>
+                                <Tab
+                                    key={item.id}
+                                    className={tabClassName}
+                                    value={item.id}
+                                    data-name={item.name}
+                                >
                                     {item.name}
                                 </Tab>
                             );
                         })}
                     </Tabs>
                 ) : null}
-                {list.length
-                    ? list.map(item => {
-                          if (!item.childrens.length) return null;
-                          const tabContentClassName = cx(styles.tabContent, {
-                              active: item.id === value,
-                          });
+                {list.length ? (
+                    <div className={tabWrapperClassName}>
+                        {list.map(item => {
+                            if (!item.childrens.length) return null;
 
-                          return (
-                              <TabsView key={item.id} value={value} className={tabContentClassName}>
-                                  {item.childrens.map(({ name, id }) => {
-                                      if (!name) return null;
+                            const tabContentClassName = cx(styles.tabContent, {
+                                active: item.id === value,
+                            });
 
-                                      return (
-                                          <div key={id} className={styles.filterItem}>
-                                              <Checkbox
-                                                  label={name}
-                                                  name={id}
-                                                  onChange={handleChangeFilter}
-                                              />
-                                          </div>
-                                      );
-                                  })}
-                              </TabsView>
-                          );
-                      })
-                    : null}
+                            return (
+                                <TabsView key={item.id} value={value} className={tabContentClassName}>
+                                    <div className={styles.tabContentItems}>
+                                        {item.childrens.map(({ name, id }) => {
+                                            if (!name) return null;
+
+                                            return (
+                                                <div key={id} className={styles.filterItem}>
+                                                    <Checkbox
+                                                        label={name}
+                                                        name={id}
+                                                        onChange={handleChangeFilter}
+                                                    />
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </TabsView>
+                            );
+                        })}
+                    </div>
+                ) : null}
+            </div>
+            <div className={buttonsClassName}>
+                <Button
+                    className={styles.button}
+                    kind="simple"
+                    onClick={() => setState({ active: true, value: list[0].id })}
+                >
+                    <FilterIcon size="15" className={styles.buttonIcon} />
+                    Filter frames
+                </Button>
+                <Button className={styles.button} kind="simple">
+                    <SearchIcon size="15" className={styles.buttonIcon} />
+                    Search frames
+                </Button>
             </div>
         </div>
     );
