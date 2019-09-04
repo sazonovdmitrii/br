@@ -73,8 +73,6 @@ const APPLE_TOUCH_ICON = [
     },
 ];
 
-const defaultLang = 'ru';
-
 const GET_MESSAGES = gql`
     query getMessages($lang: String) {
         getMessages(lang: $lang) @client
