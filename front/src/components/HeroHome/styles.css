@@ -1,0 +1,56 @@
+.root {
+    @media (--viewport-desktop) {
+        position: relative;
+    }
+}
+
+.image {
+    width: 100%;
+}
+
+.body {
+    padding: 0 15px;
+    text-align: center;
+
+    @media (--viewport-desktop) {
+        position: absolute;
+        top: 50%;
+        right: 4%;
+        width: 30%;
+        margin-top: 0;
+        transform: translateY(-50%);
+    }
+}
+
+.header {
+    margin-top: 30px;
+    margin-bottom: 24px;
+}
+
+.title {
+    margin: 0;
+    color: #414b56;
+    font-weight: 600;
+    font-size: 30px;
+    font-family: var(--font-serif);
+    line-height: calc(1em + 6px);
+
+    @media (--viewport-ipad) {
+        font-size: 40px;
+    }
+}
+
+.actions {
+    margin-bottom: 18px;
+
+    & > * {
+        @media (--viewport-desktop) {
+            background: var(--color-background);
+            border-color: var(--color-background);
+        }
+    }
+
+    & > * + * {
+        margin-left: 12px;
+    }
+}

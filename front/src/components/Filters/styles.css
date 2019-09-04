@@ -1,85 +1,221 @@
 .wrapper {
-    height: auto;
-    border-bottom: 1px solid #ebeff2;
+    text-align: center;
+
+    @media (--viewport-tablet) {
+        border-bottom: 1px solid #ebeff2;
+    }
+
+    &.expanded {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 980;
+        width: 100%;
+        height: 100%;
+        max-height: none;
+        background-color: #fff;
+
+        @media (--viewport-tablet) {
+            position: static;
+        }
+    }
 }
 
 .inner {
     padding: 20px 0 10px;
     background-color: #fff;
-    text-align: center;
 }
 
 .tabs {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
+    display: none;
     margin: 0 auto 10px;
+    padding: 6px;
     background-color: #f8f8f8;
 
     @media (--viewport-tablet) {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
         width: auto;
         padding: 8px 4px;
+    }
+
+    &.expanded {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
     }
 }
 
 .tab {
-    border: 0;
-    background: none;
-    border-right: 1px solid #d2d6d9;
-    font-size: 12px;
-    line-height: 12px;
     margin: 6px 0;
     padding: 3px 10px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
     overflow: hidden;
-    text-overflow: ellipsis;
-    user-select: none;
-    transition: color 0.1s;
     color: var(--colorFont);
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-overflow: ellipsis;
+    background: none;
+    border: 0;
+    border-right: 1px solid #d2d6d9;
     cursor: pointer;
-    font-weight: 400;
+    transition: color 0.1s;
+    user-select: none;
 
     &:last-child {
         border: 0;
     }
 
-    &.active {
+    &::after {
+        display: block;
+        height: 1px;
+        margin-bottom: -1px;
+        overflow: hidden;
         font-weight: 600;
+        visibility: hidden;
+        content: attr(data-name);
+    }
+
+    &.inactive {
+        color: #a1a4a6;
+        font-weight: 400;
+    }
+
+    &.active {
         color: #414b56;
+        font-weight: 600;
     }
 
     @media (--viewport-ipad) {
-        padding-left: 24px;
         padding-right: 24px;
+        padding-left: 24px;
+    }
+}
+
+.tabWrapper {
+    position: relative;
+    height: 100%;
+    max-height: 0;
+    padding-top: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding-top 0.3s ease-in-out;
+
+    &.active {
+        max-height: 100%;
+        padding-top: 150px;
     }
 }
 
 .tabContent {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    height: 100%;
-    max-height: 0;
-    transition: max-height 0.3s ease-in-out;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    height: 72px;
+    transform: translateY(-50%);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out 0.2s;
 
     &.active {
-        max-height: 100%;
+        visibility: visible;
+        opacity: 1;
     }
 }
 
+.tabContentItems {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100%;
+}
+
 .filterItem {
+    flex: 1;
     margin-top: 4px;
     margin-bottom: 48px;
 
     @media (--viewport-tablet) {
+        display: inline-block;
         margin-right: 36px;
         margin-bottom: 0;
-        display: inline-block;
     }
+}
+
+.buttons {
+    @media (--viewport-tablet) {
+        display: none;
+    }
+
+    &.expanded {
+        display: none;
+    }
+}
+
+.button {
+    margin: 0 6px;
+    font-size: 14px;
+    border-color: #d2d6d9;
+    border-radius: 1px;
+}
+
+.buttonIcon {
+    margin-right: 6px;
+    stroke: #a1a4a6;
+}
+
+.modal {
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+    &.expanded {
+        padding: 32px 15px 0;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    @media (--viewport-tablet) {
+        display: none;
+    }
+}
+
+.modalHeader {
+    margin: 0;
+    font-weight: 400;
+    font-size: 20px;
+    font-family: var(--font-serif);
+    line-height: 30px;
+    text-align: left;
+}
+
+.modalClose {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.modalFooter {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: right;
+    background-color: #f8f8f8;
+    border-top: 1px solid #ebeff2;
+    box-shadow: inset 0 0 0 1px #fff;
+}
+
+.modalButton {
+    margin: 12px 18px;
+    padding: 12px 18px;
 }

@@ -1,13 +1,13 @@
 .row {
     display: flex;
     flex-wrap: wrap;
-    /*margin: 0 -15px;*/
+    /* margin: 0 -15px; */
     padding-top: 60px;
 }
 
 .col {
-    padding: 0 15px;
     box-sizing: border-box;
+    padding: 0 15px;
 }
 
 .col12 {

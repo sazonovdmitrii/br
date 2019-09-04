@@ -2,7 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 
-import Hero from 'components/Hero';
+import HeroHome from 'components/HeroHome';
 import Button from 'components/Button';
 
 export default () => {
@@ -18,8 +18,9 @@ export default () => {
                     content="парфюмерия, духи, интернет магазин парфюмерии, laparfumerie, лапарфюмерия"
                 />
             </Helmet>
-            <Hero
-                subtitle="Try 5 frames at home for free"
+            <HeroHome
+                title={<FormattedMessage id="hero_title" values={{ amount: 5 }} />}
+                image="https://i.warbycdn.com/v/c/assets/homepage-new/image/D-Mod-1/1/747501c850.jpeg"
                 actions={
                     <>
                         <Button kind="primary" bold outlined rounded>

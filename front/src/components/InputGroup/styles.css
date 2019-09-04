@@ -7,16 +7,16 @@
 .row {
     display: flex;
     flex-wrap: wrap;
-    margin-left: -8px;
     margin-right: -8px;
+    margin-left: -8px;
 }
 
 .col {
     position: relative;
     flex: 0 0 100%;
+    box-sizing: border-box;
     max-width: 100%;
     padding: 0 8px;
-    box-sizing: border-box;
 
     @media (--viewport-tablet) {
         flex: 0 0 50%;
@@ -27,9 +27,9 @@
 .col4 {
     position: relative;
     flex: 0 0 100%;
+    box-sizing: border-box;
     max-width: 100%;
     padding: 0 8px;
-    box-sizing: border-box;
 
     @media (--viewport-tablet) {
         flex: 0 0 33.33%;

@@ -3,9 +3,9 @@
 }
 
 .background {
-    width: 100%;
-    /*height: 200px;*/
+    /* height: 200px; */
     position: relative;
+    width: 100%;
     overflow: hidden;
 
     @media (--viewport--phone) {
@@ -26,30 +26,30 @@
     text-align: center;
 
     @media (--viewport-tablet) {
-        border-color: transparent;
-        max-width: 40%;
         position: absolute;
         top: 50%;
         left: calc(50% - 210px);
-        transform: translate(-50%, -50%);
+        max-width: 40%;
         padding: 0;
         text-align: left;
+        border-color: transparent;
+        transform: translate(-50%, -50%);
     }
 }
 
 .title {
-    text-transform: uppercase;
-    font-size: 12px;
     margin-bottom: 16px;
     font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
 }
 
 .subtitle {
-    font-family: var(--font-serif);
+    color: var(--color-font);
     font-weight: 600;
     font-size: 24px;
+    font-family: var(--font-serif);
     line-height: calc(1em + 6px);
-    color: var(--color-font);
 
     @media (--viewport-tablet) {
         font-size: 30px;
@@ -67,8 +67,8 @@
 .image {
     position: relative;
     left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
     width: auto;
     max-width: none;
+    height: 100%;
+    transform: translateX(-50%);
 }

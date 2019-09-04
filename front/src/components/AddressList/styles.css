@@ -1,6 +1,6 @@
 .button::before {
-    font-size: inherit;
     margin: 0;
+    font-size: inherit;
 }
 
 .icon {

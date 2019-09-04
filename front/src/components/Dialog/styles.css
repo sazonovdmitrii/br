@@ -1,31 +1,31 @@
 .root {
     position: fixed;
-    z-index: 1300;
+    top: 0;
     right: 0;
     bottom: 0;
-    top: 0;
     left: 0;
+    z-index: 1300;
 }
 
 .overlay {
+    position: fixed;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     z-index: -1;
-    position: fixed;
-    touch-action: none;
     background-color: rgba(0, 0, 0, 0.5);
-    -webkit-tap-highlight-color: transparent;
     transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .container {
-    height: 100%;
-    outline: none;
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    height: 100%;
+    outline: none;
 
     @media (--viewport-phone) {
         align-items: center;
@@ -33,22 +33,22 @@
 }
 
 .inner {
-    display: flex;
     position: relative;
-    overflow-y: auto;
+    display: flex;
     flex-direction: column;
+    max-height: calc(100% - 96px);
+    overflow-y: auto;
+    color: rgba(0, 0, 0, 0.87);
+    color: var(--color-font);
+    background-color: var(--color-background);
+    border-radius: 4px 4px 0 0;
     box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14),
         0 9px 46px 8px rgba(0, 0, 0, 0.12);
-    border-radius: 4px 4px 0 0;
-    color: rgba(0, 0, 0, 0.87);
     transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    background-color: var(--color-background);
-    color: var(--color-font);
-    max-height: calc(100% - 96px);
 
     @media (--viewport-phone) {
-        border-radius: 4px;
         margin: 48px;
+        border-radius: 4px;
     }
 }
 
@@ -72,8 +72,8 @@
     flex: 0 0 auto;
     margin: 0;
     padding: 16px 24px;
-    font-size: 1.25rem;
     font-weight: 500;
+    font-size: 1.25rem;
     line-height: 1.6;
     letter-spacing: 0.0075em;
 }
@@ -86,9 +86,9 @@
 
 .actions {
     display: flex;
-    padding: 8px;
     align-items: center;
     justify-content: flex-end;
+    padding: 8px;
 
     & > * + * {
         margin-left: 8px;

@@ -36,6 +36,7 @@ const create = ({ token } = {}) => {
                   }
                 : {},
         });
+
         return forward(operation);
     });
 
@@ -66,25 +67,22 @@ const create = ({ token } = {}) => {
         resolvers: {
             Query: {
                 getMessages: async (_root, variables, { cache }) => {
+                    const fileName = `${variables.lang}.json`;
+                    const foo = isServer
+                        ? isProd
+                            ? `../src/lang/${fileName}`
+                            : `../lang/${fileName}`
+                        : `lang/${fileName}`;
+
                     const {
                         default: intlMessages,
-                    } = await import(/* webpackChunkName: 'i18n-[request]' */ isServer
-                        ? `../src/locale/${variables.lang}.json`
-                        : `../locale/${variables.lang}.json`);
-
-                    // cache.writeData({
-                    //     data: {
-                    //         intlMessages,
-                    //     },
-                    // });
+                    } = await import(/* webpackChunkName: 'i18n-[request]' */ foo);
 
                     return intlMessages;
                 },
             },
             Mutation: {
-                setLang: async (_root, variables, { cache }) => {
-                    console.log(variables, 'variables');
-
+                setLang: (_root, variables, { cache }) => {
                     cache.writeData({
                         data: {
                             lang: variables.lang,

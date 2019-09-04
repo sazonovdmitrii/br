@@ -1,0 +1,35 @@
+{
+    "gender": "Gender",
+    "phone": "Phone",
+    "email": "Email",
+    "password": "Password",
+    "last_name": "Last name",
+    "first_name": "First name",
+    "disclaimer": "I accept the terms and conditions",
+    "email_subscription": "Receive notifications of new sales",
+    "sms_subscription": "Receive SMS",
+    "create_account": "Create account",
+    "save": "Save",
+    "cancel": "Cancel",
+
+    "shop_men": "Shop Men",
+    "shop_women": "Shop Women",
+    "hero_title": "Try {amount} frames at home for free",
+
+    "sign_in": "Sign in",
+    "forgot_password": "Forgot password",
+    "im_new_here": "I’m new here",
+    "create_an_account": "Create an account",
+    "nice_to_meet_you": "Nice to meet you",
+    "i_have_an_account": "I have an account",
+    "need_a_hand": "Need a hand",
+    "help_subtitle": "We’re available by phone {phone} every day from {time}.",
+    "about_the_frames": "About the frames",
+
+    "call": "Call",
+    "faq": "FAQ",
+    "email": "Email",
+    "text": "Text",
+    "chat": "Chat",
+    "search": "Search"
+}

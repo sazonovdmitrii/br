@@ -4,79 +4,79 @@
 }
 
 .inner {
-    border: 0;
-    height: 52px;
-    padding: 5px 20px 5px 10px;
-    background: var(--color-background);
-    text-align: left;
-    cursor: pointer;
-    border-radius: 4px;
-    min-width: 80px;
-    line-height: 1.5;
     position: relative;
     display: flex;
     align-items: center;
+    min-width: 80px;
+    height: 52px;
+    padding: 5px 20px 5px 10px;
+    line-height: 1.5;
+    text-align: left;
+    background: var(--color-background);
+    border: 0;
     border: 1px solid rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+    cursor: pointer;
 
     &::after {
-        content: '';
+        position: absolute;
+        top: 50%;
+        right: 10px;
         width: 6px;
         height: 6px;
+        margin-top: -3px;
+        color: var(--color-primary);
         border-style: none solid solid none;
         border-width: 2px;
-        color: var(--color-primary);
-        position: absolute;
-        right: 10px;
-        top: 50%;
         transform: translateY(-50%) rotate(45deg);
+        content: '';
         pointer-events: none;
-        margin-top: -3px;
     }
 }
 
 .label {
-    z-index: 1;
-    transform: translate(14px, 18px) scale(1);
-    pointer-events: none;
-    transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    position: absolute;
     top: 0;
     left: 0;
-    position: absolute;
-    transform-origin: top left;
-    color: rgba(0, 0, 0, 0.54);
+    z-index: 1;
     padding: 0;
+    color: rgba(0, 0, 0, 0.54);
     line-height: 1;
+    transform: translate(14px, 18px) scale(1);
+    transform-origin: top left;
+    transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    pointer-events: none;
 }
 
 .activeLabel {
-    transform: translate(14px, -6px) scale(0.75);
     padding: 0 5px;
     background: var(--color-background);
+    transform: translate(14px, -6px) scale(0.75);
 }
 
 .value {
     flex: 1;
-    white-space: nowrap;
     overflow: hidden;
+    white-space: nowrap;
 }
 
 .list {
-    opacity: 0;
-    background: var(--color-background);
-    pointer-events: none;
-    border-radius: 0 0 5px 5px;
-    border: 1px solid #e1e1e1;
-    border-top-color: #f0f0f0;
-    margin-top: -5px;
     position: absolute;
     top: 100%;
+    z-index: 9;
     width: 100%;
     min-width: 120px;
-    z-index: 9;
     max-height: 200px;
+    margin-top: -5px;
     overflow-y: auto;
-    transition: opacity 0.1s;
+    background: var(--color-background);
+    border: 1px solid #e1e1e1;
+    border-top-color: #f0f0f0;
+    border-radius: 0 0 5px 5px;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+    opacity: 0;
+    transition: opacity 0.1s;
+    pointer-events: none;
 }
 
 .openList {
@@ -87,15 +87,15 @@
 .item {
     display: flex;
     align-items: center;
-    background: var(--color-background);
-    padding: 8px 10px;
-    cursor: pointer;
     box-sizing: border-box;
-    color: rgba(0, 0, 0, 0.87);
     width: auto;
+    padding: 8px 10px;
     overflow: hidden;
+    color: rgba(0, 0, 0, 0.87);
     line-height: 1.5;
     white-space: nowrap;
+    background: var(--color-background);
+    cursor: pointer;
 
     &:hover {
         text-decoration: none;

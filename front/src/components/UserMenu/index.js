@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { Link } from 'react-router-dom';
-import { User as UserIcon, Search as SearchIcon } from 'react-feather';
+// import { useQuery } from '@apollo/react-hooks';
+// import { Link } from 'react-router-dom';
+import {
+    // User as UserIcon,
+    Search as SearchIcon,
+} from 'react-feather';
 
-import { useApp } from 'hooks';
-import { IS_LOGGED_IN } from 'query';
+// import { useApp } from 'hooks';
+// import { IS_LOGGED_IN } from 'query';
 
-import Button from 'components/Button';
+// import Button from 'components/Button';
 import SearchForm from 'components/SearchForm';
 
 import styles from './styles.css';
 
 const UserMenu = () => {
-    const { logout, login, locale } = useApp();
-    const {
-        data: { isLoggedIn },
-    } = useQuery(IS_LOGGED_IN);
-    const handleLogOut = () => {
-        logout();
-    };
+    // const { logout, login } = useApp();
+    // const {
+    //     data: { isLoggedIn },
+    // } = useQuery(IS_LOGGED_IN);
+    // const handleLogOut = () => {
+    //     logout();
+    // };
     const [showSearch, setShowSearch] = useState(false);
 
     return (
@@ -31,7 +34,7 @@ const UserMenu = () => {
                     </button>
                 </div>
             </li>
-            {isLoggedIn ? (
+            {/* isLoggedIn ? (
                 <li className={styles.item}>
                     <Link className={styles.link} to="/account">
                         <div className={styles.icon}>
@@ -57,12 +60,7 @@ const UserMenu = () => {
                         </div>
                     </Link>
                 </li>
-            )}
-            <li className={styles.item}>
-                <Link type="button" className={styles.link} to="/account/login">
-                    <div className={styles.icon}>{locale}</div>
-                </Link>
-            </li>
+            ) */}
         </ul>
     );
 };

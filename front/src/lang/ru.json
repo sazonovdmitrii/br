@@ -1,0 +1,33 @@
+{
+    "shop_men": "Купить мужские",
+    "shop_women": "Купить женские",
+    "hero_title": "Попробуйте {amount} оправ дома бесплатно",
+
+    "sign_in": "Войти",
+    "sign_up": "Зарегестрироваться",
+    "forgot_password": "Забыли пароль",
+    "i_have_an_account": "У вас есть учетная запись?",
+
+    "gender": "Пол",
+    "email": "Email",
+    "phone": "Телефон",
+    "password": "Пароль",
+    "last_name": "Фамилия",
+    "first_name": "Имя",
+    "disclaimer": "Я принимаю правила и условия",
+    "email_subscription": "Получать уведомления о новых распродажах",
+    "sms_subscription": "Получать SMS-сообщения",
+    "create_account": "Зарегистрироваться",
+    "save": "Сохранить",
+    "cancel": "Отменить",
+
+    "need_a_hand": "Нужна помощь",
+    "help_subtitle": "Мы доступны по телефону {phone} каждый день с {time}.",
+    "about_the_frames": "О оправе",
+
+    "call": "Звонок",
+    "faq": "FAQ",
+    "text": "Смс",
+    "chat": "Чат",
+    "search": "Поиск"
+}
