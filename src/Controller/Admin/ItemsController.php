@@ -104,10 +104,10 @@ class ItemsController extends BaseAdminController
 
             $this->dispatch(EasyAdminEvents::POST_PERSIST, array('entity' => $entity));
 
-            if($entityId = $this->request->request->get('entity_id')) {
+            if($productId) {
                 $entity->setProduct($this->entityManager
                     ->getRepository('App:Product')
-                    ->find($entity)
+                    ->find($productId)
                 );
             }
             $this->entityManager->persist($entity);
@@ -119,6 +119,7 @@ class ItemsController extends BaseAdminController
                     ->updateImages($imagesIds);
             }
 
+
             return $this->redirectToReferrer();
         }
 
@@ -127,17 +128,6 @@ class ItemsController extends BaseAdminController
             'form' => $newForm,
             'entity' => $entity,
         ));
-
-        $product = false;
-        if($productId) {
-            $product = $this->entityManager
-                ->getRepository('App:Product')
-                ->find($productId);
-        }
-
-        if($product) {
-            $entity->setProduct($product);
-        }
 
         $parameters = array(
             'form' => $newForm->createView(),
