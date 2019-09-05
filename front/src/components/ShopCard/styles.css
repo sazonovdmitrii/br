@@ -17,7 +17,6 @@
 
 .subtitle {
     font-weight: 600;
-    font-family: var(--font-serif);
     line-height: calc(1em + 10px);
     margin: 0;
     font-size: 18px;

@@ -105,3 +105,32 @@
         flex: none;
     }
 }
+
+.countryItem {
+    display: inline-block;
+}
+
+.countryLink {
+    font-size: 10px;
+    text-indent: 3px;
+    color: var(--color-font);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 10px;
+    display: inline-block;
+
+    &:hover,
+    &:focus {
+        color: var(--color-font);
+        font-weight: 600;
+        letter-spacing: 2.4px;
+    }
+
+    &.active {
+        border: 1px solid var(--color-border);
+    }
+
+    @media (--viewport-ipad) {
+        font-size: 12px;
+    }
+}
