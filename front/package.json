@@ -5,7 +5,7 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "post-deploy": "yarn build && pm2 reload all",
+        "post-deploy": "yarn build && pm2 reload br",
         "build": "NODE_ENV=production yarn build:webpack && yarn build:lib",
         "build:analyze": "ANALYZE=true NODE_ENV=production webpack",
         "build:lib": "babel -d serverBabel src/lib",

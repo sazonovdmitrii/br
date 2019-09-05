@@ -38,6 +38,14 @@
     @media (--viewport-ipad) {
         font-size: 40px;
     }
+
+    @media (--viewport-desktop) {
+        font-size: 45px;
+    }
+
+    @media (--viewport-wide) {
+        font-size: 55px;
+    }
 }
 
 .actions {
