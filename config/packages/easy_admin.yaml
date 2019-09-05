@@ -192,9 +192,21 @@ easy_admin:
                     - { property: 'region'}
         Page:
             class: App\Entity\Page
+            controller: App\Controller\Admin\PageController
+            list:
+                fields: ['id', 'title', 'name', 'visible']
             form:
                 fields:
+                    - { type: 'tab' , label: 'General' }
+                    - title
+                    - name
+                    - visible
                     - { property: 'content', type: 'fos_ckeditor' }
+                    - meta_keywords
+                    - meta_description
+                    - { type: 'tab', label: 'Page Urls' }
+                    - { property: 'pageUrls', type_options: { block_name: 'page_urls' }}
+
         Direction:
             class: App\Entity\Direction
         District:
@@ -222,6 +234,7 @@ easy_admin:
             - 'admin/form/products_urls.html.twig'
             - 'admin/form/catalog_urls.html.twig'
             - 'admin/form/item_images.html.twig'
+            - 'admin/form/page_urls.html.twig'
         menu:
           - label: 'Urls'
             children: ['ProductUrl', 'CatalogUrl']

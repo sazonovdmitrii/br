@@ -43,6 +43,16 @@ Query:
               description: 'Tags'
               type: "[Int]"
         resolve: "@=resolver('Catalogs', [args])"
+      page:
+        type: "Page"
+        args:
+            id:
+              description: "Resolves using the page ID."
+              type: "Int"
+            slug:
+              description: "Resolves using the page slug."
+              type: "String"
+        resolve: "@=resolver('Page', [args])"
       addresses:
         type: "Addresses"
         args:

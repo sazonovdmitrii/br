@@ -1,0 +1,13 @@
+{
+  page(slug: "test") {
+    title
+    name
+    content
+    meta_keywords
+    meta_description
+    pageUrls{
+      id
+      url
+    }
+  }
+}

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +57,16 @@ class Page
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PageUrl", mappedBy="entity")
+     */
+    private $pageUrls;
+
+    public function __construct()
+    {
+        $this->pageUrls = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -153,6 +165,37 @@ class Page
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PageUrl[]
+     */
+    public function getPageUrls(): Collection
+    {
+        return $this->pageUrls;
+    }
+
+    public function addPageUrl(PageUrl $pageUrl): self
+    {
+        if (!$this->pageUrls->contains($pageUrl)) {
+            $this->pageUrls[] = $pageUrl;
+            $pageUrl->setEntity($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageUrl(PageUrl $pageUrl): self
+    {
+        if ($this->pageUrls->contains($pageUrl)) {
+            $this->pageUrls->removeElement($pageUrl);
+            // set the owning side to null (unless already changed)
+            if ($pageUrl->getEntity() === $this) {
+                $pageUrl->setEntity(null);
+            }
+        }
 
         return $this;
     }

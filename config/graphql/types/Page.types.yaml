@@ -1,0 +1,40 @@
+Page:
+  type: object
+  config:
+    description: "Page"
+    fields:
+      id:
+        type: "Int!"
+        description: "Page Id."
+      title:
+        type: "String"
+        description: "Page Title"
+      name:
+        type: "String"
+        description: "Page Name"
+      meta_keywords:
+        type: "String"
+        description: "Meta Keywords"
+      meta_description:
+        type: "String"
+        description: "Meta Description"
+      content:
+        type: "String"
+        description: "Content"
+      visible:
+        type: "String"
+        description: "Visibility"
+      pageUrls:
+        type: "[PageUrl]"
+        description: "Page Url"
+PageUrl:
+  type: object
+  config:
+    description: "Page Url"
+    fields:
+      id:
+        type: "Int!"
+        description: "Page Url ID"
+      url:
+        type: "String"
+        description: "Page Url"
