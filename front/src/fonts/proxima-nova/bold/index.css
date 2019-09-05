@@ -1,0 +1,15 @@
+@font-face {
+    font-display: swap;
+    font-family: proxima-nova;
+    src: url('./ProximaNova-Bold.woff2') format('woff2'), url('./ProximaNova-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-display: swap;
+    font-family: proxima-nova;
+    src: url('./ProximaNova-BoldIt.woff2') format('woff2'), url('./ProximaNova-BoldIt.woff') format('woff');
+    font-weight: 700;
+    font-style: italic;
+}

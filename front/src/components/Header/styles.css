@@ -10,11 +10,7 @@
 .row {
     display: flex;
     align-items: center;
-    padding: 22px 22px 0;
-
-    @media (--viewport-tablet) {
-        margin-top: 12px;
-    }
+    padding-top: 22px;
 }
 
 .button {

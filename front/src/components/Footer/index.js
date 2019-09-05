@@ -1,13 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames/bind';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 import FooterMenu from 'components/FooterMenu';
 import Socials from 'components/Socials';
 import Help from 'components/Help';
 
+import LANGS from 'lang';
+
 import styles from './styles.css';
 
+const cx = classnames.bind(styles);
+
 export default () => {
+    const {
+        data: { lang },
+    } = useQuery(
+        gql`
+            {
+                lang @client
+            }
+        `
+    );
     const currentYear = new Date().getFullYear();
 
     return (
@@ -28,23 +44,18 @@ export default () => {
             </section>
             <section className={styles.bottom}>
                 <div className={styles.countries}>
-                    <ul className="c-footer-country-selector u-db u-list-reset">
-                        <li className="c-footer-country-selector__item u-dib">
-                            <Link
-                                href="/country/us"
-                                className="c-footer-country-selector__link u-color--dark-gray-alt-3 u-dib u-p10 u-fs10 u-fs12--600 u-link--nav -active"
-                            >
-                                USA
-                            </Link>
-                        </li>
-                        <li className="c-footer-country-selector__item u-dib">
-                            <Link
-                                href="/country/ca"
-                                className="c-footer-country-selector__link u-color--dark-gray-alt-3 u-dib u-p10 u-fs10 u-fs12--600 u-link--nav"
-                            >
-                                Canada
-                            </Link>
-                        </li>
+                    <ul>
+                        {LANGS.map(item => {
+                            const countryLink = cx(styles.countryLink, { active: item.value === lang });
+
+                            return (
+                                <li className={styles.countryItem}>
+                                    <a href={`/${!item.default ? item.value : ''}`} className={countryLink}>
+                                        {item.native}
+                                    </a>
+                                </li>
+                            );
+                        })}
                     </ul>
                     <div className={styles.socials}>
                         <Socials />
@@ -52,19 +63,19 @@ export default () => {
                 </div>
                 <ul className={styles.bottomMenu}>
                     <li className={styles.bottomMenuItem}>
-                        <Link href="/privacy-policy">Privacy Policy</Link>
+                        <Link to="/privacy-policy">Privacy Policy</Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <Link href="/notice-of-privacy-practices">Notice of Privacy Practices</Link>
+                        <Link to="/notice-of-privacy-practices">Notice of Privacy Practices</Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <Link href="/terms-of-use">Terms of Use</Link>
+                        <Link to="/terms-of-use">Terms of Use</Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <Link href="/accessibility">Accessibility</Link>
+                        <Link to="/accessibility">Accessibility</Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <Link href="/process/ca-transparency-act">CA Transparency Act</Link>
+                        <Link to="/process/ca-transparency-act">CA Transparency Act</Link>
                     </li>
                 </ul>
             </section>

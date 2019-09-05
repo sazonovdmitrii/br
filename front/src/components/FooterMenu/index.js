@@ -12,12 +12,12 @@ const FooterMenu = ({ className, items, name }) => {
 
     return (
         <nav className={rootClassName}>
-            {items.map(item => (
-                <div className={styles.menu}>
+            {items.map((item, index) => (
+                <div key={index} className={styles.menu}>
                     <h4 className={styles.title}>{item.name}</h4>
                     <ul className={styles.list}>
-                        {item.childrens.map(child => (
-                            <li className={styles.item}>
+                        {item.childrens.map((child, childIndex) => (
+                            <li key={childIndex} className={styles.item}>
                                 <Link className={styles.link} to={child.url}>
                                     {child.name}
                                 </Link>
