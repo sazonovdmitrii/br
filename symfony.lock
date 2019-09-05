@@ -1,9 +1,18 @@
 {
+    "a2lix/auto-form-bundle": {
+        "version": "0.2"
+    },
+    "a2lix/translation-form-bundle": {
+        "version": "3.0.4"
+    },
     "assoconnect/graphql-mutation-validator-bundle": {
         "version": "v1.0.1"
     },
     "behat/transliterator": {
         "version": "v1.2.0"
+    },
+    "bukashk0zzz/yml-generator": {
+        "version": "dev-master"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -107,11 +116,23 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "friendsofsymfony/ckeditor-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "8eb1cd0962ded6a6d6e1e5a9b6d3e888f9f94ff6"
+        }
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
     "jms/metadata": {
         "version": "2.0.0"
+    },
+    "knplabs/doctrine-behaviors": {
+        "version": "1.6.0"
     },
     "lcobucci/jwt": {
         "version": "3.2.5"

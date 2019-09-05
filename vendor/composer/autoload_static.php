@@ -202,6 +202,10 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
             'Lexik\\Bundle\\JWTAuthenticationBundle\\' => 37,
             'Lcobucci\\JWT\\' => 13,
         ),
+        'K' => 
+        array (
+            'Knp\\DoctrineBehaviors\\' => 22,
+        ),
         'J' => 
         array (
             'JavierEguiluz\\Bundle\\EasyAdminBundle\\' => 37,
@@ -213,6 +217,7 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         'F' => 
         array (
             'Fig\\Link\\' => 9,
+            'FOS\\CKEditorBundle\\' => 19,
         ),
         'E' => 
         array (
@@ -242,11 +247,17 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         array (
             'Complex\\' => 8,
         ),
+        'B' => 
+        array (
+            'Bukashk0zzz\\YmlGenerator\\' => 25,
+        ),
         'A' => 
         array (
             'AssoConnect\\GraphQLMutationValidatorBundle\\' => 43,
             'App\\Tests\\' => 10,
             'App\\' => 4,
+            'A2lix\\TranslationFormBundle\\' => 28,
+            'A2lix\\AutoFormBundle\\' => 21,
         ),
     );
 
@@ -613,6 +624,10 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         array (
             0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
         ),
+        'Knp\\DoctrineBehaviors\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/doctrine-behaviors/src',
+        ),
         'JavierEguiluz\\Bundle\\EasyAdminBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/easycorp/easyadmin-bundle/legacy',
@@ -624,6 +639,10 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         'Fig\\Link\\' => 
         array (
             0 => __DIR__ . '/..' . '/fig/link-util/src',
+        ),
+        'FOS\\CKEditorBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/friendsofsymfony/ckeditor-bundle/src',
         ),
         'Egulias\\EmailValidator\\' => 
         array (
@@ -704,6 +723,10 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         array (
             0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
         ),
+        'Bukashk0zzz\\YmlGenerator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bukashk0zzz/yml-generator/src',
+        ),
         'AssoConnect\\GraphQLMutationValidatorBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/assoconnect/graphql-mutation-validator-bundle',
@@ -715,6 +738,14 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'A2lix\\TranslationFormBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/a2lix/translation-form-bundle/src',
+        ),
+        'A2lix\\AutoFormBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/a2lix/auto-form-bundle/src',
         ),
     );
 

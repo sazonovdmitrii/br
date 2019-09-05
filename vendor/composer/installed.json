@@ -1,5 +1,158 @@
 [
     {
+        "name": "a2lix/auto-form-bundle",
+        "version": "0.2",
+        "version_normalized": "0.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/a2lix/AutoFormBundle.git",
+            "reference": "9f0a94730eebd864af35f8b269f88433915d7318"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/a2lix/AutoFormBundle/zipball/9f0a94730eebd864af35f8b269f88433915d7318",
+            "reference": "9f0a94730eebd864af35f8b269f88433915d7318",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.1.3",
+            "symfony/config": "^3.4|^4.0",
+            "symfony/dependency-injection": "^3.4|^4.0",
+            "symfony/doctrine-bridge": "^3.4|^4.0",
+            "symfony/form": "^3.4|^4.0",
+            "symfony/http-kernel": "^3.4|^4.0"
+        },
+        "require-dev": {
+            "doctrine/orm": "^2.4",
+            "friendsofphp/php-cs-fixer": "^2.10",
+            "symfony/phpunit-bridge": "^4.0",
+            "symfony/validator": "^3.4|^4.0",
+            "vimeo/psalm": "^1.0"
+        },
+        "suggest": {
+            "a2lix/translation-form-bundle": "For translation form"
+        },
+        "time": "2019-06-28T22:21:56+00:00",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "A2lix\\AutoFormBundle\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "David ALLIX",
+                "homepage": "http://a2lix.fr"
+            },
+            {
+                "name": "Contributors",
+                "homepage": "https://github.com/a2lix/AutoFormBundle/contributors"
+            }
+        ],
+        "description": "Automate form building",
+        "homepage": "https://github.com/a2lix/AutoFormBundle",
+        "keywords": [
+            "automate",
+            "automation",
+            "building",
+            "field",
+            "form",
+            "magic",
+            "symfony"
+        ]
+    },
+    {
+        "name": "a2lix/translation-form-bundle",
+        "version": "3.0.4",
+        "version_normalized": "3.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/a2lix/TranslationFormBundle.git",
+            "reference": "408b60f21865e188743e0097f100ad50ae4b4522"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/a2lix/TranslationFormBundle/zipball/408b60f21865e188743e0097f100ad50ae4b4522",
+            "reference": "408b60f21865e188743e0097f100ad50ae4b4522",
+            "shasum": ""
+        },
+        "require": {
+            "a2lix/auto-form-bundle": "^0.2",
+            "php": "^7.1.3",
+            "symfony/config": "^3.4|^4.0",
+            "symfony/dependency-injection": "^3.4|^4.0",
+            "symfony/doctrine-bridge": "^3.4|^4.0",
+            "symfony/event-dispatcher": "^3.4|^4.0",
+            "symfony/form": "^3.4|^4.0",
+            "symfony/http-foundation": "^3.4|^4.0",
+            "symfony/http-kernel": "^3.4|^4.0",
+            "symfony/options-resolver": "^3.4|^4.0"
+        },
+        "require-dev": {
+            "doctrine/orm": "^2.4",
+            "friendsofphp/php-cs-fixer": "^2.10",
+            "knplabs/doctrine-behaviors": "^1.4",
+            "matthiasnoback/symfony-dependency-injection-test": "^3.0",
+            "symfony/phpunit-bridge": "^4.0",
+            "symfony/validator": "^3.4|^4.0",
+            "vimeo/psalm": "^1.0"
+        },
+        "suggest": {
+            "knplabs/doctrine-behaviors": "For Knp strategy",
+            "prezent/doctrine-translatable-bundle": "For Prezent strategy"
+        },
+        "time": "2019-06-28T23:22:07+00:00",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "A2lix\\TranslationFormBundle\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "David ALLIX",
+                "homepage": "http://a2lix.fr"
+            },
+            {
+                "name": "Contributors",
+                "homepage": "https://github.com/a2lix/TranslationFormBundle/contributors"
+            }
+        ],
+        "description": "Translate your doctrine objects easily with some helps",
+        "homepage": "https://github.com/a2lix/TranslationFormBundle",
+        "keywords": [
+            "doctrine2",
+            "form",
+            "i18n",
+            "internationalization",
+            "knplabs",
+            "prezent",
+            "symfony",
+            "translatable",
+            "translation"
+        ]
+    },
+    {
         "name": "assoconnect/graphql-mutation-validator-bundle",
         "version": "v1.0.1",
         "version_normalized": "1.0.1.0",
@@ -102,6 +255,61 @@
             "i18n",
             "slug",
             "transliterator"
+        ]
+    },
+    {
+        "name": "bukashk0zzz/yml-generator",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Bukashk0zzz/YmlGenerator.git",
+            "reference": "f1fc38e46571a629acdf025b66d27c27011c0893"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Bukashk0zzz/YmlGenerator/zipball/f1fc38e46571a629acdf025b66d27c27011c0893",
+            "reference": "f1fc38e46571a629acdf025b66d27c27011c0893",
+            "shasum": ""
+        },
+        "require": {
+            "ext-simplexml": "*",
+            "php": ">=5.6.1"
+        },
+        "require-dev": {
+            "escapestudios/symfony2-coding-standard": "^3.0",
+            "ext-dom": "*",
+            "friendsofphp/php-cs-fixer": "^2.3",
+            "fzaninotto/faker": "^1.6",
+            "phpunit/phpunit": "^5.0",
+            "wimg/php-compatibility": "^8.0"
+        },
+        "time": "2019-07-10T06:33:36+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Bukashk0zzz\\YmlGenerator\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Denis Golubovskiy",
+                "role": "Creator",
+                "email": "bukashk0zzz@gmail.com"
+            }
+        ],
+        "description": "YML (Yandex Market Language) file generator",
+        "homepage": "https://github.com/Bukashk0zzz/YmlGenerator",
+        "keywords": [
+            "market",
+            "yandex",
+            "yml",
+            "yml-generator"
         ]
     },
     {
@@ -1718,6 +1926,86 @@
         ]
     },
     {
+        "name": "friendsofsymfony/ckeditor-bundle",
+        "version": "2.1.0",
+        "version_normalized": "2.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle.git",
+            "reference": "7ba78735ea75b9a6d4de403d7aced6c993a0557a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/FriendsOfSymfony/FOSCKEditorBundle/zipball/7ba78735ea75b9a6d4de403d7aced6c993a0557a",
+            "reference": "7ba78735ea75b9a6d4de403d7aced6c993a0557a",
+            "shasum": ""
+        },
+        "require": {
+            "ext-json": "*",
+            "ext-zip": "*",
+            "php": "^7.1",
+            "symfony/asset": "^3.4 || ^4.0",
+            "symfony/config": "^3.4 || ^4.0",
+            "symfony/dependency-injection": "^3.4 || ^4.0",
+            "symfony/expression-language": "^3.4 || ^4.0",
+            "symfony/form": "^3.4 || ^4.0",
+            "symfony/framework-bundle": "^3.4 || ^4.0",
+            "symfony/http-foundation": "^3.4 || ^4.0",
+            "symfony/http-kernel": "^3.4 || ^4.0",
+            "symfony/options-resolver": "^3.4 || ^4.0",
+            "symfony/property-access": "^3.4 || ^4.0",
+            "symfony/routing": "^3.4 || ^4.0",
+            "symfony/twig-bundle": "^3.4 || ^4.0",
+            "twig/twig": "^2.0"
+        },
+        "conflict": {
+            "sebastian/environment": "<1.3.4",
+            "sebastian/exporter": "<2.0.0"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "^2.0",
+            "matthiasnoback/symfony-dependency-injection-test": "^1.0 || ^2.0",
+            "phpunit/phpunit": "^6.0",
+            "symfony/console": "^3.4 || ^4.0",
+            "symfony/phpunit-bridge": "^4.1",
+            "symfony/yaml": "^3.4 || ^4.0"
+        },
+        "suggest": {
+            "egeloen/form-extra-bundle": "Allows to load CKEditor asynchronously"
+        },
+        "time": "2019-04-15T16:29:43+00:00",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "FOS\\CKEditorBundle\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Eric GELOEN",
+                "email": "geloen.eric@gmail.com"
+            },
+            {
+                "name": "FriendsOfSymfony Community",
+                "homepage": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle/graphs/contributors"
+            }
+        ],
+        "description": "Provides a CKEditor integration for your Symfony project.",
+        "keywords": [
+            "CKEditor"
+        ]
+    },
+    {
         "name": "jdorn/sql-formatter",
         "version": "v1.2.17",
         "version_normalized": "1.2.17.0",
@@ -1826,6 +2114,74 @@
             "metadata",
             "xml",
             "yaml"
+        ]
+    },
+    {
+        "name": "knplabs/doctrine-behaviors",
+        "version": "1.6.0",
+        "version_normalized": "1.6.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/KnpLabs/DoctrineBehaviors.git",
+            "reference": "9cc036ee32483c306fb32b4efbf33014ddfb654f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/KnpLabs/DoctrineBehaviors/zipball/9cc036ee32483c306fb32b4efbf33014ddfb654f",
+            "reference": "9cc036ee32483c306fb32b4efbf33014ddfb654f",
+            "shasum": ""
+        },
+        "require": {
+            "behat/transliterator": "~1.0",
+            "doctrine/common": ">=2.2",
+            "php": "~7.0"
+        },
+        "require-dev": {
+            "doctrine/orm": ">=2.4.5",
+            "ext-pdo_mysql": "*",
+            "ext-pdo_pgsql": "*",
+            "ext-pdo_sqlite": "*",
+            "hexmedia/yaml-linter": "~0.1",
+            "jakub-onderka/php-parallel-lint": "~0.8",
+            "phpunit/phpunit": "~4.8"
+        },
+        "suggest": {
+            "symfony/framework-bundle": "To be able to use it as a bundle"
+        },
+        "time": "2018-11-13T10:52:03+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.5.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Knp\\DoctrineBehaviors\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Knplabs",
+                "homepage": "http://knplabs.com"
+            }
+        ],
+        "description": "Doctrine2 behavior traits",
+        "homepage": "http://knplabs.com",
+        "keywords": [
+            "Blameable",
+            "behaviors",
+            "doctrine2",
+            "filterable",
+            "softdeletable",
+            "timestampable",
+            "translatable",
+            "tree"
         ]
     },
     {
