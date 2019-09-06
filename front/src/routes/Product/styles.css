@@ -45,10 +45,6 @@
     line-height: calc(1em + 10px);
 }
 
-.section {
-    margin: 72px 0;
-}
-
 .title {
     margin-top: 0;
     margin-bottom: 12px;
@@ -78,6 +74,10 @@
     }
 }
 
+.section {
+    margin: 72px 0;
+}
+
 .sectionTitle {
     margin-top: 0;
     margin-bottom: 36px;
@@ -87,8 +87,4 @@
     font-family: var(--font-serif);
     line-height: 1.2;
     text-align: center;
-
-    @media (--viewport-desktop) {
-        text-align: left;
-    }
 }

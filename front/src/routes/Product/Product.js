@@ -19,15 +19,17 @@ import HeadTurn from 'components/HeadTurn';
 import Carousel from 'components/Carousel';
 import Delivery from 'components/Delivery';
 import Colors from 'components/Colors';
+import Container from 'components/Container';
 
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Product = ({ name, id, items, description, tags, history, text }) => {
+const Product = ({ name, id, items: { items = [] }, description, tags, history, text }) => {
+    console.log();
     const [tabIndex, setTabIndex] = useState(0);
     const [error, setError] = useState(null);
-    const [selectedProduct, setSelectedProduct] = useState(items.edges.length ? items.edges[0].node : {});
+    const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
     // const [addToCard, { data: addBasket, loadingMutation }] = useMutation(ADD_TO_BASKET, {
     //     variables: {
     //         input: {
@@ -63,7 +65,7 @@ const Product = ({ name, id, items, description, tags, history, text }) => {
     // });
     const handleChangeItem = ({ id, price: itemPrice }) => {
         if (!itemPrice) return;
-        const newSelectedProduct = items.edges.find(item => item.node.id === id);
+        const newSelectedProduct = items.find(item => item.node.id === id);
 
         if (newSelectedProduct && newSelectedProduct.node.id !== selectedProduct.id) {
             setSelectedProduct(newSelectedProduct.node);
@@ -77,13 +79,13 @@ const Product = ({ name, id, items, description, tags, history, text }) => {
     const handleShowCL = () => {
         setShowChooseLenses(!showChooseLenses);
     };
-    const images = items.edges.reduce((acc, { node }) => acc.concat(node.productItemImages), []);
+    const images = items.reduce((acc, { node }) => acc.concat(node.productItemImages), []);
 
     return (
-        <>
-            {/*showChooseLenses && <ChooseLenses title={product.name} onClose={handleShowCL} />*/}
+        <Container>
+            {/* showChooseLenses && <ChooseLenses title={product.name} onClose={handleShowCL} /> */}
             <div style={{ display: showChooseLenses ? 'none' : 'block' }}>
-                {images.length && (
+                {images.length ? (
                     <div className={styles.carouselWrapper}>
                         <Carousel>
                             {images.map(item => (
@@ -97,7 +99,7 @@ const Product = ({ name, id, items, description, tags, history, text }) => {
                             ))}
                         </Carousel>
                     </div>
-                )}
+                ) : null}
                 <div className={styles.meta}>
                     <h1 className={styles.title}>{name}</h1>
                     <div className={styles.colorsWrapper}>
@@ -111,16 +113,18 @@ const Product = ({ name, id, items, description, tags, history, text }) => {
                         />
                     </div>
                     <h2 className={styles.description}>Layered Aloe Crystal with Riesling</h2>
-                    <div className={styles.buttons}>
-                        <Button
-                            href="/glasses-infos/ckkz-ochki.htm"
-                            // onClick={handleShowCL}
-                            kind="primary"
-                            bold
-                        >
-                            Купить в оптике за {Math.abs(selectedProduct.price)} руб.
-                        </Button>
-                    </div>
+                    {selectedProduct.price && (
+                        <div className={styles.buttons}>
+                            <Button
+                                href="/glasses-infos/ckkz-ochki.htm"
+                                // onClick={handleShowCL}
+                                kind="primary"
+                                bold
+                            >
+                                Купить в оптике за {selectedProduct.price} руб.
+                            </Button>
+                        </div>
+                    )}
                     <div className={styles.info}>
                         <p>
                             Возможны варианты: оправа без линз, оправа с однофокальным линзами,
@@ -141,7 +145,7 @@ const Product = ({ name, id, items, description, tags, history, text }) => {
                     'https://i.warbycdn.com/-/f/7-a09963b0?quality=70&width=1200',
                 ]}
             >
-                {tags.length && (
+                {tags.length ? (
                     <>
                         <h2 className={styles.sectionTitle}>
                             <FormattedMessage id="about_the_frames" />
@@ -154,23 +158,19 @@ const Product = ({ name, id, items, description, tags, history, text }) => {
                             );
                         })}
                     </>
-                )}
+                ) : null}
             </HeadTurn>
-            {text && (
-                <div className={styles.section}>
-                    <h2 styles={styles.sectionTitle}>Описание бренда {tags[142].values_str[0]}</h2>
-                    <RichText expanded={false}>{text}</RichText>
-                </div>
-            )}
             <Delivery
                 title="Free shipping and free returns on every order"
                 text="We have a 30-day, hassle-free return or exchange policy as well as a one-year, no scratch
             guarantee for our lenses; we'll replace your scratched lenses for free within the first 12 months."
             />
             <div className={styles.section}>
-                <h2 styles={styles.sectionTitle}>Другие товары</h2>
+                <h2 className={styles.sectionTitle}>
+                    <FormattedMessage id="recommended" />
+                </h2>
             </div>
-        </>
+        </Container>
     );
 };
 

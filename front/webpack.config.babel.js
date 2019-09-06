@@ -43,6 +43,7 @@ const getStyleLoaders = (cssOptions, preprocessor) => {
                     require('postcss-flexbugs-fixes'),
                     require('postcss-preset-env')({
                         autoprefixer: {
+                            grid: true,
                             flexbox: 'no-2009',
                         },
                         preserve: false,
