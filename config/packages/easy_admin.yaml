@@ -12,39 +12,51 @@ easy_admin:
                 fields: ['id', 'url', 'created']
         ProductUrl:
             class: App\Entity\ProductUrl
+            label: 'Адреса продуктов'
             list:
+                title: 'Адреса продуктов'
                 fields: ['id', 'url', 'created']
             form:
                 fields:
                     - url
         CatalogUrl:
             class: App\Entity\CatalogUrl
+            label: 'Адреса каталогов'
             list:
+                title: 'Адреса продуктов'
                 fields: ['id', 'url', 'created']
             form:
                 fields:
                   - url
         Users:
             class: App\Entity\Users
+            label: 'Пользователи'
             list:
+                title: 'Пользователи'
                 fields: ['id', 'email', 'roles']
         Menu:
             class: App\Entity\Menu
+            label: 'Меню'
             controller: App\Controller\Admin\MenuController
             list:
+                title: 'Меню'
                 fields: ['id', 'name', 'title']
             form:
                 fields:
                   - name
                   - title
         MenuItem:
+            label: 'Пункты меню'
             class: App\Entity\MenuItem
             list:
+                title: 'Пункты меню'
                 fields: ['id', 'title']
         Catalog:
             class: App\Entity\Catalog
+            label: 'Каталоги'
             controller: App\Controller\Admin\CatalogController
             list:
+                title: 'Каталоги'
                 fields: ['id', 'name', 'visible']
             form:
               fields:
@@ -57,8 +69,10 @@ easy_admin:
                   - { property: 'productTagItems', type_options: { block_name: 'catalogs_tags' }}
         Items:
             class: App\Entity\ProductItem
+            label: 'Товары'
             controller: App\Controller\Admin\ItemsController
             list:
+                title: 'Товары'
                 fields:
                     - id
                     - name
@@ -72,8 +86,10 @@ easy_admin:
                     - { property: 'productItemImages', type_options: { block_name: 'item_images' }}
         Product:
             class: App\Entity\Product
+            label: 'Продукты'
             controller: App\Controller\Admin\ProductController
             list:
+                title: 'Продукты'
                 fields: ['id', 'name', 'visible']
             form:
                 fields:
@@ -106,8 +122,10 @@ easy_admin:
             controller: App\Controller\Admin\ImportProductController
         ProductTag:
             class: App\Entity\ProductTag
+            label: 'Теги продуктов'
             controller: App\Controller\Admin\ProductTagController
             list:
+              title: 'Теги продуктов'
               fields: ['id', 'name', 'created', 'visible', 'input_type']
             form:
               fields:
@@ -122,10 +140,34 @@ easy_admin:
               fields:
                 - name
                 - slug
+        ProductItemTag:
+            label: 'Теги товаров'
+            class: App\Entity\ProductItemTag
+            controller: App\Controller\Admin\ProductItemTagController
+            list:
+              title: 'Теги товаров'
+              fields: ['id', 'name', 'visible', 'created']
+            form:
+              title: 'Тег товара'
+              fields:
+                - { property: 'name', label: 'Имя'}
+                - { property: 'visible', label: 'Видимость' }
+                - { property: 'productItemTagItems', label: 'Опции', type_options: { block_name: 'product_item_tag_items' }}
+        ProductItemTagItem:
+            class: App\Entity\ProductItemTagItem
+            list:
+              title: 'Опции тегов товаров'
+            form:
+              title: 'Добавить опцию тега товара'
+              fields:
+                - { property: 'name', label: 'Имя'}
+                - { property: 'image', label: 'Изображение', type_options: { block_name: 'product_item_tag_image' }}
         CatalogTag:
             class: App\Entity\CatalogTag
+            label: 'Теги каталогов'
             controller: App\Controller\Admin\ProductTagController
             list:
+                title: 'Теги каталогов'
                 fields: ['id', 'name', 'created', 'visible']
             form:
               fields:
@@ -134,6 +176,7 @@ easy_admin:
                 - { property: 'visible', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
 
         Configuration:
+            label: 'Конфигурация'
             class: App\Entity\ProductTag
             controller: App\Controller\Admin\ConfigurationController
         Address:
@@ -157,7 +200,9 @@ easy_admin:
                     - active
         Banner:
             class: App\Entity\Banner
+            label: 'Баннеры'
             list:
+                title: 'Баннеры'
                 fields:
                     - id
                     - path
@@ -168,6 +213,7 @@ easy_admin:
                     - link
         Sale:
             class: App\Entity\Sale
+            label: 'Акции'
             form:
                 fields:
                     - { type: 'tab' , label: 'General' }
@@ -192,8 +238,10 @@ easy_admin:
                     - { property: 'region'}
         Page:
             class: App\Entity\Page
+            label: 'Страницы'
             controller: App\Controller\Admin\PageController
             list:
+                title: 'Страницы'
                 fields: ['id', 'title', 'name', 'visible']
             form:
                 fields:
@@ -235,14 +283,15 @@ easy_admin:
             - 'admin/form/catalog_urls.html.twig'
             - 'admin/form/item_images.html.twig'
             - 'admin/form/page_urls.html.twig'
+            - 'admin/form/product_item_tag_items.html.twig'
+            - 'admin/form/product_item_tag_image.html.twig'
         menu:
-          - label: 'Urls'
+          - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']
-          - label: 'Catalog'
-            children: ['Catalog', 'Product', 'Items', 'ProductTag']
-          - label: 'User'
-            children: ['Users']
-          - label: 'Menu'
+          - label: 'Каталоги'
+            children: ['Catalog', 'Product', 'Items', 'ProductTag','ProductItemTag']
+          - Users
+          - label: 'Меню'
             children: ['Menu', 'MenuItem']
           - Page
           - Banner

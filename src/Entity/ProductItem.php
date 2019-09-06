@@ -87,6 +87,16 @@ class ProductItem
      */
     private $productItemImages;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ProductItemTag", mappedBy="entity")
+     */
+    private $productItemTags;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ProductItemTagItem", mappedBy="item")
+     */
+    private $productItemTagItems;
+
     public function __construct()
     {
         $this->product_id = new ArrayCollection();
@@ -96,6 +106,8 @@ class ProductItem
         $this->importRelations = new ArrayCollection();
         $this->orderItems = new ArrayCollection();
         $this->created = new \DateTime();
+        $this->productItemTags = new ArrayCollection();
+        $this->productItemTagItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -349,6 +361,62 @@ class ProductItem
             if ($productItemImage->getProductItem() === $this) {
                 $productItemImage->setProductItem(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductItemTag[]
+     */
+    public function getProductItemTags(): Collection
+    {
+        return $this->productItemTags;
+    }
+
+    public function addProductItemTag(ProductItemTag $productItemTag): self
+    {
+        if (!$this->productItemTags->contains($productItemTag)) {
+            $this->productItemTags[] = $productItemTag;
+            $productItemTag->addEntity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductItemTag(ProductItemTag $productItemTag): self
+    {
+        if ($this->productItemTags->contains($productItemTag)) {
+            $this->productItemTags->removeElement($productItemTag);
+            $productItemTag->removeEntity($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductItemTagItem[]
+     */
+    public function getProductItemTagItems(): Collection
+    {
+        return $this->productItemTagItems;
+    }
+
+    public function addProductItemTagItem(ProductItemTagItem $productItemTagItem): self
+    {
+        if (!$this->productItemTagItems->contains($productItemTagItem)) {
+            $this->productItemTagItems[] = $productItemTagItem;
+            $productItemTagItem->addItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductItemTagItem(ProductItemTagItem $productItemTagItem): self
+    {
+        if ($this->productItemTagItems->contains($productItemTagItem)) {
+            $this->productItemTagItems->removeElement($productItemTagItem);
+            $productItemTagItem->removeItem($this);
         }
 
         return $this;

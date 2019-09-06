@@ -9,6 +9,8 @@ parameters:
     app.path.import_product: /public/uploads/import/
     app.path.ProductItemImage: '%kernel.project_dir%/public/uploads/items'
     app.url.ProductItemImage: '/uploads/items'
+    app.path.ProductItemTagItem: '%kernel.project_dir%/public/uploads/tag_items'
+    app.url.ProductItemTagItem: '/uploads/tag_items'
 
 services:
     # default configuration for services in *this* file

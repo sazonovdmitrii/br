@@ -1,0 +1,35 @@
+{% block _productitemtag_product_item_tag_items_widget %}
+
+    <div class="row">
+        <a class="btn btn-default" href="/admin/?entity=ProductItemTagItem&action=new">
+            <span class="glyphicon glyphicon-plus">+</span>
+        </a>
+    </div>
+
+    <ul class="list-inline ui-sortable" id="options">
+        {% for row in form.parent.vars.data.productItemTagItems %}
+            <li class="col-xs-12 col-sm-6 col-md-3" eid="{{ row.id }}">
+                <div class="thumbnail">
+                    <a class="btn pull-right" onclick="remove_option(this)">
+                        <span class="glyphicon glyphicon-remove">x</span>
+                    </a>
+                    <div class="list-option">{{ row.name }}</div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+
+    <script type="text/javascript">
+        function remove_option(e) {
+            if(confirm('Удалить?')) {
+                $.post("/admin/?" + $.param({'entity' : 'ProductTag', 'action' : 'remove'}), {
+                    'tag_id': $(e).parent().parent().attr('eid')
+                }, function (data) {
+                    window.location.reload();
+                });
+            }
+        }
+    </script>
+
+{% endblock %}
