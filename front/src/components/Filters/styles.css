@@ -189,8 +189,8 @@
     margin: 0;
     font-weight: 400;
     font-size: 20px;
-    font-family: var(--font-serif);
-    line-height: 30px;
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
     text-align: left;
 }
 

@@ -8,21 +8,21 @@ const Hero = ({ image, title, subtitle, actions }) => (
             <picture>
                 <source
                     media="(min-width: 1600px)"
-                    srcSet="https://placehold.it/2400x520, https://placehold.it/3600x520 1.5x, https://placehold.it/4800x520 2x"
+                    srcSet="https://placehold.it/1400x480, https://placehold.it/2800x960 2x"
                 />
                 <source
                     media="(min-width: 768px)"
-                    srcSet="https://placehold.it/1600x520, https://placehold.it/2400x520 1.5x, https://placehold.it/3200x520 2x"
+                    srcSet="https://placehold.it/1200x400, https://placehold.it/2400x800 2x"
                 />
                 <img
                     className={styles.image}
-                    src="https://placehold.it/1152x520"
-                    srcSet="https://placehold.it/1536x520 2x"
+                    src="https://placehold.it/768x376"
+                    srcSet="https://placehold.it/1536x752 2x"
                     alt="Men’s Optical"
                 />
             </picture>
         </div>
-        <div className={styles.body}>
+        <div className={styles.text}>
             {title && <h1 className={styles.title}>{title}</h1>}
             {subtitle && <div className={styles.subtitle}>{subtitle}</div>}
             {actions && <div className={styles.actions}>{actions}</div>}

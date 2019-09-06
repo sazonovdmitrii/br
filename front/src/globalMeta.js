@@ -24,25 +24,11 @@ export default {
             keywords: `парфюмерия, духи, интернет магазин парфюмерии, ${data.siteName}, лапарфюмерия`,
         };
     },
-    content() {
+    content({ name, keywords, description }) {
         return {
-            title: ``,
-            description: ``,
-            keywords: ``,
-        };
-    },
-    brands() {
-        return {
-            title: '',
-            description: '',
-            keywords: ``,
-        };
-    },
-    comments() {
-        return {
-            title: ``,
-            description: '',
-            keywords: ``,
+            title: name,
+            description,
+            keywords,
         };
     },
     sitemap() {
@@ -50,34 +36,6 @@ export default {
             title: ``,
             description: ``,
             keywords: ``,
-        };
-    },
-    'sales-leader'() {
-        return {
-            title: ``,
-            description: ``,
-            keywords: ``,
-        };
-    },
-    new() {
-        return {
-            title: ``,
-            description: ``,
-            keywords: ``,
-        };
-    },
-    articles() {
-        return {
-            title: ``,
-            description: ``,
-            keywords: ``,
-        };
-    },
-    article({ name }) {
-        return {
-            title: `${name}`,
-            description: `${name}`,
-            keywords: `${name}`,
         };
     },
     catalog({ name, page, minPrice }) {
@@ -91,12 +49,6 @@ export default {
         return {
             title: name,
             keywords: `${items.map(({ node }) => node.name).join(', ')}`,
-            description: ``,
-        };
-    },
-    sale({ name }) {
-        return {
-            title: `${name}`,
             description: ``,
         };
     },

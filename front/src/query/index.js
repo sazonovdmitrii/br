@@ -8,6 +8,18 @@ export const IS_LOGGED_IN = gql`
     }
 `;
 
+export const GET_CONTENT = gql`
+    query page($slug: String) {
+        page(slug: $slug) {
+            title
+            name
+            meta_keywords
+            meta_description
+            content
+        }
+    }
+`;
+
 export const GET_HEADER_MENU = gql`
     query headerMenu($locale: String) {
         top_menu(locale: $locale) {
@@ -27,20 +39,20 @@ export const GET_HEADER_MENU = gql`
     }
 `;
 
+// tags {
+//     id
+//     name
+//     childrens {
+//         id
+//         name
+//         count
+//     }
+// }
 export const GET_CATALOG = gql`
     query Catalog($slug: String!) {
         catalog(slug: $slug) {
             name
             count
-            tags {
-                id
-                name
-                childrens {
-                    id
-                    name
-                    count
-                }
-            }
         }
     }
 `;

@@ -20,6 +20,12 @@ export default ({ lang, defaultLang }) => {
             component: getComponent('User', { ssr: false }),
         },
         {
+            path: `${LANG_PREFIX}/info/:slug`,
+            exact: true,
+            component: getComponent('Content'),
+            // getComponent('Retail'),
+        },
+        {
             path: `${LANG_PREFIX}/retail`,
             exact: true,
             component: getComponent('Retail'),

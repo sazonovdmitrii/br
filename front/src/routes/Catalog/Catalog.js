@@ -24,14 +24,12 @@ const Catalog = ({ match, slug, limit, name, count, description, subtitle, tags 
     }
 
     return (
-        <div>
+        <Container>
             <SeoHead type="catalog" name={name} page={currentPage} />
             <Hero title={name} subtitle="Shop frames below or pick five pairs to try for free" />
-            <Container>
-                <Filters list={tags} />
-                <Products slug={slug} limit={limit} offset={offset} count={count} />
-            </Container>
-        </div>
+            {tags.length ? <Filters list={tags} /> : null}
+            <Products slug={slug} limit={limit} offset={offset} count={count} />
+        </Container>
     );
 };
 

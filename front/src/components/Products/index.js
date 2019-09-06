@@ -34,7 +34,7 @@ const Products = ({ title, page, slug, limit, offset, col, className }) => {
     const { products, count } = data.catalog;
 
     return (
-        <>
+        <div className={styles.root}>
             {title}
             <div className={rowClassName}>
                 {products &&
@@ -44,7 +44,7 @@ const Products = ({ title, page, slug, limit, offset, col, className }) => {
                         </div>
                     ))}
             </div>
-        </>
+        </div>
     );
 };
 
@@ -55,7 +55,7 @@ Products.defaultProps = {
     page: '',
     slug: '',
     className: null,
-    col: 4,
+    col: 3,
 };
 
 Products.propTypes = {

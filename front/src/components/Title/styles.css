@@ -1,10 +1,10 @@
 .root {
     margin-bottom: 18px;
     color: var(--color-font);
-    font-weight: 600;
     font-size: 24px;
-    font-family: var(--font-serif);
-    line-height: 1.2;
+    font-weight: var(--headings-font-weight);
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
 
     @media (--viewport-tablet) {
         font-size: 30px;

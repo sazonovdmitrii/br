@@ -12,6 +12,7 @@ import AddressBook from 'routes/AddressBook';
 import NotFound from 'routes/NotFound';
 import Orders from 'routes/Orders';
 import Personal from 'routes/Personal';
+// import Orders from 'routes/Orders';
 import Register from 'routes/Register';
 import RemindPassword from 'routes/RemindPassword';
 import Security from 'routes/Security';

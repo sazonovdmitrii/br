@@ -19,8 +19,8 @@
 
 .title {
     margin-bottom: 21px;
-    font-weight: 600;
-    font-size: 16px;
+    font-weight: var(--heading-font-weight);
+    font-size: var(--font-size-base);
 
     @media (--viewport-ipad) {
         font-size: 12px;

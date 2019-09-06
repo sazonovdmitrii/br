@@ -60,8 +60,8 @@ export const SeoHead = withRouter(props => {
     );
 });
 
-export const withQuery = ({ query, variables }) => Component => {
-    const { data, loading, error } = useQuery(query, { variables });
+export const withQuery = ({ query, ...opts }) => Component => {
+    const { data, loading, error } = useQuery(query, opts);
 
     if (loading) return <Loader />;
     if (error) {
