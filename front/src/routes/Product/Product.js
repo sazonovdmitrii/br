@@ -25,10 +25,7 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Product = ({ name, id, items: { items = [] }, description, tags, history, text }) => {
-    console.log();
-    const [tabIndex, setTabIndex] = useState(0);
-    const [error, setError] = useState(null);
+const Product = ({ name, id, items: { edges: items = [] }, description, tags, history, text }) => {
     const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
     // const [addToCard, { data: addBasket, loadingMutation }] = useMutation(ADD_TO_BASKET, {
     //     variables: {
@@ -71,15 +68,14 @@ const Product = ({ name, id, items: { items = [] }, description, tags, history, 
             setSelectedProduct(newSelectedProduct.node);
         }
     };
-    const handleChangeTab = ({ value }) => {
-        setTabIndex(value);
-    };
     const [showChooseLenses, setShowChooseLenses] = useState(false);
 
     const handleShowCL = () => {
         setShowChooseLenses(!showChooseLenses);
     };
     const images = items.reduce((acc, { node }) => acc.concat(node.productItemImages), []);
+
+    const sectionTitleCenterClassName = cx(styles.sectionTitle, styles.center);
 
     return (
         <Container>
@@ -121,16 +117,12 @@ const Product = ({ name, id, items: { items = [] }, description, tags, history, 
                                 kind="primary"
                                 bold
                             >
-                                Купить в оптике за {selectedProduct.price} руб.
+                                <FormattedMessage id="buy_at_optics_for" /> {selectedProduct.price} руб.
                             </Button>
                         </div>
                     )}
                     <div className={styles.info}>
-                        <p>
-                            Возможны варианты: оправа без линз, оправа с однофокальным линзами,
-                            <br />
-                            бифокальными, прогрессивными и солнцезащитными
-                        </p>
+                        <FormattedMessage id="product_text" values={{ br: <br /> }} />
                     </div>
                 </div>
             </div>
@@ -150,13 +142,15 @@ const Product = ({ name, id, items: { items = [] }, description, tags, history, 
                         <h2 className={styles.sectionTitle}>
                             <FormattedMessage id="about_the_frames" />
                         </h2>
-                        {tags.map(({ name, value }) => {
-                            return (
-                                <p key={value}>
-                                    {name}: {value}
-                                </p>
-                            );
-                        })}
+                        <ul>
+                            {tags.map(({ name, value }, index) => {
+                                return (
+                                    <li key={index}>
+                                        {name}: {value}
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     </>
                 ) : null}
             </HeadTurn>
@@ -166,7 +160,7 @@ const Product = ({ name, id, items: { items = [] }, description, tags, history, 
             guarantee for our lenses; we'll replace your scratched lenses for free within the first 12 months."
             />
             <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>
+                <h2 className={sectionTitleCenterClassName}>
                     <FormattedMessage id="recommended" />
                 </h2>
             </div>
