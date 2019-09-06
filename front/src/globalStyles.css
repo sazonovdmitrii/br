@@ -1,9 +1,3 @@
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
 b,
 strong {
     font-weight: 500;

@@ -90,7 +90,7 @@ const defaultLang = LANGS.find(item => item.default);
 const App = ({ lang }) => {
     const { data: { getMessages = {} } = {} } = useQuery(GET_MESSAGES, { variables: { lang } });
     const [setLang] = useMutation(SET_LANG_MUTATION, {
-        variables: { lang: lang },
+        variables: { lang },
     });
 
     useMemo(() => {

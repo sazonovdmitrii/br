@@ -1,20 +1,19 @@
 .wrapper {
     margin-bottom: 72px;
     padding: 48px 18px;
-    font-size: 18px;
+    font-size: var(--font-size-large);
     text-align: center;
     background-color: #f4f4f4;
     border-radius: 5px;
 }
 
 .title {
-    margin-top: 0;
-    margin-bottom: 24px;
+    margin: 0 0 24px;
     color: var(--color-font);
-    font-weight: 600;
+    font-weight: var(--headings-font-weight);
     font-size: 30px;
-    font-family: var(--font-serif);
-    line-height: 1.2;
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
 }
 
 .text {

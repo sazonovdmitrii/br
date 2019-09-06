@@ -54,7 +54,7 @@
 .input {
     width: 100%;
     padding: 10px 18px;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     text-transform: capitalize;
     background-color: #fff;
     border: 1px solid #d2d6d9;

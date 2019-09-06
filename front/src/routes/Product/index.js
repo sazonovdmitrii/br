@@ -11,8 +11,13 @@ const Component = loadable(() => import('./Product'), {
 });
 
 export default props => {
-    const { url } = props.match;
-    const slug = url.slice(1);
+    const {
+        match: { params },
+    } = props;
+    const slug =
+        Object.values(params)
+            .filter(Boolean)
+            .join('/') + '.htm';
 
     return withQuery({ query: GET_PRODUCT, variables: { slug } })(data => <Component {...props} {...data} />);
 };

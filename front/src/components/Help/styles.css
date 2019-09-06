@@ -1,9 +1,10 @@
 .title {
     margin-bottom: 18px;
     color: var(--color-font);
-    font-weight: 600;
     font-size: 20px;
-    font-family: var(--font-serif);
+    font-weight: var(--headings-font-weight);
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
 }
 
 .text {

@@ -1,5 +1,5 @@
 const data = {
-    url: `https://brillenhof.com/`,
+    url: `https://brillenhof.com`,
     domain: 'brillenhof.com',
     siteName: 'Brillenhof',
     email: 'info@brillenhof.com',
@@ -12,6 +12,7 @@ const data = {
 };
 
 export default {
+    url: data.url,
     phone: data.phone,
     fullSiteName: `${data.domain}`,
     defaultTitle: `Glasses & Prescription Eyeglasses | ${data.siteName}`,
@@ -23,25 +24,11 @@ export default {
             keywords: `парфюмерия, духи, интернет магазин парфюмерии, ${data.siteName}, лапарфюмерия`,
         };
     },
-    content() {
+    content({ name, keywords, description }) {
         return {
-            title: ``,
-            description: ``,
-            keywords: ``,
-        };
-    },
-    brands() {
-        return {
-            title: '',
-            description: '',
-            keywords: ``,
-        };
-    },
-    comments() {
-        return {
-            title: ``,
-            description: '',
-            keywords: ``,
+            title: name,
+            description,
+            keywords,
         };
     },
     sitemap() {
@@ -49,34 +36,6 @@ export default {
             title: ``,
             description: ``,
             keywords: ``,
-        };
-    },
-    'sales-leader'() {
-        return {
-            title: ``,
-            description: ``,
-            keywords: ``,
-        };
-    },
-    new() {
-        return {
-            title: ``,
-            description: ``,
-            keywords: ``,
-        };
-    },
-    articles() {
-        return {
-            title: ``,
-            description: ``,
-            keywords: ``,
-        };
-    },
-    article({ name }) {
-        return {
-            title: `${name}`,
-            description: `${name}`,
-            keywords: `${name}`,
         };
     },
     catalog({ name, page, minPrice }) {
@@ -88,14 +47,8 @@ export default {
     },
     product({ name, items = [] }) {
         return {
-            title: `${name}`,
+            title: name,
             keywords: `${items.map(({ node }) => node.name).join(', ')}`,
-            description: ``,
-        };
-    },
-    sale({ name }) {
-        return {
-            title: `${name}`,
             description: ``,
         };
     },

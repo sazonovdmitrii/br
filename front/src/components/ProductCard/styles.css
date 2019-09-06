@@ -4,21 +4,19 @@
 
 .imageWrapper {
     display: block;
-    height: 120px;
     padding: 0 2.43%;
 }
 
 .image {
-    max-height: 120px;
+    max-height: 180px;
 }
 
 .title {
-    margin-top: 24px;
-    margin-bottom: 6px;
-    font-weight: 600;
+    margin: 24px 0 6px;
     font-size: 24px;
-    font-family: var(--font-serif);
-    line-height: calc(1em + 6px);
+    font-weight: var(--headings-font-weight);
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
 }
 
 .colors {

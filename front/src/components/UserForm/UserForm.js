@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import Input from 'components/Input';
 import InputGroup from 'components/InputGroup';
@@ -61,7 +62,7 @@ const UserForm = ({ data, type, onSubmit }) => {
                 <Input
                     type="text"
                     name="lastname"
-                    label="Фамилия"
+                    label={<FormattedMessage id="last_name" />}
                     value={lastname}
                     onChange={handleChange}
                     required
@@ -71,7 +72,7 @@ const UserForm = ({ data, type, onSubmit }) => {
                 <Input
                     type="text"
                     name="firstname"
-                    label="Имя"
+                    label={<FormattedMessage id="first_name" />}
                     value={firstname}
                     onChange={handleChange}
                     required
@@ -86,7 +87,7 @@ const UserForm = ({ data, type, onSubmit }) => {
                             onChange={handleChange}
                         />
                     </InputGroup> */}
-            Пол:
+            <FormattedMessage id="gender" />:
             <InputGroup>
                 <RadioGroup name="gender" value={gender} onChange={handleChange}>
                     <RadioButton value="" label="Не указан" />
@@ -109,7 +110,7 @@ const UserForm = ({ data, type, onSubmit }) => {
                     type="tel"
                     name="phone"
                     value={phone}
-                    label="Телефон"
+                    label={<FormattedMessage id="phone" />}
                     placeholder="+7 (000) 000-00-00"
                     mask="+{7} (000) 000-00-00"
                     onChange={handleChange}
@@ -121,7 +122,7 @@ const UserForm = ({ data, type, onSubmit }) => {
                     <Input
                         name="password"
                         type="password"
-                        label="Пароль"
+                        label={<FormattedMessage id="password" />}
                         value={password}
                         onChange={handleChange}
                         required
@@ -130,7 +131,7 @@ const UserForm = ({ data, type, onSubmit }) => {
             )}
             <InputGroup>
                 <Checkbox
-                    label="Я принимаю правила и условия"
+                    label={<FormattedMessage id="disclaimer" />}
                     name="disclaimer"
                     checked={disclaimer}
                     onChange={handleChange}
@@ -139,7 +140,7 @@ const UserForm = ({ data, type, onSubmit }) => {
             </InputGroup>
             <InputGroup>
                 <Checkbox
-                    label="Получать уведомления о новых распродажах"
+                    label={<FormattedMessage id="email_subscription" />}
                     name="email_subscription"
                     checked={email_subscription}
                     onChange={handleChange}
@@ -147,7 +148,7 @@ const UserForm = ({ data, type, onSubmit }) => {
             </InputGroup>
             <InputGroup>
                 <Checkbox
-                    label="Получать SMS-сообщения"
+                    label={<FormattedMessage id="sms_subscription" />}
                     name="sms_subscription"
                     checked={sms_subscription}
                     onChange={handleChange}
@@ -156,11 +157,15 @@ const UserForm = ({ data, type, onSubmit }) => {
             {(isRegistration || isPersonal) && (
                 <>
                     <Button type="submit" kind="primary" size="large" bold fullWidth={isRegistration}>
-                        {isRegistration ? 'Зарегистрироваться' : 'Сохранить'}
+                        {isRegistration ? (
+                            <FormattedMessage id="create_account" />
+                        ) : (
+                            <FormattedMessage id="save" />
+                        )}
                     </Button>
                     {isPersonal && (
                         <Button type="reset" kind="secondary" size="large">
-                            Отменить
+                            <FormattedMessage id="cancel" />
                         </Button>
                     )}
                 </>
