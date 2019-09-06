@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { isProd } from 'utils';
 
-import { seoHead } from 'utils';
+import { SeoHead } from 'utils';
 import Button from 'components/Button';
 import RichText from 'components/RichText';
 import Select from 'components/Select';
@@ -79,6 +79,7 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
 
     return (
         <Container>
+            <SeoHead type="product" name={name} items={items} image={images ? images[0].path : null} />
             {/* showChooseLenses && <ChooseLenses title={product.name} onClose={handleShowCL} /> */}
             <div style={{ display: showChooseLenses ? 'none' : 'block' }}>
                 {images.length ? (
@@ -88,7 +89,7 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
                                 <div key={item.id} className={styles.slide}>
                                     <img
                                         className={styles.slideImage}
-                                        src={`${isProd ? '' : 'http://br.morphes.ru'}${item.path}`}
+                                        src={`http://br.morphes.ru${item.path}`}
                                         alt=""
                                     />
                                 </div>

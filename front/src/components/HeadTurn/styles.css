@@ -29,8 +29,7 @@
 }
 
 .text {
-    padding-top: 48px;
-    padding-bottom: 48px;
+    padding: 48px 0;
     font-size: 16px;
     line-height: calc(1em + 10px);
 
@@ -41,15 +40,11 @@
 
     @media (--viewport-desktop) {
         position: absolute;
+        left: 0;
         top: 50%;
-        left: 50%;
-        width: 100%;
-        padding-top: 0;
-        padding-right: 60px;
-        padding-bottom: 0;
-        padding-left: 60px;
+        padding: 0 60px;
         font-size: 18px;
-        transform: translate(-50%, -50%);
+        transform: translateY(-50%);
         pointer-events: none;
     }
 }

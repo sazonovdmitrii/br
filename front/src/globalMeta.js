@@ -1,5 +1,5 @@
 const data = {
-    url: `https://brillenhof.com/`,
+    url: `https://brillenhof.com`,
     domain: 'brillenhof.com',
     siteName: 'Brillenhof',
     email: 'info@brillenhof.com',
@@ -12,6 +12,7 @@ const data = {
 };
 
 export default {
+    url: data.url,
     phone: data.phone,
     fullSiteName: `${data.domain}`,
     defaultTitle: `Glasses & Prescription Eyeglasses | ${data.siteName}`,
@@ -88,7 +89,7 @@ export default {
     },
     product({ name, items = [] }) {
         return {
-            title: `${name}`,
+            title: name,
             keywords: `${items.map(({ node }) => node.name).join(', ')}`,
             description: ``,
         };

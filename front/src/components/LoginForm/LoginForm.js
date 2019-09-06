@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import Input from 'components/Input';
 import InputGroup from 'components/InputGroup';
@@ -31,7 +32,7 @@ const LoginForm = ({ onSubmit }) => {
                 <Input
                     name="email"
                     type="email"
-                    label="Email"
+                    label={<FormattedMessage id="email" />}
                     value={email}
                     onChange={({ target: { value } }) => setEmail(value)}
                     required
@@ -41,7 +42,7 @@ const LoginForm = ({ onSubmit }) => {
                 <Input
                     name="password"
                     type="password"
-                    label="Password"
+                    label={<FormattedMessage id="password" />}
                     value={password}
                     onChange={({ target: { value } }) => setPassword(value)}
                     required
@@ -49,7 +50,7 @@ const LoginForm = ({ onSubmit }) => {
             </InputGroup>
             <InputGroup>
                 <Button type="submit" kind="primary" size="large" fullWidth bold>
-                    Sign in
+                    <FormattedMessage id="sign_in" />
                 </Button>
             </InputGroup>
         </form>

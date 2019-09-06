@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { seoHead } from 'utils';
+import { SeoHead } from 'utils';
 
 import Sidebar from 'components/Sidebar';
 import Pagination from 'components/Pagination';
@@ -25,7 +25,7 @@ const Catalog = ({ match, slug, limit, name, count, description, subtitle, tags 
 
     return (
         <div>
-            {seoHead('catalog', { name, page: currentPage })}
+            <SeoHead type="catalog" name={name} page={currentPage} />
             <Hero title={name} subtitle="Shop frames below or pick five pairs to try for free" />
             <Container>
                 <Filters list={tags} />

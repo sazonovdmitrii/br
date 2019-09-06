@@ -1,8 +1,7 @@
 {
-    "name": "lp",
+    "name": "br",
     "version": "1.0.0",
     "author": "Alexey Chernyshev <er1x4ever@gmail.com>",
-    "license": "MIT",
     "private": true,
     "scripts": {
         "post-deploy": "yarn build && pm2 reload br",
