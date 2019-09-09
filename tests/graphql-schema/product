@@ -12,6 +12,11 @@
             id
             path
           }
+          productItemTagItems {
+            id
+            name
+            image
+          }
         }
       }
     }

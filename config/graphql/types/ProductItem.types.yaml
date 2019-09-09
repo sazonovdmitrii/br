@@ -15,6 +15,10 @@ ProductItem:
       productItemImages:
         type: "[ProductItemImage]"
         description: "Product Item Image"
+      productItemTagItems:
+        type: "[ProductItemTagItem]"
+        description: "Product Item Tag Item"
+
 ProductItemImage:
   type: object
   config:
@@ -26,3 +30,18 @@ ProductItemImage:
       path:
         type: "String"
         description: "Product Image Path"
+
+ProductItemTagItem:
+  type: object
+  config:
+    description: "Product Item Tag Item"
+    fields:
+      id:
+        type: "String"
+        description: "Product Item Tag Item Id"
+      name:
+        type: "String"
+        description: "Product Item Tag Item Path"
+      image:
+        type: "String"
+        description: "Product Item Tag Item Image"
