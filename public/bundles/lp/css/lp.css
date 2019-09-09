@@ -15,3 +15,7 @@ label[for=items_productItemTagItems]
 {
     display: none;
 }
+.edit-productitemtag .thumbnail .btn.pull-right .glyphicon-remove,
+.edit-productitemtag .thumbnail .btn.pull-right {
+    line-height: 0.43;
+}

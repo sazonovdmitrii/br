@@ -14,7 +14,11 @@
                     <a class="btn pull-right" onclick="remove_option(this)">
                         <span class="glyphicon glyphicon-remove">x</span>
                     </a>
-                    <div class="list-option">{{ row.name }}</div>
+                    <div class="list-option">
+                        <a href="/admin/?entity=ProductItemTagItem&action=edit&id={{ row.id }}">
+                            {{ row.name }}
+                        </a>
+                    </div>
                 </div>
             </li>
         {% endfor %}
@@ -24,7 +28,7 @@
     <script type="text/javascript">
         function remove_option(e) {
             if(confirm('Удалить?')) {
-                $.post("/admin/?" + $.param({'entity' : 'ProductTag', 'action' : 'remove'}), {
+                $.post("/admin/?" + $.param({'entity' : 'ProductItemTag', 'action' : 'remove'}), {
                     'tag_id': $(e).parent().parent().attr('eid')
                 }, function (data) {
                     window.location.reload();
