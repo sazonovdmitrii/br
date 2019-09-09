@@ -1,13 +1,14 @@
 {% block _productitemtag_product_item_tag_items_widget %}
 
+    {% set entity = form.parent.vars.data %}
     <div class="row">
-        <a class="btn btn-default" href="/admin/?entity=ProductItemTagItem&action=new">
+        <a class="btn btn-default" href="/admin/?entity=ProductItemTagItem&action=new&entity_id={{ entity.id }}">
             <span class="glyphicon glyphicon-plus">+</span>
         </a>
     </div>
 
     <ul class="list-inline ui-sortable" id="options">
-        {% for row in form.parent.vars.data.productItemTagItems %}
+        {% for row in entity.productItemTagItems %}
             <li class="col-xs-12 col-sm-6 col-md-3" eid="{{ row.id }}">
                 <div class="thumbnail">
                     <a class="btn pull-right" onclick="remove_option(this)">

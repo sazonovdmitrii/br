@@ -48,9 +48,12 @@ class ProductItemTagItem
      */
     private $path;
 
+    private $entityId;
+
     public function __construct()
     {
         $this->item = new ArrayCollection();
+        $this->created = new \DateTime();
     }
 
     public function getId(): ?int
@@ -142,5 +145,23 @@ class ProductItemTagItem
         $this->path = $path;
 
         return $this;
+    }
+
+    public function getEntityId(): ?int
+    {
+        return $this->entityId;
+    }
+
+    public function setEntityId($entityId): self
+    {
+        $this->entityId = $entityId;
+
+        return $this;
+    }
+
+
+    public function __toString()
+    {
+        return self::class;
     }
 }

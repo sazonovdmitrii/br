@@ -4,3 +4,6 @@
     <input type="hidden" name="entity_id" value="{{ product.id }}"/>
     {% endif %}
 {% endblock %}
+{% block _productitemtagitem_entity_id_widget %}
+    <input type="hidden" id="productitemtagitem_entity" name="productitemtagitem[entity]" class="form-control" value="{{ form.parent.vars.value.entityId }}">
+{% endblock %}

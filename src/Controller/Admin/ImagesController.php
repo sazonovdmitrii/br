@@ -2,9 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use Doctrine\ORM\EntityManager;
 use App\Service\FileUploader;
+use Doctrine\ORM\EntityManager;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,25 +19,25 @@ class ImagesController extends BaseAdminController
         FileUploader $fileUploader
     ) {
         $this->entityManager = $entityManager;
-        $this->fileUploader = $fileUploader;
+        $this->fileUploader  = $fileUploader;
     }
 
     public function upload(Request $request)
     {
         $images = [];
-        if($type = $request->request->get('type', false)) {
+        if ($type = $request->request->get('type', false)) {
             $className = 'App\\Entity\\' . $type;
-            if(class_exists($className)) {
-                foreach($request->files->all() as $file) {
+            if (class_exists($className)) {
+                foreach ($request->files->all() as $file) {
                     $fileName = $this->fileUploader
                         ->setTargetDirectory($this->getPath($type))
                         ->upload($file);
-                    $entity = new $className;
+                    $entity   = new $className;
                     $entity->setPath($fileName);
                     $this->entityManager->persist($entity);
                     $this->entityManager->flush();
                     $images[] = [
-                        'id' => $entity->getId(),
+                        'id'   => $entity->getId(),
                         'path' => $this->getUrl($type) . '/' . $fileName
                     ];
                 }
@@ -45,6 +45,28 @@ class ImagesController extends BaseAdminController
         }
         $response = new Response();
         $response->setContent(json_encode($images));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function upload_once(Request $request)
+    {
+        if ($type = $request->request->get('type', false)) {
+            $file     = $request->files->get('file');
+            $fileName = $this->fileUploader
+                ->setTargetDirectory($this->getPath($type))
+                ->upload($file);
+        }
+        $response = new Response();
+        $response->setContent(
+            json_encode(
+                ['image' => $this->getUrl($type) . '/' . $fileName]
+            )
+        );
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -57,7 +79,7 @@ class ImagesController extends BaseAdminController
             ->getRepository('App:' . $type)
             ->find((int)$request->query->get('eid'));
 
-        if($image) {
+        if ($image) {
             $this->entityManager->remove($image);
             $this->entityManager->flush();
         }

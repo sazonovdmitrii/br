@@ -155,12 +155,19 @@ easy_admin:
                 - { property: 'productItemTagItems', label: 'Опции', type_options: { block_name: 'product_item_tag_items' }}
         ProductItemTagItem:
             class: App\Entity\ProductItemTagItem
+            controller: App\Controller\Admin\ProductItemTagItemController
             list:
               title: 'Опции тегов товаров'
+              fields:
+                - id
+                - name
+                - { property: 'image', template: 'admin/renderers/invoice_total.html.twig' }
+                - created
             form:
               title: 'Добавить опцию тега товара'
               fields:
                 - { property: 'name', label: 'Имя'}
+                - { property: 'entity', type_options: { block_name: 'entity_id'} }
                 - { property: 'image', label: 'Изображение', type_options: { block_name: 'product_item_tag_image' }}
         CatalogTag:
             class: App\Entity\CatalogTag

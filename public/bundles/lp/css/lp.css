@@ -9,7 +9,8 @@ label[for=product_producttagitem],
 .new-items label[for=items_product_id],
 .edit-items label[for=items_product_id],
 .edit-items label[for=items_productItemImages],
-.new-items label[for=items_productItemImages]
+.new-items label[for=items_productItemImages],
+label[for=productitemtagitem_entity]
 {
     display: none;
 }

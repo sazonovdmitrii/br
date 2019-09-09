@@ -14,6 +14,10 @@ images_upload:
     path: /admin/images/upload
     controller: App\Controller\Admin\ImagesController::upload
 
+images_once_upload:
+    path: /admin/images/upload_once
+    controller: App\Controller\Admin\ImagesController::upload_once
+
 images_delete:
     path: /admin/images/delete
     controller: App\Controller\Admin\ImagesController::delete
