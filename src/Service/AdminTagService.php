@@ -57,6 +57,25 @@ class AdminTagService extends TagService
         }
     }
 
+    public function updateProductItem()
+    {
+        $manager = $this->getDoctrine()->getManager();
+
+        foreach($this->getEntity()->getProductItemTagItems() as $productItemTagItem) {
+            $this->getEntity()->removeProductItemTagItem($productItemTagItem);
+        }
+
+        foreach($this->getTags() as $tagId => $tagValue) {
+            $tagValues = explode(',', $tagValue);
+            foreach($tagValues as $tagValue) {
+                $productTagItem = $this->em->getRepository('App:ProductItemTagItem')->find($tagValue);
+                $this->getEntity()->addProductItemTagItem($productTagItem);
+                $manager->persist($this->getEntity());
+                $manager->flush();
+            }
+        }
+    }
+
     public function updateCatalog()
     {
         $manager = $this->getDoctrine()->getManager();

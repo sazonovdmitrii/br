@@ -1,5 +1,6 @@
 <?php
 namespace App\Service\Twig;
+use App\Entity\ProductItemTag;
 use App\Entity\ProductTag;
 use Doctrine\ORM\EntityManager;
 
@@ -15,5 +16,10 @@ class Tags
     public function getTree()
     {
         return $this->em->getRepository(ProductTag::class)->findAll();
+    }
+
+    public function getItemTree()
+    {
+        return $this->em->getRepository(ProductItemTag::class)->findAll();
     }
 }

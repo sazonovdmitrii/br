@@ -1,0 +1,26 @@
+{% block _items_items_tags_items_widget %}
+    {% set currentItem = form.parent.vars.data %}
+    {% set currentTags = [] %}
+    {% for key, tag_item in form.parent.vars.data.productItemTagItems %}
+        {% set currentTags = currentTags|merge([tag_item.id]) %}
+    {% endfor %}
+    {% for key, tag in tags.getItemTree() %}
+        <div class="form-group row">
+            <label for="tag{{ tag.id }}" class="col-sm-2 col-form-label">{{ tag.name }}</label>
+            <div class="col-sm-10">
+                <select id="tag{{ tag.id }}" multiple="multiple" type="multiple" name="tag_{{ tag.id }}[]" class="select2 form-control">
+                    <option></option>
+                    {% for key_tag_item, tag_item in tag.getProductItemTagItems() %}
+                        <option value="{{ tag_item.id }}" {% if tag_item.id in currentTags %} selected {% endif %}>{{ tag_item.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    {% endfor %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.select2[type=once]').select2();
+            $('.select2[type=multiple]').select2({multiple:1});
+        });
+    </script>
+{% endblock %}

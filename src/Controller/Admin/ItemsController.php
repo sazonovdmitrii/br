@@ -2,11 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\ProductItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Doctrine\ORM\EntityManager;
 use App\Service\ProductItemService;
 use Symfony\Component\HttpFoundation\Response;
+use App\Service\AdminTagService;
 
 class ItemsController extends BaseAdminController
 {
@@ -16,10 +18,12 @@ class ItemsController extends BaseAdminController
 
     public function __construct(
         EntityManager $entityManager,
-        ProductItemService $productItemService
+        ProductItemService $productItemService,
+        AdminTagService $tagService
     ) {
         $this->entityManager = $entityManager;
         $this->productItemService = $productItemService;
+        $this->tagService = $tagService;
     }
 
     public function editItemsAction()
@@ -62,6 +66,14 @@ class ItemsController extends BaseAdminController
                 $this->productItemService
                     ->setProductItem($entity)
                     ->updateImages($imagesIds);
+            }
+
+            if($tags = $this->tagService->parseRequest($this->request->request->all())) {
+                $this->tagService
+                    ->setTags($tags)
+                    ->setEntityType(ProductItem::class)
+                    ->setEntity($entity)
+                    ->update();
             }
 
             return $this->redirectToReferrer();
