@@ -161,7 +161,7 @@ easy_admin:
               fields:
                 - id
                 - name
-                - { property: 'image', template: 'admin/renderers/invoice_total.html.twig' }
+                - { property: 'image', template: 'admin/renderers/image.html.twig' }
                 - created
             form:
               title: 'Добавить опцию тега товара'
