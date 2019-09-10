@@ -60,12 +60,15 @@ easy_admin:
                 fields: ['id', 'name', 'visible']
             form:
               fields:
-                  - { type: 'tab' , label: 'General' }
-                  - visible
+                  - { type: 'tab' , label: 'Основные' }
+                  - { property: 'visible', label: 'Видимость'}
                   - name
-                  - { type: 'tab', label: 'Virtual Urls' }
+                  - { type: 'tab' , label: 'Атрибуты' }
+                  - { property: 'banner', label: 'Баннер', type_options: { block_name: 'catalog_banner' }}
+                  - { property: 'description', label: 'Описание', type: 'fos_ckeditor' }
+                  - { type: 'tab', label: 'Urls' }
                   - { property: 'catalogUrls', type_options: { block_name: 'catalog_urls' }}
-                  - { type: 'tab', label: 'Tags' }
+                  - { type: 'tab', label: 'Теги' }
                   - { property: 'productTagItems', type_options: { block_name: 'catalogs_tags' }}
         Items:
             class: App\Entity\ProductItem
@@ -301,6 +304,7 @@ easy_admin:
             - 'admin/form/page_urls.html.twig'
             - 'admin/form/product_item_tag_items.html.twig'
             - 'admin/form/product_item_tag_image.html.twig'
+            - 'admin/form/catalog_banner.html.twig'
         menu:
           - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']
