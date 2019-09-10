@@ -63,6 +63,11 @@ class ProductTag
      */
     private $input_type;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $is_on_product_page;
+
     public function __construct()
     {
         $this->entity_id = new ArrayCollection();
@@ -232,6 +237,18 @@ class ProductTag
     public function setInputType(?string $input_type): self
     {
         $this->input_type = $input_type;
+
+        return $this;
+    }
+
+    public function getIsOnProductPage(): ?bool
+    {
+        return $this->is_on_product_page;
+    }
+
+    public function setIsOnProductPage(?bool $is_on_product_page): self
+    {
+        $this->is_on_product_page = $is_on_product_page;
 
         return $this;
     }

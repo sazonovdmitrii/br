@@ -53,6 +53,11 @@ class ProductItemTag
      */
     private $productItemTagItems;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $is_on_product_page;
+
     public function __construct()
     {
         $this->entity = new ArrayCollection();
@@ -185,5 +190,17 @@ class ProductItemTag
     public function __toString()
     {
         return self::class;
+    }
+
+    public function getIsOnProductPage(): ?bool
+    {
+        return $this->is_on_product_page;
+    }
+
+    public function setIsOnProductPage(?bool $is_on_product_page): self
+    {
+        $this->is_on_product_page = $is_on_product_page;
+
+        return $this;
     }
 }

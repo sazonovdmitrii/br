@@ -131,11 +131,14 @@ easy_admin:
               fields: ['id', 'name', 'created', 'visible', 'input_type']
             form:
               fields:
-                - name
-                - { property: 'type', type: 'choice', type_options: {multiple: false, choices: {bool: 'bool', string: 'string', int: 'int', float: 'float', enum: 'enum'}} }
-                - { property: 'input_type', type: 'choice', type_options: {multiple: false, choices: {multiple: 'multiple', once: 'once'}} }
-                - { property: 'visible', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
-                - { property: 'productTagItems', type_options: { block_name: 'products_tags_items' }}
+                - { type: 'tab' , label: 'Основные' }
+                - { property: 'name', label: 'Имя' }
+                - { property: 'is_on_product_page', label: 'Видим на странице продукта (несистемный)'}
+                - { property: 'type', label: 'Тип', type: 'choice', type_options: {multiple: false, choices: {bool: 'bool', string: 'string', int: 'int', float: 'float', enum: 'enum'}} }
+                - { property: 'input_type', label: 'Тип ввода', type: 'choice', type_options: {multiple: false, choices: {multiple: 'multiple', once: 'once'}} }
+                - { property: 'visible', label: 'Видимость', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
+                - { type: 'tab' , label: 'Теги' }
+                - { property: 'productTagItems', label: 'Добавить тег', type_options: { block_name: 'products_tags_items' }}
         ProductTagItem:
             class: App\Entity\ProductTagItem
             form:
@@ -152,9 +155,12 @@ easy_admin:
             form:
               title: 'Тег товара'
               fields:
+                - { type: 'tab' , label: 'Основные' }
                 - { property: 'name', label: 'Имя'}
+                - { property: 'is_on_product_page', label: 'Видим на странице продукта (несистемный)'}
                 - { property: 'visible', label: 'Видимость' }
-                - { property: 'productItemTagItems', label: 'Опции', type_options: { block_name: 'product_item_tag_items' }}
+                - { type: 'tab' , label: 'Теги' }
+                - { property: 'productItemTagItems', label: 'Добавить тег', type_options: { block_name: 'product_item_tag_items' }}
         ProductItemTagItem:
             class: App\Entity\ProductItemTagItem
             controller: App\Controller\Admin\ProductItemTagItemController
