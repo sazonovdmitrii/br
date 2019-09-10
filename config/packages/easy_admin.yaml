@@ -98,16 +98,17 @@ easy_admin:
                 fields: ['id', 'name', 'visible']
             form:
                 fields:
-                    - { type: 'tab' , label: 'General' }
+                    - { type: 'tab' , label: 'Основные' }
                     - visible
                     - name
-                    - { type: 'tab', label: 'Categories' }
+                    - { property: 'description', label: 'Описание', type: 'fos_ckeditor'}
+                    - { type: 'tab', label: 'Категории' }
                     - { property: 'catalog', type_options: { block_name: 'products_catalogs' }}
-                    - { type: 'tab', label: 'Product Items'}
+                    - { type: 'tab', label: 'Товары'}
                     - { property: 'productItems', type_options: { block_name: 'products_items' }}
-                    - { type: 'tab', label: 'Virtual Urls' }
+                    - { type: 'tab', label: 'Адреса' }
                     - { property: 'productUrls', type: 'form', type_options: {block_name: 'products_urls'}}
-                    - { type: 'tab', label: 'Tags' }
+                    - { type: 'tab', label: 'Теги' }
                     - { property: 'producttagitem', type_options: { block_name: 'products_tags_items' }}
         Order:
             class: App\Entity\Orders
