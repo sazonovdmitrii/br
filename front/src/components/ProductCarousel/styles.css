@@ -46,24 +46,22 @@
 
 .nav {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 24px 24px 0;
     height: 60px;
-    margin-top: 9px;
+    margin-bottom: 6px;
 }
 
 .navItem {
-    flex: 1;
-    max-width: 50px;
-    height: 100%;
-    margin: 0 5px;
-    padding: 5px;
-    text-align: center;
-    background-color: var(--color-white);
-    border: 1px solid transparent;
+    height: 8px;
+    width: 8px;
     cursor: pointer;
+    display: inline-block;
+    margin-right: 12px;
+    background-color: #fff;
+    border: 1px solid #414b56;
+    border-radius: 50%;
 
     &.active {
-        border-color: var(--color-primary);
+background-color: #414b56;
     }
 }

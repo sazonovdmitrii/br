@@ -1,9 +1,9 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Route, withRouter } from 'react-router-dom';
-import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
+import { useLang } from 'hooks';
 import SEO from 'globalMeta';
 
 import NotFound from 'routes/NotFound';
@@ -22,7 +22,7 @@ export const RouteStatus = props => (
                 staticContext.statusCode = props.statusCode;
             }
 
-            return <div>{props.children}</div>;
+            return <>{props.children}</>;
         }}
     />
 );
@@ -34,15 +34,7 @@ export const SeoHead = withRouter(props => {
         image,
     } = props;
     const { title, description, keywords, ogType = 'website' } = SEO[type](props);
-    const {
-        data: { lang },
-    } = useQuery(
-        gql`
-            {
-                lang @client
-            }
-        `
-    );
+    const { lang } = useLang();
 
     return (
         <Helmet>

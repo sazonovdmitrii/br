@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+
 import { GET_HEADER_MENU } from 'query';
+import { useLang } from 'hooks';
 
 import HeaderMenu from './HeaderMenu';
 import MobileMenu from './MobileMenu';
@@ -9,17 +10,7 @@ import MobileMenu from './MobileMenu';
 const isClient = typeof window !== 'undefined';
 
 export default ({ active }) => {
-    const {
-        data: { lang },
-    } = useQuery(
-        gql`
-            {
-                lang @client
-            }
-        `
-    );
-
-    console.log(lang, '🤡');
+    const lang = useLang();
     const [isDesktop, setDesktop] = useState(isClient ? window.innerWidth > 768 : true);
 
     if (isClient) {
@@ -31,10 +22,10 @@ export default ({ active }) => {
     const {
         loading,
         error,
-        data: { top_menu: topMenu },
+        data: { top_menu: topMenu } = {},
     } = useQuery(GET_HEADER_MENU, { variables: { locale: lang } });
 
-    if (loading || error) return null;
+    if (loading || error || !topMenu) return null;
 
     return isDesktop ? (
         <HeaderMenu active={active} items={topMenu.data} />

@@ -29,10 +29,10 @@ const ProductCarousel = ({ items }) => {
 
         return (
             <div
-                key={index} // eslint-disable-line
+                key={item.id} // eslint-disable-line
                 className={activeBannerClassName}
             >
-                <img className={styles.image} src={item} alt="" />
+                <img className={styles.image} src={`http://br.morphes.ru` + item.path} alt="" />
             </div>
         );
     });
