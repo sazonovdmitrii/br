@@ -34,41 +34,18 @@ class ProductTagItemRepository extends ServiceEntityRepository
         return false;
     }
 
-    public function getProducts($tagsIds, $extraTagsIds)
+    public function getProducts($tagsIds)
     {
         //*TODO* first_tag and second_tag to right configuration order
         $statement = $this->_getConnection()->prepare('
-            SELECT product_id FROM product_producttagitem WHERE producttagitem_id = :first_tag AND product_id IN (
-                SELECT product_id FROM product_producttagitem WHERE producttagitem_id = :second_tag
-            )
+            SELECT product_id FROM product_producttagitem WHERE producttagitem_id = :tag
         ');
-        $statement->bindValue('first_tag', $tagsIds[0]);
-        $statement->bindValue('second_tag', $tagsIds[1]);
+        $statement->bindValue('tag', $tagsIds[0]);
         $statement->execute();
 
-        $requiredProductsIds = array_map(function($e) {
-            return $e['product_id'];
-        }, $statement->fetchAll());
-
-        $previousStepProducts = [];
-
-        foreach($extraTagsIds as $extraTagsId) {
-            $extraProducts = $this->_getExtraProducts($extraTagsId, $requiredProductsIds);
-            $previousStepProducts = $extraProducts;
-            if(count($extraProducts) && count($extraProducts) >= self::SIMILAR_LIMIT) {
-                $requiredProductsIds = array_map(function($e) {
-                    return $e['product_id'];
-                    }, $extraProducts);
-            } else {
-                break;
-            }
-        }
-        if(!count($previousStepProducts)) {
-            return [];
-        }
         return array_map(function($e) {
             return $e['product_id'];
-        }, $previousStepProducts);
+        }, $statement->fetchAll());
     }
 
     private function _getExtraProducts($tagId, $productsIds)

@@ -3,6 +3,7 @@
 namespace App\Service\Manager;
 
 use App\Entity\Catalog;
+use App\Entity\ProductItem;
 use App\Entity\ProductTag;
 use App\Entity\ProductTagItem;
 use App\Service\DoctrineService;
@@ -204,28 +205,21 @@ class TagManager extends AbstractController
      */
     public function similars()
     {
-        $extraTagsIds = $this->_getExtraTagsIds();
-        $requiredTagsIds = $this->_getRequiredTagsIds();
-
-        $tagsIds = array_merge($extraTagsIds, $requiredTagsIds);
+        $productsTagIds = $this->_getProductTagsIds();
 
         $tagsItems = $this->setEntityType(Product::class)
             ->setEntity($this->getEntity())
-            ->setTagsIds($tagsIds)
+            ->setTagsIds($productsTagIds)
             ->getMultiple();
-
-        $extraTagsItemsIds = $requiredTagsItemsIds = [];
+        $productsTagsItemsIds = [];
 
         foreach($tagsItems as $tagsItem) {
-            if(in_array($tagsItem->getEntityId()->getId(), $requiredTagsIds)) {
-                $requiredTagsItemsIds[] = $tagsItem->getId();
-            } else {
-                $extraTagsItemsIds[] = $tagsItem->getId();
+            if(in_array($tagsItem->getEntityId()->getId(), $productsTagIds)) {
+                $productsTagsItemsIds[] = $tagsItem->getId();
             }
         }
 
-        return $this->setTagsIds($requiredTagsItemsIds)
-            ->setExtraTagsIds($extraTagsItemsIds)
+        return $this->setTagsIds($productsTagsItemsIds)
             ->getProducts();
     }
 
@@ -242,7 +236,7 @@ class TagManager extends AbstractController
     /**
      * @return array
      */
-    private function _getRequiredTagsIds ()
+    private function _getProductTagsIds ()
     {
         return explode(
             ',', $this->configService->get('required_tags_similar_products')
@@ -255,7 +249,16 @@ class TagManager extends AbstractController
     public function getProducts()
     {
         $productsIds = $this->em->getRepository('App:ProductTagItem')
-            ->getProducts($this->getTagsIds(), $this->getExtraTagsIds());
+            ->getProducts($this->getTagsIds());
+
+        $categoriesProductsIds = [];
+        foreach($this->getEntity()->getCatalog() as $catalog) {
+            foreach($catalog->getProducts() as $product) {
+                $categoriesProductsIds[] = $product->getId();
+            }
+        }
+
+        $productsIds = array_intersect($productsIds, $categoriesProductsIds);
 
         return $this->em->getRepository('App:Product')
             ->findBy(['id' => $productsIds]);
