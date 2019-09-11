@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames/bind';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+
+import { useLang } from 'hooks';
 
 import FooterMenu from 'components/FooterMenu';
 import Socials from 'components/Socials';
@@ -15,15 +15,7 @@ import styles from './styles.css';
 const cx = classnames.bind(styles);
 
 export default () => {
-    const {
-        data: { lang },
-    } = useQuery(
-        gql`
-            {
-                lang @client
-            }
-        `
-    );
+    const lang = useLang();
     const currentYear = new Date().getFullYear();
 
     return (

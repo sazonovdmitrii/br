@@ -20,6 +20,7 @@ import Carousel from 'components/Carousel';
 import Delivery from 'components/Delivery';
 import Colors from 'components/Colors';
 import Container from 'components/Container';
+import ProductCarousel from 'components/ProductCarousel';
 
 import styles from './styles.css';
 
@@ -27,41 +28,15 @@ const cx = classnames.bind(styles);
 
 const Product = ({ name, id, items: { edges: items = [] }, description, tags, history, text }) => {
     const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
-    // const [addToCard, { data: addBasket, loadingMutation }] = useMutation(ADD_TO_BASKET, {
-    //     variables: {
-    //         input: {
-    //             item_id: selectedProduct.id,
-    //         },
-    //     },
-    //     onCompleted({ addBasket: { products } }) {
-    //         if (products) {
-    //             console.warn('product added to basket', products);
-    //             history.push('/basket');
-    //         }
-    //     },
-    //     onError(error) {
-    //         setError(error.message);
-    //     },
-    //     // TODO
-    //     update(
-    //         cache,
-    //         {
-    //             data: { addBasket },
-    //         }
-    //     ) {
-    //         cache.writeQuery({
-    //             query: GET_SHORT_BASKET,
-    //             data: {
-    //                 basket: {
-    //                     products: addBasket.products,
-    //                     __typename: 'Basket',
-    //                 },
-    //             },
-    //         });
-    //     },
-    // });
-    const handleChangeItem = ({ id, price: itemPrice }) => {
-        if (!itemPrice) return;
+    const images = selectedProduct.productItemImages;
+    const colors = items.reduce((array, item) => {
+        const [{ image }] = item.node.productItemTagItems;
+
+        return array.concat({ id: item.node.id, image });
+    }, []);
+    const [color, setColor] = useState(colors.length ? colors[0].id : null);
+
+    const handleChangeColor = id => {
         const newSelectedProduct = items.find(item => item.node.id === id);
 
         if (newSelectedProduct && newSelectedProduct.node.id !== selectedProduct.id) {
@@ -73,43 +48,34 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
     const handleShowCL = () => {
         setShowChooseLenses(!showChooseLenses);
     };
-    const images = items.reduce((acc, { node }) => acc.concat(node.productItemImages), []);
 
     const sectionTitleCenterClassName = cx(styles.sectionTitle, styles.center);
+    const rootClassName = cx(styles.root, { hide: showChooseLenses });
 
+    console.log(images);
     return (
         <Container>
             <SeoHead type="product" name={name} items={items} image={images ? images[0].path : null} />
             {/* showChooseLenses && <ChooseLenses title={product.name} onClose={handleShowCL} /> */}
-            <div style={{ display: showChooseLenses ? 'none' : 'block' }}>
+            <div className={rootClassName}>
                 {images.length ? (
                     <div className={styles.carouselWrapper}>
-                        <Carousel>
-                            {images.map(item => (
-                                <div key={item.id} className={styles.slide}>
-                                    <img
-                                        className={styles.slideImage}
-                                        src={`http://br.morphes.ru${item.path}`}
-                                        alt=""
-                                    />
-                                </div>
-                            ))}
-                        </Carousel>
+                        <ProductCarousel items={images} />
                     </div>
                 ) : null}
                 <div className={styles.meta}>
                     <h1 className={styles.title}>{name}</h1>
+                    <h2 className={styles.description}>{selectedProduct.name}</h2>
                     <div className={styles.colorsWrapper}>
                         <Colors
-                            value={1}
-                            list={[
-                                { id: 1, image: 'https://placehold.it/20x20/000', url: '#' },
-                                { id: 2, image: 'https://placehold.it/20x20/ccc', url: '#' },
-                                { id: 3, image: 'https://placehold.it/20x20/rrr', url: '#' },
-                            ]}
+                            value={selectedProduct.id}
+                            list={colors}
+                            onChange={value => handleChangeColor(value)}
                         />
                     </div>
-                    <h2 className={styles.description}>Layered Aloe Crystal with Riesling</h2>
+                    <div className={styles.info}>
+                        <FormattedMessage id="product_text" values={{ br: <br /> }} />
+                    </div>
                     {selectedProduct.price && (
                         <div className={styles.buttons}>
                             <Button
@@ -122,39 +88,28 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
                             </Button>
                         </div>
                     )}
-                    <div className={styles.info}>
-                        <FormattedMessage id="product_text" values={{ br: <br /> }} />
-                    </div>
                 </div>
             </div>
-            <HeadTurn
-                images={[
-                    'https://i.warbycdn.com/-/f/1-7d338278?quality=70&width=1200',
-                    'https://i.warbycdn.com/-/f/2-b6a17adb?quality=70&width=1200',
-                    'https://i.warbycdn.com/-/f/3-9b4a1a29?quality=70&width=1200',
-                    'https://i.warbycdn.com/-/f/4-e68b48ec?quality=70&width=1200',
-                    'https://i.warbycdn.com/-/f/5-4ddd492b?quality=70&width=1200',
-                    'https://i.warbycdn.com/-/f/6-60faa9af?quality=70&width=1200',
-                    'https://i.warbycdn.com/-/f/7-a09963b0?quality=70&width=1200',
-                ]}
-            >
-                {tags.length ? (
-                    <>
-                        <h2 className={styles.sectionTitle}>
-                            <FormattedMessage id="about_the_frames" />
-                        </h2>
-                        <ul>
-                            {tags.map(({ name, value }, index) => {
-                                return (
-                                    <li key={index}>
-                                        {name}: {value}
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </>
-                ) : null}
-            </HeadTurn>
+            <div className={styles.section}>
+                <HeadTurn images={['https://i.warbycdn.com/-/f/4-e68b48ec?quality=70&width=1200']}>
+                    {tags.length ? (
+                        <>
+                            <h2 className={styles.sectionTitle}>
+                                <FormattedMessage id="about_the_frames" />
+                            </h2>
+                            <ul>
+                                {tags.map(({ name, value }, index) => {
+                                    return (
+                                        <li key={index}>
+                                            {name}: {value}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </>
+                    ) : null}
+                </HeadTurn>
+            </div>
             <Delivery
                 title="Free shipping and free returns on every order"
                 text="We have a 30-day, hassle-free return or exchange policy as well as a one-year, no scratch

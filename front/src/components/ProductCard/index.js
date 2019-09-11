@@ -6,34 +6,40 @@ import { isProd } from 'utils';
 
 import Colors from 'components/Colors';
 
-import Loader from './Loader';
+// import Loader from './Loader';
 import styles from './styles.css';
 
 const ProductCard = ({ id, url, items, name, loading, price }) => {
-    const [color, setColor] = useState(1);
-    const image =
-        items.edges.length && items.edges[0].node.productItemImages.length
-            ? `${isProd ? '' : 'http://br.morphes.ru'}${items.edges[0].node.productItemImages[0].path}`
-            : 'https://placehold.it/377x167';
+    const colors = items.edges.reduce((array, item) => {
+        const [{image}] = item.node.productItemTagItems;
 
-    // if (loading) return <Loader />;
+        return array.concat({ id: item.node.id, image });
+    }, []);
+    const [color, setColor] = useState(colors.length ? colors[0].id : null);
+    const [image, setImage] = useState(
+        items.edges.length && items.edges[0].node.productItemImages.length
+            ? items.edges[0].node.productItemImages[0].path
+            : 'https://placehold.it/377x167'
+    );
+    const handleChangeColor = value => {
+        const {
+            node: { productItemImages },
+        } = items.edges.find(({ node }) => node.id === value);
+
+        setImage(productItemImages[0].path);
+        setColor(value);
+    };
+
+    if (loading) return null;
 
     return (
         <div className={styles.root}>
             <Link to={url} className={styles.imageWrapper} title={name}>
-                <img className={styles.image} src={image} alt={name} />
+                <img className={styles.image} src={`${isProd ? '' : 'http://br.morphes.ru'}${image}`} alt={name} />
             </Link>
             <h2 className={styles.title}>{name}</h2>
             <div className={styles.colors}>
-                <Colors
-                    value={color}
-                    list={[
-                        { id: 1, image: 'https://placehold.it/20x20/000' },
-                        { id: 2, image: 'https://placehold.it/20x20/ccc' },
-                        { id: 3, image: 'https://placehold.it/20x20/rrr' },
-                    ]}
-                    onChange={value => setColor(value)}
-                />
+                <Colors value={color} list={colors} onChange={value => handleChangeColor(value)} />
                 {/* <AddToFave className={styles.fave} id={id} faved={false} /> */}
             </div>
         </div>
@@ -41,27 +47,19 @@ const ProductCard = ({ id, url, items, name, loading, price }) => {
 };
 
 ProductCard.defaultProps = {
-    url: '',
     items: {
         edges: [],
     },
-    sale: null,
-    secondary_image: null,
-    primary_image: null,
-    brand_name: '',
-    name: '',
-    texts: {},
-    cantbuy: 0,
-    min_price: 0,
 };
 
 ProductCard.propTypes = {
     id: PropTypes.number.isRequired,
     url: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
     items: PropTypes.shape({
         edges: PropTypes.arrayOf(PropTypes.object),
     }),
-    sale: PropTypes.objectOf(PropTypes.string),
 };
 
 export default ProductCard;

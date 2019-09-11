@@ -1,6 +1,25 @@
+.root {
+    padding: 48px 24px;
+    margin: 0 -30px;
+
+    @media (--viewport-desktop) {
+        display: flex;
+    }
+}
+
 .carouselWrapper {
     max-height: 428px;
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
+    padding: 0 30px;
+
+    @media (--viewport-ipad) {
+        max-width: 732px;
+    }
+
+    @media (--viewport-desktop) {
+        flex: 0 0 60%;
+        max-width: 60%;
+    }
 }
 
 .slide {
@@ -8,26 +27,38 @@
 }
 
 .slideImage {
-    max-height: 100px;
+    max-height: 250px;
     margin: auto;
 
     @media (--viewport-desktop) {
-        max-width: 70%;
-        max-height: 428px;
+        /*max-width: 70%;*/
+        max-height: 100%
     }
 }
 
 .meta {
     margin-bottom: 48px;
+    padding: 0 30px;
     text-align: center;
+
+    @media (--viewport-desktop) {
+        flex: 0 0 40%;
+        max-width: 40%;
+        text-align: left;
+    }
 }
 
 .colorsWrapper {
     display: inline-block;
+    margin-bottom: 24px;
 }
 
 .buttons {
-    margin: 18px 0 12px;
+    margin-top: 24px;
+
+    @media (--viewport-desktop) {
+        margin: 18px 0 12px;
+    }
 }
 
 .styledButton {
@@ -39,7 +70,7 @@
 }
 
 .info {
-    margin: 24px 0 10px;
+    margin-bottom: 12px;
     color: #676f78;
     font-size: var(--font-size-base);
     line-height: 1.625;
@@ -47,7 +78,7 @@
 
 .title {
     margin-top: 0;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     color: var(--color-font);
     font-size: 24px;
     font-weight: var(--headings-font-weight);
@@ -59,12 +90,13 @@
     }
 
     @media (--viewport-desktop) {
+        margin: 0;
         font-size: 34px;
     }
 }
 
 .description {
-    margin-top: 4px;
+    margin-bottom: 18px;
     color: #a1a4a6;
     font-weight: var(--font-serif);
     font-style: italic;

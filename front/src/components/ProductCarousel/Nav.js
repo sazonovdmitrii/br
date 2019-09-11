@@ -20,11 +20,7 @@ const Nav = ({ items, onChange, active }) => {
                     active: active === index,
                 });
 
-                return (
-                    <div key={item} className={imageClassName} onClick={() => handleClick(index)}>
-                        <img className={styles.image} src={item} alt="" />
-                    </div>
-                );
+                return <div key={item.id} className={imageClassName} onClick={() => handleClick(index)} />;
             })}
         </div>
     );
