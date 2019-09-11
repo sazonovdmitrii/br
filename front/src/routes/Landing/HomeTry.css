@@ -10,14 +10,14 @@
     text-align: center;
 
     @media (--viewport-desktop) {
-        padding-left: 18px;
-        padding-right: 18px;
         margin-bottom: 48px;
+        padding-right: 18px;
+        padding-left: 18px;
     }
 
     @media (--viewport-wide) {
-        padding-left: 24px;
         padding-right: 24px;
+        padding-left: 24px;
     }
 }
 
@@ -31,26 +31,26 @@
 }
 
 .textBlock {
-    text-align: center;
-    margin: 0 auto;
     max-width: 400px;
+    margin: 0 auto;
     padding-bottom: 36px;
+    text-align: center;
 
     @media (--viewport-desktop) {
-        text-align: left;
-        margin: 0;
-        max-width: none;
         width: 37%;
+        max-width: none;
+        margin: 0;
+        text-align: left;
     }
 }
 
 .title {
-    font-family: var(--headings-font);
-    font-weight: var(--headings-font-weight);
-    line-height: var(--headings-line-height);
-    font-size: 24px;
-    color: var(--color-font);
     margin-bottom: 12px;
+    color: var(--color-font);
+    font-weight: var(--headings-font-weight);
+    font-size: 24px;
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
 
     @media (--viewport-ipad) {
         font-size: 30px;
@@ -58,31 +58,31 @@
 }
 
 .text {
-    font-size: 16px;
-    color: #676f78;
     margin-bottom: 24px;
+    color: #676f78;
+    font-size: 16px;
 }
 
 .actions {
     display: inline-grid;
-    grid-gap: 18px;
-    /*width: 100%;*/
+    /* width: 100%; */
     grid-auto-columns: 1fr;
+    grid-gap: 18px;
 }
 
 .rightBlock {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background: #f8f8f8;
+    justify-content: center;
     height: 240px;
+    background: #f8f8f8;
 
     @media (--viewport-desktop) {
         display: block;
-        background: none;
-        height: auto;
         width: 33.33333%;
+        height: auto;
+        background: none;
     }
 }
 

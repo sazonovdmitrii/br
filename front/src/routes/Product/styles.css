@@ -1,6 +1,6 @@
 .root {
-    padding: 48px 24px;
     margin: 0 -30px;
+    padding: 48px 24px;
 
     @media (--viewport-desktop) {
         display: flex;
@@ -19,6 +19,7 @@
     @media (--viewport-desktop) {
         flex: 0 0 60%;
         max-width: 60%;
+        margin: 0;
     }
 }
 
@@ -31,8 +32,8 @@
     margin: auto;
 
     @media (--viewport-desktop) {
-        /*max-width: 70%;*/
-        max-height: 100%
+        /* max-width: 70%; */
+        max-height: 100%;
     }
 }
 
@@ -44,6 +45,7 @@
     @media (--viewport-desktop) {
         flex: 0 0 40%;
         max-width: 40%;
+        margin: 0;
         text-align: left;
     }
 }
@@ -80,8 +82,8 @@
     margin-top: 0;
     margin-bottom: 6px;
     color: var(--color-font);
-    font-size: 24px;
     font-weight: var(--headings-font-weight);
+    font-size: 24px;
     font-family: var(--headings-font);
     line-height: var(--headings-line-height);
 
@@ -96,9 +98,9 @@
 }
 
 .description {
-    margin-bottom: 18px;
-    color: #a1a4a6;
-    font-weight: var(--font-serif);
+    margin: 4px 0 18px;
+    color: #676f78;
+    font-family: var(--font-serif);
     font-style: italic;
 
     @media (--viewport-ipad) {
@@ -114,8 +116,8 @@
     margin-top: 0;
     margin-bottom: 36px;
     color: var(--color-font);
-    font-size: 30px;
     font-weight: var(--headings-font-weight);
+    font-size: 30px;
     font-family: var(--headings-font);
     line-height: var(--headings-line-height);
     text-align: center;

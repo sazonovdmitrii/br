@@ -1,9 +1,9 @@
 .wrapper {
     position: relative;
     overflow: hidden;
-    border-radius: 5px;
     border-top: 1px solid #e1e5e6;
     border-bottom: 1px solid #e1e5e6;
+    border-radius: 5px;
 }
 
 .inner {
@@ -40,24 +40,24 @@
     }
 
     @media (--viewport-desktop) {
-        text-align: left;
         position: absolute;
-        left: 0;
         top: 50%;
+        left: 0;
         padding: 0 60px;
         font-size: var(--font-size-large);
+        text-align: left;
         transform: translateY(-50%);
         pointer-events: none;
     }
 }
 
 .title {
-    font-family: var(--headings-font);
-    font-weight: var(--headings-font-weight);
-    line-height: var(--headings-line-height);
-    font-size: 22px;
-    color: #414b56;
     margin-bottom: 18px;
+    color: #414b56;
+    font-weight: var(--headings-font-weight);
+    font-size: 22px;
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
 
     @media (min-width: 600px) {
         font-size: 24px;

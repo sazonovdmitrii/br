@@ -9,15 +9,15 @@
 .text {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     max-width: 300px;
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
     text-align: center;
 
     @media (--viewport-ipad) {
@@ -26,12 +26,12 @@
 }
 
 .title {
-    color: #fff;
-    font-family: var(--headings-font);
-    font-weight: var(--headings-font-weight);
-    line-height: var(--headings-line-height);
-    font-size: 24px;
     margin-bottom: 24px;
+    color: #fff;
+    font-weight: var(--headings-font-weight);
+    font-size: 24px;
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
 
     @media (--viewport-ipad) {
         font-size: 30px;

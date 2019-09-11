@@ -1,47 +1,47 @@
 .root {
     position: relative;
-    text-align: center;
     padding: 0 24px;
+    text-align: center;
 
     @media (--viewport-desktop) {
         padding: 0 24px 0 84px;
         text-align: left;
     }
 
-    &:before {
+    &::before {
         @media (--viewport-wide) {
             left: 24px;
         }
 
         @media (--viewport-desktop) {
-            content: '“';
-            display: block;
-            height: 28px;
-            width: 28px;
-            line-height: 44px;
-            font-family: Times New Roman, Georgia, serif;
             position: absolute;
             top: 6px;
             left: 18px;
+            display: block;
+            width: 28px;
+            height: 28px;
             font-size: 72px;
+            font-family: Times New Roman, Georgia, serif;
+            line-height: 44px;
+            content: '“';
         }
     }
 }
 
 .author {
-    text-transform: uppercase;
     margin-bottom: 6px;
-    letter-spacing: 2.5px;
-    font-size: 12px;
     font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
 }
 
 .text {
-    font-size: var(--font-size-base);
-    font-style: italic;
-    font-family: var(--font-serif);
-    line-height: calc(1em + 6px);
     color: #a1a4a6;
+    font-size: var(--font-size-base);
+    font-family: var(--font-serif);
+    font-style: italic;
+    line-height: calc(1em + 6px);
 
     @media (--viewport-wide) {
         font-size: var(--font-size-large);

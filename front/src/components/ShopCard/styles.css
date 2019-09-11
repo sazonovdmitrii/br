@@ -2,10 +2,10 @@
 }
 
 .title {
+    margin-bottom: 12px;
     font-weight: var(--headings-font-weight);
     font-family: var(--headings-font);
     line-height: var(--headings-line-height);
-    margin-bottom: 12px;
 
     @media (--viewport-ipad) {
         font-size: 24px;
@@ -17,18 +17,18 @@
 }
 
 .subtitle {
-    font-weight: 600;
-    line-height: calc(1em + 10px);
     margin: 0;
-    font-size: var(--font-size-large);
     color: #414b56;
+    font-weight: 600;
+    font-size: var(--font-size-large);
+    line-height: calc(1em + 10px);
 }
 
 .text {
-    line-height: calc(1em + 10px);
-    font-size: var(--font-size-base);
-    color: #676f78;
     margin-bottom: 24px;
+    color: #676f78;
+    font-size: var(--font-size-base);
+    line-height: calc(1em + 10px);
 
     @media (--viewport-desktop) {
         font-size: var(--font-size-large);

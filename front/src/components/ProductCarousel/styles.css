@@ -46,22 +46,22 @@
 
 .nav {
     display: flex;
-    padding: 24px 24px 0;
     height: 60px;
     margin-bottom: 6px;
+    padding: 24px 24px 0;
 }
 
 .navItem {
-    height: 8px;
-    width: 8px;
-    cursor: pointer;
     display: inline-block;
+    width: 8px;
+    height: 8px;
     margin-right: 12px;
     background-color: #fff;
     border: 1px solid #414b56;
     border-radius: 50%;
+    cursor: pointer;
 
     &.active {
-background-color: #414b56;
+        background-color: #414b56;
     }
 }

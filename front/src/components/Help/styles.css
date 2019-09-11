@@ -1,8 +1,8 @@
 .title {
     margin-bottom: 18px;
     color: var(--color-font);
-    font-size: 20px;
     font-weight: var(--headings-font-weight);
+    font-size: 20px;
     font-family: var(--headings-font);
     line-height: var(--headings-line-height);
 }

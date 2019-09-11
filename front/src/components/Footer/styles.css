@@ -114,13 +114,13 @@
 }
 
 .countryLink {
-    font-size: 10px;
-    text-indent: 3px;
+    display: inline-block;
+    padding: 10px;
     color: var(--color-font);
+    font-size: 10px;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    padding: 10px;
-    display: inline-block;
+    text-indent: 3px;
 
     &:hover,
     &:focus {

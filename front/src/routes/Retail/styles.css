@@ -3,10 +3,10 @@
 }
 
 .title {
+    color: #414b56;
     font-weight: var(--headings-font-weight);
     font-family: var(--headings-font);
     line-height: var(--headings-line-height);
-    color: #414b56;
     text-align: center;
 
     @media (--viewport-ipad) {
@@ -27,9 +27,9 @@
 }
 
 .columns {
+    padding: 0 18px;
     column-count: 2;
     column-gap: 96px;
-    padding: 0 18px;
 
     @media (min-width: 960px) {
         column-count: 3;

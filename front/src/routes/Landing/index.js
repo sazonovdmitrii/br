@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link as LinkRoute } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
@@ -13,7 +12,7 @@ import HomeTry from './HomeTry';
 
 import styles from './styles.css';
 
-const Landing = props => (
+const Landing = () => (
     <Container>
         <div className={styles.hero}>
             <div className={styles.heroImageWrapper}>
@@ -103,9 +102,5 @@ const Landing = props => (
         <Collections />
     </Container>
 );
-
-Landing.defaultProps = {};
-
-Landing.propTypes = {};
 
 export default Landing;
