@@ -1,0 +1,144 @@
+.hero {
+    margin-bottom: 48px;
+
+    @media (--viewport-tablet) {
+        display: flex;
+    }
+}
+
+.heroImageWrapper {
+    margin-bottom: 24px;
+
+    @media (--viewport-tablet) {
+        margin: 0;
+    }
+}
+
+.heroImage {
+    width: 100%;
+    display: block;
+}
+
+.heroBody {
+    margin: 0 auto;
+    max-width: 600px;
+    text-align: center;
+    padding: 0 18px;
+    align-self: center;
+
+    @media (--viewport-tablet) {
+        padding: 0 36px;
+        text-align: left;
+    }
+}
+
+.heroTitle {
+    font-family: var(--headings-font);
+    font-weight: var(--headings-font-weight);
+    line-height: var(--headings-line-height);
+    font-size: 30px;
+    color: var(--color-font);
+    margin-bottom: 12px;
+
+    @media (--viewport-ipad) {
+        font-size: 40px;
+    }
+}
+
+.heroText {
+    color: #676f78;
+    margin-bottom: 24px;
+
+    @media (--viewport-ipad) {
+        font-size: 16px;
+    }
+}
+
+.heroActions {
+    display: inline-grid;
+    grid-gap: 12px;
+    width: 100%;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+}
+
+.section {
+    margin-bottom: 48px;
+
+    @media (--viewport-desktop) {
+        margin-bottom: 72px;
+    }
+}
+
+.sectionImageWrapper {
+    max-width: 83.33333%;
+    margin: 0 auto 36px;
+    text-align: center;
+
+    @media (--viewport-desktop) {
+        padding-left: 18px;
+        padding-right: 18px;
+        margin-bottom: 48px;
+    }
+
+    @media (--viewport-wide) {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
+.sectionTextBlock {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 400px;
+    padding-bottom: 36px;
+}
+
+.sectionTitle {
+    font-family: var(--headings-font);
+    font-weight: var(--headings-font-weight);
+    line-height: var(--headings-line-height);
+    font-size: 24px;
+    color: var(--color-font);
+    margin-bottom: 12px;
+
+    @media (--viewport-ipad) {
+        font-size: 30px;
+    }
+}
+
+.sectionText {
+    font-size: 16px;
+    color: #676f78;
+    margin-bottom: 24px;
+}
+
+.button {
+    outline: 0;
+    display: inline-block;
+    -webkit-appearance: none;
+    border-radius: 1px;
+    transition: background-color 0.4s;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    height: 48px;
+    line-height: 32px;
+    padding: 6px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 232px;
+    cursor: pointer;
+    color: #414b56;
+    border: 1px solid var(--color-white);
+    background: var(--color-white);
+    text-shadow: none;
+    margin-bottom: 0px;
+
+    &:hover {
+        border-color: #414b56;
+        background-color: var(--color-white);
+        box-shadow: none;
+        color: #414b56;
+    }
+}

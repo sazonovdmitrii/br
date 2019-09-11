@@ -1,0 +1,122 @@
+.root {
+    width: 83.3333%;
+    margin: 0 auto;
+    text-align: center;
+
+    @media (--viewport-desktop) {
+        text-align: left;
+    }
+}
+
+.image {
+}
+
+.body {
+    margin-top: 48px;
+
+    @media (--viewport-desktop) {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.title {
+    font-family: var(--headings-font);
+    font-weight: var(--headings-font-weight);
+    line-height: var(--headings-line-height);
+    font-size: 24px;
+    color: #414b56;
+    margin-bottom: 12px;
+
+    @media (--viewport-ipad) {
+        font-size: 30px;
+    }
+
+    @media (--viewport-desktop) {
+        font-size: 34px;
+    }
+
+    @media (--viewport-wide) {
+        font-size: 40px;
+    }
+}
+
+.text {
+    line-height: calc(1em + 10px);
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 16px;
+    color: #676f78;
+    margin-bottom: 30px;
+
+    @media (--viewport-ipad) {
+        font-size: 16px;
+    }
+
+    @media (--viewport-desktop) {
+        font-size: 18px;
+    }
+}
+
+.copyBlock {
+    @media (--viewport-desktop) {
+        width: 45%;
+    }
+}
+
+.rightBlock {
+    margin-bottom: 18px;
+
+    @media (--viewport-desktop) {
+        width: 32%;
+        margin-bottom: 0;
+    }
+}
+
+.label {
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 600;
+    line-height: calc(100% + 10px);
+    font-size: 10px;
+    color: #676f78;
+    margin-top: 0;
+    margin-bottom: 6px;
+
+    @media (--viewport-ipad) {
+        font-size: 10px;
+    }
+
+    @media (--viewport-desktop) {
+        font-size: 12px;
+    }
+}
+
+.value {
+    font-family: var(--headings-font);
+    font-style: italic;
+    font-weight: 200;
+    line-height: calc(100% + 10px);
+    margin-top: 0;
+    font-size: 16px;
+    color: #a1a4a6;
+    margin-bottom: 18px;
+
+    @media (--viewport-desktop) {
+        font-size: 18px;
+    }
+}
+
+.buttonDesktop {
+    display: none;
+
+    @media (--viewport-desktop) {
+        display: block;
+    }
+}
+
+.buttonMobile {
+    @media (--viewport-desktop) {
+        display: none;
+    }
+}

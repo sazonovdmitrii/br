@@ -5,7 +5,7 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const HeadTurn = ({ children, images }) => {
+const HeadTurn = ({ title, children, images, text }) => {
     const [{ allSourcesLoaded, numSourcesLoaded, frameCount, value }, setState] = useState({
         frameCount: images.length,
         value: Math.floor(images.length / 2),
@@ -72,7 +72,10 @@ const HeadTurn = ({ children, images }) => {
                     );
                 })}
             </div>
-            {children && <div className={styles.text}>{children}</div>}
+            <div className={styles.body}>
+                {title && <div className={styles.title}>{title}</div>}
+                {text && <div className={styles.text}>{text}</div>}
+            </div>
         </div>
     );
 };
