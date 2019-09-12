@@ -248,6 +248,10 @@ class TagManager extends AbstractController
      */
     public function getProducts()
     {
+        if(!$this->getTagsIds()) {
+            return [];
+        }
+
         $productsIds = $this->em->getRepository('App:ProductTagItem')
             ->getProducts($this->getTagsIds());
 
