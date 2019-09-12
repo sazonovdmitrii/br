@@ -41,7 +41,7 @@ const ProductCard = ({ id, url: urlProps, items, name, loading, price, image: im
             <Link to={url} className={styles.imageWrapper} title={name}>
                 <img
                     className={styles.image}
-                    src={`${isProd ? '' : 'http://br.morphes.ru'}${image}`}
+                    src={'http://br.morphes.ru' + image}
                     alt={name}
                 />
             </Link>

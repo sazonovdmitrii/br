@@ -27,7 +27,7 @@ export default ({ lang, defaultLang }) => {
         {
             path: `${LANG_PREFIX}/sunglasses`,
             exact: true,
-            component: getComponent('Landing/Eyeglasses'),
+            component: getComponent('Landing/Sunglasses'),
         },
         {
             path: `${LANG_PREFIX}/info/:slug`,
