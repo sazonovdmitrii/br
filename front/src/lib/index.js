@@ -16,6 +16,8 @@ process.on('SIGINT', () => {
 
 const app = new Koa();
 
+middlewares(app);
+
 // TODO fix hmr
 if (process.env.NODE_ENV !== 'production') {
     (async () => {
@@ -63,7 +65,6 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(ssr);
 }
 
-middlewares(app);
 
 app.listen(config.port, () => {
     config.spinner.succeed(`Graphql server: ${process.env.GRAPHQL}`);
