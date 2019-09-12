@@ -82,6 +82,7 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
                                 href="/glasses-infos/ckkz-ochki.htm"
                                 // onClick={handleShowCL}
                                 kind="primary"
+                                size="large"
                                 bold
                             >
                                 <FormattedMessage id="buy_at_optics_for" /> {selectedProduct.price} руб.
@@ -91,24 +92,25 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
                 </div>
             </div>
             <div className={styles.section}>
-                <HeadTurn images={['https://i.warbycdn.com/-/f/4-e68b48ec?quality=70&width=1200']}>
-                    {tags.length ? (
-                        <>
-                            <h2 className={styles.sectionTitle}>
-                                <FormattedMessage id="about_the_frames" />
-                            </h2>
-                            <ul>
-                                {tags.map(({ name, value }, index) => {
-                                    return (
-                                        <li key={index}>
-                                            {name}: {value}
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        </>
-                    ) : null}
-                </HeadTurn>
+                <HeadTurn
+                    images={['https://i.warbycdn.com/-/f/4-e68b48ec?quality=70&width=1200']}
+                    title={<FormattedMessage id="about_the_frames" />}
+                    text={
+                        tags.length ? (
+                            <>
+                                <ul>
+                                    {tags.map(({ name, value }, index) => {
+                                        return (
+                                            <li key={index}>
+                                                {name}: {value}
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </>
+                        ) : null
+                    }
+                />
             </div>
             <Delivery
                 title="Free shipping and free returns on every order"

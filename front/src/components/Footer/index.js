@@ -42,9 +42,9 @@ export default () => {
 
                             return (
                                 <li className={styles.countryItem}>
-                                    <a href={`/${!item.default ? item.value : ''}`} className={countryLink}>
+                                    <Link to={`/${!item.default ? item.value : ''}`} className={countryLink}>
                                         {item.native}
-                                    </a>
+                                    </Link>
                                 </li>
                             );
                         })}

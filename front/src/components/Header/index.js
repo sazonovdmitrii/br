@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames/bind';
 
+import { useLangLink } from 'hooks';
+
 import UserMenu from 'components/UserMenu';
 import HeaderMenu from 'components/HeaderMenu';
 import Container from 'components/Container';
@@ -14,6 +16,7 @@ import styles from './styles.css';
 const cx = classnames.bind(styles);
 
 export default () => {
+    const homeLink = useLangLink('/');
     const [open, setOpen] = useState(false);
     const iconClassName = cx(styles.burgerIcon, {
         open,
@@ -40,7 +43,7 @@ export default () => {
                             </button>
                         </div>
                         <div className={styles.item}>
-                            <Link to="/" className={styles.logo}>
+                            <Link to={homeLink} className={styles.logo}>
                                 <img
                                     className="header__logolink--img"
                                     src={logo}

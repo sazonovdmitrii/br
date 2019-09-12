@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { useLangLink } from 'hooks';
 import { isProd } from 'utils';
 
 import Colors from 'components/Colors';
@@ -9,9 +10,10 @@ import Colors from 'components/Colors';
 // import Loader from './Loader';
 import styles from './styles.css';
 
-const ProductCard = ({ id, url, items, name, loading, price }) => {
+const ProductCard = ({ id, url: urlProps, items, name, loading, price }) => {
+    const url = useLangLink(urlProps);
     const colors = items.edges.reduce((array, item) => {
-        const [{image}] = item.node.productItemTagItems;
+        const [{ image }] = item.node.productItemTagItems;
 
         return array.concat({ id: item.node.id, image });
     }, []);
@@ -35,7 +37,11 @@ const ProductCard = ({ id, url, items, name, loading, price }) => {
     return (
         <div className={styles.root}>
             <Link to={url} className={styles.imageWrapper} title={name}>
-                <img className={styles.image} src={`${isProd ? '' : 'http://br.morphes.ru'}${image}`} alt={name} />
+                <img
+                    className={styles.image}
+                    src={`${isProd ? '' : 'http://br.morphes.ru'}${image}`}
+                    alt={name}
+                />
             </Link>
             <h2 className={styles.title}>{name}</h2>
             <div className={styles.colors}>
