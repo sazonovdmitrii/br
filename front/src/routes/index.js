@@ -29,7 +29,6 @@ export default ({ lang, defaultLang }) => {
             exact: true,
             component: getComponent('Landing/Eyeglasses'),
         },
-        },
         {
             path: `${LANG_PREFIX}/info/:slug`,
             exact: true,
