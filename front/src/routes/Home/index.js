@@ -7,6 +7,8 @@ import { useLangLink } from 'hooks';
 import HeroHome from 'components/HeroHome';
 import Button from 'components/Button';
 
+import bgImage from './images/bg.jpg';
+
 export default () => {
     const manUrl = useLangLink('/muzhskie-opravy/');
     const womanUrl = useLangLink('/zhenskie-opravy/');
@@ -15,7 +17,7 @@ export default () => {
         <>
             <HeroHome
                 title={<FormattedMessage id="hero_title" values={{ amount: 5 }} />}
-                image="https://i.warbycdn.com/v/c/assets/homepage-new/image/D-Mod-1/1/747501c850.jpeg"
+                image={bgImage}
                 actions={
                     <>
                         <Button to={manUrl} kind="primary" size="small" bold outlined rounded>
