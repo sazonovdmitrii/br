@@ -20,16 +20,20 @@ export default ({ lang, defaultLang }) => {
             component: getComponent('User', { ssr: false }),
         },
         {
-            path: `${LANG_PREFIX}/(eyeglasses|sunglasses)`,
+            path: `${LANG_PREFIX}/eyeglasses`,
             exact: true,
-            component: Landing,
-            // getComponent('Retail'),
+            component: getComponent('Landing/Eyeglasses'),
+        },
+        {
+            path: `${LANG_PREFIX}/sunglasses`,
+            exact: true,
+            component: getComponent('Landing/Eyeglasses'),
+        },
         },
         {
             path: `${LANG_PREFIX}/info/:slug`,
             exact: true,
             component: getComponent('Content'),
-            // getComponent('Retail'),
         },
         {
             path: `${LANG_PREFIX}/retail`,

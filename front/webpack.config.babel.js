@@ -3,6 +3,8 @@ import webpack from 'webpack';
 
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
+import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import LoadablePlugin from '@loadable/webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import nodeExternals from 'webpack-node-externals';
@@ -15,6 +17,7 @@ require('dotenv').config();
 
 const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.ANALYZE || false;
+const ssr = process.env.SSR || false;
 
 const cssFilename = isProd ? '[name].[contenthash:8].css' : '[name].css';
 
@@ -43,7 +46,7 @@ const getStyleLoaders = (cssOptions, preprocessor) => {
                     require('postcss-flexbugs-fixes'),
                     require('postcss-preset-env')({
                         autoprefixer: {
-                            grid: true,
+                            grid: "autoplace",
                             flexbox: 'no-2009',
                         },
                         preserve: false,
@@ -226,11 +229,15 @@ const getConfig = target => {
                   })
                 : new CaseSensitivePathsPlugin(),
             isAnalyze && new BundleAnalyzerPlugin(),
-            // new webpack.HashedModuleIdsPlugin({
-            //     hashFunction: 'md4',
-            //     hashDigest: 'base64',
-            //     hashDigestLength: 4,
-            // }),
+            !isNode &&
+                new HtmlWebpackPlugin({
+                    alwaysWriteToDisk: true,
+                    inject: true,
+                    filename: path.resolve(__dirname, 'dist/public/index.html'),
+                    chunksSortMode: 'none',
+                    template: './index.html',
+                }),
+            !isNode && new HtmlWebpackHarddiskPlugin(),
         ].filter(Boolean),
         resolve: {
             extensions: ['.js'],

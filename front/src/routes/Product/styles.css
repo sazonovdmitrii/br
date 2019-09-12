@@ -130,3 +130,14 @@
 .center {
     text-align: center;
 }
+
+.related {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.relatedProduct {
+    flex: 1;
+    padding: 0 15px;
+}

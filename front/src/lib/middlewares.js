@@ -19,7 +19,7 @@ const staticMiddleware = (root, immutable = true) => async (ctx, next) => {
         if (ctx.path !== '/') {
             // If we're in production, try <dist>/public first
             return await koaSend(ctx, ctx.path, {
-                immutable,
+                immutable, // Tell the browser the resource is immutable and can be cached indefinitely.
                 root,
             });
         }
@@ -96,6 +96,4 @@ export default app => {
 
     // Router
     app.use(router.allowedMethods()).use(router.routes());
-
-    app.use(ssr);
 };

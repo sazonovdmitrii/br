@@ -40,8 +40,7 @@ const RootApp = () => {
         </ApolloProvider>
     );
 };
-
-loadableReady(() => {
+const init = () => {
     const root = document.querySelector('#root');
     const token = hardtack.get('token');
     const client = createClient({ token });
@@ -57,4 +56,10 @@ loadableReady(() => {
     } else {
         render(app, root);
     }
-});
+};
+
+if (process.env.SSR) {
+    loadableReady(init);
+} else {
+    init();
+}
