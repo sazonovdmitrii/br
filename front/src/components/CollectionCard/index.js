@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'components/Button';
-
-import styles from './collectioncard.css';
+import styles from './styles.css';
 
 const CollectionCard = ({ actions, title, text }) => (
     <div className={styles.root}>
@@ -11,12 +9,8 @@ const CollectionCard = ({ actions, title, text }) => (
             <img className={styles.image} src="https://placehold.it/600x276" alt="" />
         </picture>
         <div className={styles.body}>
-            {title && (
-                <span className={styles.title} style={{ borderColor: '#C6E2F7' }}>
-                    {title}
-                </span>
-            )}
-            {text && <p className={styles.text}>{text}</p>}
+            {title && <div className={styles.title}>{title}</div>}
+            {text && <div className={styles.text}>{text}</div>}
             <div className={styles.actions}>{actions}</div>
         </div>
     </div>

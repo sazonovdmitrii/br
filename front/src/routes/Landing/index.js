@@ -3,12 +3,12 @@ import { Link as LinkRoute } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import Link from 'components/Link';
+import Collections from 'components/Collections';
 import Container from 'components/Container';
 import Button from 'components/Button';
 import VideoSection from 'components/VideoSection';
-import Lenses from './Lenses';
-import Collections from './Collections';
-import HomeTry from './HomeTry';
+import HomeTry from 'components/HomeTry';
+import Lenses from 'components/Lenses';
 
 import styles from './styles.css';
 

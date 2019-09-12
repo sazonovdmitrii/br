@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import Container from 'components/Container';
 import Button from 'components/Button';
 
-import styles from './Lenses.css';
+import styles from './styles.css';
 
 const Lenses = ({ title, text, items }) => (
     <div className={styles.root}>

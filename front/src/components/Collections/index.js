@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import Button from 'components/Button';
+import CollectionCard from 'components/CollectionCard';
 
-import CollectionCard from './CollectionCard';
-import styles from './collections.css';
+import styles from './styles.css';
 
 const Collections = props => (
     <section className={styles.root}>

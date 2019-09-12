@@ -6,7 +6,7 @@ import Button from 'components/Button';
 import Link from 'components/Link';
 import Quotes from 'components/Quotes';
 
-import styles from './HomeTry.css';
+import styles from './styles.css';
 
 const HomeTry = ({ title, text, actionsLeft, actionsRight }) => (
     <div className={styles.root}>
