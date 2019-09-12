@@ -13,6 +13,8 @@ parameters:
     app.url.ProductItemTagItem: '/uploads/tag_items'
     app.path.Catalog: '%kernel.project_dir%/public/uploads/catalog'
     app.url.Catalog: '/uploads/catalog'
+    app.path.Menu: '%kernel.project_dir%/public/uploads/menu'
+    app.url.Menu: '/uploads/menu'
 
 services:
     # default configuration for services in *this* file

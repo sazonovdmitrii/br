@@ -24,56 +24,109 @@
     <link rel="stylesheet" href="/bundles/easyadmin/stylesheet/style-tree.css">
     {% set menu = form.vars.data %}
     <div id="jstree"></div><br/>
-    <input type="text" name="url" id="url" placeholder="Url"/>
-    <button id="saveurl">Save url</button><br/><br/>
-    <button id="save">Save</button>
+    <form>
+        <input type="text" name="url" id="url" placeholder="Url"/>
+        <input type="hidden" name="type" value="Menu"/>
+        <div class="row">
+            <div class="col-sm-2">
+        <span class="btn btn-primary btn-file">
+            Выбрать файл <input id="file_upload" type="file" name="files" data-url="/admin/images/upload" multiple>
+        </span>
+            </div>
+        </div>
+
+        <div id="upload_process"></div>
+        <hr>
+        <div id="images_list">
+            <div class="image_item">
+
+            </div>
+        </div>
+    </form>
+    <button id="saveurl">Сохранить данные</button><br/><br/><br/>
+    <button id="save">Сохранить меню</button>
+    <script id="image_tmpl" type="text/x-jquery-tmpl">
+	    <div class="image_item col-sm-2" eid="${id}">
+	        <img src="${path}" class="img-thumbnail">
+	        <div>
+	            <button onclick="delete_image(this)" class="btn btn-default" type="button">
+	                <span class="glyphicon glyphicon-trash">Удалить</span>
+	            </button>
+	        </div>
+	    </div>
+    </script>
     <script>
         $(function () {
+
+            $('#file_upload').fileupload({
+                dataType: 'json',
+                done: function (e, data) {
+                    var result = data.result[0];
+                    $('#images_list').append('<input type="hidden" name="image" value="' + result.path + '"/>');
+                    $('#upload_process').html('');
+                    $('#image_tmpl').tmpl(data.result[0]).appendTo('#images_list');
+                },
+                progressall: function (e, data) {
+                    var $div = $('#div_process_' + data.upload_number);
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $div.find('.progress-bar').css('width', progress + '%');
+                }
+            });
+
             $('#jstree').jstree({
-                "core" : {
-                    "animation" : 0,
-                    "check_callback" : true,
-                    "themes" : { "stripes" : true },
-                    'data' : {
-                        'url' : "/admin/?" + $.param({'entity' : 'Menu', 'action' : 'menu', 'id': {{ menu.id }} }),
-                        'data' : function (node) {}
+                "core": {
+                    "animation": 0,
+                    "check_callback": true,
+                    "themes": {"stripes": true},
+                    'data': {
+                        'url': "/admin/?" + $.param({'entity': 'Menu', 'action': 'menu', 'id': {{ menu.id }} }),
+                        'data': function (node) {
+                        }
                     }
                 },
-                "types" : {
-                    "#" : {
-                        "max_children" : 4,
-                        "max_depth" : 4,
-                        "valid_children" : ["root"]
+                "types": {
+                    "#": {
+                        "max_children": 4,
+                        "max_depth": 4,
+                        "valid_children": ["root"]
                     }
                 },
-                "plugins" : [
+                "plugins": [
                     "contextmenu", "dnd", "search",
                     "state", "types", "wholerow"
                 ]
             });
+
             $('#jstree').on("changed.jstree", function (e, data) {
                 var e = $('#jstree').jstree('get_selected', true);
-                if(e) {
-                    var e = e[0];
-                    if(e) {
-                        $('#url').val(e.data[0]);
+                if (e) {
+                    if (e) {
+                        var elem = e[0];
+                        if(elem && elem.data) {
+                            $('#url').val(elem.data[0]);
+                            $('.image_item .img-thumbnail').remove();
+                            $('.image_item').append('<img src="'+elem.data[1]+'" class="img-thumbnail" width=50>');
+                        }
                     }
                 }
 
             });
-            $('#saveurl').on('click', function() {
+
+            $('#saveurl').on('click', function () {
                 var url = $('#url').val();
+                var image = $('.img-thumbnail').attr('src');
                 var e = $('#jstree').jstree('get_selected', true);
-                if(e) {
+                if (e) {
                     var e = e[0];
-                    if(e) {
-                        e.data = [url];
+                    if (e) {
+                        e.data = [url, image];
                     }
                 }
             });
+
             $('#save').on('click', function () {
                 var menu = JSON.stringify($("#jstree").jstree(true).get_json());
-                $.post("/admin/?" + $.param({'entity' : 'Menu', 'action' : 'edit'}), {
+                $.post("/admin/?" + $.param({'entity': 'Menu', 'action': 'edit'}), {
                     'menu': menu,
                     'id': {{ menu.id }}
                 }, function (data) {

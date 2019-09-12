@@ -43,6 +43,11 @@ class Menu
      */
     private $menu;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $path;
+
     public function __construct()
     {
         $this->menuItems = new ArrayCollection();
@@ -128,6 +133,18 @@ class Menu
     public function setMenu(?string $menu): self
     {
         $this->menu = $menu;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(?string $path): self
+    {
+        $this->path = $path;
 
         return $this;
     }
