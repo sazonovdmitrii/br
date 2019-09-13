@@ -35,6 +35,11 @@ export default ({ lang, defaultLang }) => {
             component: getComponent('Content'),
         },
         {
+            path: `${LANG_PREFIX}/retail/:city/:name`,
+            exact: true,
+            component: getComponent('RetailPage'),
+        },
+        {
             path: `${LANG_PREFIX}/retail`,
             exact: true,
             component: getComponent('Retail'),

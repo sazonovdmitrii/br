@@ -7,7 +7,7 @@ import {
     MapPin as MapPinIcon,
 } from 'react-feather';
 
-// import { useApp } from 'hooks';
+import { useLangLink } from 'hooks';
 // import { IS_LOGGED_IN } from 'query';
 
 // import Button from 'components/Button';
@@ -23,6 +23,7 @@ const UserMenu = () => {
     // const handleLogOut = () => {
     //     logout();
     // };
+    const reailsLink = useLangLink('/retail');
     const [showSearch, setShowSearch] = useState(false);
 
     return (
@@ -30,7 +31,7 @@ const UserMenu = () => {
             <SearchForm show={showSearch} onClose={() => setShowSearch(false)} />
             <li className={styles.item}>
                 <div className={styles.icon}>
-                    <Link to="/retail" className={styles.link}>
+                    <Link to={reailsLink} className={styles.link}>
                         <MapPinIcon size="20" />
                     </Link>
                 </div>

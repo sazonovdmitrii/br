@@ -45,8 +45,8 @@ const Socials = ({ className }) => {
 
     return (
         <ul className={rootClassName}>
-            {socials.map(({ url, name, icon: Icon }) => (
-                <li className={styles.item}>
+            {socials.map(({ url, name, icon: Icon }, index) => (
+                <li key={index} className={styles.item}>
                     <a href={url} target="_blank" className={styles.link} rel="noopener">
                         <Icon className={styles.icon} />
                     </a>
