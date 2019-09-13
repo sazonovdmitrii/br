@@ -115,6 +115,15 @@
             $('#saveurl').on('click', function () {
                 var url = $('#url').val();
                 var image = $('.img-thumbnail').attr('src');
+                if(image == 'undefined') {
+                    $('.img-thumbnail').each(function(e) {
+                        var src = $(this).attr('src');
+                        if(src != 'undefined') {
+                            image = src;
+                        }
+                    });
+                }
+alert(image);
                 var e = $('#jstree').jstree('get_selected', true);
                 if (e) {
                     var e = e[0];
