@@ -84,6 +84,12 @@ export const GET_PRODUCT = gql`
                 name
                 value
             }
+            similars {
+                id
+                name
+                url
+                image
+            }
         }
     }
 `;

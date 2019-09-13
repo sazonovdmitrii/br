@@ -16,14 +16,11 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Products = ({ title, page, slug, limit, offset, col, className }) => {
+const Products = ({ title, page, slug, limit, offset, className }) => {
     const { loading, error, data, fetchMore } = useQuery(GET_PRODUCTS, {
         variables: { slug, limit, offset },
     });
     const rowClassName = cx(styles.row, className);
-    const colClassName = cx(styles.col, {
-        [`col${col}`]: col,
-    });
 
     if (loading && !data.catalog) return <Loader />;
     if (error || !data) {
@@ -31,7 +28,7 @@ const Products = ({ title, page, slug, limit, offset, col, className }) => {
         return null;
     }
 
-    const { products, count } = data.catalog;
+    const { products } = data.catalog;
 
     return (
         <div className={styles.root}>
@@ -39,9 +36,7 @@ const Products = ({ title, page, slug, limit, offset, col, className }) => {
             <div className={rowClassName}>
                 {products &&
                     products.edges.map((item, index, array) => (
-                        <div key={item.node.id} className={colClassName}>
-                            <ProductCard {...item.node} loading={loading} />
-                        </div>
+                        <ProductCard key={item.node.id} {...item.node} loading={loading} />
                     ))}
             </div>
         </div>
@@ -55,7 +50,6 @@ Products.defaultProps = {
     page: '',
     slug: '',
     className: null,
-    col: 3,
 };
 
 Products.propTypes = {

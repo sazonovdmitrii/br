@@ -9,7 +9,7 @@ import Button from 'components/Button';
 
 export default () => {
     const manUrl = useLangLink('/muzhskie-opravy/');
-    const womanUrl = useLangLink('/muzhskie-opravy/');
+    const womanUrl = useLangLink('/zhenskie-opravy/');
 
     return (
         <>

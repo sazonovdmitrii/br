@@ -10,7 +10,7 @@ import Colors from 'components/Colors';
 // import Loader from './Loader';
 import styles from './styles.css';
 
-const ProductCard = ({ id, url: urlProps, items, name, loading, price }) => {
+const ProductCard = ({ id, url: urlProps, items, name, loading, price, image: imageProps }) => {
     const url = useLangLink(urlProps);
     const colors = items.edges.reduce((array, item) => {
         const [{ image }] = item.node.productItemTagItems;
@@ -19,7 +19,9 @@ const ProductCard = ({ id, url: urlProps, items, name, loading, price }) => {
     }, []);
     const [color, setColor] = useState(colors.length ? colors[0].id : null);
     const [image, setImage] = useState(
-        items.edges.length && items.edges[0].node.productItemImages.length
+        imageProps
+            ? imageProps
+            : items.edges.length && items.edges[0].node.productItemImages.length
             ? items.edges[0].node.productItemImages[0].path
             : 'https://placehold.it/377x167'
     );
@@ -39,15 +41,17 @@ const ProductCard = ({ id, url: urlProps, items, name, loading, price }) => {
             <Link to={url} className={styles.imageWrapper} title={name}>
                 <img
                     className={styles.image}
-                    src={`${isProd ? '' : 'http://br.morphes.ru'}${image}`}
+                    src={'http://br.morphes.ru' + image}
                     alt={name}
                 />
             </Link>
             <h2 className={styles.title}>{name}</h2>
-            <div className={styles.colors}>
-                <Colors value={color} list={colors} onChange={value => handleChangeColor(value)} />
-                {/* <AddToFave className={styles.fave} id={id} faved={false} /> */}
-            </div>
+            {colors.length ? (
+                <div className={styles.colors}>
+                    <Colors value={color} list={colors} onChange={value => handleChangeColor(value)} />
+                    {/* <AddToFave className={styles.fave} id={id} faved={false} /> */}
+                </div>
+            ) : null}
         </div>
     );
 };

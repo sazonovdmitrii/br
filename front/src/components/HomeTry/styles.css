@@ -6,26 +6,18 @@
 
 .imageWrapper {
     max-width: 83.33333%;
-    margin: 0 auto 36px;
+    margin: 0 auto;
     text-align: center;
-
-    @media (--viewport-desktop) {
-        margin-bottom: 48px;
-        padding-right: 18px;
-        padding-left: 18px;
-    }
-
-    @media (--viewport-wide) {
-        padding-right: 24px;
-        padding-left: 24px;
-    }
 }
 
 .body {
     margin-top: 48px;
+    display: grid;
+    grid-gap: 36px;
 
     @media (--viewport-desktop) {
-        display: flex;
+        grid-gap: 48px;
+        grid-template-columns: 37% 33.33333%;
         justify-content: center;
     }
 }
@@ -33,11 +25,9 @@
 .textBlock {
     max-width: 400px;
     margin: 0 auto;
-    padding-bottom: 36px;
     text-align: center;
 
     @media (--viewport-desktop) {
-        width: 37%;
         max-width: none;
         margin: 0;
         text-align: left;
@@ -58,15 +48,13 @@
 }
 
 .text {
-    margin-bottom: 24px;
     color: #676f78;
     font-size: 16px;
 }
 
 .actions {
+    margin-top: 24px;
     display: inline-grid;
-    /* width: 100%; */
-    grid-auto-columns: 1fr;
     grid-gap: 18px;
 }
 
@@ -80,7 +68,6 @@
 
     @media (--viewport-desktop) {
         display: block;
-        width: 33.33333%;
         height: auto;
         background: none;
     }

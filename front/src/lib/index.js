@@ -1,9 +1,11 @@
+import path from 'path';
 // Koa 2 web server.  Handles incoming HTTP requests, and will serve back
 // the React render, or any of the static assets being compiled
 import Koa from 'koa';
 
 import middlewares from './middlewares';
 import config from './config';
+import ssr from './ssr';
 
 require('dotenv').config();
 
@@ -13,6 +15,8 @@ process.on('SIGINT', () => {
 });
 
 const app = new Koa();
+
+middlewares(app);
 
 // TODO fix hmr
 if (process.env.NODE_ENV !== 'production') {
@@ -45,10 +49,22 @@ if (process.env.NODE_ENV !== 'production') {
 
         // Attach middleware to our passed Koa app
         app.use(middleware);
+
+        if (process.env.SSR) {
+            app.use(ssr);
+        } else {
+            app.use(async ctx => {
+                const filename = path.resolve(webpackConfig[1].output.path, '../index.html');
+
+                ctx.response.type = 'html';
+                ctx.response.body = middleware.devMiddleware.fileSystem.createReadStream(filename);
+            });
+        }
     })();
+} else {
+    app.use(ssr);
 }
 
-middlewares(app);
 
 app.listen(config.port, () => {
     config.spinner.succeed(`Graphql server: ${process.env.GRAPHQL}`);

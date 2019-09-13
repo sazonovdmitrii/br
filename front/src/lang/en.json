@@ -41,16 +41,24 @@
     "eyeglasses_text": "Prescription eyeglasses, starting at $95, with free shipping and free returns",
     "sunglasses": "Sunglasses",
     "sunglasses_text": "Each pair is equipped with scratch-resistant lenses that block 100% of UVA and UVB rays. Starting at $95, with free shipping and free returns.",
-    "home_try_on": "Home Try–On",
-    "home_try_text": "Pick five frames to test out for five days—and we’ll ship them to you for free!",
+
     "quiz_action": "Take a quiz to find your frames",
     "get_started": "Get started",
     "more_reviews": "See more reviews",
     "video_title": "Want to see how our glasses are made?",
     "video_action": "We filmed it!",
     "find_your_lenses": "Find your lenses",
-    "lenses_title": "Lenses with benefits",
-    "lenses_text": "Every pair of Brillenhof glasses comes with anti-reflective, scratch-resistant lenses that block 100% of UV rays. Pick from a range of lens options to fit your vision needs.",
+
+
+    "eyeglasses_home_try_on": "Home Try–On",
+    "eyeglasses_home_try_text": "Pick five frames to test out for five days—and we’ll ship them to you for free!",
+    "sunglasses_home_try_on": "Try before you buy",
+    "sunglasses_home_try_text": "Want to try five pairs of glasses or sunglasses in the comfort of your very own home? It’s easy. And fun. And free.",
+
+    "eyeglasses_lenses_title": "Lenses with benefits",
+    "eyeglasses_lenses_text": "Every pair of Brillenhof glasses comes with anti-reflective, scratch-resistant lenses that block 100% of UV rays. Pick from a range of lens options to fit your vision needs.",
+    "sunglasses_lenses_title": "For every pair sold, a pair is distributed to someone in need",
+    "sunglasses_lenses_text": "Alleviating the problem of impaired vision is at the heart of what we do, and with your help, our impact continues to expand. To this day, we’ve distributed over five million pairs of glasses to people in need.",
 
     "usa": "USA",
     "russia": "Russia",

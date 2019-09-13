@@ -21,12 +21,13 @@ import Delivery from 'components/Delivery';
 import Colors from 'components/Colors';
 import Container from 'components/Container';
 import ProductCarousel from 'components/ProductCarousel';
+import ProductCard from 'components/ProductCard';
 
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Product = ({ name, id, items: { edges: items = [] }, description, tags, history, text }) => {
+const Product = ({ name, id, items: { edges: items = [] }, description, tags, history, text, similars }) => {
     const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
     const images = selectedProduct.productItemImages;
     const colors = items.reduce((array, item) => {
@@ -117,11 +118,24 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
                 text="We have a 30-day, hassle-free return or exchange policy as well as a one-year, no scratch
             guarantee for our lenses; we'll replace your scratched lenses for free within the first 12 months."
             />
-            <div className={styles.section}>
-                <h2 className={sectionTitleCenterClassName}>
-                    <FormattedMessage id="recommended" />
-                </h2>
-            </div>
+            {similars.length ? (
+                <div className={styles.section}>
+                    <h2 className={sectionTitleCenterClassName}>
+                        <FormattedMessage id="recommended" />
+                    </h2>
+                    <div className={styles.related}>
+                        {similars.map((item) => (
+                            <div key={item.id} className={styles.relatedProduct}>
+                                <ProductCard
+                                    name={item.name}
+                                    url={item.url}
+                                    image={item.image}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : null}
         </Container>
     );
 };

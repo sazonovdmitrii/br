@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { withRouter, Switch, Route } from 'react-router';
 import Helmet from 'react-helmet';
 import gql from 'graphql-tag';
@@ -92,17 +92,35 @@ const App = ({ lang }) => {
     const [setLang] = useMutation(SET_LANG_MUTATION, {
         variables: { lang },
     });
+    const [finalMessages, setMessages] = useState(getMessages);
 
     useMemo(() => {
         setLang();
     }, [lang]);
 
-    if (!getMessages) return null;
+    if (typeof window !== undefined) {
+        import(/* webpackChunkName: 'i18n-[request]' */ `lang/${lang}.json`).then(resp => {
+            setMessages(resp.default);
+        });
+    }
+
+    if (!finalMessages) return null;
 
     return (
-        <IntlProvider locale={lang} messages={getMessages}>
+        <IntlProvider locale={lang} messages={finalMessages}>
             <ScrollToTop />
             <Helmet defaultTitle={SEO.defaultTitle} titleTemplate={SEO.titleTemplate}>
+                <html lang={lang} />
+                {LANGS.map((item, index) => {
+                    return (
+                        <link
+                            key={index}
+                            rel="alternate"
+                            hrefLang={item.value === lang ? 'x-default' : item.value}
+                            href={`/${item.default ? '' : `${item.value}/`}`}
+                        />
+                    );
+                })}
                 <link rel="shortcut icon" href="/favicon.ico" />
                 {FAVS.map(({ sizes, path }, index) => (
                     <link key={index} rel="icon" type="image/png" sizes={sizes} href={path} />
