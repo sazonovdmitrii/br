@@ -19,11 +19,9 @@ export default ({ active }) => {
         });
     }
 
-    const {
-        loading,
-        error,
-        data: { top_menu: topMenu } = {},
-    } = useQuery(GET_HEADER_MENU, { variables: { locale: lang } });
+    const { loading, error, data: { top_menu: topMenu } = {} } = useQuery(GET_HEADER_MENU, {
+        variables: { locale: lang },
+    });
 
     if (loading || error || !topMenu) return null;
 

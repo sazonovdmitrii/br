@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
+import classnames from 'classnames/bind';
 import chatIcon from './images/chat.png';
 import smsIcon from './images/sms.png';
 import phoneIcon from './images/phone.png';
 import faqIcon from './images/faq.png';
 import emailIcon from './images/email.png';
-
-import classnames from 'classnames/bind';
 
 import styles from './styles.css';
 

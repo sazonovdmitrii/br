@@ -6,7 +6,9 @@ import { useLangLink } from 'hooks';
 
 import HeroHome from 'components/HeroHome';
 import Button from 'components/Button';
+import CollectionSection from 'components/CollectionSection';
 
+import styles from './styles.css';
 import bgImage from './images/bg.jpg';
 
 export default () => {
@@ -29,6 +31,13 @@ export default () => {
                     </>
                 }
             />
+            <div className={styles.main}>
+                <div className={styles.text}>
+                    Buying glasses should leave you happy and good-looking, with money in your pocket. Glasses
+                    starting at $95, including prescription lenses.
+                </div>
+                <CollectionSection />
+            </div>
         </>
     );
 };
