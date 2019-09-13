@@ -55,6 +55,11 @@
                 var url_id = $(btn).parent().attr('eid');
                 $('#url-' + url_id).remove();
                 $('#row_url_'+ url_id +'').remove();
+                $.post("/admin/?" + $.param({'entity': 'Catalog', 'action': 'deleteUrl'}), {
+                    'url_id': url_id
+                }, function (response) {
+
+                }, 'json');
             }
         }
     </script>
