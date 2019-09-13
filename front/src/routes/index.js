@@ -45,13 +45,11 @@ export default ({ lang, defaultLang }) => {
             component: getComponent('Retail'),
         },
         {
-            type: 'product',
             path: `${LANG_PREFIX}/:catalog?/:subcatalog?/:product.htm`,
             exact: true,
             component: getComponent('Product'),
         },
         {
-            type: 'catalog',
             path: `${LANG_PREFIX}/:catalog/:subcatalog?/:filter?`,
             exact: true,
             component: getComponent('Catalog'),

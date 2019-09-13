@@ -25,19 +25,3 @@
     justify-content: center;
     margin-bottom: 48px;
 }
-
-.columns {
-    padding: 0 18px;
-    column-count: 2;
-    column-gap: 96px;
-
-    @media (min-width: 960px) {
-        column-count: 3;
-        column-gap: 84px;
-    }
-}
-
-.column {
-    display: inline-block;
-    margin-top: 36px;
-}

@@ -12,7 +12,7 @@
     max-width: 665px;
     text-align: center;
     margin: 0 auto;
-    padding: 125px auto;
+    padding: 125px 0;
 
     @media (--viewport-tablet) {
         font-size: 24px;

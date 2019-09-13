@@ -99,8 +99,7 @@
 }
 
 .bottomMenuItem {
-    flex: 0 0 50%;
-    max-width: 50%;
+    flex: 1;
     padding: 6px 8px;
     font-size: 12px;
     white-space: nowrap;

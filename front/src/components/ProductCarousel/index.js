@@ -32,7 +32,7 @@ const ProductCarousel = ({ items }) => {
                 key={item.id} // eslint-disable-line
                 className={activeBannerClassName}
             >
-                <img className={styles.image} src={`http://br.morphes.ru${item.path}`} alt="" />
+                <img className={styles.image} src={item.path} alt="" />
             </div>
         );
     });
