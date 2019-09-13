@@ -184,4 +184,27 @@ class CatalogController extends BaseAdminController
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
+
+
+    protected function deleteUrlAction()
+    {
+        $urlId = $this->request->request->get('url_id');
+
+        $url = $this->entityManager->getRepository('App:CatalogUrl')
+            ->find($urlId);
+
+        if ($url) {
+            $this->entityManager->remove($url);
+            $this->entityManager->flush();
+        }
+
+        $response = new Response();
+        $response->setContent(json_encode([
+                    'id' => $urlId
+                ]
+            )
+        );
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }
