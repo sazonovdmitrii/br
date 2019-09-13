@@ -3,7 +3,8 @@
     margin: 0 18px;
 
     @media (--viewport-tablet) {
-        padding: 0 76px;
+        padding-left: 76px;
+        padding-right: 76px;
         margin: 0 32px;
     }
 

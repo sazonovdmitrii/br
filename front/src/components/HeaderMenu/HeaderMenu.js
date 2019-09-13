@@ -39,7 +39,14 @@ const HeaderMenu = ({ items }) => {
                                 <ul className={submenuClassName}>
                                     {children.map(child => (
                                         <li key={child.url} className={styles.childCol}>
-                                            <Link className={styles.childLink} to={child.url}>
+                                            <Link
+                                                className={styles.childLink}
+                                                to={child.url}
+                                                styles={{
+                                                    backgroundImage:
+                                                        'url(//i.warbycdn.com/v/c/assets/nav-summer-2019/image/men-rx/1/2cdedc21bc.jpg?quality=70&width=1100)',
+                                                }}
+                                            >
                                                 <span className={styles.childText}>{child.text}</span>
                                             </Link>
                                         </li>

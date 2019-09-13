@@ -33,8 +33,7 @@ export default () => {
             />
             <div className={styles.main}>
                 <div className={styles.text}>
-                    Buying glasses should leave you happy and good-looking, with money in your pocket. Glasses
-                    starting at $95, including prescription lenses.
+                    <FormattedMessage id="home_text" />
                 </div>
                 <CollectionSection />
             </div>

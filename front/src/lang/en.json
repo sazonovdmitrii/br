@@ -11,6 +11,7 @@
     "phone": "Phone",
     "save": "Save",
     "sms_subscription": "Receive SMS",
+    "locations": "Locations",
 
     "shop_men": "Shop Men",
     "shop_women": "Shop Women",
@@ -68,6 +69,8 @@
     "locations_title": "Other nearby locations",
     "locations_link": "Search all our stores and showrooms",
     "shop_the_collection": "Shop the collection",
+
+    "home_text": "Buying glasses should leave you happy and good-looking, with money in your pocket. Glasses starting at $95, including prescription lenses.",
 
     "usa": "USA",
     "russia": "Russia",
