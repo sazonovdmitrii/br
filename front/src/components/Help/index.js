@@ -32,60 +32,50 @@ const Help = ({ className }) => {
                 </p>
             </div>
             <ul className={styles.items}>
-                <li>
-                    <a href="tel:" className={styles.item}>
-                        <span className="c-footer-help__icon">
-                            <img
-                                src={phoneIcon}
-                                alt="Call icon"
-                                className={styles.icon}
-                                role="presentation"
-                            />
+                <li className={styles.item}>
+                    <a href="tel:" className={styles.link}>
+                        <span className={styles.icon}>
+                            <img src={phoneIcon} alt="Call icon" />
                         </span>
                         <span className={styles.itemTitle}>
                             <FormattedMessage id="call" />
                         </span>
                     </a>
                 </li>
-                <li>
-                    <Link to="/help" className={styles.item}>
-                        <span className="c-footer-help__icon">
-                            <img src={faqIcon} alt="FAQ icon" className={styles.icon} role="presentation" />
+                <li className={styles.item}>
+                    <Link to="/help" className={styles.link}>
+                        <span className={styles.icon}>
+                            <img src={faqIcon} alt="FAQ icon" className={styles.icon} />
                         </span>
                         <span className={styles.itemTitle}>
                             <FormattedMessage id="faq" />
                         </span>
                     </Link>
                 </li>
-                <li>
-                    <a href="mailto:help@warbyparker.com" className={styles.item}>
-                        <span className="c-footer-help__icon">
-                            <img
-                                src={emailIcon}
-                                alt="Email icon"
-                                className={styles.icon}
-                                role="presentation"
-                            />
+                <li className={styles.item}>
+                    <a href="mailto:help@warbyparker.com" className={styles.link}>
+                        <span className={styles.icon}>
+                            <img src={emailIcon} alt="Email icon" />
                         </span>
                         <span className={styles.itemTitle}>
                             <FormattedMessage id="email" />
                         </span>
                     </a>
                 </li>
-                <li>
-                    <a href="sms:646.374.2771" className={styles.item}>
-                        <span className="c-footer-help__icon">
-                            <img src={smsIcon} alt="Text icon" className={styles.icon} role="presentation" />
+                <li className={styles.item}>
+                    <a href="sms:646.374.2771" className={styles.link}>
+                        <span className={styles.icon}>
+                            <img src={smsIcon} alt="Text icon" />
                         </span>
                         <span className={styles.itemTitle}>
                             <FormattedMessage id="text" />
                         </span>
                     </a>
                 </li>
-                <li>
-                    <a href="#livechat" className={styles.item}>
-                        <span className="c-footer-help__icon">
-                            <img src={chatIcon} alt="Chat icon" className={styles.icon} role="presentation" />
+                <li className={styles.item}>
+                    <a href="#livechat" className={styles.link}>
+                        <span className={styles.icon}>
+                            <img src={chatIcon} alt="Chat icon" />
                         </span>
                         <span className={styles.itemTitle}>
                             <FormattedMessage id="chat" />

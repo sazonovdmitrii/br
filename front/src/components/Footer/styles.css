@@ -66,9 +66,8 @@
     padding-top: 24px;
     padding-bottom: 24px;
 
-    @media (--viewport-desktop) {
+    @media (--viewport-wide) {
         display: flex;
-        flex-wrap: wrap;
     }
 }
 
@@ -80,19 +79,21 @@
     padding-bottom: 24px;
     border-bottom: 1px solid #d2d6d9;
 
-    @media (--viewport-desktop) {
-        flex: 0 0 100%;
+    @media (--viewport-wide) {
+        flex: 1;
+        border: 0;
+        padding: 0;
+        margin: 0;
     }
 }
 
 .bottomMenu {
     display: flex;
-    flex: 0 0 100%;
     flex-wrap: wrap;
-    max-width: 100%;
     margin: 0 -8px;
 
     @media (--viewport-phone) {
+        flex: 1;
         justify-content: center;
     }
 }
@@ -103,6 +104,12 @@
     padding: 6px 8px;
     font-size: 12px;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+
+    & a {
+        color: #676f78;
+    }
 
     @media (--viewport-phone) {
         flex: none;
@@ -135,5 +142,13 @@
 
     @media (--viewport-ipad) {
         font-size: 12px;
+    }
+}
+
+.socials {
+    width: 125px;
+
+    @media (min-width: 500px) {
+        width: 150px;
     }
 }

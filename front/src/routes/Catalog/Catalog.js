@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 import { SeoHead } from 'utils';
 
@@ -10,6 +11,8 @@ import Filters from 'components/Filters';
 import Products from 'components/Products';
 import Hero from 'components/Hero';
 import Container from 'components/Container';
+
+import bgImage from './images/bg.jpg';
 
 const Catalog = ({ match, slug, limit, name, count, description, subtitle, tags = [] }) => {
     const {
@@ -26,7 +29,7 @@ const Catalog = ({ match, slug, limit, name, count, description, subtitle, tags 
     return (
         <Container>
             <SeoHead type="catalog" name={name} page={currentPage} />
-            <Hero title={name} subtitle="Shop frames below or pick five pairs to try for free" />
+            <Hero title={name} subtitle={<FormattedMessage id="catalog_description" />} image={bgImage} />
             {tags.length ? <Filters list={tags} /> : null}
             <Products slug={slug} limit={limit} offset={offset} count={count} />
         </Container>

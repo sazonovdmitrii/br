@@ -37,7 +37,7 @@ const Landing = () => {
                     <p className={styles.heroText}>
                         <FormattedMessage id="sunglasses_text" />
                     </p>
-                    <div className={styles.heroActions} role="group" aria-label="Button Group">
+                    <div className={styles.heroActions}>
                         <Button to={manUrl} kind="simple" bold>
                             <FormattedMessage id="shop_men" />
                         </Button>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames/bind';
+import { FormattedMessage } from 'react-intl';
 
 import { useLang } from 'hooks';
 
@@ -55,19 +56,29 @@ export default () => {
                 </div>
                 <ul className={styles.bottomMenu}>
                     <li className={styles.bottomMenuItem}>
-                        <Link to="/privacy-policy">Privacy Policy</Link>
+                        <Link to="/info/privacy-policy">
+                            <FormattedMessage id="privacy_policy" />
+                        </Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <Link to="/notice-of-privacy-practices">Notice of Privacy Practices</Link>
+                        <Link to="/info/notice-of-privacy-practices">
+                            <FormattedMessage id="notice_of_privacy_practices" />
+                        </Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <Link to="/terms-of-use">Terms of Use</Link>
+                        <Link to="/info/terms-of-use">
+                            <FormattedMessage id="terms_of_use" />
+                        </Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <Link to="/accessibility">Accessibility</Link>
+                        <Link to="/info/accessibility">
+                            <FormattedMessage id="accessibility" />
+                        </Link>
                     </li>
                     <li className={styles.bottomMenuItem}>
-                        <Link to="/process/ca-transparency-act">CA Transparency Act</Link>
+                        <Link to="/info/process/ca-transparency-act">
+                            <FormattedMessage id="ca_transparency_act" />
+                        </Link>
                     </li>
                 </ul>
             </section>
