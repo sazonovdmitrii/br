@@ -18,6 +18,9 @@ MenuItem:
       url:
         type: "String"
         description: "Url"
+      image:
+        type: "String"
+        description: "Image"
       children:
         type: "[MenuItem]"
         description: "Childrens"

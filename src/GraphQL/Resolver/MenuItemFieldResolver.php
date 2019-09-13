@@ -49,6 +49,15 @@ class MenuItemFieldResolver implements ResolverInterface
         return '';
     }
 
+    public function image($entity)
+    {
+        $data = isset($entity['data']) ? $entity['data'] : [];
+        if(count($data) && count($data) > 1) {
+            return $data[1];
+        }
+        return '';
+    }
+
     public function children($entity)
     {
         return $entity['children'];

@@ -10,6 +10,12 @@ Catalog:
       name:
         type: "String"
         description: "Catalog Name"
+      banner:
+        type: "String"
+        description: "Catalog Banner"
+      description:
+        type: "String"
+        description: "Catalog description"
       products:
         type: ProductConnection
         argsBuilder: PaginatoringBuilder
