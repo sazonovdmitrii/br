@@ -13,38 +13,21 @@ import HomeTry from 'components/HomeTry';
 import Lenses from 'components/Lenses';
 
 import styles from './styles.css';
+import heroImage from './images/sunglasses-hero.jpg';
+import homeTryImage from './images/sunglasses-hometry.jpg';
+import lensesImage from './images/sunglasses-lenses.jpg';
+import videoPosterImage from './images/videposter.jpg';
 
 const Landing = () => {
-    const testUrl = useLangLink('/muzhskie-opravy/');
+    const manUrl = useLangLink('/muzhskie-solncezashhitnye-ochki/');
+    const womanUrl = useLangLink('/zhenskie-solncezashhitnye-ochki/');
 
     return (
         <Container>
             <div className={styles.hero}>
                 <div className={styles.heroImageWrapper}>
                     <picture className={styles.heroImage}>
-                        <source
-                            media="(min-width: 1440px)"
-                            srcSet="https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-desktop/0/1b4849f919.jpeg?quality=80&amp;width=1440 1440w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-desktop/0/1b4849f919.jpeg?quality=80&amp;width=2880 2880w"
-                            sizes="1440px"
-                        />
-                        <source
-                            media="(min-width: 900px)"
-                            srcSet="https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-desktop/0/1b4849f919.jpeg?quality=80&amp;width=900 900w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-desktop/0/1b4849f919.jpeg?quality=80&amp;width=1296 1296w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-desktop/0/1b4849f919.jpeg?quality=80&amp;width=1692 1692w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-desktop/0/1b4849f919.jpeg?quality=80&amp;width=2088 2088w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-desktop/0/1b4849f919.jpeg?quality=80&amp;width=2484 2484w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-desktop/0/1b4849f919.jpeg?quality=80&amp;width=2880 2880w"
-                            sizes="100vw"
-                        />
-                        <source
-                            media="(min-width: 600px)"
-                            srcSet="https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=768 768w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=994 994w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=1221 1221w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=1447 1447w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=1674 1674w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=1900 1900w"
-                        />
-                        <source
-                            media="(min-width: 0px)"
-                            srcSet="https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=320 320w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=556 556w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=792 792w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=1028 1028w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=1264 1264w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/hero-mobile/0/8faaf75097.jpg?quality=70&amp;width=1500 1500w"
-                        />
-                        <img
-                            alt=""
-                            class="u-size--contain"
-                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-                        />
+                        <img src={heroImage} alt="" />
                     </picture>
                 </div>
                 <div className={styles.heroBody}>
@@ -55,10 +38,10 @@ const Landing = () => {
                         <FormattedMessage id="sunglasses_text" />
                     </p>
                     <div className={styles.heroActions} role="group" aria-label="Button Group">
-                        <Button to={testUrl} kind="simple" bold>
+                        <Button to={manUrl} kind="simple" bold>
                             <FormattedMessage id="shop_men" />
                         </Button>
-                        <Button to="/zhenskie-opravy/" kind="simple" bold>
+                        <Button to={womanUrl} kind="simple" bold>
                             <FormattedMessage id="shop_women" />
                         </Button>
                     </div>
@@ -66,34 +49,7 @@ const Landing = () => {
             </div>
             <section>
                 <HomeTry
-                    image={
-                        <picture>
-                            <source
-                                media="(min-width: 1200px)"
-                                srcSet="https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/try-before-you-buy/0/5ade844787.jpg?quality=70&amp;width=1092 1092w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/try-before-you-buy/0/5ade844787.jpg?quality=70&amp;width=2184 2184w"
-                                sizes="1092px"
-                            />
-                            <source
-                                media="(min-width: 900px)"
-                                srcSet="https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/try-before-you-buy/0/5ade844787.jpg?quality=70&amp;width=794 794w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/try-before-you-buy/0/5ade844787.jpg?quality=70&amp;width=1588 1588w"
-                                sizes="794px"
-                            />
-                            <source
-                                media="(min-width: 600px)"
-                                srcSet="https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/try-before-you-buy/0/5ade844787.jpg?quality=70&amp;width=660 660w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/try-before-you-buy/0/5ade844787.jpg?quality=70&amp;width=1320 1320w"
-                                sizes="660px"
-                            />
-                            <source
-                                media="(min-width: 0px)"
-                                srcSet="https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/try-before-you-buy/0/5ade844787.jpg?quality=70&amp;width=360 360w,https://i.warbycdn.com/v/c/assets/sunglasses-LP/image/try-before-you-buy/0/5ade844787.jpg?quality=70&amp;width=720 720w"
-                                sizes="360px"
-                            />
-                            <img
-                                alt=""
-                                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-                            />
-                        </picture>
-                    }
+                    image={<img src={homeTryImage} alt="" />}
                     title={<FormattedMessage id="sunglasses_home_try_on" />}
                     text={<FormattedMessage id="sunglasses_home_try_text" />}
                     action={
@@ -106,7 +62,7 @@ const Landing = () => {
             <section className={styles.section}>
                 <VideoSection
                     title={<FormattedMessage id="video_title" />}
-                    poster="https://i.warbycdn.com/v/c/assets/quality-landing-page/image/hero/2/4abad3fd34.jpg"
+                    poster={videoPosterImage}
                     video="https://player.vimeo.com/external/246989570.hd.mp4?s=276721bec238e24770d1c7e8f7678ab224480188&amp;profile_id=174"
                     actions={
                         <LinkRoute to="/how-our-glasses-are-made" className={styles.button}>
@@ -117,36 +73,9 @@ const Landing = () => {
             </section>
             <section className={styles.section}>
                 <Lenses
-                    image={
-                        <picture>
-                            <source
-                                media="(min-width: 1200px)"
-                                srcSet="https://i.warbycdn.com/v/c/assets/eyeglasses-LP/image/bapgap/1/4120b946e3.jpg?quality=70&amp;width=1092 1092w,https://i.warbycdn.com/v/c/assets/eyeglasses-LP/image/bapgap/1/4120b946e3.jpg?quality=70&amp;width=2184 2184w"
-                                sizes="1092px"
-                            />
-                            <source
-                                media="(min-width: 900px)"
-                                srcSet="https://i.warbycdn.com/v/c/assets/eyeglasses-LP/image/bapgap/1/4120b946e3.jpg?quality=70&amp;width=794 794w,https://i.warbycdn.com/v/c/assets/eyeglasses-LP/image/bapgap/1/4120b946e3.jpg?quality=70&amp;width=1588 1588w"
-                                sizes="794px"
-                            />
-                            <source
-                                media="(min-width: 600px)"
-                                srcSet="https://i.warbycdn.com/v/c/assets/eyeglasses-LP/image/bapgap/1/4120b946e3.jpg?quality=70&amp;width=660 660w,https://i.warbycdn.com/v/c/assets/eyeglasses-LP/image/bapgap/1/4120b946e3.jpg?quality=70&amp;width=1320 1320w"
-                                sizes="660px"
-                            />
-                            <source
-                                media="(min-width: 0px)"
-                                srcSet="https://i.warbycdn.com/v/c/assets/eyeglasses-LP/image/bapgap/1/4120b946e3.jpg?quality=70&amp;width=360 360w,https://i.warbycdn.com/v/c/assets/eyeglasses-LP/image/bapgap/1/4120b946e3.jpg?quality=70&amp;width=720 720w"
-                                sizes="360px"
-                            />
-                            <img
-                                alt=""
-                                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-                            />
-                        </picture>
-                    }
+                    image={<img src={lensesImage} alt="" />}
                     title={<FormattedMessage id="sunglasses_lenses_title" />}
-                    text={<FormattedMessage id="sunglasses_lenses_text"/>}
+                    text={<FormattedMessage id="sunglasses_lenses_text" />}
                     items={[
                         {
                             label: 'Prescription types',

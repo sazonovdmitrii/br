@@ -7,6 +7,7 @@
 }
 
 .heroImageWrapper {
+    flex: 1;
     margin-bottom: 24px;
 
     @media (--viewport-tablet) {
@@ -29,6 +30,7 @@
     @media (--viewport-tablet) {
         padding: 0 36px;
         text-align: left;
+        width: 41.66667%;
     }
 }
 
@@ -43,6 +45,10 @@
     @media (--viewport-ipad) {
         font-size: 40px;
     }
+
+    @media (--viewport-wide) {
+        font-size: 55px;
+    }
 }
 
 .heroText {
@@ -51,6 +57,7 @@
 
     @media (--viewport-ipad) {
         font-size: 16px;
+        max-width: 360px;
     }
 }
 
