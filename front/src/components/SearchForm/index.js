@@ -43,7 +43,7 @@ const SearchForm = ({ history, show, onClose, intl }) => {
                 <button className={styles.closeButton} onClick={onClose}>
                     <CloseIcon className={styles.closeIcon} size="16" />
                 </button>
-                <div className={styles.title}>{placeholder} WARBY PARKER</div>
+                <div className={styles.title}>{placeholder} Brillenhof</div>
                 <input
                     type="text"
                     className={styles.input}

@@ -47,6 +47,7 @@
     background: var(--color-background);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
+    box-shadow: none;
     -webkit-tap-highlight-color: transparent;
 
     &::placeholder {

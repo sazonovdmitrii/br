@@ -19,11 +19,10 @@ const ProductCard = ({ id, url: urlProps, items, name, loading, price, image: im
     }, []);
     const [color, setColor] = useState(colors.length ? colors[0].id : null);
     const [image, setImage] = useState(
-        imageProps
-            ? imageProps
-            : items.edges.length && items.edges[0].node.productItemImages.length
-            ? items.edges[0].node.productItemImages[0].path
-            : 'https://placehold.it/377x167'
+        imageProps ||
+            (items.edges.length && items.edges[0].node.productItemImages.length
+                ? items.edges[0].node.productItemImages[0].path
+                : 'https://placehold.it/377x167')
     );
     const handleChangeColor = value => {
         const {
@@ -39,11 +38,7 @@ const ProductCard = ({ id, url: urlProps, items, name, loading, price, image: im
     return (
         <div className={styles.root}>
             <Link to={url} className={styles.imageWrapper} title={name}>
-                <img
-                    className={styles.image}
-                    src={'http://br.morphes.ru' + image}
-                    alt={name}
-                />
+                <img className={styles.image} src={image} alt={name} />
             </Link>
             <h2 className={styles.title}>{name}</h2>
             {colors.length ? (

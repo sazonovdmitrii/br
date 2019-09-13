@@ -1,0 +1,23 @@
+.root {
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    display: flex;
+}
+
+.item {
+    height: 20px;
+}
+
+.link {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    align-items: center;
+}
+
+.icon {
+    display: block;
+    width: inherit;
+    height: inherit;
+}

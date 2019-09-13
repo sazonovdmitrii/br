@@ -10,7 +10,7 @@
 .row {
     display: flex;
     align-items: center;
-    padding-top: 22px;
+    padding: 22px 22px 0;
 }
 
 .button {

@@ -6,8 +6,9 @@ import {
     Search as SearchIcon,
     MapPin as MapPinIcon,
 } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
 
-// import { useApp } from 'hooks';
+import { useLangLink } from 'hooks';
 // import { IS_LOGGED_IN } from 'query';
 
 // import Button from 'components/Button';
@@ -23,26 +24,38 @@ const UserMenu = () => {
     // const handleLogOut = () => {
     //     logout();
     // };
+    const reailsLink = useLangLink('/retail');
     const [showSearch, setShowSearch] = useState(false);
 
     return (
-        <ul className={styles.root}>
+        <>
             <SearchForm show={showSearch} onClose={() => setShowSearch(false)} />
-            <li className={styles.item}>
-                <div className={styles.icon}>
-                    <Link to="/retail" className={styles.link}>
-                        <MapPinIcon size="20" />
-                    </Link>
-                </div>
-            </li>
-            <li className={styles.item}>
-                <div className={styles.icon}>
-                    <button type="button" className={styles.link} onClick={() => setShowSearch(!showSearch)}>
-                        <SearchIcon size="20" />
-                    </button>
-                </div>
-            </li>
-            {/* isLoggedIn ? (
+            <ul className={styles.root}>
+                <li className={styles.item}>
+                    <div className={styles.icon}>
+                        <button
+                            type="button"
+                            className={styles.link}
+                            onClick={() => setShowSearch(!showSearch)}
+                        >
+                            <SearchIcon size="20" />
+                        </button>
+                    </div>
+                </li>
+                <li className={styles.line} />
+                <li className={styles.itemWithText}>
+                    <div className={styles.icon}>
+                        <Link to={reailsLink} className={styles.link}>
+                            <MapPinIcon size="20" />
+                        </Link>
+                    </div>
+                    <div className={styles.text}>
+                        <Link to={reailsLink}>
+                            <FormattedMessage id="locations" />
+                        </Link>
+                    </div>
+                </li>
+                {/* isLoggedIn ? (
                 <li className={styles.item}>
                     <Link className={styles.link} to="/account">
                         <div className={styles.icon}>
@@ -69,7 +82,8 @@ const UserMenu = () => {
                     </Link>
                 </li>
             ) */}
-        </ul>
+            </ul>
+        </>
     );
 };
 

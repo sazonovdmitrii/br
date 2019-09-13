@@ -7,21 +7,48 @@ import { GET_SOCIALS } from 'query';
 
 import styles from './styles.css';
 
+import instagramIcon from './icons/instagram.svg';
+import youtubeIcon from './icons/youtube.svg';
+import twitterIcon from './icons/twitter.svg';
+import facebookIcon from './icons/facebook.svg';
+
 const cx = classnames.bind(styles);
 
 const Socials = ({ className }) => {
     // const { loading, error, data: { socials = [] } = {} } = useQuery(GET_SOCIALS);
-    const socials = [];
+    const socials = [
+        {
+            name: 'facebook',
+            url: '/',
+            icon: facebookIcon,
+        },
+        {
+            name: 'twitter',
+            url: '/',
+            icon: twitterIcon,
+        },
+        {
+            name: 'youtube',
+            url: '/',
+            icon: youtubeIcon,
+        },
+        {
+            name: 'instagram',
+            url: '/',
+            icon: instagramIcon,
+        },
+    ];
+
     const rootClassName = cx(styles.root, className);
 
     if (!socials.length) return null;
 
     return (
         <ul className={rootClassName}>
-            {socials.map(({ url, name }) => (
-                <li className={styles.item}>
+            {socials.map(({ url, name, icon: Icon }, index) => (
+                <li key={index} className={styles.item}>
                     <a href={url} target="_blank" className={styles.link} rel="noopener">
-                        <span>{name}</span>
+                        <Icon className={styles.icon} />
                     </a>
                 </li>
             ))}

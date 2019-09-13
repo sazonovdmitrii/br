@@ -6,7 +6,9 @@ import { useLangLink } from 'hooks';
 
 import HeroHome from 'components/HeroHome';
 import Button from 'components/Button';
+import CollectionSection from 'components/CollectionSection';
 
+import styles from './styles.css';
 import bgImage from './images/bg.jpg';
 
 export default () => {
@@ -29,6 +31,12 @@ export default () => {
                     </>
                 }
             />
+            <div className={styles.main}>
+                <div className={styles.text}>
+                    <FormattedMessage id="home_text" />
+                </div>
+                <CollectionSection />
+            </div>
         </>
     );
 };

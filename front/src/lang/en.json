@@ -11,6 +11,7 @@
     "phone": "Phone",
     "save": "Save",
     "sms_subscription": "Receive SMS",
+    "locations": "Locations",
 
     "shop_men": "Shop Men",
     "shop_women": "Shop Women",
@@ -49,7 +50,6 @@
     "video_action": "We filmed it!",
     "find_your_lenses": "Find your lenses",
 
-
     "eyeglasses_home_try_on": "Home Try–On",
     "eyeglasses_home_try_text": "Pick five frames to test out for five days—and we’ll ship them to you for free!",
     "sunglasses_home_try_on": "Try before you buy",
@@ -59,6 +59,18 @@
     "eyeglasses_lenses_text": "Every pair of Brillenhof glasses comes with anti-reflective, scratch-resistant lenses that block 100% of UV rays. Pick from a range of lens options to fit your vision needs.",
     "sunglasses_lenses_title": "For every pair sold, a pair is distributed to someone in need",
     "sunglasses_lenses_text": "Alleviating the problem of impaired vision is at the heart of what we do, and with your help, our impact continues to expand. To this day, we’ve distributed over five million pairs of glasses to people in need.",
+    "catalog_description": "Shop frames below or pick five pairs to try for free",
+
+    "privacy_policy": "Privacy Policy",
+    "notice_of_privacy_practices": "Notice of Privacy Practices",
+    "terms_of_use": "Terms of Use",
+    "accessibility": "Accessibility",
+    "ca_transparency_act": "CA Transparency Act",
+    "locations_title": "Other nearby locations",
+    "locations_link": "Search all our stores and showrooms",
+    "shop_the_collection": "Shop the collection",
+
+    "home_text": "Buying glasses should leave you happy and good-looking, with money in your pocket. Glasses starting at $95, including prescription lenses.",
 
     "usa": "USA",
     "russia": "Russia",

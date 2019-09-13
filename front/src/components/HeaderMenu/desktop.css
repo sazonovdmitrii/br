@@ -77,9 +77,10 @@
     height: 100%;
     padding-top: 50px;
     padding-bottom: 54%;
-    background: no-repeat #f5f6fb
-        url(//i.warbycdn.com/v/c/assets/nav-summer-2019/image/men-rx/1/2cdedc21bc.jpg?quality=70&width=1100) 0
-        0 / cover;
+    background-repeat: no-repeat;
+    background-color: #f5f6fb;
+    background-position: 0 0;
+    background-size: cover;
 }
 
 .childText {

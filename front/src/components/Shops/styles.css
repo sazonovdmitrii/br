@@ -1,7 +1,20 @@
-.root {
+.columns {
+    padding: 0 18px;
+    column-count: 2;
+    column-gap: 96px;
+
+    @media (min-width: 960px) {
+        column-count: 3;
+        column-gap: 84px;
+    }
 }
 
-.title {
+.column {
+    display: inline-block;
+    margin-top: 36px;
+}
+
+.region {
     margin-bottom: 12px;
     font-weight: var(--headings-font-weight);
     font-family: var(--headings-font);
@@ -16,7 +29,7 @@
     }
 }
 
-.subtitle {
+.title {
     margin: 0;
     color: #414b56;
     font-weight: 600;

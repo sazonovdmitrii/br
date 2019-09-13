@@ -7,13 +7,14 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Link = ({ children, to, className }) => {
+const Link = ({ children, to, className, href }) => {
+    const Component = href ? 'a' : RouterLink;
     const linkClassName = cx(styles.root, className);
 
     return (
-        <RouterLink className={linkClassName} to={to}>
+        <Component className={linkClassName} href={href} to={to}>
             {children}
-        </RouterLink>
+        </Component>
     );
 };
 
