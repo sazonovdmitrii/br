@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
 
@@ -11,6 +10,7 @@ import Help from 'components/Help';
 
 import LANGS from 'lang';
 
+import CopyrightMenu from './CopyrightMenu';
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
@@ -23,15 +23,7 @@ export default () => {
         <footer className={styles.root}>
             <section className={styles.top}>
                 <div className={styles.row}>
-                    <FooterMenu
-                        className={styles.menu}
-                        items={[
-                            {
-                                name: 'products',
-                                childrens: [{ name: 'Мужские оправы', url: '/opravi-dlya-ochkov/' }],
-                            },
-                        ]}
-                    />
+                    <FooterMenu lang={lang} className={styles.menu} />
                     <Help className={styles.help} />
                 </div>
             </section>
@@ -54,33 +46,7 @@ export default () => {
                         <Socials />
                     </div>
                 </div>
-                <ul className={styles.bottomMenu}>
-                    <li className={styles.bottomMenuItem}>
-                        <Link to="/info/privacy-policy">
-                            <FormattedMessage id="privacy_policy" />
-                        </Link>
-                    </li>
-                    <li className={styles.bottomMenuItem}>
-                        <Link to="/info/notice-of-privacy-practices">
-                            <FormattedMessage id="notice_of_privacy_practices" />
-                        </Link>
-                    </li>
-                    <li className={styles.bottomMenuItem}>
-                        <Link to="/info/terms-of-use">
-                            <FormattedMessage id="terms_of_use" />
-                        </Link>
-                    </li>
-                    <li className={styles.bottomMenuItem}>
-                        <Link to="/info/accessibility">
-                            <FormattedMessage id="accessibility" />
-                        </Link>
-                    </li>
-                    <li className={styles.bottomMenuItem}>
-                        <Link to="/info/process/ca-transparency-act">
-                            <FormattedMessage id="ca_transparency_act" />
-                        </Link>
-                    </li>
-                </ul>
+                <CopyrightMenu lang={lang} />
             </section>
         </footer>
     );

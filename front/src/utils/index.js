@@ -74,3 +74,7 @@ export const withQuery = ({ query, ...opts }) => Component => {
 
     return null;
 };
+
+export const createMarkup = __html => ({
+    __html,
+});

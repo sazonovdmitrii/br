@@ -26,9 +26,11 @@ export const GET_HEADER_MENU = gql`
             data {
                 text
                 url
+                image
                 children {
                     text
                     url
+                    image
                     children {
                         text
                         url
@@ -52,7 +54,8 @@ export const GET_CATALOG = gql`
     query Catalog($slug: String!) {
         catalog(slug: $slug) {
             name
-            count
+            banner
+            description
         }
     }
 `;

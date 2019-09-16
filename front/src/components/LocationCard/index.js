@@ -6,10 +6,9 @@ import Link from 'components/Link';
 
 import styles from './styles.css';
 
-const LocationsSection = ({ title, image, subtitle, meta, url: urlProps }) => {
+const LocationCard = ({ title, image, subtitle, meta, url: urlProps }) => {
     const url = useLangLink(urlProps);
 
-    console.log(url, urlProps);
     return (
         <div className={styles.root}>
             <img src={image} className={styles.image} />
@@ -23,4 +22,4 @@ const LocationsSection = ({ title, image, subtitle, meta, url: urlProps }) => {
         </div>
     );
 };
-export default LocationsSection;
+export default LocationCard;

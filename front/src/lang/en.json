@@ -1,4 +1,6 @@
 {
+    "meta_title": "Glasses & Prescription Eyeglasses",
+
     "cancel": "Cancel",
     "create_account": "Create account",
     "disclaimer": "I accept the terms and conditions",
@@ -59,13 +61,10 @@
     "eyeglasses_lenses_text": "Every pair of Brillenhof glasses comes with anti-reflective, scratch-resistant lenses that block 100% of UV rays. Pick from a range of lens options to fit your vision needs.",
     "sunglasses_lenses_title": "For every pair sold, a pair is distributed to someone in need",
     "sunglasses_lenses_text": "Alleviating the problem of impaired vision is at the heart of what we do, and with your help, our impact continues to expand. To this day, we’ve distributed over five million pairs of glasses to people in need.",
-    "catalog_description": "Shop frames below or pick five pairs to try for free",
 
-    "privacy_policy": "Privacy Policy",
-    "notice_of_privacy_practices": "Notice of Privacy Practices",
-    "terms_of_use": "Terms of Use",
-    "accessibility": "Accessibility",
-    "ca_transparency_act": "CA Transparency Act",
+    "delivery_block_title": "Free shipping and free returns on every order",
+    "delivery_block_text": "We have a 30-day, hassle-free return or exchange policy as well as a one-year, no scratch guarantee for our lenses; we'll replace your scratched lenses for free within the first 12 months.",
+
     "locations_title": "Other nearby locations",
     "locations_link": "Search all our stores and showrooms",
     "shop_the_collection": "Shop the collection",

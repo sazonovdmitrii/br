@@ -19,7 +19,7 @@
 
 .title {
     margin-bottom: 21px;
-    font-weight: var(--heading-font-weight);
+    font-weight: var(--headings-font-weight);
     font-size: var(--font-size-base);
 
     @media (--viewport-ipad) {
@@ -34,20 +34,25 @@
 }
 
 .item {
-    width: 0 0 50%;
     margin-bottom: 18px;
     padding: 0 9px;
 
     @media (--viewport-ipad) {
         width: 100%;
+        margin-bottom: 10px;
     }
 }
 
 .link {
+    line-height: calc(1em + 10px);
     color: #676f78;
     transition: color 0.2s ease;
 
     &:hover {
         color: var(--color-font);
+    }
+
+    @media (--viewport-ipad) {
+        font-size: 14px;
     }
 }

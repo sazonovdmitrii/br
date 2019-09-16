@@ -42,10 +42,10 @@ const HeaderMenu = ({ items }) => {
                                             <Link
                                                 className={styles.childLink}
                                                 to={child.url}
-                                                styles={{
-                                                    backgroundImage:
-                                                        'url(//i.warbycdn.com/v/c/assets/nav-summer-2019/image/men-rx/1/2cdedc21bc.jpg?quality=70&width=1100)',
+                                                style={{
+                                                    backgroundImage: `url(${child.image})`,
                                                 }}
+                                                onClick={() => setState({ active: false })}
                                             >
                                                 <span className={styles.childText}>{child.text}</span>
                                             </Link>

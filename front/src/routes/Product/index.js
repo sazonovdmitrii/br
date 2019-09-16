@@ -14,10 +14,9 @@ export default props => {
     const {
         match: { params },
     } = props;
-    const slug =
-        Object.values(params)
-            .filter(Boolean)
-            .join('/') + '.htm';
+    const slug = `${Object.values(params)
+        .filter(Boolean)
+        .join('/')}.htm`;
 
     return withQuery({ query: GET_PRODUCT, variables: { slug } })(data => <Component {...props} {...data} />);
 };

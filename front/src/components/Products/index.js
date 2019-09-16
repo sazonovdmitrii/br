@@ -58,7 +58,6 @@ Products.propTypes = {
     title: PropTypes.node,
     page: PropTypes.string,
     slug: PropTypes.string,
-    col: PropTypes.number,
     className: PropTypes.string,
 };
 
