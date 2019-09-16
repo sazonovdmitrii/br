@@ -112,6 +112,16 @@ Query:
             locale:
               description: "Locale"
               type: "String"
+      menu:
+        type: "Menu"
+        resolve: "@=resolver('Menu', [args])"
+        args:
+            name:
+              description: "Name"
+              type: "String"
+            locale:
+              description: "Locale"
+              type: "String"
       brands_list:
         type: "CatalogThumb"
         resolve: "@=resolver('BrandsList', [args])"
