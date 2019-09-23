@@ -17,9 +17,9 @@ const Shops = ({ items }) => {
                                 {shop.city}
                                 {', '}
                                 {shop.link ? (
-                                    <Fragment>
+                                    <>
                                         <Link to={shop.link}>{shop.name}</Link>
-                                    </Fragment>
+                                    </>
                                 ) : (
                                     shop.name
                                 )}

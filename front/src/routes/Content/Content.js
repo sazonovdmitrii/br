@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { SeoHead } from 'utils';
+import { SeoHead, createMarkup } from 'utils';
 
 import Container from 'components/Container';
 
 import styles from './styles.css';
-
-const createMarkup = __html => ({
-    __html,
-});
 
 const Content = ({ title, name, meta_keywords, meta_description, content }) => (
     <div className={styles.root}>

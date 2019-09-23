@@ -10,22 +10,73 @@ import styles from './mobile.css';
 
 const cx = classnames.bind(styles);
 
-const MobileMenu = ({ items, active }) => {
-    const [activeItem, setActiveItem] = useState(null);
-    const rootClassName = cx(styles.root, { active });
-    const rootNode = useRef(null);
+const Item = ({ image, children, active, text, url, onLink, onClick }) => {
     const overlayNode = useRef(null);
 
     useOnClickOutside(overlayNode, () => {
         setActiveItem(null);
     });
+    const submenuClassName = cx(styles.submenu, {
+        active,
+    });
+    const buttonClassName = cx(styles.button, {
+        active,
+    });
+    const buttonLabelClassName = cx(styles.buttonLabel, {
+        active,
+    });
 
-    if (!items.length) return null;
-    if (typeof document === 'undefined') return null;
+    return (
+        <li className={styles.item} ref={children.length ? overlayNode : null}>
+            {children.length ? (
+                <>
+                    <button type="button" className={buttonClassName} onClick={onClick}>
+                        <div className={buttonLabelClassName}>{text}</div>
+                        <div
+                            className={styles.buttonImage}
+                            style={{
+                                backgroundImage: `url("${image}")`,
+                            }}
+                        />
+                    </button>
+                    <div className={submenuClassName}>
+                        <div className={styles.submenuText}>
+                            Starting at $95, including prescription lenses
+                        </div>
+                        {children.map(child => (
+                            <div key={child.url} className={styles.childCol}>
+                                <Link className={styles.childLink} to={child.url} onClick={onLink}>
+                                    <span className={styles.childText}>{child.text}</span>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            ) : (
+                <a className={styles.button} href={url}>
+                    <div className={styles.buttonLabel}>{text}</div>
+                    <div
+                        className={styles.buttonImage}
+                        style={{
+                            backgroundImage: `url("${image}")`,
+                        }}
+                    />
+                </a>
+            )}
+        </li>
+    );
+};
+
+const MobileMenu = ({ items, active: activeProps, onClick }) => {
+    const [activeItem, setActiveItem] = useState(null);
+    const rootClassName = cx(styles.root, { active: activeProps });
+    const rootNode = useRef(null);
+
+    if (!items.length || typeof document === 'undefined') return null;
 
     const domNode = document.body;
     useEffect(() => {
-        if (active) {
+        if (activeProps) {
             if (window.innerWidth !== rootNode.current.clientWidth) {
                 domNode.style.paddingRight = '15px';
             }
@@ -35,70 +86,26 @@ const MobileMenu = ({ items, active }) => {
         return () => {
             domNode.style = null;
         };
-    }, [domNode.style, active]);
+    }, [activeProps, domNode.style]);
 
     return (
         <div ref={rootNode} className={rootClassName}>
             <div className={styles.inner}>
                 <ul className={styles.menu}>
-                    {items.map(({ text, url, children }, index) => {
-                        const activeItem = activeItem === index;
-                        const submenuClassName = cx(styles.submenu, {
-                            active: activeItem,
-                        });
-                        const buttonClassName = cx(styles.button, {
-                            active: activeItem,
-                        });
-                        const buttonLabelClassName = cx(styles.buttonLabel, {
-                            active: activeItem,
-                        });
+                    {items.map(({ text, url, children, image }, index) => {
+                        const active = activeItem === index;
 
                         return (
-                            <li
+                            <Item
                                 key={index}
-                                className={styles.item}
-                                ref={children.length ? overlayNode : null}
-                            >
-                                {children.length ? (
-                                    <>
-                                        <button
-                                            type="button"
-                                            className={buttonClassName}
-                                            onClick={setActiveItem(active ? null : index)}
-                                        >
-                                            <div className={buttonLabelClassName}>{text}</div>
-                                            <div
-                                                className={styles.buttonImage}
-                                                style={{
-                                                    backgroundImage: `url("https://i.warbycdn.com/v/c/assets/mobile-side-menu/image/hto/0/c49199cb26.jpg")`,
-                                                }}
-                                            />
-                                        </button>
-                                        <div className={submenuClassName}>
-                                            <div className={styles.submenuText}>
-                                                Starting at $95, including prescription lenses
-                                            </div>
-                                            {children.map(child => (
-                                                <div key={child.url} className={styles.childCol}>
-                                                    <Link className={styles.childLink} to={child.url}>
-                                                        <span className={styles.childText}>{child.text}</span>
-                                                    </Link>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </>
-                                ) : (
-                                    <Link className={styles.button} to={url}>
-                                        <div className={styles.buttonLabel}>{text}</div>
-                                        <div
-                                            className={styles.buttonImage}
-                                            style={{
-                                                backgroundImage: `url("https://i.warbycdn.com/v/c/assets/mobile-side-menu/image/hto/0/c49199cb26.jpg")`,
-                                            }}
-                                        />
-                                    </Link>
-                                )}
-                            </li>
+                                active={active}
+                                text={text}
+                                url={url}
+                                children={children}
+                                image={image}
+                                onClick={active ? null : () => setActiveItem(index)}
+                                onLink={onClick}
+                            />
                         );
                     })}
                 </ul>

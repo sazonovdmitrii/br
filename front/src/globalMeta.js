@@ -18,12 +18,6 @@ export default {
     defaultTitle: `Glasses & Prescription Eyeglasses | ${data.siteName}`,
     titleTemplate: `%s | ${data.siteName}`,
     title: '',
-    home() {
-        return {
-            description: 'Продаем элитную парфюмерию и косметику для женщин и мужчин с доставкой',
-            keywords: `парфюмерия, духи, интернет магазин парфюмерии, ${data.siteName}, лапарфюмерия`,
-        };
-    },
     content({ name, keywords, description }) {
         return {
             title: name,
@@ -38,11 +32,9 @@ export default {
             keywords: ``,
         };
     },
-    catalog({ name, page, minPrice }) {
+    catalog({ name }) {
         return {
-            title: `${name} ${page > 1 ? ` Page ${page}` : ''}`,
-            description: `${name}`,
-            keywords: `${name}`,
+            title: name,
         };
     },
     product({ name, items = [] }) {

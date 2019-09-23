@@ -3,7 +3,7 @@ import { withRouter, Switch, Route } from 'react-router';
 import Helmet from 'react-helmet';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, FormattedMessage, injectIntl } from 'react-intl';
 
 import routes from 'routes';
 import SEO from 'globalMeta';
@@ -87,6 +87,42 @@ const SET_LANG_MUTATION = gql`
 
 const defaultLang = LANGS.find(item => item.default);
 
+const Meta = injectIntl(({ intl, lang }) => {
+    const defaultTitle = intl.formatMessage({ id: 'meta_title' });
+
+    return (
+        <Helmet defaultTitle={defaultTitle} titleTemplate={SEO.titleTemplate}>
+            <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+            />
+            <html lang={lang} />
+            {LANGS.map((item, index) => {
+                return (
+                    <link
+                        key={index}
+                        rel="alternate"
+                        hrefLang={item.value === lang ? 'x-default' : item.value}
+                        href={`/${item.default ? '' : `${item.value}/`}`}
+                    />
+                );
+            })}
+            <link rel="shortcut icon" href="/favicon.ico" />
+            {FAVS.map(({ sizes, path }, index) => (
+                <link key={index} rel="icon" type="image/png" sizes={sizes} href={path} />
+            ))}
+            {APPLE_TOUCH_ICON.map(({ sizes, path }, index) => (
+                <link key={index} rel="apple-touch-icon" sizes={sizes} href={path} />
+            ))}
+            <link rel="manifest" href="/manifest.json" />
+            <meta name="msapplication-TileColor" content="#ffffff" />
+            <meta name="msapplication-TileImage" content="/favicons/ms-icon-144x144.png" />
+            <meta name="msapplication-config" content="/browserconfig.xml" />
+            <meta name="theme-color" content="#ffffff" />
+        </Helmet>
+    );
+});
+
 const App = ({ lang }) => {
     const { data: { getMessages = {} } = {} } = useQuery(GET_MESSAGES, { variables: { lang } });
     const [setLang] = useMutation(SET_LANG_MUTATION, {
@@ -109,31 +145,7 @@ const App = ({ lang }) => {
     return (
         <IntlProvider locale={lang} messages={finalMessages}>
             <ScrollToTop />
-            <Helmet defaultTitle={SEO.defaultTitle} titleTemplate={SEO.titleTemplate}>
-                <html lang={lang} />
-                {LANGS.map((item, index) => {
-                    return (
-                        <link
-                            key={index}
-                            rel="alternate"
-                            hrefLang={item.value === lang ? 'x-default' : item.value}
-                            href={`/${item.default ? '' : `${item.value}/`}`}
-                        />
-                    );
-                })}
-                <link rel="shortcut icon" href="/favicon.ico" />
-                {FAVS.map(({ sizes, path }, index) => (
-                    <link key={index} rel="icon" type="image/png" sizes={sizes} href={path} />
-                ))}
-                {APPLE_TOUCH_ICON.map(({ sizes, path }, index) => (
-                    <link key={index} rel="apple-touch-icon" sizes={sizes} href={path} />
-                ))}
-                <link rel="manifest" href="/manifest.json" />
-                <meta name="msapplication-TileColor" content="#ffffff" />
-                <meta name="msapplication-TileImage" content="/favicons/ms-icon-144x144.png" />
-                <meta name="msapplication-config" content="/browserconfig.xml" />
-                <meta name="theme-color" content="#ffffff" />
-            </Helmet>
+            <Meta lang={lang} />
             <Header />
             <Switch>
                 {routes({ lang, defaultLang }).map((route, index) => (

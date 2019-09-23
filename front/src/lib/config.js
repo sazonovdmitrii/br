@@ -3,6 +3,8 @@ import ora from 'ora';
 
 import { createClient } from './apollo';
 
+require('dotenv').config();
+
 export default {
     client: props => createClient(props),
     nodeStats: path.resolve('./dist/node/loadable-stats.json'),

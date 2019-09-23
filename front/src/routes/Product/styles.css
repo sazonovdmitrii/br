@@ -1,24 +1,22 @@
 .root {
-    margin: 0 -30px;
     padding: 48px 24px;
 
     @media (--viewport-desktop) {
-        display: flex;
+        display: grid;
+        grid-template-columns: 60% 40%;
+        grid-gap: 60px;
     }
 }
 
 .carouselWrapper {
     max-height: 428px;
     margin: 0 auto 20px;
-    padding: 0 30px;
 
     @media (--viewport-ipad) {
         max-width: 732px;
     }
 
     @media (--viewport-desktop) {
-        flex: 0 0 60%;
-        max-width: 60%;
         margin: 0;
     }
 }
@@ -39,12 +37,9 @@
 
 .meta {
     margin-bottom: 48px;
-    padding: 0 30px;
     text-align: center;
 
     @media (--viewport-desktop) {
-        flex: 0 0 40%;
-        max-width: 40%;
         margin: 0;
         text-align: left;
     }

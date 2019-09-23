@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { X as CloseIcon } from 'react-feather';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import Input from 'components/Input';
 
 import styles from './styles.css';

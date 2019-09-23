@@ -58,7 +58,7 @@ export default () => {
                     </div>
                 </div>
             </Container>
-            <HeaderMenu active={open} />
+            <HeaderMenu active={open} onClick={() => setOpen(false)} />
         </header>
     );
 };

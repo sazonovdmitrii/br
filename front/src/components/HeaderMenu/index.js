@@ -9,7 +9,7 @@ import MobileMenu from './MobileMenu';
 
 const isClient = typeof window !== 'undefined';
 
-export default ({ active }) => {
+export default ({ active, onClick }) => {
     const lang = useLang();
     const [isDesktop, setDesktop] = useState(isClient ? window.innerWidth > 768 : true);
 
@@ -28,6 +28,6 @@ export default ({ active }) => {
     return isDesktop ? (
         <HeaderMenu active={active} items={topMenu.data} />
     ) : (
-        <MobileMenu active={active} items={topMenu.data} />
+        <MobileMenu active={active} items={topMenu.data} onClick={onClick} />
     );
 };

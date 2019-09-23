@@ -8,10 +8,6 @@ module.exports = {
             instances: 'max',
             restart_delay: 3000,
             env: {
-                NODE_ENV: 'development',
-                RUNNER: 'development',
-            },
-            env_production: {
                 NODE_ENV: 'production',
                 RUNNER: 'production',
                 SERVER: true,

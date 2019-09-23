@@ -1,22 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import classnames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
 
-// import { ADD_TO_BASKET } from 'mutations';
-// import { GET_SHORT_BASKET } from 'query';
-
-import { isProd } from 'utils';
-
 import { SeoHead } from 'utils';
+import { useLangLink } from 'hooks';
+
 import Button from 'components/Button';
-import RichText from 'components/RichText';
-import Select from 'components/Select';
 import HeadTurn from 'components/HeadTurn';
-import Carousel from 'components/Carousel';
 import Delivery from 'components/Delivery';
 import Colors from 'components/Colors';
 import Container from 'components/Container';
@@ -27,7 +18,8 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Product = ({ name, id, items: { edges: items = [] }, description, tags, history, text, similars }) => {
+const Product = ({ name, items: { edges: items = [] }, tags, similars }) => {
+    const buyLink = useLangLink('/retail');
     const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
     const images = selectedProduct.productItemImages;
     const colors = items.reduce((array, item) => {
@@ -35,7 +27,6 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
 
         return array.concat({ id: item.node.id, image });
     }, []);
-    const [color, setColor] = useState(colors.length ? colors[0].id : null);
 
     const handleChangeColor = id => {
         const newSelectedProduct = items.find(item => item.node.id === id);
@@ -46,14 +37,13 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
     };
     const [showChooseLenses, setShowChooseLenses] = useState(false);
 
-    const handleShowCL = () => {
-        setShowChooseLenses(!showChooseLenses);
-    };
+    // const handleShowCL = () => {
+    //     setShowChooseLenses(!showChooseLenses);
+    // };
 
     const sectionTitleCenterClassName = cx(styles.sectionTitle, styles.center);
     const rootClassName = cx(styles.root, { hide: showChooseLenses });
 
-    console.log(images);
     return (
         <Container>
             <SeoHead type="product" name={name} items={items} image={images ? images[0].path : null} />
@@ -80,7 +70,7 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
                     {selectedProduct.price && (
                         <div className={styles.buttons}>
                             <Button
-                                href="/glasses-infos/ckkz-ochki.htm"
+                                to={buyLink}
                                 // onClick={handleShowCL}
                                 kind="primary"
                                 size="large"
@@ -100,10 +90,10 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
                         tags.length ? (
                             <>
                                 <ul>
-                                    {tags.map(({ name, value }, index) => {
+                                    {tags.map((tag, index) => {
                                         return (
                                             <li key={index}>
-                                                {name}: {value}
+                                                {tag.name}: {tag.value}
                                             </li>
                                         );
                                     })}
@@ -114,9 +104,8 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
                 />
             </div>
             <Delivery
-                title="Free shipping and free returns on every order"
-                text="We have a 30-day, hassle-free return or exchange policy as well as a one-year, no scratch
-            guarantee for our lenses; we'll replace your scratched lenses for free within the first 12 months."
+                title={<FormattedMessage id="delivery_block_title" />}
+                text={<FormattedMessage id="delivery_block_text" />}
             />
             {similars.length ? (
                 <div className={styles.section}>
@@ -124,13 +113,9 @@ const Product = ({ name, id, items: { edges: items = [] }, description, tags, hi
                         <FormattedMessage id="recommended" />
                     </h2>
                     <div className={styles.related}>
-                        {similars.map((item) => (
+                        {similars.map(item => (
                             <div key={item.id} className={styles.relatedProduct}>
-                                <ProductCard
-                                    name={item.name}
-                                    url={item.url}
-                                    image={item.image}
-                                />
+                                <ProductCard name={item.name} url={item.url} image={item.image} />
                             </div>
                         ))}
                     </div>
@@ -144,7 +129,6 @@ Product.defaultProps = {
     items: [],
     name: 'Без названия',
     tags: [],
-    text: null,
 };
 
 Product.propTypes = {
@@ -153,7 +137,6 @@ Product.propTypes = {
     items: PropTypes.shape({
         edges: PropTypes.arrayOf(PropTypes.object),
     }),
-    images: PropTypes.arrayOf(PropTypes.string),
     tags: PropTypes.arrayOf(PropTypes.object),
 };
 
