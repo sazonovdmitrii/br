@@ -1,0 +1,20 @@
+Block:
+  type: object
+  config:
+    description: "Block"
+    fields:
+      id:
+        type: "Int!"
+        description: "Block Id."
+      title:
+        type: "String"
+        description: "Block Title"
+      name:
+        type: "String"
+        description: "Block Name"
+      content:
+        type: "String"
+        description: "Content"
+      visible:
+        type: "String"
+        description: "Visibility"

@@ -273,6 +273,19 @@ easy_admin:
                     - meta_description
                     - { type: 'tab', label: 'Page Urls' }
                     - { property: 'pageUrls', type_options: { block_name: 'page_urls' }}
+        Block:
+            class: App\Entity\Block
+            label: 'Блоки'
+            list:
+                title: 'Блоки'
+                fields: ['id', 'title', 'name', 'visible']
+            form:
+                fields:
+                    - { type: 'tab' , label: 'Основные' }
+                    - { property: 'title', label: 'Тайтл' }
+                    - { property: 'name', label: 'Наименование' }
+                    - { property: 'visible', label: 'Видимость' }
+                    - { property: 'content', type: 'fos_ckeditor' }
 
         Direction:
             class: App\Entity\Direction
@@ -314,7 +327,8 @@ easy_admin:
           - Users
           - label: 'Меню'
             children: ['Menu', 'MenuItem']
-          - Page
+          - label: 'Контент'
+            children: ['Page', 'Block']
           - Banner
           - Sale
           - Configuration

@@ -53,6 +53,13 @@ Query:
               description: "Resolves using the page slug."
               type: "String"
         resolve: "@=resolver('Page', [args])"
+      block:
+        type: "Block"
+        args:
+            id:
+              description: "Resolves using the block ID."
+              type: "String"
+        resolve: "@=resolver('Block', [args])"
       addresses:
         type: "Addresses"
         args:

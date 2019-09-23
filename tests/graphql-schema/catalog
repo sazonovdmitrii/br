@@ -1,7 +1,9 @@
 {
-  catalog(slug: "asdfasdf") {
+  catalog(slug: "zhenskie-solncezashhitnye-ochki") {
     id
     name
+    banner
+    description
     count
     products(limit: 40, offset:0) {
       edges {
