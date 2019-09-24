@@ -139,7 +139,6 @@ const getConfig = target => {
                         !isNode && {
                             test: /\.css$/,
                             use: [
-                                !isProd && require.resolve('css-hot-loader'),
                                 {
                                     loader: MiniCssExtractPlugin.loader,
                                     options: {
