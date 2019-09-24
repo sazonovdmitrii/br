@@ -1,5 +1,5 @@
 {
-  top_menu(locale:"ru"){
+  menu(name:"footer_menu"){
     data {
     	text
       url

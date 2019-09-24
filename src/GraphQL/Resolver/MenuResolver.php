@@ -6,14 +6,18 @@ use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 use Overblog\GraphQLBundle\Definition\Argument;
 use GraphQL\Error\UserError;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MenuResolver extends LocaleAlias
 {
     private $em;
 
-    public function __construct(EntityManager $entityManager)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        ContainerInterface $container
+    ) {
         $this->em = $entityManager;
+        parent::__construct($container);
     }
 
     public function resolve(Argument $args)

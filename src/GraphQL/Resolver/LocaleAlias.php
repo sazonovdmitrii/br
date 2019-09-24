@@ -17,7 +17,6 @@ class LocaleAlias implements ResolverInterface, AliasedInterface
         if ($container->has('request_stack')) {
             $this->request = $container->get('request_stack')->getCurrentRequest();
             $locale = $this->request->headers->get('Locale');
-            $locale = 'en';
             $this->setLocale($locale);
         }
     }
