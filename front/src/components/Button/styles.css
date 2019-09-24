@@ -87,19 +87,19 @@
 }
 
 .simple {
-    color: #414b56;
+    color: var(--color-font);
     background-color: transparent;
     border-color: #a1a4a6;
 
     &:hover,
     &:focus {
-        color: #414b56;
-        border-color: #414b56;
+        color: var(--color-font);
+        border-color: var(--color-font);
     }
 }
 
 .bold {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 .uppercase {

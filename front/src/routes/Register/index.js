@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { useApp } from 'hooks';
 
@@ -18,13 +19,17 @@ export default ({ history }) => {
     return (
         <div className={styles.root}>
             <div className={styles.header}>
-                <Title>Nice to meet you!</Title>
+                <Title>
+                    <FormattedMessage id="nice_to_meet_you" />
+                </Title>
             </div>
             <UserForm type="registration" onCompleted={handleCompleted} />
             <hr className={styles.hr} />
-            <Title className={styles.title}>I have an account</Title>
+            <Title className={styles.title}>
+                <FormattedMessage id="i_have_an_account" />
+            </Title>
             <Link to="/account/login" className={styles.link}>
-                Sign in
+                <FormattedMessage id="sign_in" />
             </Link>
         </div>
     );

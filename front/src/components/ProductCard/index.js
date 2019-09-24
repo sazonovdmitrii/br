@@ -12,7 +12,7 @@ import styles from './styles.css';
 
 const ProductCard = ({ id, url: urlProps, items, name, loading, price, image: imageProps }) => {
     const url = useLangLink(urlProps);
-    const colors = items.edges.reduce((array, item) => {
+    const colors = items.reduce((array, item) => {
         const [{ image }] = item.node.productItemTagItems;
 
         return array.concat({ id: item.node.id, image });
@@ -20,14 +20,14 @@ const ProductCard = ({ id, url: urlProps, items, name, loading, price, image: im
     const [color, setColor] = useState(colors.length ? colors[0].id : null);
     const [image, setImage] = useState(
         imageProps ||
-            (items.edges.length && items.edges[0].node.productItemImages.length
-                ? items.edges[0].node.productItemImages[0].path
+            (items.length && items[0].node.productItemImages.length
+                ? items[0].node.productItemImages[0].path
                 : 'https://placehold.it/377x167')
     );
     const handleChangeColor = value => {
         const {
             node: { productItemImages },
-        } = items.edges.find(({ node }) => node.id === value);
+        } = items.find(({ node }) => node.id === value);
 
         setImage(productItemImages[0].path);
         setColor(value);
@@ -52,9 +52,7 @@ const ProductCard = ({ id, url: urlProps, items, name, loading, price, image: im
 };
 
 ProductCard.defaultProps = {
-    items: {
-        edges: [],
-    },
+    items: [],
 };
 
 ProductCard.propTypes = {
@@ -62,9 +60,7 @@ ProductCard.propTypes = {
     url: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
-    items: PropTypes.shape({
-        edges: PropTypes.arrayOf(PropTypes.object),
-    }),
+    items: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default ProductCard;

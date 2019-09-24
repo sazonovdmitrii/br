@@ -55,7 +55,7 @@
 .label {
     margin-left: 8px;
     /* font-size: var(--font-size-small); */
-    font-size: 15px;
+    font-size: var(--font-size-medium);
 }
 
 .checked {

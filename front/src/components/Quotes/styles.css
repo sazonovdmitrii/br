@@ -30,8 +30,8 @@
 
 .author {
     margin-bottom: 6px;
-    font-weight: 600;
-    font-size: 12px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-extra-small);
     letter-spacing: 2.5px;
     text-transform: uppercase;
 }

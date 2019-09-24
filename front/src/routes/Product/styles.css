@@ -1,20 +1,26 @@
 .root {
-    padding: 48px 24px;
+    padding: 0 18px;
 
     @media (--viewport-desktop) {
         display: grid;
-        grid-template-columns: 60% 40%;
+        grid-gap: 48px;
+        grid-template-columns: 2fr 1fr;
+        align-items: center;
+        align-content: center;
+        padding: 48px 24px;
+    }
+
+    @media (--viewport-wide) {
         grid-gap: 60px;
+        grid-template-columns: 8fr 3fr;
+        padding-left: 60px;
+        padding-right: 60px;
     }
 }
 
 .carouselWrapper {
     max-height: 428px;
     margin: 0 auto 20px;
-
-    @media (--viewport-ipad) {
-        max-width: 732px;
-    }
 
     @media (--viewport-desktop) {
         margin: 0;
@@ -51,6 +57,8 @@
 }
 
 .buttons {
+    display: grid;
+    grid-gap: 8px;
     margin-top: 24px;
 
     @media (--viewport-desktop) {
@@ -90,16 +98,20 @@
         margin: 0;
         font-size: 34px;
     }
+
+    @media (--viewport-wide) {
+        font-size: 40px;
+    }
 }
 
 .description {
-    margin: 4px 0 18px;
+    margin-bottom: 18px;
     color: #676f78;
     font-family: var(--font-serif);
     font-style: italic;
 
     @media (--viewport-ipad) {
-        font-size: 18px;
+        font-size: var(--font-size-large);
     }
 }
 
@@ -129,10 +141,13 @@
 .related {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -15px;
 }
 
 .relatedProduct {
-    flex: 1;
+    flex: 0 0 100%;
     padding: 0 15px;
+
+    @media (--viewport-ipad) {
+        flex: 1;
+    }
 }

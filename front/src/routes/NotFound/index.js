@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
+import { FormattedMessage } from 'react-intl';
+import { withRouter } from 'react-router';
 
 import { RouteStatus } from 'utils';
 
-import Button from 'components/Button';
 import Link from 'components/Link';
 import Title from 'components/Title';
 
@@ -20,15 +21,16 @@ class NotFound extends Component {
                 </Helmet>
                 <div className={styles.root}>
                     <p className={styles.text}>404</p>
-                    <Title>Our Apologies</Title>
+                    <Title>
+                        <FormattedMessage id="not_found_title" />
+                    </Title>
                     <p>
-                        Return{' '}
-                        <Link
-                        /* TODO prev page*/
-                        >
-                            to the previous page
-                        </Link>{' '}
-                        or go back to our <Link to="/">homepage</Link>.
+                        <FormattedMessage
+                            id="not_found_text"
+                            values={{
+                                homelink: msg => <Link to="/">{msg}</Link>,
+                            }}
+                        />
                     </p>
                 </div>
             </RouteStatus>
@@ -36,4 +38,4 @@ class NotFound extends Component {
     }
 }
 
-export default NotFound;
+export default withRouter(NotFound);

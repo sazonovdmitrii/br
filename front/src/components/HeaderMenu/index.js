@@ -2,20 +2,17 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 
 import { GET_HEADER_MENU } from 'query';
-import { useLang } from 'hooks';
+import { isBrowser } from 'utils';
 
 import HeaderMenu from './HeaderMenu';
 import MobileMenu from './MobileMenu';
 
-const isClient = typeof window !== 'undefined';
+export default ({ lang, active, onClick }) => {
+    const [isDesktop, setDesktop] = useState(isBrowser ? window.innerWidth >= 768 : true);
 
-export default ({ active, onClick }) => {
-    const lang = useLang();
-    const [isDesktop, setDesktop] = useState(isClient ? window.innerWidth > 768 : true);
-
-    if (isClient) {
+    if (isBrowser) {
         window.matchMedia('(max-width: 768px)').addListener(() => {
-            setDesktop(window.innerWidth > 768);
+            setDesktop(window.innerWidth >= 768);
         });
     }
 

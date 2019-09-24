@@ -20,7 +20,7 @@
     height: 20px;
     padding: 0 4px;
     font-weight: 500;
-    font-size: 12px;
+    font-size: var(--font-size-extra-small);
     font-family: var(--font-sans-serif);
     border-radius: 10px;
     transform: scale(1) translate(50%, -50%);

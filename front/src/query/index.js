@@ -303,3 +303,22 @@ export const GET_PICKUPS = gql`
         }
     }
 `;
+
+export const GET_MENU = gql`
+    query menu($name: String, $locale: String) {
+        menu(name: $name, locale: $locale) {
+            data {
+                text
+                url
+                children {
+                    text
+                    url
+                    children {
+                        text
+                        url
+                    }
+                }
+            }
+        }
+    }
+`;

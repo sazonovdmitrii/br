@@ -16,13 +16,7 @@ const Shops = ({ items }) => {
                             <h1 className={styles.title}>
                                 {shop.city}
                                 {', '}
-                                {shop.link ? (
-                                    <>
-                                        <Link to={shop.link}>{shop.name}</Link>
-                                    </>
-                                ) : (
-                                    shop.name
-                                )}
+                                {shop.link ? <Link to={shop.link}>{shop.name}</Link> : shop.name}
                             </h1>
                             <p className={styles.text}>{shop.address}</p>
                         </Fragment>

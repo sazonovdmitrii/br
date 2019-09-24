@@ -28,8 +28,8 @@
 
 .title {
     margin-bottom: 16px;
-    font-weight: 600;
-    font-size: 12px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-extra-small);
     text-transform: uppercase;
 }
 

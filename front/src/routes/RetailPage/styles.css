@@ -47,18 +47,18 @@
 .location {
     margin-top: 12px;
     margin-bottom: 12px;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 
     @media (--viewport-desktop) {
         margin-top: 18px;
         margin-bottom: 18px;
-        font-size: 18px;
+        font-size: var(--font-size-large);
     }
 }
 
 .phone {
     @media (--viewport-desktop) {
-        font-size: 18px;
+        font-size: var(--font-size-large);
     }
 }
 
@@ -93,20 +93,20 @@
 }
 
 .day {
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    font-weight: 600;
-    line-height: calc(100% + 10px);
-    font-size: 10px;
     color: #676f78;
+    font-weight: var(--font-weight-bold);
+    font-size: 10px;
+    line-height: calc(100% + 10px);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
 
     @media (--viewport-desktop) {
-        font-size: 12px;
+        font-size: var(--font-size-extra-small);
     }
 }
 
 .time {
-    line-height: calc(1em + 10px);
-    font-size: var(--font-size-base);
     color: #676f78;
+    font-size: var(--font-size-base);
+    line-height: calc(1em + 10px);
 }

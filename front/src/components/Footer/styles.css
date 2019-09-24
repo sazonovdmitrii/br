@@ -81,9 +81,9 @@
 
     @media (--viewport-wide) {
         flex: 1;
-        border: 0;
-        padding: 0;
         margin: 0;
+        padding: 0;
+        border: 0;
     }
 }
 
@@ -99,12 +99,12 @@
 }
 
 .bottomMenuItem {
-    flex: 1;
-    padding: 6px 8px;
-    font-size: 12px;
-    white-space: nowrap;
     display: inline-flex;
+    flex: 1;
     align-items: center;
+    padding: 6px 8px;
+    font-size: var(--font-size-extra-small);
+    white-space: nowrap;
 
     & a {
         color: #676f78;
@@ -131,7 +131,7 @@
     &:hover,
     &:focus {
         color: var(--color-font);
-        font-weight: 600;
+        font-weight: var(--font-weight-bold);
         letter-spacing: 2.4px;
     }
 
@@ -140,7 +140,7 @@
     }
 
     @media (--viewport-ipad) {
-        font-size: 12px;
+        font-size: var(--font-size-extra-small);
     }
 }
 

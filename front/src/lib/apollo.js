@@ -26,7 +26,7 @@ const create = ({ token } = {}) => {
     // set to an external playground at https://graphqlhub.com/graphql
     const httpLink = new createHttpLink({
         credentials: 'include',
-        uri: process.env.GRAPHQL,
+        uri: isServer ? process.env.GRAPHQL_SSR : process.env.GRAPHQL,
     });
     const middlewareLink = new ApolloLink((operation, forward) => {
         operation.setContext({

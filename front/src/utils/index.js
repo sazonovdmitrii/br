@@ -12,6 +12,7 @@ import Loader from 'components/Loader';
 import ErrorMessage from 'components/Error';
 
 export const isProd = process.env.NODE_ENV === 'production';
+export const isBrowser = typeof window !== 'undefined';
 
 export const RouteStatus = props => (
     <Route

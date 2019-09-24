@@ -6,8 +6,6 @@ import { useQuery } from '@apollo/react-hooks';
 
 import { IS_LOGGED_IN } from 'query';
 
-import Nav from 'components/Nav';
-
 import AddressBook from 'routes/AddressBook';
 import NotFound from 'routes/NotFound';
 import Personal from 'routes/Personal';

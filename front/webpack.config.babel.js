@@ -27,42 +27,6 @@ const PATHS = {
     public: '/static/',
 };
 
-const getStyleLoaders = (cssOptions, preprocessor) => {
-    const loaders = [
-        !isProd && require.resolve('css-hot-loader'),
-        MiniCssExtractPlugin.loader,
-        {
-            loader: require.resolve('css-loader'),
-            options: {
-                ...cssOptions,
-                sourceMap: false,
-            },
-        },
-        {
-            loader: require.resolve('postcss-loader'),
-            options: {
-                ident: 'postcss',
-                plugins: [
-                    require('postcss-flexbugs-fixes'),
-                    require('postcss-preset-env')({
-                        autoprefixer: {
-                            grid: "autoplace",
-                            flexbox: 'no-2009',
-                        },
-                        preserve: false,
-                        stage: 0,
-                        importFrom: './src/base.css',
-                    }),
-                    require('postcss-hexrgba'),
-                    require('postcss-color-function'),
-                ],
-            },
-        },
-        preprocessor && preprocessor,
-    ].filter(Boolean);
-    return loaders;
-};
-
 const getConfig = target => {
     const isNode = target === 'node';
 
@@ -104,8 +68,7 @@ const getConfig = target => {
                                   ascii_only: true,
                               },
                           },
-                          parallel: true,
-                          cache: true,
+                          extractComments: false,
                           sourceMap: false,
                       }),
                       new OptimizeCSSAssetsPlugin({
@@ -175,22 +138,48 @@ const getConfig = target => {
                         },
                         !isNode && {
                             test: /\.css$/,
-                            loader: getStyleLoaders({
-                                importLoaders: 1,
-                                modules: {
-                                    localIdentName: '[folder]__[local]__[hash:base64:5]',
-                                },
-                            }),
-                        },
-                        !isNode && {
-                            test: /\.scss$/,
-                            loader: getStyleLoaders(
+                            use: [
+                                !isProd && require.resolve('css-hot-loader'),
                                 {
-                                    importLoaders: 2,
+                                    loader: MiniCssExtractPlugin.loader,
+                                    options: {
+                                        // only enable hot in development
+                                        hmr: process.env.NODE_ENV === 'development',
+                                        // if hmr does not work, this is a forceful method.
+                                        reloadAll: true,
+                                    },
                                 },
-                                'sass-loader'
-                            ),
-                            sideEffects: true,
+                                {
+                                    loader: require.resolve('css-loader'),
+                                    options: {
+                                        importLoaders: 1,
+                                        modules: {
+                                            localIdentName: '[folder]__[local]__[hash:base64:5]',
+                                        },
+                                        sourceMap: false,
+                                    },
+                                },
+                                {
+                                    loader: require.resolve('postcss-loader'),
+                                    options: {
+                                        ident: 'postcss',
+                                        plugins: [
+                                            require('postcss-flexbugs-fixes'),
+                                            require('postcss-preset-env')({
+                                                autoprefixer: {
+                                                    grid: 'autoplace',
+                                                    flexbox: 'no-2009',
+                                                },
+                                                preserve: false,
+                                                stage: 0,
+                                                importFrom: './src/base.css',
+                                            }),
+                                            require('postcss-hexrgba'),
+                                            require('postcss-color-function'),
+                                        ],
+                                    },
+                                },
+                            ],
                         },
                         {
                             loader: require.resolve('file-loader'),

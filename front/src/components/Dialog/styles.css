@@ -38,7 +38,6 @@
     flex-direction: column;
     max-height: calc(100% - 96px);
     overflow-y: auto;
-    color: rgba(0, 0, 0, 0.87);
     color: var(--color-font);
     background-color: var(--color-background);
     border-radius: 4px 4px 0 0;

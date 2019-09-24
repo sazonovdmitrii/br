@@ -1,30 +1,42 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
-import { useInterval } from 'hooks';
-
-import Nav from './Nav';
+import Dots from './Dots';
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
 const ProductCarousel = ({ items }) => {
-    const [active, setActive] = useState(0);
-    const getActive = index => {
-        const lastIndex = items.length - 1;
+    const [state, dispatch] = useReducer(
+        (prevState, action) => {
+            const itemsLength = items.length;
 
-        /* eslint-disable-next-line */
-        return index > lastIndex ? 0 : index < 0 ? lastIndex : index;
-    };
-
-    const handleChange = index => {
-        setActive(getActive(index));
-    };
+            switch (action.type) {
+                case 'ACTIVE':
+                    return {
+                        active: action.active,
+                    };
+                case 'NEXT':
+                    return {
+                        active: (prevState.active + 1) % itemsLength,
+                    };
+                case 'PREV':
+                    return {
+                        active: (prevState.active - 1 + itemsLength) % itemsLength,
+                    };
+                default:
+                    return prevState;
+            }
+        },
+        {
+            active: 0,
+        }
+    );
 
     const getChildrens = items.map((item, index) => {
         const activeBannerClassName = cx(styles.item, {
-            active: active === index,
+            active: state.active === index,
         });
 
         return (
@@ -40,9 +52,29 @@ const ProductCarousel = ({ items }) => {
     return (
         <div>
             <div className={styles.wrapper}>
-                <div className={styles.items}>{getChildrens}</div>
+                <div className={styles.inner}>
+                    <div className={styles.items}>{getChildrens}</div>
+                </div>
+                <div className={styles.nav}>
+                    <button
+                        type="button"
+                        aria-label="Previous slide"
+                        className={styles.prevArrow}
+                        onClick={() => dispatch({ type: 'PREV' })}
+                    />
+                    <button
+                        type="button"
+                        aria-label="Next slide"
+                        className={styles.nextArrow}
+                        onClick={() => dispatch({ type: 'NEXT' })}
+                    />
+                </div>
             </div>
-            <Nav items={items} active={active} onChange={handleChange} />
+            <Dots
+                items={items}
+                active={state.active}
+                onClick={index => dispatch({ type: 'ACTIVE', active: index })}
+            />
         </div>
     );
 };
@@ -52,7 +84,6 @@ ProductCarousel.defaultProps = {
 };
 ProductCarousel.propTypes = {
     items: PropTypes.node,
-    interval: PropTypes.number,
 };
 
 export default ProductCarousel;

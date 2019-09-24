@@ -1,4 +1,7 @@
 {
+    "yes": "Yes",
+    "no": "No",
+    "remove_from_cart": "Remove from cart",
     "meta_title": "Glasses & Prescription Eyeglasses",
 
     "cancel": "Cancel",
@@ -37,7 +40,7 @@
     "product_text": "Possible options: a frame without lenses, a frame with single-focal lenses,{br} bifocal, progressive and sun-protection",
     "buy_at_optics_for": "Buy at optics for",
     "not_found_title": "Our Apologies",
-    "not_found_text": "Return <prev>to the previous page</prev> or go back to our <home>homepage</home>.",
+    "not_found_text": "Go back to our <homelink>homepage</homelink>.",
     "our_newest_collections": "Our newest collections",
     "shop_now": "Shop now",
     "eyeglasses": "Eyeglasses",
@@ -79,5 +82,7 @@
     "email": "Email",
     "faq": "FAQ",
     "search": "Search",
-    "text": "Text"
+    "text": "Text",
+
+    "500": "Something went wrong."
 }

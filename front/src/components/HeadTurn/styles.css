@@ -53,13 +53,13 @@
 
 .title {
     margin-bottom: 18px;
-    color: #414b56;
+    color: var(--color-font);
     font-weight: var(--headings-font-weight);
     font-size: 22px;
     font-family: var(--headings-font);
     line-height: var(--headings-line-height);
 
-    @media (min-width: 600px) {
+    @media (--viewport-ipad) {
         font-size: 24px;
     }
 }

@@ -4,18 +4,11 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames/bind';
 
-import { useOnClickOutside } from 'hooks';
-
 import styles from './mobile.css';
 
 const cx = classnames.bind(styles);
 
-const Item = ({ image, children, active, text, url, onLink, onClick }) => {
-    const overlayNode = useRef(null);
-
-    useOnClickOutside(overlayNode, () => {
-        setActiveItem(null);
-    });
+const Item = ({ image, items, active, text, url, onLink, onClick, value }) => {
     const submenuClassName = cx(styles.submenu, {
         active,
     });
@@ -27,10 +20,10 @@ const Item = ({ image, children, active, text, url, onLink, onClick }) => {
     });
 
     return (
-        <li className={styles.item} ref={children.length ? overlayNode : null}>
-            {children.length ? (
+        <li className={styles.item}>
+            {items.length ? (
                 <>
-                    <button type="button" className={buttonClassName} onClick={onClick}>
+                    <button type="button" className={buttonClassName} onClick={() => onClick(value)}>
                         <div className={buttonLabelClassName}>{text}</div>
                         <div
                             className={styles.buttonImage}
@@ -39,21 +32,23 @@ const Item = ({ image, children, active, text, url, onLink, onClick }) => {
                             }}
                         />
                     </button>
-                    <div className={submenuClassName}>
+                    <div className={submenuClassName} onClick={() => onClick(null)}>
                         <div className={styles.submenuText}>
                             Starting at $95, including prescription lenses
                         </div>
-                        {children.map(child => (
-                            <div key={child.url} className={styles.childCol}>
-                                <Link className={styles.childLink} to={child.url} onClick={onLink}>
-                                    <span className={styles.childText}>{child.text}</span>
-                                </Link>
-                            </div>
-                        ))}
+                        <div className={styles.childrens}>
+                            {items.map(child => (
+                                <div key={child.url} className={styles.childCol}>
+                                    <Link className={styles.childLink} to={child.url} onClick={onLink}>
+                                        <span className={styles.childText}>{child.text}</span>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </>
             ) : (
-                <a className={styles.button} href={url}>
+                <Link className={styles.button} to={url}>
                     <div className={styles.buttonLabel}>{text}</div>
                     <div
                         className={styles.buttonImage}
@@ -61,7 +56,7 @@ const Item = ({ image, children, active, text, url, onLink, onClick }) => {
                             backgroundImage: `url("${image}")`,
                         }}
                     />
-                </a>
+                </Link>
             )}
         </li>
     );
@@ -75,6 +70,7 @@ const MobileMenu = ({ items, active: activeProps, onClick }) => {
     if (!items.length || typeof document === 'undefined') return null;
 
     const domNode = document.body;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         if (activeProps) {
             if (window.innerWidth !== rootNode.current.clientWidth) {
@@ -98,12 +94,15 @@ const MobileMenu = ({ items, active: activeProps, onClick }) => {
                         return (
                             <Item
                                 key={index}
+                                value={index}
                                 active={active}
                                 text={text}
                                 url={url}
-                                children={children}
+                                items={children}
                                 image={image}
-                                onClick={active ? null : () => setActiveItem(index)}
+                                onClick={value => {
+                                    setActiveItem(value);
+                                }}
                                 onLink={onClick}
                             />
                         );

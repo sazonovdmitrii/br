@@ -7,7 +7,7 @@
     flex: 1;
     padding: 0 24px;
     color: #676f78;
-    background-color: #fff;
+    background-color: var(--color-white);
 
     @media (--viewport-ipad) {
         padding: 0 36px;
@@ -23,8 +23,8 @@
     margin-top: 18px;
     padding-bottom: 2px;
     padding-left: 2px;
-    font-weight: 600;
-    font-size: 12px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-extra-small);
     line-height: calc(1em + 10px);
     letter-spacing: 2.5px;
     text-transform: uppercase;
@@ -38,7 +38,7 @@
     line-height: calc(1em + 10px);
 
     @media (--viewport-desktop) {
-        font-size: 18px;
+        font-size: var(--font-size-large);
     }
 }
 

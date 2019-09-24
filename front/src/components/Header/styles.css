@@ -1,16 +1,12 @@
 .root {
-    height: 60px;
     background: var(--color-background);
-
-    @media (--viewport-tablet) {
-        height: 100px;
-    }
 }
 
 .row {
     display: flex;
     align-items: center;
-    padding: 22px 22px 0;
+    height: 50px;
+    padding: 0 22px;
 }
 
 .button {
@@ -59,18 +55,42 @@
 .content {
     position: relative;
     z-index: 970;
+
+    @media (--viewport-tablet) {
+        padding-top: 12px;
+    }
 }
 
 .item {
     flex: 1;
 }
 
-.logo {
+.logoLink {
     display: block;
-    max-width: 151px;
+    max-width: 35px;
     margin: 0 auto;
 
-    @media (--viewport-tablet) {
-        max-width: 193px;
+    @media (--viewport-ipad) {
+        max-width: 190px;
+    }
+}
+
+.logo {
+    display: none;
+    width: inherit;
+    height: inherit;
+
+    @media (--viewport-ipad) {
+        display: block;
+    }
+}
+
+.mobileLogo {
+    display: block;
+    width: inherit;
+    height: inherit;
+
+    @media (--viewport-ipad) {
+        display: none;
     }
 }

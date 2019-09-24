@@ -8,19 +8,26 @@ import styles from './desktop.css';
 const cx = classnames.bind(styles);
 
 const HeaderMenu = ({ items }) => {
-    const [state, setState] = useState({ active: null });
-    const rootClassName = cx(styles.root, { active: state.active });
+    const [state, setState] = useState({ open: false, active: null });
+    const rootClassName = cx(styles.root, { active: state.open });
+    const overlayClassName = cx(styles.overlay, { show: state.open });
 
     if (!items.length) return null;
 
+    const handleClose = () => {
+        setState({ active: null, open: false });
+    };
+
     return (
         <ul className={rootClassName}>
+            <li className={overlayClassName} onClick={handleClose} />
             {items.map(({ text, url, children }, index) => {
+                const activeItem = state.active === index;
                 const submenuClassName = cx(styles.submenu, {
-                    active: state.active === index,
+                    active: activeItem,
                 });
                 const linkClassName = cx(styles.link, {
-                    active: state.active === index,
+                    active: activeItem,
                 });
 
                 return (
@@ -31,7 +38,10 @@ const HeaderMenu = ({ items }) => {
                                     type="button"
                                     className={linkClassName}
                                     onClick={() =>
-                                        setState({ active: state.active === index ? null : index })
+                                        setState({
+                                            open: !activeItem,
+                                            active: activeItem ? null : index,
+                                        })
                                     }
                                 >
                                     {text}
@@ -45,7 +55,7 @@ const HeaderMenu = ({ items }) => {
                                                 style={{
                                                     backgroundImage: `url(${child.image})`,
                                                 }}
-                                                onClick={() => setState({ active: false })}
+                                                onClick={handleClose}
                                             >
                                                 <span className={styles.childText}>{child.text}</span>
                                             </Link>

@@ -1,15 +1,15 @@
 @font-face {
-    font-display: swap;
-    font-family: proxima-nova;
-    src: url('./ProximaNova-Bold.woff2') format('woff2'), url('./ProximaNova-Bold.woff') format('woff');
     font-weight: 700;
+    font-family: proxima-nova;
     font-style: normal;
+    src: url('./ProximaNova-Bold.woff2') format('woff2'), url('./ProximaNova-Bold.woff') format('woff');
+    font-display: swap;
 }
 
 @font-face {
-    font-display: swap;
-    font-family: proxima-nova;
-    src: url('./ProximaNova-BoldIt.woff2') format('woff2'), url('./ProximaNova-BoldIt.woff') format('woff');
     font-weight: 700;
+    font-family: proxima-nova;
     font-style: italic;
+    src: url('./ProximaNova-BoldIt.woff2') format('woff2'), url('./ProximaNova-BoldIt.woff') format('woff');
+    font-display: swap;
 }

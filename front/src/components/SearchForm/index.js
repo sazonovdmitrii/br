@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { X as CloseIcon } from 'react-feather';
 import { injectIntl } from 'react-intl';
-import Input from 'components/Input';
 
 import styles from './styles.css';
 
@@ -12,14 +11,6 @@ const SearchForm = ({ history, show, onClose, intl }) => {
     const placeholder = intl.formatMessage({ id: 'search' });
     const [search, setSearch] = useState('');
     const overlayNode = useRef(null);
-
-    const handleSubmit = e => {
-        e.preventDefault();
-
-        if (!search) return;
-
-        history.push(`/search/?search=${search}`);
-    };
 
     if (typeof document === 'undefined') return null;
     const domNode = document.body;

@@ -3,7 +3,7 @@
 }
 
 .title {
-    color: #414b56;
+    color: var(--color-font);
     font-weight: var(--headings-font-weight);
     font-family: var(--headings-font);
     line-height: var(--headings-line-height);

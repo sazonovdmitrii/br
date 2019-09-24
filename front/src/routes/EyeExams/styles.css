@@ -1,0 +1,44 @@
+.body {
+    padding-top: 48px;
+}
+
+.header {
+    padding-bottom: 48px;
+    text-align: center;
+
+    @media (--viewport-ipad) {
+        padding-bottom: 60px;
+    }
+}
+
+.title {
+    margin-bottom: 24px;
+    font-weight: var(--headings-font-weight);
+    font-size: 30px;
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
+
+    @media (--viewport-ipad) {
+        font-size: 50px;
+    }
+}
+
+.description {
+    display: inline-block;
+
+    @media (--viewport-ipad) {
+        width: 66.66667%;
+    }
+}
+
+.columns {
+    @media (--viewport-ipad) {
+        column-count: 2;
+        column-gap: 24px;
+    }
+}
+
+.column {
+    display: inline-block;
+    margin-bottom: 36px;
+}

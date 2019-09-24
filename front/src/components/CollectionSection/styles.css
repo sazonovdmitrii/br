@@ -1,11 +1,11 @@
 .root {
-    padding: 0 6px 60px;
     margin: 0 18px;
+    padding: 0 6px 60px;
 
     @media (--viewport-tablet) {
-        padding-left: 76px;
-        padding-right: 76px;
         margin: 0 32px;
+        padding-right: 76px;
+        padding-left: 76px;
     }
 
     @media (--viewport-desktop) {
@@ -14,14 +14,14 @@
 }
 
 .items {
-    grid-gap: 48px;
     display: grid;
+    grid-gap: 48px;
 
     @media (--viewport-tablet) {
-        padding-left: 76px;
-        padding-right: 76px;
-        margin-left: 32px;
         margin-right: 32px;
+        margin-left: 32px;
+        padding-right: 76px;
+        padding-left: 76px;
     }
 
     @media (--viewport-desktop) {
@@ -31,23 +31,23 @@
 }
 
 .text {
-    margin-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 30px;
 
     @media (--viewport-desktop) {
-        margin-top: 36px;
         display: block;
+        margin-top: 36px;
     }
 }
 
 .title {
-    font-weight: var(--headings-font-weight);
-    line-height: var(--headings-line-height);
-    font-size: 20px;
-    color: #414b56;
     margin-bottom: 8px;
+    color: var(--color-font);
+    font-weight: var(--headings-font-weight);
+    font-size: 20px;
+    line-height: var(--headings-line-height);
 
     @media (--viewport-desktop) {
         font-size: 24px;
@@ -55,8 +55,8 @@
 }
 
 .subTitle {
-    text-align: center;
     margin-bottom: 18px;
+    text-align: center;
 
     @media (--viewport-desktop) {
         text-align: left;

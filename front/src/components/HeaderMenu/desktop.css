@@ -1,9 +1,12 @@
 .root {
     position: relative;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
-    padding: 14px 0;
+
+    @media (--viewport-tablet) {
+        display: flex;
+    }
 }
 
 .open {
@@ -14,13 +17,14 @@
 }
 
 .link {
+    display: block;
     position: relative;
-    padding: 5px 0;
-    color: var(--color-font);
-    font-weight: 600;
-    font-size: 16px;
+    padding-bottom: 10px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-base);
     line-height: 1.6;
     cursor: pointer;
+    transition: opacity 0.1s ease-in-out;
 
     &::after {
         position: absolute;
@@ -33,6 +37,10 @@
         transition-duration: 0.3s;
         transition-property: left, opacity, width;
         content: '';
+    }
+
+    &:hover {
+        opacity: 0.7;
     }
 
     &.active::after {
@@ -49,7 +57,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 300px;
     visibility: hidden;
     opacity: 0;
     transition-delay: 0s, 0.6s;
@@ -66,6 +73,28 @@
     }
 }
 
+.overlay {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    height: 100vh;
+    background-color: rgba(43, 52, 62, 0.75);
+    visibility: hidden;
+    opacity: 0;
+    transition-delay: 0s, 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.3s;
+    transition-property: opacity, visibility;
+
+    &.show {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s;
+    }
+}
+
 .childCol {
     width: 50%;
 }
@@ -77,10 +106,14 @@
     height: 100%;
     padding-top: 50px;
     padding-bottom: 54%;
-    background-repeat: no-repeat;
     background-color: #f5f6fb;
+    background-repeat: no-repeat;
     background-position: 0 0;
     background-size: cover;
+
+    &:hover > .childText::after {
+        opacity: 1;
+    }
 }
 
 .childText {
@@ -88,7 +121,20 @@
     top: 50%;
     right: 10px;
     color: var(--color-font);
+    font-weight: var(--font-weight-bold);
     transform: translateY(-50%);
+
+    &::after {
+        position: absolute;
+        right: 0;
+        bottom: -4px;
+        width: 100%;
+        height: 2px;
+        background: var(--color-font);
+        opacity: 0;
+        transition: opacity 0.1s ease-in-out;
+        content: '';
+    }
 
     @media (--viewport-tablet) {
         right: 24px;

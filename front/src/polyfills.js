@@ -3,6 +3,7 @@ import 'regenerator-runtime/runtime';
 // for https://github.com/verlok/lazyload
 import 'intersection-observer';
 import 'custom-event-polyfill'; // for https://github.com/verlok/lazyload
+import '@formatjs/intl-relativetimeformat/polyfill';
 
 // Support for...of (a commonly used syntax feature that requires Symbols)
 import 'core-js/features/symbol';

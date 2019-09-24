@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 
 import LoginForm from 'components/LoginForm';
 import Button from 'components/Button';
@@ -16,16 +17,20 @@ export default ({ history }) => {
     return (
         <div className={styles.root}>
             <div className={styles.header}>
-                <Title className={styles.title}>Sign in</Title>
+                <Title className={styles.title}>
+                    <FormattedMessage id="sign_in" />
+                </Title>
             </div>
             <LoginForm onCompleted={handleCompleted} />
             <Link to="/account/remind-password" className={styles.link}>
-                Forgot password?
+                <FormattedMessage id="forgot_password" />?
             </Link>
             <hr className={styles.hr} />
-            <Title className={styles.title}>I’m new here</Title>
+            <Title className={styles.title}>
+                <FormattedMessage id="im_new_here" />
+            </Title>
             <Link to="/account/register" className={styles.link}>
-                Create an account
+                <FormattedMessage id="create_account" />
             </Link>
         </div>
     );

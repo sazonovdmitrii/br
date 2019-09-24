@@ -1,14 +1,15 @@
+import React from 'react';
 import loadable from '@loadable/component';
 
 import Loader from 'components/Loader';
+import EyeExams from 'routes/EyeExams';
+import Basket from 'routes/Basket';
+import { withErrorBoundary } from 'components/ErrorBoundary';
 
 import NotFound from './NotFound';
 
-const getComponent = (component, opts) => {
-    return loadable(() => import(`./${component}`), {
-        fallback: Loader,
-        ...opts,
-    });
+const loadableOpts = {
+    fallback: Loader,
 };
 
 export default ({ lang, defaultLang }) => {
@@ -16,48 +17,58 @@ export default ({ lang, defaultLang }) => {
 
     return [
         {
-            path: '/account/:slug?',
-            component: getComponent('User', { ssr: false }),
+            path: `${LANG_PREFIX}/account`,
+            component: loadable(() => import(`./User`), loadableOpts),
+        },
+        {
+            path: `${LANG_PREFIX}/cart`,
+            component: props => withErrorBoundary(Basket)(props),
+            exact: true,
+        },
+        {
+            path: `${LANG_PREFIX}/appointments/eye-exams`,
+            component: EyeExams,
+            exact: true,
         },
         {
             path: `${LANG_PREFIX}/eyeglasses`,
+            component: loadable(() => import(`./Landing/Eyeglasses`), loadableOpts),
             exact: true,
-            component: getComponent('Landing/Eyeglasses'),
         },
         {
             path: `${LANG_PREFIX}/sunglasses`,
+            component: loadable(() => import(`./Landing/Sunglasses`), loadableOpts),
             exact: true,
-            component: getComponent('Landing/Sunglasses'),
         },
         {
             path: `${LANG_PREFIX}/info/:slug`,
+            component: loadable(() => import(`./Content`), loadableOpts),
             exact: true,
-            component: getComponent('Content'),
         },
         {
             path: `${LANG_PREFIX}/retail/:city/:name`,
             exact: true,
-            component: getComponent('RetailPage'),
+            component: loadable(() => import(`./RetailPage`), loadableOpts),
         },
         {
             path: `${LANG_PREFIX}/retail`,
             exact: true,
-            component: getComponent('Retail'),
+            component: loadable(() => import(`./Retail`), loadableOpts),
         },
         {
             path: `${LANG_PREFIX}/:catalog?/:subcatalog?/:product.htm`,
+            component: loadable(() => import(`./Product`), loadableOpts),
             exact: true,
-            component: getComponent('Product'),
         },
         {
             path: `${LANG_PREFIX}/:catalog/:subcatalog?/:filter?`,
             exact: true,
-            component: getComponent('Catalog'),
+            component: loadable(() => import(`./Catalog`), loadableOpts),
         },
         {
-            component: getComponent('Home'),
-            exact: true,
             path: `${LANG_PREFIX}/`,
+            component: loadable(() => import(`./Home`), loadableOpts),
+            exact: true,
         },
         {
             component: NotFound,

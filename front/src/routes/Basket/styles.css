@@ -1,94 +1,54 @@
-.nav {
-    margin-left: auto;
+.root {
+    background-color: #f8f8f8;
 }
 
-.root {
-    font-size: var(--font-size-base);
+.container {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 24px 18px;
+
+    @media (--viewport-tablet) {
+        padding-top: 36px;
+    }
+
+    @media (--viewport-wide) {
+        padding-top: 48px;
+    }
 }
 
 .header {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    padding: 15px;
-    border-bottom: 2px solid #f2f5f4;
+    margin-bottom: 12px;
 }
 
 .title {
-    margin: 0;
-    font-size: 20px;
+    font-weight: var(--headings-font-weight);
+    font-size: 24px;
+    font-family: var(--headings-font-family);
+    line-height: var(--headings-line-height);
+    text-align: center;
 
-    @media (--viewport-desktop) {
-        color: #424242;
-        font-weight: 300;
-        font-size: 32px;
+    @media (min-width: 900px) {
+        font-size: 30px;
+    }
+
+    @media (min-width: 1200px) {
+        text-align: left;
     }
 }
 
-.amountSelect {
-    color: #757575;
-    font-size: var(--font-size-base);
-    background: none;
-    border: 0;
+.body {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
 }
 
-.removeButton {
-    position: absolute;
-    right: 0;
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    background: none;
-    border: 0;
-    cursor: pointer;
-    transition: color 0.2s ease;
-
-    &:hover,
-    &:focus {
-        color: var(--color-primary);
-    }
-}
-
-.productsFooter {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 15px;
-}
-
-.productsFooterItem {
-    margin: 5px 0;
-
-    @media (--viewport-tablet) {
-        margin: 0;
-    }
-}
-
-.block {
-    padding: 15px;
-}
-
-.blockTitle {
-    margin-bottom: 15px;
-    font-size: 20px;
+.products {
 }
 
 .sidebar {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1300;
-
-    @media (--viewport-tablet) {
-        position: static;
-        margin-top: 40px;
-        box-shadow: none;
+    @media (--viewport-wide) {
+        position: sticky;
+        top: 3%;
+        left: 0;
+        margin-bottom: 12px;
     }
-}
-
-.empty {
-    margin: 20px 0;
-    font-size: 18px;
-    text-align: center;
 }

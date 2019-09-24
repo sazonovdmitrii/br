@@ -23,7 +23,7 @@
     font-size: var(--font-size-base);
 
     @media (--viewport-ipad) {
-        font-size: 12px;
+        font-size: var(--font-size-extra-small);
         letter-spacing: 1.5px;
         text-transform: uppercase;
     }
@@ -44,8 +44,8 @@
 }
 
 .link {
-    line-height: calc(1em + 10px);
     color: #676f78;
+    line-height: calc(1em + 10px);
     transition: color 0.2s ease;
 
     &:hover {

@@ -27,7 +27,7 @@
 
 .title {
     margin-bottom: 24px;
-    color: #fff;
+    color: var(--color-white);
     font-weight: var(--headings-font-weight);
     font-size: 24px;
     font-family: var(--headings-font);

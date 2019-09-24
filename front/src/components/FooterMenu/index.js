@@ -12,22 +12,18 @@ const cx = classnames.bind(styles);
 
 const FooterMenu = ({ className, lang, name }) => {
     const rootClassName = cx(styles.root, className);
-    const {
-        loading,
-        error,
-        data: { menu },
-    } = useQuery(GET_MENU, {
+    const { loading, error, data } = useQuery(GET_MENU, {
         variables: {
             locale: lang,
             name: 'footer_menu',
         },
     });
 
-    if (loading || error || !menu) return null;
+    if (loading || error || !data) return null;
 
     return (
         <nav className={rootClassName}>
-            {menu.data.map((item, index) => (
+            {data.menu.data.map((item, index) => (
                 <div key={index} className={styles.menu}>
                     <h4 className={styles.title}>{item.text}</h4>
                     <ul className={styles.list}>

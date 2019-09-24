@@ -2,8 +2,6 @@ import React from 'react';
 import classnames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
 
-import { useLang } from 'hooks';
-
 import FooterMenu from 'components/FooterMenu';
 import Socials from 'components/Socials';
 import Help from 'components/Help';
@@ -15,8 +13,7 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-export default () => {
-    const lang = useLang();
+export default ({ lang }) => {
     const currentYear = new Date().getFullYear();
 
     return (
@@ -30,11 +27,11 @@ export default () => {
             <section className={styles.bottom}>
                 <div className={styles.countries}>
                     <ul>
-                        {LANGS.map(item => {
+                        {LANGS.map((item, index) => {
                             const countryLink = cx(styles.countryLink, { active: item.value === lang });
 
                             return (
-                                <li className={styles.countryItem}>
+                                <li key={index} className={styles.countryItem}>
                                     <a href={`/${!item.default ? item.value : ''}`} className={countryLink}>
                                         {item.native}
                                     </a>

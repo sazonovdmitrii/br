@@ -13,8 +13,8 @@
 }
 
 .header {
-    text-align: center;
     margin-bottom: 36px;
+    text-align: center;
 
     @media (--viewport-desktop) {
         margin-bottom: 60px;
@@ -22,11 +22,11 @@
 }
 
 .title {
-    font-family: var(--headings-font);
+    color: var(--color-font);
     font-weight: var(--headings-font-weight);
-    line-height: var(--headings-line-height);
     font-size: 22px;
-    color: #414b56;
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
 
     @media (--viewport-ipad) {
         font-size: 24px;
@@ -43,9 +43,9 @@
 
 .items {
     display: grid;
+    grid-gap: 20px;
     grid-template-columns: 1fr;
     justify-content: center;
-    grid-gap: 20px;
     padding: 0 18px;
 
     @media (--viewport-ipad) {
@@ -53,8 +53,8 @@
     }
 
     @media (--viewport-desktop) {
-        padding: 0 48px;
         grid-template-columns: repeat(2, 1fr);
+        padding: 0 48px;
     }
 
     @media (--viewport-wide) {
@@ -63,8 +63,8 @@
 }
 
 .item {
-    max-width: 530px;
     width: 100%;
+    max-width: 530px;
     margin: 0 auto;
 }
 
@@ -74,24 +74,24 @@
 }
 
 .link {
-    color: #414b56;
-    border-bottom: 2px solid #414b56;
     padding-bottom: 4px;
-    font-weight: 600;
+    color: var(--color-font);
+    font-weight: var(--font-weight-bold);
+    border-bottom: 2px solid var(--color-font);
     transition: border-color 0.15s ease;
 
     &:hover {
         @media (--viewport-desktop) {
-            border-color: #414b56;
+            border-color: var(--color-font);
         }
     }
 
     @media (--viewport-ipad) {
-        font-size: 18px;
+        font-size: var(--font-size-large);
     }
 
     @media (--viewport-desktop) {
-        border-color: transparent;
         padding-bottom: 4px;
+        border-color: transparent;
     }
 }

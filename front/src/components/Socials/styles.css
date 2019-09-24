@@ -1,8 +1,8 @@
 .root {
-    justify-content: space-between;
+    display: flex;
     flex-direction: row;
     align-items: center;
-    display: flex;
+    justify-content: space-between;
 }
 
 .item {
@@ -11,9 +11,9 @@
 
 .link {
     display: inline-flex;
+    align-items: center;
     width: 20px;
     height: 20px;
-    align-items: center;
 }
 
 .icon {

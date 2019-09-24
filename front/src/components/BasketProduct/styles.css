@@ -1,0 +1,229 @@
+.root {
+    position: relative;
+    margin: 0 auto 12px;
+    padding: 18px 18px 12px;
+    overflow: hidden;
+    line-height: 1.63;
+    background-color: var(--color-background);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px 0 rgba(239, 243, 245, 0.48), 0 1px 4px 0 rgba(228, 230, 232, 0.6);
+
+    @media (--viewport-tablet) {
+        display: flex;
+        align-items: center;
+        padding: 0 24px 0 0;
+    }
+}
+
+.removeButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.imageContainer {
+    flex-grow: 1;
+    padding: 26px 32px 12px;
+
+    @media (--viewport-tablet) {
+        padding: 0;
+    }
+}
+
+.image {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+
+    @media (--viewport-tablet) {
+        max-width: 256px;
+    }
+}
+
+.info {
+    @media (--viewport-tablet) {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        align-items: flex-start;
+        justify-content: center;
+        width: 100%;
+        max-width: 296px;
+        margin-left: auto;
+        padding-top: 40px;
+    }
+}
+
+.name {
+    width: 100%;
+    color: var(--color-font);
+    font-weight: 600;
+    font-size: 18px;
+    font-family: var(--headings-font-family);
+    line-height: 1.3;
+
+    @media (--viewport-tablet) {
+        font-size: 20px;
+    }
+}
+
+.link {
+    color: #414b56;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+        color: #6b7b8c;
+    }
+}
+
+.footer {
+    width: 100%;
+
+    @media (--viewport-tablet) {
+        position: relative;
+    }
+}
+
+.footerRight {
+    position: absolute;
+    right: 18px;
+    bottom: 14px;
+
+    @media (--viewport-tablet) {
+        right: 0;
+    }
+}
+
+.subhead {
+    display: inline-block;
+    margin: 0;
+    color: #a1a4a6;
+    font-family: utopia-std, Times New Roman, serif;
+    font-style: italic;
+    text-transform: capitalize;
+}
+
+.expansionContainer {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    border-bottom: 1px solid transparent;
+    transition: max-height 0.3s ease-in-out;
+    transition-property: max-height, border, margin;
+    pointer-events: none;
+
+    &.expanded {
+        max-height: 300px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid #e4e6e8;
+        pointer-events: all;
+    }
+
+    @media (--viewport-tablet) {
+        max-height: none;
+        margin-bottom: 52px;
+        padding-bottom: 6px;
+        border-color: #f2f2f2;
+    }
+}
+
+.expansionButton {
+    display: inline-flex;
+    align-items: center;
+    background: hsla(0, 0%, 100%, 0.8);
+
+    &:focus {
+        outline: none;
+    }
+
+    @media (--viewport-tablet) {
+        pointer-events: none;
+    }
+}
+
+.expansionIcon {
+    padding: 0 8px;
+    line-height: 0;
+
+    &.expanded > svg {
+        transform: scaleY(-1);
+    }
+
+    @media (--viewport-tablet) {
+        display: none;
+    }
+}
+
+.frameDetails {
+    padding-top: 18px;
+}
+
+.frameDetailsLabel {
+    margin: 0;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.frameDetailsValue {
+    display: flex;
+    margin: 0 0 12px;
+    color: #676f78;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.frameDetailsPrice {
+    margin-left: auto;
+}
+
+.totalPrice {
+    display: inline-block;
+    margin: 0;
+    color: #414b56;
+    font-weight: var(--font-weight-bold);
+    font-size: 14px;
+}
+
+.removeConfirm {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background: hsla(0, 0%, 100%, 0.95);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    transition-property: opacity, visibility;
+    pointer-events: none;
+
+    &.show {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: all;
+    }
+}
+
+.removeConfirmInner {
+    max-width: 365px;
+    margin: 68px auto;
+}
+
+.removeConfimTitle {
+    max-width: 190px;
+    margin: 0 auto 12px;
+    font-weight: 600;
+}
+
+.removeConfirmActions {
+    display: grid;
+    grid-gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+}

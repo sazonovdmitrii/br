@@ -8,6 +8,9 @@
     --font-sans-serif: proxima-nova, helvetica, verdana, sans-serif;
     --font-serif: utopia-std, charter, georgia, serif;
     --font-size-base: 16px;
+
+    --font-weight-bold: 600;
+    --font-size-extra-small: 12px;
     --font-size-small: 14px;
     --font-size-medium: 15px;
     --font-size-large: 18px;

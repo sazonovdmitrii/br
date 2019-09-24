@@ -8,14 +8,14 @@ import UserMenu from 'components/UserMenu';
 import HeaderMenu from 'components/HeaderMenu';
 import Container from 'components/Container';
 
-import logo from './images/logo.png';
-import mobileMenuIcon from './images/mobile.png';
+import Logo from './images/logo.svg';
+import MobileLogo from './images/mobilelogo.svg';
 
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-export default () => {
+export default ({ lang }) => {
     const homeLink = useLangLink('/');
     const [open, setOpen] = useState(false);
     const iconClassName = cx(styles.burgerIcon, {
@@ -43,13 +43,9 @@ export default () => {
                             </button>
                         </div>
                         <div className={styles.item}>
-                            <Link to={homeLink} className={styles.logo}>
-                                <img
-                                    className="header__logolink--img"
-                                    src={logo}
-                                    title="LaParfumerie.ru"
-                                    alt="Laparfumerie.ru - интернет-магазин парфюмерии и косметики"
-                                />
+                            <Link to={homeLink} className={styles.logoLink}>
+                                <Logo className={styles.logo} />
+                                <MobileLogo className={styles.mobileLogo} />
                             </Link>
                         </div>
                         <div className={styles.item}>
@@ -58,7 +54,7 @@ export default () => {
                     </div>
                 </div>
             </Container>
-            <HeaderMenu active={open} onClick={() => setOpen(false)} />
+            <HeaderMenu lang={lang} active={open} onClick={() => setOpen(false)} />
         </header>
     );
 };

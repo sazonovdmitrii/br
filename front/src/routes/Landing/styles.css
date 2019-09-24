@@ -28,9 +28,9 @@
     text-align: center;
 
     @media (--viewport-tablet) {
+        width: 41.66667%;
         padding: 0 36px;
         text-align: left;
-        width: 41.66667%;
     }
 }
 
@@ -56,8 +56,8 @@
     color: #676f78;
 
     @media (--viewport-ipad) {
-        font-size: 16px;
         max-width: 360px;
+        font-size: var(--font-size-base);
     }
 }
 
@@ -117,7 +117,7 @@
 .sectionText {
     margin-bottom: 24px;
     color: #676f78;
-    font-size: 16px;
+    font-size: var(--font-size-base);
 }
 
 .button {
@@ -126,9 +126,9 @@
     height: 48px;
     margin-bottom: 0;
     padding: 6px 16px;
-    color: #414b56;
-    font-weight: 600;
-    font-size: 16px;
+    color: var(--color-font);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-base);
     line-height: 32px;
     white-space: nowrap;
     text-align: center;
@@ -143,9 +143,9 @@
     -webkit-appearance: none;
 
     &:hover {
-        color: #414b56;
+        color: var(--color-font);
         background-color: var(--color-white);
-        border-color: #414b56;
+        border-color: var(--color-font);
         box-shadow: none;
     }
 }

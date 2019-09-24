@@ -13,7 +13,7 @@
         width: 100%;
         height: 100%;
         max-height: none;
-        background-color: #fff;
+        background-color: var(--color-white);
 
         @media (--viewport-tablet) {
             position: static;
@@ -23,7 +23,7 @@
 
 .inner {
     padding: 20px 0 10px;
-    background-color: #fff;
+    background-color: var(--color-white);
 }
 
 .tabs {
@@ -54,7 +54,7 @@
     padding: 3px 10px;
     overflow: hidden;
     color: var(--colorFont);
-    font-size: 12px;
+    font-size: var(--font-size-extra-small);
     line-height: 12px;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -75,7 +75,7 @@
         height: 1px;
         margin-bottom: -1px;
         overflow: hidden;
-        font-weight: 600;
+        font-weight: var(--font-weight-bold);
         visibility: hidden;
         content: attr(data-name);
     }
@@ -86,8 +86,8 @@
     }
 
     &.active {
-        color: #414b56;
-        font-weight: 600;
+        color: var(--color-font);
+        font-weight: var(--font-weight-bold);
     }
 
     @media (--viewport-ipad) {
@@ -212,7 +212,7 @@
     text-align: right;
     background-color: #f8f8f8;
     border-top: 1px solid #ebeff2;
-    box-shadow: inset 0 0 0 1px #fff;
+    box-shadow: inset 0 0 0 1px var(--color-white);
 }
 
 .modalButton {

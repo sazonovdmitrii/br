@@ -29,7 +29,7 @@ const Carousel = ({ children, className, color, disabledClassName, navigation, p
             ...prevState,
             carousel,
         }));
-    }, [carouselRef]);
+    }, [carouselRef, children.length, loop, perPage]);
 
     if (!state.navigation) return <div className={disabledClassName}>{children}</div>;
 

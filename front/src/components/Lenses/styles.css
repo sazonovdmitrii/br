@@ -13,9 +13,9 @@
 }
 
 .body {
-    margin-top: 48px;
     display: grid;
     grid-gap: 36px;
+    margin-top: 48px;
 
     @media (--viewport-desktop) {
         grid-gap: 48px;
@@ -26,7 +26,7 @@
 
 .title {
     margin-bottom: 12px;
-    color: #414b56;
+    color: var(--color-font);
     font-weight: var(--headings-font-weight);
     font-size: 24px;
     font-family: var(--headings-font);
@@ -47,29 +47,29 @@
 
 .text {
     color: #676f78;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     line-height: calc(1em + 10px);
 
     @media (--viewport-ipad) {
-        font-size: 16px;
+        font-size: var(--font-size-base);
     }
 
     @media (--viewport-desktop) {
-        font-size: 18px;
+        font-size: var(--font-size-large);
     }
 }
 
 .label {
     margin-bottom: 6px;
     color: #676f78;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     font-size: 10px;
     line-height: calc(100% + 10px);
     letter-spacing: 2.5px;
     text-transform: uppercase;
 
     @media (--viewport-desktop) {
-        font-size: 12px;
+        font-size: var(--font-size-extra-small);
     }
 }
 
@@ -78,13 +78,13 @@
     margin-bottom: 18px;
     color: #a1a4a6;
     font-weight: 200;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-family: var(--headings-font);
     font-style: italic;
     line-height: calc(100% + 10px);
 
     @media (--viewport-desktop) {
-        font-size: 18px;
+        font-size: var(--font-size-large);
     }
 }
 
@@ -92,8 +92,8 @@
     display: none;
 
     @media (--viewport-desktop) {
-        margin-top: 24px;
         display: block;
+        margin-top: 24px;
     }
 }
 

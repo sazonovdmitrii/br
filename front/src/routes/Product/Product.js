@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
+import { useMutation } from '@apollo/react-hooks';
 
 import { SeoHead } from 'utils';
-import { useLangLink } from 'hooks';
+import { useLangLink, useApp } from 'hooks';
+import { ADD_TO_BASKET } from 'mutations';
+import { GET_SHORT_BASKET } from 'query';
 
 import Button from 'components/Button';
 import HeadTurn from 'components/HeadTurn';
@@ -15,11 +18,14 @@ import ProductCarousel from 'components/ProductCarousel';
 import ProductCard from 'components/ProductCard';
 
 import styles from './styles.css';
+import headTurnImage from './headturn.jpg';
+import ChooseLenses from './ChooseLenses';
 
 const cx = classnames.bind(styles);
 
 const Product = ({ name, items: { edges: items = [] }, tags, similars }) => {
     const buyLink = useLangLink('/retail');
+    const { createNotification } = useApp();
     const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
     const images = selectedProduct.productItemImages;
     const colors = items.reduce((array, item) => {
@@ -36,10 +42,42 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars }) => {
         }
     };
     const [showChooseLenses, setShowChooseLenses] = useState(false);
-
-    // const handleShowCL = () => {
-    //     setShowChooseLenses(!showChooseLenses);
-    // };
+    const [addToCard, { data: addBasket, loadingMutation }] = useMutation(ADD_TO_BASKET, {
+        variables: {
+            input: {
+                item_id: selectedProduct.id,
+            },
+        },
+        onCompleted({ addBasket: { products } }) {
+            if (products) {
+                console.info('product added to basket', products);
+                history.push('/cart');
+            }
+        },
+        onError(error) {
+            createNotification({ type: 'error', message: error.message });
+        },
+        // TODO
+        update(
+            cache,
+            {
+                data: { addBasket },
+            }
+        ) {
+            cache.writeQuery({
+                query: GET_SHORT_BASKET,
+                data: {
+                    basket: {
+                        products: addBasket.products,
+                        __typename: 'Basket',
+                    },
+                },
+            });
+        },
+    });
+    const handleShowCL = () => {
+        setShowChooseLenses(!showChooseLenses);
+    };
 
     const sectionTitleCenterClassName = cx(styles.sectionTitle, styles.center);
     const rootClassName = cx(styles.root, { hide: showChooseLenses });
@@ -47,7 +85,7 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars }) => {
     return (
         <Container>
             <SeoHead type="product" name={name} items={items} image={images ? images[0].path : null} />
-            {/* showChooseLenses && <ChooseLenses title={product.name} onClose={handleShowCL} /> */}
+            {/*showChooseLenses && <ChooseLenses title={name} onClose={handleShowCL} />*/}
             <div className={rootClassName}>
                 {images.length ? (
                     <div className={styles.carouselWrapper}>
@@ -69,14 +107,11 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars }) => {
                     </div>
                     {selectedProduct.price && (
                         <div className={styles.buttons}>
-                            <Button
-                                to={buyLink}
-                                // onClick={handleShowCL}
-                                kind="primary"
-                                size="large"
-                                bold
-                            >
+                            <Button to={buyLink} kind="primary" size="large" bold>
                                 <FormattedMessage id="buy_at_optics_for" /> {selectedProduct.price} руб.
+                            </Button>
+                            <Button onClick={handleShowCL} kind="primary" size="large" bold>
+                                Select lenses and purchase
                             </Button>
                         </div>
                     )}
@@ -84,7 +119,7 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars }) => {
             </div>
             <div className={styles.section}>
                 <HeadTurn
-                    images={['https://i.warbycdn.com/-/f/4-e68b48ec?quality=70&width=1200']}
+                    images={[headTurnImage]}
                     title={<FormattedMessage id="about_the_frames" />}
                     text={
                         tags.length ? (

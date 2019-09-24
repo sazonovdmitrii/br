@@ -10,7 +10,7 @@
 
 .title {
     margin-bottom: 24px;
-    color: #414b56;
+    color: var(--color-font);
     font-weight: var(--headings-font-weight);
     font-size: 24px;
     font-family: var(--headings-font);

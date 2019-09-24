@@ -1,6 +1,5 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import loadable from '@loadable/component';
 import Helmet from 'react-helmet';
 
 import { GET_BASKET } from 'query';
@@ -8,22 +7,31 @@ import { GET_BASKET } from 'query';
 import Loader from 'components/Loader';
 import ErrorMessage from 'components/Error';
 
-const Component = loadable(() => import('./Basket'), {
-    fallback: Loader,
-});
+import Basket from './Basket';
 
 export default () => {
-    const { loading, error, data } = useQuery(GET_BASKET, { ssr: false });
+    const {
+        loading,
+        error,
+        data: { basket, cities, payments_methods, addresses, isLoggedIn } = {},
+    } = useQuery(GET_BASKET, {
+        ssr: false,
+    });
 
     if (loading) return <Loader />;
-    if (error) return <ErrorMessage error={error} />;
 
     return (
         <>
             <Helmet>
-                <title>Моя корзина</title>
+                <title>Cart</title>
             </Helmet>
-            <Component {...data} />
+            <Basket
+                basket={basket}
+                paymentsMethods={payments_methods.data}
+                addresses={addresses.data}
+                isLoggedIn={isLoggedIn}
+                cities={cities.data}
+            />
         </>
     );
 };
