@@ -16,15 +16,15 @@ export default ({ lang, active, onClick }) => {
         });
     }
 
-    const { loading, error, data: { top_menu: topMenu } = {} } = useQuery(GET_HEADER_MENU, {
+    const { loading, error, data: { menu } = {} } = useQuery(GET_HEADER_MENU, {
         variables: { locale: lang },
     });
 
-    if (loading || error || !topMenu) return null;
+    if (loading || error || !menu) return null;
 
     return isDesktop ? (
-        <HeaderMenu active={active} items={topMenu.data} />
+        <HeaderMenu active={active} items={menu.data} />
     ) : (
-        <MobileMenu active={active} items={topMenu.data} onClick={onClick} />
+        <MobileMenu active={active} items={menu.data} onClick={onClick} />
     );
 };
