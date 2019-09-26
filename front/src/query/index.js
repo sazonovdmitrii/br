@@ -22,7 +22,7 @@ export const GET_CONTENT = gql`
 
 export const GET_HEADER_MENU = gql`
     query headerMenu($locale: String) {
-        top_menu(locale: $locale) {
+        menu(name: "top_menu", locale: $locale) {
             data {
                 text
                 url
