@@ -7,7 +7,7 @@ const initialState = {
 
 const AppContext = React.createContext([initialState, () => {}]);
 
-const AppProvider = ({ children, initialStore = {}, value }) => {
+const AppProvider = ({ children, initialStore = {} }) => {
     const [state, setState] = useState({ ...initialState, ...initialStore });
 
     return <AppContext.Provider value={[state, setState]}>{children}</AppContext.Provider>;

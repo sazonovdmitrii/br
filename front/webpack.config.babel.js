@@ -143,7 +143,7 @@ const getConfig = target => {
                                     loader: MiniCssExtractPlugin.loader,
                                     options: {
                                         // only enable hot in development
-                                        hmr: process.env.NODE_ENV === 'development',
+                                        hmr: !isProd,
                                         // if hmr does not work, this is a forceful method.
                                         reloadAll: true,
                                     },

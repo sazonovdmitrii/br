@@ -85,13 +85,13 @@ const App = ({ lang }) => {
         <IntlProvider locale={lang} messages={finalMessages}>
             {isProd && <ScrollToTop />}
             <Meta lang={lang} />
-            <Header />
+            <Header lang={lang} />
             <Switch>
                 {routes({ lang, defaultLang }).map((route, index) => (
                     <Route key={index} {...route} />
                 ))}
             </Switch>
-            <Footer />
+            <Footer lang={lang} />
         </IntlProvider>
     );
 };

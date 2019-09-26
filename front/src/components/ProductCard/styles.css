@@ -36,3 +36,13 @@
     height: 21px;
     transform: translateY(-50%);
 }
+
+.button {
+    height: 34px;
+    border-radius: 100px;
+    background-color: #eff3f5;
+    font-size: 16px;
+    padding: 0 16px;
+    margin: 18px auto 0;
+    font-weight: 600;
+}

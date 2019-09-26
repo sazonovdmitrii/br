@@ -120,7 +120,6 @@ export const GET_PRODUCTS = gql`
                                 node {
                                     id
                                     name
-                                    price
                                     productItemImages {
                                         id
                                         path

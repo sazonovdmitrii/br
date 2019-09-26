@@ -2,9 +2,6 @@ import React from 'react';
 import loadable from '@loadable/component';
 
 import Loader from 'components/Loader';
-import EyeExams from 'routes/EyeExams';
-import Basket from 'routes/Basket';
-import { withErrorBoundary } from 'components/ErrorBoundary';
 
 import NotFound from './NotFound';
 
@@ -16,20 +13,6 @@ export default ({ lang, defaultLang }) => {
     const LANG_PREFIX = defaultLang.value === lang ? '' : `/${lang}`;
 
     return [
-        {
-            path: `${LANG_PREFIX}/account`,
-            component: loadable(() => import(`./User`), loadableOpts),
-        },
-        {
-            path: `${LANG_PREFIX}/cart`,
-            component: props => withErrorBoundary(Basket)(props),
-            exact: true,
-        },
-        {
-            path: `${LANG_PREFIX}/appointments/eye-exams`,
-            component: EyeExams,
-            exact: true,
-        },
         {
             path: `${LANG_PREFIX}/eyeglasses`,
             component: loadable(() => import(`./Landing/Eyeglasses`), loadableOpts),
