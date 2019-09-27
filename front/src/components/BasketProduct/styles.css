@@ -41,7 +41,7 @@
     margin: 0 auto;
 
     @media (--viewport-tablet) {
-        max-width: 256px;
+        max-width: 90%;
     }
 }
 
@@ -103,7 +103,7 @@
     display: inline-block;
     margin: 0;
     color: #a1a4a6;
-    font-family: utopia-std, Times New Roman, serif;
+    font-family: var(--font-family-serif);
     font-style: italic;
     text-transform: capitalize;
 }
