@@ -302,20 +302,27 @@ export const GET_PICKUPS = gql`
     }
 `;
 
-export const GET_MENU = gql`
-    query menu($name: String, $locale: String) {
-        menu(name: $name, locale: $locale) {
+export const GET_FOOTER_MENU = gql`
+    query menu($locale: String) {
+        menu(name: "footer_menu", locale: $locale) {
             data {
                 text
                 url
                 children {
                     text
                     url
-                    children {
-                        text
-                        url
-                    }
                 }
+            }
+        }
+    }
+`;
+
+export const GET_COPYRIGHT_MENU = gql`
+    query menu($locale: String) {
+        menu(name: "copyright_menu", locale: $locale) {
+            data {
+                text
+                url
             }
         }
     }

@@ -4,31 +4,30 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 
-import { GET_MENU } from 'query';
+import { GET_FOOTER_MENU } from 'query';
 
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const FooterMenu = ({ className, lang, name }) => {
+const FooterMenu = ({ className, lang }) => {
     const rootClassName = cx(styles.root, className);
-    const { loading, error, data } = useQuery(GET_MENU, {
+    const { loading, error, data: { menu } = {} } = useQuery(GET_FOOTER_MENU, {
         variables: {
             locale: lang,
-            name: 'footer_menu',
         },
     });
 
-    if (loading || error || !data) return null;
+    if (loading || error || !menu) return null;
 
     return (
         <nav className={rootClassName}>
-            {data.menu.data.map((item, index) => (
-                <div key={index} className={styles.menu}>
-                    <h4 className={styles.title}>{item.text}</h4>
+            {menu.data.map(({ text, children }) => (
+                <div key={text} className={styles.menu}>
+                    <h4 className={styles.title}>{text}</h4>
                     <ul className={styles.list}>
-                        {item.children.map((child, childIndex) => (
-                            <li key={childIndex} className={styles.item}>
+                        {children.map(child => (
+                            <li key={child.text} className={styles.item}>
                                 <Link className={styles.link} to={child.url}>
                                     {child.text}
                                 </Link>
@@ -41,8 +40,13 @@ const FooterMenu = ({ className, lang, name }) => {
     );
 };
 
-FooterMenu.defaultProps = {};
+FooterMenu.defaultProps = {
+    className: null,
+};
 
-FooterMenu.propTypes = {};
+FooterMenu.propTypes = {
+    className: PropTypes.string,
+    lang: PropTypes.string.isRequired,
+};
 
 export default FooterMenu;
