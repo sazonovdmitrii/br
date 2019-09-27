@@ -16,26 +16,6 @@ export default ({ lang, defaultLang }) => {
 
     return [
         [
-            withErrorBoundary(loadable(() => import('./Basket'), loadableOpts)),
-            routerOptions({ path: '/cart' }),
-        ],
-        [
-            withErrorBoundary(loadable(() => import('./Personal'), loadableOpts)),
-            routerOptions({ path: '/account/profile' }),
-        ],
-        [
-            withErrorBoundary(loadable(() => import('./Register'), loadableOpts)),
-            routerOptions({ path: '/account/register' }),
-        ],
-        [
-            withErrorBoundary(loadable(() => import('./Login'), loadableOpts)),
-            routerOptions({ path: '/account/login' }),
-        ],
-        [
-            withErrorBoundary(loadable(() => import('./User'), loadableOpts)),
-            routerOptions({ path: '/account' }),
-        ],
-        [
             withErrorBoundary(loadable(() => import('./Landing/Eyeglasses'), loadableOpts)),
             routerOptions({ path: '/eyeglasses' }),
         ],
