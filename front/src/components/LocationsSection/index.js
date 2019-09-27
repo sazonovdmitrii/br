@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { useLangLink } from 'hooks';
+import { useLangLinks } from 'hooks';
 
 import Container from 'components/Container';
 import LocationCard from 'components/LocationCard';
@@ -10,7 +10,7 @@ import LocationCard from 'components/LocationCard';
 import styles from './styles.css';
 
 const LocationsSection = props => {
-    const reatilsLink = useLangLink('/retail');
+    const [reatilsLink] = useLangLinks(['/retail']);
 
     return (
         <section className={styles.root}>

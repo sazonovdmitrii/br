@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { useLangLink } from 'hooks';
 import { isProd } from 'utils';
 
 import Colors from 'components/Colors';
@@ -59,12 +58,15 @@ const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, 
 };
 
 ProductCard.defaultProps = {
+    id: null,
+    price: null,
     items: [],
     onClick: () => {},
 };
 
 ProductCard.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
+    price: PropTypes.number,
     url: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { useLangLink } from 'hooks';
+import { useLangLinks } from 'hooks';
 
 import HeroHome from 'components/HeroHome';
 import Button from 'components/Button';
@@ -11,8 +11,7 @@ import styles from './styles.css';
 import bgImage from './images/bg.jpg';
 
 export default () => {
-    const manUrl = useLangLink('/muzhskie-opravy/');
-    const womanUrl = useLangLink('/zhenskie-opravy/');
+    const [manUrl, womanUrl] = useLangLinks(['/muzhskie-opravy/', '/zhenskie-opravy/']);
 
     return (
         <>

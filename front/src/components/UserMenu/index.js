@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Search as SearchIcon, MapPin as MapPinIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 
-import { useLangLink, useApp } from 'hooks';
+import { useLangLinks, useApp } from 'hooks';
 import { IS_LOGGED_IN } from 'query';
 
 import Button from 'components/Button';
@@ -13,9 +13,7 @@ import SearchForm from 'components/SearchForm';
 import styles from './styles.css';
 
 const UserMenu = () => {
-    const reailsLink = useLangLink('/retail');
-    const accountLink = useLangLink('/account');
-    const signInLink = useLangLink('/account/login');
+    const [reailsLink, accountLink, signInLink] = useLangLinks(['/retail', '/account', '/account/login']);
     const [showSearch, setShowSearch] = useState(false);
 
     return (

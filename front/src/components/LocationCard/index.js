@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { useLangLink } from 'hooks';
+import { useLangLinks } from 'hooks';
 
 import Link from 'components/Link';
 
 import styles from './styles.css';
 
 const LocationCard = ({ title, image, subtitle, meta, url: urlProps }) => {
-    const url = useLangLink(urlProps);
+    const [url] = useLangLinks([urlProps]);
 
     return (
         <div className={styles.root}>

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useMutation } from '@apollo/react-hooks';
 
 import { SeoHead } from 'utils';
-import { useLangLink, useApp } from 'hooks';
+import { useLangLinks, useApp } from 'hooks';
 import { ADD_TO_BASKET } from 'mutations';
 import { GET_SHORT_BASKET } from 'query';
 
@@ -24,7 +24,7 @@ import ChooseLenses from './ChooseLenses';
 const cx = classnames.bind(styles);
 
 const Product = ({ name, items: { edges: items = [] }, tags, similars }) => {
-    const buyLink = useLangLink('/retail');
+    const [buyLink] = useLangLinks(['/retail']);
     const { createNotification } = useApp();
     const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
     const images = selectedProduct.productItemImages;

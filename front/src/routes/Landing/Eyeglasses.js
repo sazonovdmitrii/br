@@ -2,7 +2,7 @@ import React from 'react';
 import { Link as LinkRoute } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { useLangLink } from 'hooks';
+import { useLangLinks } from 'hooks';
 
 import Link from 'components/Link';
 import Collections from 'components/Collections';
@@ -19,8 +19,7 @@ import lensesImage from './images/eyeglasses-lenses.jpg';
 import videoPosterImage from './images/videposter.jpg';
 
 const Landing = () => {
-    const manUrl = useLangLink('/muzhskie-opravy/');
-    const womanUrl = useLangLink('/zhenskie-opravy/');
+    const [manUrl, womanUrl] = useLangLinks(['/muzhskie-opravy/', '/zhenskie-opravy/']);
 
     return (
         <Container>
