@@ -12,7 +12,6 @@ export const GET_CONTENT = gql`
     query page($slug: String) {
         page(slug: $slug) {
             title
-            name
             meta_keywords
             meta_description
             content

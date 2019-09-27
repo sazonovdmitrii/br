@@ -8,7 +8,7 @@ import Title from 'components/Title';
 
 import styles from './styles.css';
 
-const Content = ({ title, name, meta_keywords, meta_description, content }) => (
+const Content = ({ title, meta_keywords, meta_description, content }) => (
     <div className={styles.root}>
         <Container>
             <SeoHead type="content" name={title} keywords={meta_keywords} description={meta_description} />
@@ -22,6 +22,11 @@ const Content = ({ title, name, meta_keywords, meta_description, content }) => (
 
 Content.defaultProps = {};
 
-Content.propTypes = {};
+Content.propTypes = {
+    title: PropTypes.string.isRequired,
+    meta_keywords: PropTypes.string.isRequired,
+    meta_description: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+};
 
 export default Content;

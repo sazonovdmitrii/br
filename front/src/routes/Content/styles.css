@@ -1,7 +1,40 @@
 .root {
-    padding-bottom: 48px;
+    padding: 0 18px 48px;
 }
 
 .header {
     margin: 24px 0;
+}
+
+.content {
+    & h2 {
+        font-weight: var(--headings-font-weight);
+        font-size: 20px;
+        margin-bottom: 24px;
+    }
+
+    & h3 {
+        font-weight: var(--headings-font-weight);
+        font-style: italic;
+        font-size: var(--font-size-base);
+    }
+
+    & p {
+        font-size: var(--font-size-base);
+        margin-bottom: 24px;
+    }
+
+    & ul,
+    & ol {
+        margin-bottom: 24px;
+        padding-left: 40px;
+    }
+
+    & ul {
+        list-style: disc;
+    }
+
+    & ol {
+        list-style: decimal;
+    }
 }
