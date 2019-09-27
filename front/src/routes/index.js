@@ -2,19 +2,12 @@ import loadable from '@loadable/component';
 
 import { withErrorBoundary } from 'hoc';
 
-import Catalog from 'routes/Catalog';
-import Product from 'routes/Product';
-
 import Loader from 'components/Loader';
 
 import NotFound from './NotFound';
 
-const getComponent = component => {
-    return withErrorBoundary(
-        loadable(component, {
-            fallback: Loader,
-        })
-    );
+const loadableOpts = {
+    fallback: Loader,
 };
 
 export default ({ lang, defaultLang }) => {
@@ -22,14 +15,55 @@ export default ({ lang, defaultLang }) => {
     const routerOptions = ({ path, exact = true }) => ({ path: LANG_PREFIX + path, exact });
 
     return [
-        [getComponent(() => import(`./Landing/Eyeglasses`)), routerOptions({ path: `/eyeglasses` })],
-        [getComponent(() => import(`./Landing/Sunglasses`)), routerOptions({ path: `/sunglasses` })],
-        [getComponent(() => import(`./Content`)), routerOptions({ path: `/info/:slug` })],
-        [getComponent(() => import(`./RetailPage`)), routerOptions({ path: `/retail/:city/:name` })],
-        [getComponent(() => import(`./Retail`)), routerOptions({ path: `/retail` })],
-        [withErrorBoundary(Product), routerOptions({ path: `/:catalog?/:subcatalog?/:product.htm` })],
-        [withErrorBoundary(Catalog), routerOptions({ path: `/:catalog/:subcatalog?/:filter?` })],
-        [getComponent(() => import(`./Home`)), routerOptions({ path: `/` })],
+        [
+            withErrorBoundary(loadable(() => import('./Basket'), loadableOpts)),
+            routerOptions({ path: '/cart' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Personal'), loadableOpts)),
+            routerOptions({ path: '/account/profile' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Register'), loadableOpts)),
+            routerOptions({ path: '/account/register' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Login'), loadableOpts)),
+            routerOptions({ path: '/account/login' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./User'), loadableOpts)),
+            routerOptions({ path: '/account' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Landing/Eyeglasses'), loadableOpts)),
+            routerOptions({ path: '/eyeglasses' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Landing/Sunglasses'), loadableOpts)),
+            routerOptions({ path: '/sunglasses' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Content'), loadableOpts)),
+            routerOptions({ path: '/info/:slug' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./RetailPage'), loadableOpts)),
+            routerOptions({ path: '/retail/:city/:name' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Retail'), loadableOpts)),
+            routerOptions({ path: '/retail' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Product'), loadableOpts)),
+            routerOptions({ path: '/:catalog?/:subcatalog?/:product.htm' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Catalog'), loadableOpts)),
+            routerOptions({ path: '/:catalog/:subcatalog?/:filter?' }),
+        ],
+        [withErrorBoundary(loadable(() => import('./Home'), loadableOpts)), routerOptions({ path: '/' })],
         [NotFound],
     ];
 };
