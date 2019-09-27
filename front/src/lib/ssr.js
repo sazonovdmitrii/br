@@ -6,7 +6,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import Helmet from 'react-helmet';
 import { getDataFromTree } from '@apollo/react-ssr';
-import { ApolloProvider } from '@apollo/react-components';
+import { ApolloProvider } from '@apollo/react-common';
 import { StaticRouter } from 'react-router';
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 import jwt from 'jsonwebtoken';
@@ -21,7 +21,7 @@ const checkToken = token => {
     try {
         return jwt.verify(token, cert);
     } catch (e) {
-        return;
+        return null;
     }
 };
 
@@ -36,7 +36,7 @@ export default async ctx => {
     // We create an extractor from the statsFile
     const webExtractor = new ChunkExtractor({ statsFile: config.webStats });
 
-    let routerContext = {};
+    const routerContext = {};
     const components = (
         <ChunkExtractorManager extractor={webExtractor}>
             <ApolloProvider client={client}>
