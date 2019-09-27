@@ -1,60 +1,35 @@
-import React from 'react';
 import loadable from '@loadable/component';
+
+import { withErrorBoundary } from 'hoc';
+
+import Catalog from 'routes/Catalog';
+import Product from 'routes/Product';
 
 import Loader from 'components/Loader';
 
 import NotFound from './NotFound';
 
-const loadableOpts = {
-    fallback: Loader,
+const getComponent = component => {
+    return withErrorBoundary(
+        loadable(component, {
+            fallback: Loader,
+        })
+    );
 };
 
 export default ({ lang, defaultLang }) => {
     const LANG_PREFIX = defaultLang.value === lang ? '' : `/${lang}`;
+    const routerOptions = ({ path, exact = true }) => ({ path: LANG_PREFIX + path, exact });
 
     return [
-        {
-            path: `${LANG_PREFIX}/eyeglasses`,
-            component: loadable(() => import(`./Landing/Eyeglasses`), loadableOpts),
-            exact: true,
-        },
-        {
-            path: `${LANG_PREFIX}/sunglasses`,
-            component: loadable(() => import(`./Landing/Sunglasses`), loadableOpts),
-            exact: true,
-        },
-        {
-            path: `${LANG_PREFIX}/info/:slug`,
-            component: loadable(() => import(`./Content`), loadableOpts),
-            exact: true,
-        },
-        {
-            path: `${LANG_PREFIX}/retail/:city/:name`,
-            exact: true,
-            component: loadable(() => import(`./RetailPage`), loadableOpts),
-        },
-        {
-            path: `${LANG_PREFIX}/retail`,
-            exact: true,
-            component: loadable(() => import(`./Retail`), loadableOpts),
-        },
-        {
-            path: `${LANG_PREFIX}/:catalog?/:subcatalog?/:product.htm`,
-            component: loadable(() => import(`./Product`), loadableOpts),
-            exact: true,
-        },
-        {
-            path: `${LANG_PREFIX}/:catalog/:subcatalog?/:filter?`,
-            exact: true,
-            component: loadable(() => import(`./Catalog`), loadableOpts),
-        },
-        {
-            path: `${LANG_PREFIX}/`,
-            component: loadable(() => import(`./Home`), loadableOpts),
-            exact: true,
-        },
-        {
-            component: NotFound,
-        },
+        [getComponent(() => import(`./Landing/Eyeglasses`)), routerOptions({ path: `/eyeglasses` })],
+        [getComponent(() => import(`./Landing/Sunglasses`)), routerOptions({ path: `/sunglasses` })],
+        [getComponent(() => import(`./Content`)), routerOptions({ path: `/info/:slug` })],
+        [getComponent(() => import(`./RetailPage`)), routerOptions({ path: `/retail/:city/:name` })],
+        [getComponent(() => import(`./Retail`)), routerOptions({ path: `/retail` })],
+        [withErrorBoundary(Product), routerOptions({ path: `/:catalog?/:subcatalog?/:product.htm` })],
+        [withErrorBoundary(Catalog), routerOptions({ path: `/:catalog/:subcatalog?/:filter?` })],
+        [getComponent(() => import(`./Home`)), routerOptions({ path: `/` })],
+        [NotFound],
     ];
 };

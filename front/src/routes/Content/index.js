@@ -1,8 +1,9 @@
 import React from 'react';
 import loadable from '@loadable/component';
+import { useParams } from 'react-router';
 
+import { withQuery } from 'hoc';
 import { GET_CONTENT } from 'query';
-import { withQuery } from 'utils';
 
 import Loader from 'components/Loader';
 
@@ -10,10 +11,8 @@ const Component = loadable(() => import('./Content'), {
     fallback: Loader,
 });
 
-export default ({
-    match: {
-        params: { slug },
-    },
-}) => {
-    return withQuery({ query: GET_CONTENT, variables: { slug } })(props => <Component {...props} />);
+export default () => {
+    const { slug } = useParams();
+
+    return withQuery({ query: GET_CONTENT, variables: { slug } })(Component);
 };

@@ -87,8 +87,10 @@ const App = ({ lang }) => {
             <Meta lang={lang} />
             <Header lang={lang} />
             <Switch>
-                {routes({ lang, defaultLang }).map((route, index) => (
-                    <Route key={index} {...route} />
+                {routes({ lang, defaultLang }).map(([Component, props], index) => (
+                    <Route key={index} {...props}>
+                        <Component lang={lang} />
+                    </Route>
                 ))}
             </Switch>
             <Footer lang={lang} />

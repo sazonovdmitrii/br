@@ -1,8 +1,9 @@
 import React from 'react';
 import loadable from '@loadable/component';
+import { useParams } from 'react-router';
 
+import { withQuery } from 'hoc';
 import { GET_CATALOG } from 'query';
-import { withQuery } from 'utils';
 
 import Loader from 'components/Loader';
 
@@ -10,8 +11,9 @@ const Component = loadable(() => import('./Catalog'), {
     fallback: Loader,
 });
 
-export default ({ match }) => {
-    const slug = Object.values(match.params)
+export default () => {
+    const params = useParams();
+    const slug = Object.values(params)
         .reduce((array, item = '') => {
             if (item.match(/page-\d{1,}/)) {
                 return array;
@@ -23,6 +25,6 @@ export default ({ match }) => {
         .join('/');
 
     return withQuery({ query: GET_CATALOG, variables: { slug } })(props => (
-        <Component {...props} match={match} slug={slug} />
+        <Component {...props} slug={slug} />
     ));
 };

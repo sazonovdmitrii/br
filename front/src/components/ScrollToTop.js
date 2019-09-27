@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import { useLocation } from 'react-router';
 
-const ScrollToTop = ({ location }) => {
+const ScrollToTop = () => {
+    const location = useLocation();
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [location.key]);
@@ -10,8 +11,4 @@ const ScrollToTop = ({ location }) => {
     return null;
 };
 
-ScrollToTop.propTypes = {
-    location: PropTypes.objectOf(PropTypes.string).isRequired,
-};
-
-export default withRouter(ScrollToTop);
+export default ScrollToTop;

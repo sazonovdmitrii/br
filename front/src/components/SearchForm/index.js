@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import { X as CloseIcon } from 'react-feather';
 import { injectIntl } from 'react-intl';
 
 import styles from './styles.css';
 
-const SearchForm = ({ history, show, onClose, intl }) => {
+const SearchForm = ({ show, onClose, intl }) => {
     const placeholder = intl.formatMessage({ id: 'search' });
     const [search, setSearch] = useState('');
     const overlayNode = useRef(null);
@@ -62,7 +61,6 @@ SearchForm.defaultProps = {
 
 SearchForm.propTypes = {
     show: PropTypes.bool,
-    history: PropTypes.object.isRequired,
 };
 
-export default injectIntl(withRouter(SearchForm));
+export default injectIntl(SearchForm);

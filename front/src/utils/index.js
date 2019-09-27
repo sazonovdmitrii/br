@@ -1,15 +1,10 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { Route, withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { Route } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import { useLang } from 'hooks';
 import SEO from 'globalMeta';
-
-import NotFound from 'routes/NotFound';
-
-import Loader from 'components/Loader';
-import ErrorMessage from 'components/Error';
 
 export const isProd = process.env.NODE_ENV === 'production';
 export const isBrowser = typeof window !== 'undefined';
@@ -23,17 +18,14 @@ export const RouteStatus = props => (
                 staticContext.statusCode = props.statusCode;
             }
 
-            return <>{props.children}</>;
+            return props.children;
         }}
     />
 );
 
-export const SeoHead = withRouter(props => {
-    const {
-        type,
-        location: { pathname: url },
-        image,
-    } = props;
+export const SeoHead = props => {
+    const { type, image } = props;
+    const { pathname: url } = useLocation();
     const { title, description, keywords, ogType = 'website' } = SEO[type](props);
     const { lang } = useLang();
 
@@ -51,29 +43,6 @@ export const SeoHead = withRouter(props => {
             <meta property="og:locale" content={lang} />
         </Helmet>
     );
-});
-
-export const withQuery = ({ query, ...opts }) => Component => {
-    const { data, loading, error } = useQuery(query, opts);
-
-    if (loading) return <Loader />;
-    if (error) {
-        return (
-            <>
-                <NotFound />
-                <ErrorMessage error={error} />
-            </>
-        );
-    }
-    const newData = Object.values(data).reduce((obj, item) => {
-        return { ...obj, ...item };
-    }, {});
-
-    if (newData) {
-        return Component(newData);
-    }
-
-    return null;
 };
 
 export const createMarkup = __html => ({
