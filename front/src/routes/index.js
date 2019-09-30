@@ -16,6 +16,18 @@ export default ({ lang, defaultLang }) => {
 
     return [
         [
+            withErrorBoundary(loadable(() => import('./RemindPassword'), loadableOpts)),
+            routerOptions({ path: '/account/remind-password' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Register'), loadableOpts)),
+            routerOptions({ path: '/account/register' }),
+        ],
+        [
+            withErrorBoundary(loadable(() => import('./Login'), loadableOpts)),
+            routerOptions({ path: '/account/login' }),
+        ],
+        [
             withErrorBoundary(loadable(() => import('./Landing/Eyeglasses'), loadableOpts)),
             routerOptions({ path: '/eyeglasses' }),
         ],

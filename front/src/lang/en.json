@@ -1,4 +1,12 @@
 {
+    "remind_password_title": "How do I reset my password?",
+    "remind_password_subtitle": "Enter your email and we’ll send you a link with instructions to reset your password :-)",
+    "remind_password_button": "Email me reset instructions",
+    "remind_password_login_link": "Go back to sign in",
+    "not_specified": "Not specified",
+    "male": "Male",
+    "female": "Female",
+    "account": "Account",
     "yes": "Yes",
     "no": "No",
     "remove_from_cart": "Remove from cart",

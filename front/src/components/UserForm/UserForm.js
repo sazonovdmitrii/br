@@ -61,9 +61,9 @@ const UserForm = ({ data, type, onSubmit }) => {
             <InputGroup>
                 <Input
                     type="text"
-                    name="lastname"
-                    label={<FormattedMessage id="last_name" />}
-                    value={lastname}
+                    name="firstname"
+                    label={<FormattedMessage id="first_name" />}
+                    value={firstname}
                     onChange={handleChange}
                     required
                 />
@@ -71,9 +71,9 @@ const UserForm = ({ data, type, onSubmit }) => {
             <InputGroup>
                 <Input
                     type="text"
-                    name="firstname"
-                    label={<FormattedMessage id="first_name" />}
-                    value={firstname}
+                    name="lastname"
+                    label={<FormattedMessage id="last_name" />}
+                    value={lastname}
                     onChange={handleChange}
                     required
                 />
@@ -90,9 +90,9 @@ const UserForm = ({ data, type, onSubmit }) => {
             <FormattedMessage id="gender" />:
             <InputGroup>
                 <RadioGroup name="gender" value={gender} onChange={handleChange}>
-                    <RadioButton value="" label="Не указан" />
-                    <RadioButton value="male" label="Мужской" />
-                    <RadioButton value="female" label="Женский" />
+                    <RadioButton value="" label={<FormattedMessage id="not_specified" />} />
+                    <RadioButton value="male" label={<FormattedMessage id="male" />} />
+                    <RadioButton value="female" label={<FormattedMessage id="female" />} />
                 </RadioGroup>
             </InputGroup>
             <InputGroup>

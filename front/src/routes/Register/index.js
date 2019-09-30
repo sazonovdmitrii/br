@@ -1,7 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useHistory } from 'react-router';
 
-import { useApp } from 'hooks';
+import { useApp, useLangLinks } from 'hooks';
 
 import Link from 'components/Link';
 import Title from 'components/Title';
@@ -9,7 +10,9 @@ import UserForm from 'components/UserForm';
 
 import styles from './styles.css';
 
-export default ({ history }) => {
+export default () => {
+    const history = useHistory();
+    const [loginLink] = useLangLinks(['/account/login']);
     const { login } = useApp();
     const handleCompleted = ({ register: { hash } }) => {
         login(hash);
@@ -28,7 +31,7 @@ export default ({ history }) => {
             <Title className={styles.title}>
                 <FormattedMessage id="i_have_an_account" />
             </Title>
-            <Link to="/account/login" className={styles.link}>
+            <Link to={loginLink} className={styles.link}>
                 <FormattedMessage id="sign_in" />
             </Link>
         </div>
