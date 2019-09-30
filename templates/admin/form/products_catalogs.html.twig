@@ -10,7 +10,9 @@
             <select id="catalogs" multiple="multiple" type="multiple" name="catalogs[]" class="select2 form-control">
                 <option></option>
                 {% for catalog in catalogs.all() %}
-                    <option value="{{ catalog.id }}" {% if catalog.id in productCatalogs %} selected {% endif %}>{{ catalog.name }}</option>
+                    <option value="{{ catalog.id }}" {% if catalog.id in productCatalogs %} selected {% endif %}>
+                        {{ catalog.translate(catalog.currentLocale).name }}
+                    </option>
                 {% endfor %}
             </select>
         </div>

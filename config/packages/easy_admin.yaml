@@ -62,10 +62,18 @@ easy_admin:
               fields:
                   - { type: 'tab' , label: 'Основные' }
                   - { property: 'visible', label: 'Видимость'}
-                  - name
+                  - { type: 'tab' , label: 'Мультиязычный контент' }
+                  - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                      type_options: {
+                          default_locale: '%locale%',
+                          fields: {
+                              name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                              description: {field_type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
+                          }
+                      }
+                    }
                   - { type: 'tab' , label: 'Атрибуты' }
                   - { property: 'banner', label: 'Баннер', type_options: { block_name: 'catalog_banner' }}
-                  - { property: 'description', label: 'Описание', type: 'fos_ckeditor' }
                   - { type: 'tab', label: 'Urls' }
                   - { property: 'catalogUrls', type_options: { block_name: 'catalog_urls' }}
                   - { type: 'tab', label: 'Теги' }
@@ -81,9 +89,17 @@ easy_admin:
                     - name
             form:
                 fields:
-                    - { type: 'tab' , label: 'General' }
-                    - name
+                    - { type: 'tab' , label: 'Основные' }
                     - price
+                    - { type: 'tab' , label: 'Мультиязычный контент' }
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                        type_options: {
+                            default_locale: '%locale%',
+                            fields: {
+                                name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                            }
+                        }
+                      }
                     - { property: 'product_id', type_options: { block_name: 'entity_id'} }
                     - { type: 'tab', label: 'Images' }
                     - { property: 'productItemImages', type_options: { block_name: 'item_images' }}
@@ -100,8 +116,16 @@ easy_admin:
                 fields:
                     - { type: 'tab' , label: 'Основные' }
                     - visible
-                    - name
-                    - { property: 'description', label: 'Описание', type: 'fos_ckeditor'}
+                    - { type: 'tab' , label: 'Мультиязычный контент' }
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                        type_options: {
+                            default_locale: '%locale%',
+                            fields: {
+                                name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                                description: {field_type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
+                            }
+                        }
+                      }
                     - { type: 'tab', label: 'Категории' }
                     - { property: 'catalog', type_options: { block_name: 'products_catalogs' }}
                     - { type: 'tab', label: 'Товары'}
@@ -136,11 +160,19 @@ easy_admin:
             form:
               fields:
                 - { type: 'tab' , label: 'Основные' }
-                - { property: 'name', label: 'Имя' }
                 - { property: 'is_on_product_page', label: 'Видим на странице продукта (несистемный)'}
                 - { property: 'type', label: 'Тип', type: 'choice', type_options: {multiple: false, choices: {bool: 'bool', string: 'string', int: 'int', float: 'float', enum: 'enum'}} }
                 - { property: 'input_type', label: 'Тип ввода', type: 'choice', type_options: {multiple: false, choices: {multiple: 'multiple', once: 'once'}} }
                 - { property: 'visible', label: 'Видимость', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
+                - { type: 'tab' , label: 'Мультиязычный контент' }
+                - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                    type_options: {
+                        default_locale: '%locale%',
+                        fields: {
+                            name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                        }
+                    }
+                  }
                 - { type: 'tab' , label: 'Теги' }
                 - { property: 'productTagItems', label: 'Добавить тег', type_options: { block_name: 'products_tags_items' }}
         ProductTagItem:
@@ -251,7 +283,14 @@ easy_admin:
             class: App\Entity\City
             form:
                 fields:
-                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType }
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                        type_options: {
+                            default_locale: '%locale%',
+                            fields: {
+                                title: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                            }
+                        }
+                      }
                     - { property: 'longitude'}
                     - { property: 'short_title'}
                     - { property: 'region'}
@@ -264,14 +303,23 @@ easy_admin:
                 fields: ['id', 'title', 'name', 'visible']
             form:
                 fields:
-                    - { type: 'tab' , label: 'General' }
-                    - title
-                    - name
-                    - visible
-                    - { property: 'content', type: 'fos_ckeditor' }
+                    - { type: 'tab' , label: 'Основные' }
+                    - {property: visible, label: 'Видимость'}
+                    - { type: 'tab' , label: 'Мультиязычный контент' }
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                        type_options: {
+                            default_locale: '%locale%',
+                            fields: {
+                                name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                                title: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                                content: {field_type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
+                            }
+                        }
+                      }
+                    - { type: 'tab' , label: 'Мета' }
                     - meta_keywords
                     - meta_description
-                    - { type: 'tab', label: 'Page Urls' }
+                    - { type: 'tab', label: 'Адреса' }
                     - { property: 'pageUrls', type_options: { block_name: 'page_urls' }}
         Block:
             class: App\Entity\Block
@@ -282,11 +330,18 @@ easy_admin:
             form:
                 fields:
                     - { type: 'tab' , label: 'Основные' }
-                    - { property: 'title', label: 'Тайтл' }
-                    - { property: 'name', label: 'Наименование' }
-                    - { property: 'visible', label: 'Видимость' }
-                    - { property: 'content', type: 'fos_ckeditor' }
-
+                    - {property: visible, label: 'Видимость'}
+                    - {property: name, label: 'Наименование'}
+                    - { type: 'tab' , label: 'Мультиязычный контент' }
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                        type_options: {
+                            default_locale: '%locale%',
+                            fields: {
+                                title: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                                content: {field_type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
+                            }
+                        }
+                      }
         Direction:
             class: App\Entity\Direction
         District:

@@ -2,11 +2,9 @@
 namespace App\GraphQL\Resolver;
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
-use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
-use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use App\Service\UrlParseService;
 
-class CatalogsResolver implements ResolverInterface, AliasedInterface {
+class CatalogsResolver extends LocaleAlias {
 
     private $em;
 
@@ -39,6 +37,7 @@ class CatalogsResolver implements ResolverInterface, AliasedInterface {
 
         if($catalogUrl) {
             $catalog = $catalogUrl->getEntity();
+            $catalog->setCurrentLocale($this->getLocale());
             $catalog->setParsed($parsed);
             return $catalog;
         }

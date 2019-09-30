@@ -8,13 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\ORM\EntityManagerInterface;
-
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductItemRepository")
  */
 class ProductItem
 {
+    use ORMBehaviors\Translatable\Translatable;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -420,5 +421,19 @@ class ProductItem
         }
 
         return $this;
+    }
+
+    public function __call($method, $arguments)
+    {
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function __get($name)
+    {
+        $method = 'get'. ucfirst($name);
+        $arguments = [];
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
 }

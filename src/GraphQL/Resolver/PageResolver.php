@@ -3,10 +3,8 @@ namespace App\GraphQL\Resolver;
 
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
-use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
-use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 
-class PageResolver implements ResolverInterface, AliasedInterface {
+class PageResolver extends LocaleAlias {
 
     private $em;
 
@@ -31,7 +29,9 @@ class PageResolver implements ResolverInterface, AliasedInterface {
             ->findByUrl($args['slug'] . '/');
 
         if($pageUrl) {
-            return $pageUrl->getEntity();
+            $page = $pageUrl->getEntity();
+            $page->setCurrentLocale($this->getLocale());
+            return $page;
         }
 
         return [];

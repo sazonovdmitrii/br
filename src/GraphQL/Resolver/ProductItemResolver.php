@@ -3,10 +3,8 @@ namespace App\GraphQL\Resolver;
 
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
-use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
-use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 
-class ProductItemResolver implements ResolverInterface, AliasedInterface {
+class ProductItemResolver extends LocaleAlias {
 
     private $em;
 
@@ -17,8 +15,10 @@ class ProductItemResolver implements ResolverInterface, AliasedInterface {
 
     public function resolve(Argument $args)
     {
-        $apartment = $this->em->getRepository('App:ProductItem')->find($args['id']);
-        return $apartment;
+        $productItem = $this->em->getRepository('App:ProductItem')
+            ->find($args['id']);
+        $productItem->setCurrentLocale($this->getLocale());
+        return $productItem;
     }
 
     public static function getAliases()

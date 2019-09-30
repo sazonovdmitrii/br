@@ -5,12 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CatalogRepository")
  */
 class Catalog
 {
+    use ORMBehaviors\Translatable\Translatable;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -42,11 +44,6 @@ class Catalog
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $brand;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CatalogUrl", mappedBy="entity")
@@ -84,11 +81,6 @@ class Catalog
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $banner;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
 
     public function __construct()
     {
@@ -167,22 +159,11 @@ class Catalog
         return $this;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
     public function __toString()
     {
-        return $this->name;
+        return (string)$this->id;
     }
+
 
     /**
      * @return Collection|CatalogUrl[]
@@ -391,5 +372,19 @@ class Catalog
         $this->description = $description;
 
         return $this;
+    }
+
+    public function __call($method, $arguments)
+    {
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function __get($name)
+    {
+        $method = 'get'. ucfirst($name);
+        $arguments = [];
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
 }

@@ -6,7 +6,7 @@ use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 
-class ProductResolver implements ResolverInterface, AliasedInterface {
+class ProductResolver extends LocaleAlias {
 
     private $em;
 
@@ -31,7 +31,9 @@ class ProductResolver implements ResolverInterface, AliasedInterface {
             ->findByUrl($args['slug'] . '/');
 
         if($productUrl) {
-            return $productUrl->getEntity();
+            $product = $productUrl->getEntity();
+            $product->setCurrentLocale($this->getLocale());
+            return $product;
         }
 
         return [];

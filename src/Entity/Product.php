@@ -5,12 +5,15 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
 class Product
 {
+    use ORMBehaviors\Translatable\Translatable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -37,11 +40,6 @@ class Product
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
     private $price;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProductUrl", mappedBy="entity")
@@ -76,11 +74,6 @@ class Product
      * @ORM\OneToMany(targetEntity="App\Entity\ProductItem", mappedBy="product")
      */
     private $productItems;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
 
     public function __construct()
     {
@@ -148,20 +141,9 @@ class Product
         return $this;
     }
 
-    public function getName(): ?string
+    public function __toString()
     {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function __toString(){
-        return $this->name;
+        return (string)$this->id;
     }
 
     /**
@@ -354,15 +336,17 @@ class Product
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function __call($method, $arguments)
     {
-        return $this->description;
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
 
-    public function setDescription(?string $description): self
+    public function __get($name)
     {
-        $this->description = $description;
-
-        return $this;
+        $method = 'get'. ucfirst($name);
+        $arguments = [];
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
 }

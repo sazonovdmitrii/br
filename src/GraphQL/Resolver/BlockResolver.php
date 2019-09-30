@@ -3,10 +3,8 @@ namespace App\GraphQL\Resolver;
 
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
-use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
-use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 
-class BlockResolver implements ResolverInterface, AliasedInterface {
+class BlockResolver extends LocaleAlias {
 
     private $em;
 
@@ -26,9 +24,14 @@ class BlockResolver implements ResolverInterface, AliasedInterface {
      */
     public function resolve(Argument $args)
     {
-        return $this->em
+        $block = $this->em
             ->getRepository('App:Block')
             ->findByName($args['id']);
+        if(!$block) {
+            return [];
+        }
+        $block->setCurrentLocale($this->getLocale());
+        return $block;
     }
 
     /**

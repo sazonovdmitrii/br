@@ -5,23 +5,21 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
  */
 class Page
 {
+    use ORMBehaviors\Translatable\Translatable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -32,11 +30,6 @@ class Page
      * @ORM\Column(type="text", nullable=true)
      */
     private $meta_description;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $content;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -54,11 +47,6 @@ class Page
     private $visible;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\PageUrl", mappedBy="entity")
      */
     private $pageUrls;
@@ -71,18 +59,6 @@ class Page
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     public function getMetaKeywords(): ?string
@@ -105,18 +81,6 @@ class Page
     public function setMetaDescription(?string $meta_description): self
     {
         $this->meta_description = $meta_description;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(?string $content): self
-    {
-        $this->content = $content;
 
         return $this;
     }
@@ -157,18 +121,6 @@ class Page
         return $this;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
     /**
      * @return Collection|PageUrl[]
      */
@@ -198,5 +150,19 @@ class Page
         }
 
         return $this;
+    }
+
+    public function __call($method, $arguments)
+    {
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function __get($name)
+    {
+        $method = 'get'. ucfirst($name);
+        $arguments = [];
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
 }

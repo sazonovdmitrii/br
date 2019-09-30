@@ -19,3 +19,11 @@ label[for=items_productItemTagItems]
 .edit-productitemtag .thumbnail .btn.pull-right {
     line-height: 0.43;
 }
+.field-a2lix_translations .col-sm-2:not(.control-label) {
+    display: none;
+}
+@media (min-width: 768px) {
+    .a2lix_translationsFields.tab-content .field-ckeditor .col-sm-10{
+        width: 100% !important;
+    }
+}
