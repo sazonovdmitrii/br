@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import { FormattedMessage } from 'react-intl';
 
 import Input from 'components/Input';
 import InputGroup from 'components/InputGroup';
@@ -15,7 +15,7 @@ const REMIND_PASSWORD_MUTATION = gql`
     }
 `;
 
-const RemindPassword = props => {
+const RemindPassword = () => {
     const [email, setEmail] = useState('');
     const [remindPassword] = useMutation(REMIND_PASSWORD_MUTATION, {
         variables: {
@@ -44,7 +44,7 @@ const RemindPassword = props => {
             </InputGroup>
             <InputGroup>
                 <Button type="submit" kind="primary" size="large" fullWidth bold>
-                    Email me reset instructions
+                    <FormattedMessage id="remind_password_button" />
                 </Button>
             </InputGroup>
         </form>
