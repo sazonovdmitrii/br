@@ -136,6 +136,9 @@ Query:
             id:
               description: "Address ID"
               type: "Int"
+      stores:
+        type: "Stores"
+        resolve: "@=resolver('Stores', [args])"
 DateTime:
     type: custom-scalar
     config:

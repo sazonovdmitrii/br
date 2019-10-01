@@ -1,0 +1,33 @@
+Stores:
+  type: object
+  config:
+    description: "Stores"
+    fields:
+      data:
+       type: "[Store]"
+Store:
+  type: object
+  config:
+    description: "Store"
+    fields:
+      id:
+        type: "Int"
+        description: "Store ID"
+      name:
+        type: "String"
+        description: "Store Name"
+      full_name:
+        type: "String"
+        description: "Full Store Name"
+      city:
+        type: "String"
+        description: "Store City"
+      visible:
+        type: "String"
+        description: "Visibility"
+      longitude:
+        type: "String"
+        description: "Longitude"
+      latitude:
+        type: "String"
+        description: "Latitude"

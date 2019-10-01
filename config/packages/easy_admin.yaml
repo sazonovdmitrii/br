@@ -354,6 +354,32 @@ easy_admin:
             class: App\Entity\Courier
         UserAddress:
             class: App\Entity\UserAddress
+        Store:
+            class: App\Entity\Store
+            label: 'Магазины'
+            list:
+                title: 'Магазины'
+                fields:
+                    - id
+                    - {property: name, label: 'Наименование'}
+                    - {property: visible, label: 'Видимость'}
+            form:
+                fields:
+                    - { type: 'tab' , label: 'Основные' }
+                    - {property: visible, label: 'Видимость'}
+                    - {property: latitude, label: 'Широта'}
+                    - {property: longitude, label: 'Долгота'}
+                    - { type: 'tab' , label: 'Мультиязычный контент' }
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                        type_options: {
+                            default_locale: '%locale%',
+                            fields: {
+                                name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType', label: 'Наименование' }
+                                full_name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType', label: 'Полное наименование' }
+                                city: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType', label: 'Город' }
+                            }
+                        }
+                      }
     design:
         brand_color: 'black'
         form_theme:
@@ -383,7 +409,7 @@ easy_admin:
           - label: 'Меню'
             children: ['Menu', 'MenuItem']
           - label: 'Контент'
-            children: ['Page', 'Block']
+            children: ['Page', 'Block', 'Store']
           - Banner
           - Sale
           - Configuration
