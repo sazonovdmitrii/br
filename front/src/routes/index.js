@@ -18,26 +18,30 @@ export default ({ lang, defaultLang }) => {
     const routerOptions = ({ path, exact = true }) => ({ path: LANG_PREFIX + path, exact });
 
     return [
-        isLoggedIn
-            ? ([
-                  withErrorBoundary(loadable(() => import('./Personal'), loadableOpts)),
-                  routerOptions({ path: '/account/profile' }),
-              ],
-              [
-                  withErrorBoundary(loadable(() => import('./User'), loadableOpts)),
-                  routerOptions({ path: '/account' }),
-              ])
-            : ([
-                  withErrorBoundary(loadable(() => import('./RemindPassword'), loadableOpts)),
-                  routerOptions({ path: '/account/remind-password' }),
-              ],
-              [
-                  withErrorBoundary(loadable(() => import('./Register'), loadableOpts)),
-                  routerOptions({ path: '/account/register' }),
-              ],
-              [
-                  withErrorBoundary(loadable(() => import('./Login'), loadableOpts)),
-                  routerOptions({ path: '/account/login' }),
+        ...(isLoggedIn
+            ? [
+                  [
+                      withErrorBoundary(loadable(() => import('./User'), loadableOpts)),
+                      routerOptions({ path: '/account' }),
+                  ],
+                  [
+                      withErrorBoundary(loadable(() => import('./Personal'), loadableOpts)),
+                      routerOptions({ path: '/account/profile' }),
+                  ],
+              ]
+            : [
+                  [
+                      withErrorBoundary(loadable(() => import('./RemindPassword'), loadableOpts)),
+                      routerOptions({ path: '/account/remind-password' }),
+                  ],
+                  [
+                      withErrorBoundary(loadable(() => import('./Register'), loadableOpts)),
+                      routerOptions({ path: '/account/register' }),
+                  ],
+                  [
+                      withErrorBoundary(loadable(() => import('./Login'), loadableOpts)),
+                      routerOptions({ path: '/account/login' }),
+                  ],
               ]),
         [
             withErrorBoundary(loadable(() => import('./Landing/Eyeglasses'), loadableOpts)),
