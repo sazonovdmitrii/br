@@ -1,96 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Switch, Route, withRouter } from 'react-router';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useQuery } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom';
 
 import { IS_LOGGED_IN } from 'query';
 
-import AddressBook from 'routes/AddressBook';
 import NotFound from 'routes/NotFound';
-import Personal from 'routes/Personal';
-import Register from 'routes/Register';
-import RemindPassword from 'routes/RemindPassword';
-import Security from 'routes/Security';
-import LogIn from 'routes/LogIn';
 
-const routes = [
-    { path: '/account/register', component: Register },
-    { path: '/account/login', component: LogIn },
-    { path: '/account/remind-password', component: RemindPassword },
-    { component: NotFound },
-];
+import Title from 'components/Title';
+import Button from 'components/Button';
 
-const loggedInRoutes = [
-    // { path: '/addresses', component: AddressBook },
-    // { path: '/orders', component: Orders },
-    // { path: '/profile', component: Personal },
-    { path: '/account/security', component: Security },
-    { path: '/account/prescription', component: null },
-];
+import CardContent from './CardContent';
+import styles from './styles.css';
 
-const getTitle = (params = '') => {
-    switch (params) {
-        case 'profile':
-            return 'Персональные данные';
-        case 'addresses':
-            return 'Адреса';
-        case 'security':
-            return 'How do I reset my password?';
-        case 'orders':
-            return 'Мои заказы';
-        case 'prescription':
-            return 'Рецепты';
-        default:
-            return 'Личный кабинет';
-    }
-};
+import FavoritesIcon from './icons/favorites.svg';
+import ProfileIcon from './icons/profile.svg';
+import PrescriptionsIcon from './icons/prescriptions.svg';
+import AddressesIcon from './icons/addresses.svg';
 
-const User = ({
-    match: {
-        params: { slug },
-    },
-}) => {
-    const {
+const User = () => {
+    let {
         data: { isLoggedIn },
     } = useQuery(IS_LOGGED_IN);
-    const titleBySlug = getTitle(slug);
-    const [title, setTitle] = useState(titleBySlug);
 
-    useEffect(() => {
-        setTitle(titleBySlug);
-    }, [slug, titleBySlug]);
+    const handleLogoOut = () => {
+        //
+    };
+    isLoggedIn = true;
 
-    if (!isLoggedIn) {
-        return (
-            <Switch>
-                {routes.map(({ component, path }, index) => (
-                    <Route key={index} path={path} component={component} exact />
-                ))}
-            </Switch>
-        );
-    }
+    if (!isLoggedIn) return <NotFound />;
 
     return (
-        <>
-            <Helmet title={title} />
-            <div className={styles.header}>
-                <Title>{title}</Title>
+        <div className={styles.root}>
+            <Helmet title="Account" />
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <Title className={styles.title}>Account</Title>
+                </div>
+                <section className={styles.cards}>
+                    <Link to="/account/favorites" className={styles.card}>
+                        <CardContent title="Favorites" icon={<FavoritesIcon />} text="Everything you <3" />
+                    </Link>
+                    <Link to="/account/prescriptions" className={styles.card}>
+                        <CardContent
+                            title="Prescriptions"
+                            icon={<PrescriptionsIcon />}
+                            text="Manage prescriptions"
+                        />
+                    </Link>
+                    <Link to="/account/addresses" className={styles.card}>
+                        <CardContent title="Addresses" icon={<AddressesIcon />} text="Manage addresses" />
+                    </Link>
+                    <Link to="/account/profile" className={styles.card}>
+                        <CardContent title="Profile" icon={<ProfileIcon />} text="Manage account details" />
+                    </Link>
+                </section>
+                <p className={styles.footer}>
+                    <Button onClick={handleLogoOut} kind="simple" bold>
+                        Log out
+                    </Button>
+                </p>
             </div>
-            <Switch>
-                {loggedInRoutes.map(({ component, path }, index) => (
-                    <Route key={index} path={path} component={component} exact />
-                ))}
-            </Switch>
-        </>
+        </div>
     );
-};
-
-User.propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired,
-    match: PropTypes.shape({
-        isExact: PropTypes.bool,
-    }).isRequired,
 };
 
 export default User;

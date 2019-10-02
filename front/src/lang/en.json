@@ -1,4 +1,10 @@
 {
+    "edit_profile_title": "Edit your profile",
+    "sign_out": "Sign out",
+    "orders": "Orders",
+    "favorites": "Favorites",
+    "profile": "Profile",
+    "home": "Home",
     "remind_password_title": "How do I reset my password?",
     "remind_password_subtitle": "Enter your email and we’ll send you a link with instructions to reset your password :-)",
     "remind_password_button": "Email me reset instructions",

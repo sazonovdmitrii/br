@@ -1,5 +1,7 @@
 import loadable from '@loadable/component';
+import { useQuery } from '@apollo/react-hooks';
 
+import { IS_LOGGED_IN } from 'query';
 import { withErrorBoundary } from 'hoc';
 
 import Loader from 'components/Loader';
@@ -11,22 +13,32 @@ const loadableOpts = {
 };
 
 export default ({ lang, defaultLang }) => {
+    const { data: { isLoggedIn } = {} } = useQuery(IS_LOGGED_IN);
     const LANG_PREFIX = defaultLang.value === lang ? '' : `/${lang}`;
     const routerOptions = ({ path, exact = true }) => ({ path: LANG_PREFIX + path, exact });
 
     return [
-        [
-            withErrorBoundary(loadable(() => import('./RemindPassword'), loadableOpts)),
-            routerOptions({ path: '/account/remind-password' }),
-        ],
-        [
-            withErrorBoundary(loadable(() => import('./Register'), loadableOpts)),
-            routerOptions({ path: '/account/register' }),
-        ],
-        [
-            withErrorBoundary(loadable(() => import('./Login'), loadableOpts)),
-            routerOptions({ path: '/account/login' }),
-        ],
+        isLoggedIn
+            ? ([
+                  withErrorBoundary(loadable(() => import('./Personal'), loadableOpts)),
+                  routerOptions({ path: '/account/profile' }),
+              ],
+              [
+                  withErrorBoundary(loadable(() => import('./User'), loadableOpts)),
+                  routerOptions({ path: '/account' }),
+              ])
+            : ([
+                  withErrorBoundary(loadable(() => import('./RemindPassword'), loadableOpts)),
+                  routerOptions({ path: '/account/remind-password' }),
+              ],
+              [
+                  withErrorBoundary(loadable(() => import('./Register'), loadableOpts)),
+                  routerOptions({ path: '/account/register' }),
+              ],
+              [
+                  withErrorBoundary(loadable(() => import('./Login'), loadableOpts)),
+                  routerOptions({ path: '/account/login' }),
+              ]),
         [
             withErrorBoundary(loadable(() => import('./Landing/Eyeglasses'), loadableOpts)),
             routerOptions({ path: '/eyeglasses' }),
@@ -57,5 +69,5 @@ export default ({ lang, defaultLang }) => {
         ],
         [withErrorBoundary(loadable(() => import('./Home'), loadableOpts)), routerOptions({ path: '/' })],
         [NotFound],
-    ];
+    ].filter(Boolean);
 };
