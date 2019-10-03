@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import { IS_LOGGED_IN } from 'query';
 
@@ -35,29 +36,43 @@ const User = () => {
             <Helmet title="Account" />
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <Title className={styles.title}>Account</Title>
+                    <Title className={styles.title}>
+                        <FormattedMessage id="account" />
+                    </Title>
                 </div>
                 <section className={styles.cards}>
                     <Link to="/account/favorites" className={styles.card}>
-                        <CardContent title="Favorites" icon={<FavoritesIcon />} text="Everything you <3" />
+                        <CardContent
+                            title={<FormattedMessage id="favorites" />}
+                            icon={<FavoritesIcon />}
+                            text={<FormattedMessage id="favorites_text" />}
+                        />
                     </Link>
                     <Link to="/account/prescriptions" className={styles.card}>
                         <CardContent
-                            title="Prescriptions"
+                            title={<FormattedMessage id="prescriptions" />}
                             icon={<PrescriptionsIcon />}
                             text="Manage prescriptions"
                         />
                     </Link>
                     <Link to="/account/addresses" className={styles.card}>
-                        <CardContent title="Addresses" icon={<AddressesIcon />} text="Manage addresses" />
+                        <CardContent
+                            title={<FormattedMessage id="addresses" />}
+                            icon={<AddressesIcon />}
+                            text={<FormattedMessage id="addresses_text" />}
+                        />
                     </Link>
                     <Link to="/account/profile" className={styles.card}>
-                        <CardContent title="Profile" icon={<ProfileIcon />} text="Manage account details" />
+                        <CardContent
+                            title={<FormattedMessage id="profile" />}
+                            icon={<ProfileIcon />}
+                            text={<FormattedMessage id="profile_text" />}
+                        />
                     </Link>
                 </section>
                 <p className={styles.footer}>
                     <Button onClick={handleLogoOut} kind="simple" bold>
-                        Log out
+                        <FormattedMessage id="log_out" />
                     </Button>
                 </p>
             </div>

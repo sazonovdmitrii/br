@@ -28,6 +28,10 @@ export default ({ lang, defaultLang }) => {
                       withErrorBoundary(loadable(() => import('./Personal'), loadableOpts)),
                       routerOptions({ path: '/account/profile' }),
                   ],
+                  [
+                      withErrorBoundary(loadable(() => import('./Favorites'), loadableOpts)),
+                      routerOptions({ path: '/account/favorites' }),
+                  ],
               ]
             : [
                   [
