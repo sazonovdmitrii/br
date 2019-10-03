@@ -36,7 +36,7 @@ const RemindPassword = () => {
                 <Input
                     name="email"
                     type="email"
-                    label="Email address"
+                    label={<FormattedMessage id="email" />}
                     value={email}
                     onChange={({ target: { value } }) => setEmail(value)}
                     required
