@@ -9,14 +9,10 @@ import Loader from 'components/Loader';
 import AddressList from './AddressList';
 
 export default ({ onChange, value }) => {
-    const {
-        loading,
-        error,
-        data: { addresses },
-    } = useQuery(GET_ADDRESSES, { ssr: false });
+    const { loading, error, data: { addresses } = {} } = useQuery(GET_ADDRESSES, { ssr: false });
 
-    if (error && !addresses) return <ErrorMessage error={error} />;
+    if (error) return <ErrorMessage error={error} />;
     if (loading) return <Loader />;
 
-    return <AddressList items={addresses.data} onChange={onChange} value={value} />;
+    return <AddressList items={addresses ? addresses.data : null} onChange={onChange} value={value} />;
 };

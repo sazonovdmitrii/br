@@ -32,6 +32,10 @@ export default ({ lang, defaultLang }) => {
                       withErrorBoundary(loadable(() => import('./Favorites'), loadableOpts)),
                       routerOptions({ path: '/account/favorites' }),
                   ],
+                  [
+                      withErrorBoundary(loadable(() => import('./Addresses'), loadableOpts)),
+                      routerOptions({ path: '/account/addresses' }),
+                  ],
               ]
             : [
                   [

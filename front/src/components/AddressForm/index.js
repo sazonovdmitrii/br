@@ -21,10 +21,8 @@ const GET_REGIONS = gql`
     }
 `;
 
-export default props => {
-    const { id, onSubmit } = props;
-
-    const [save, { data, error: errorMutation }] = useMutation(
+const Root = ({ id, onSubmit, actions }) => {
+    const [save, { error: errorMutation }] = useMutation(
         id ? UPDATE_ADDRESS_MUTATION : CREATE_ADDRESS_MUTATION,
         {
             onCompleted({ createAddress, updateAddress }) {
@@ -56,24 +54,24 @@ export default props => {
             },
         }
     );
-    const {
-        loading,
-        error,
-        data: { address: { __typename, ...newAddress } = {}, regions },
-    } = useQuery(id ? GET_ADDRESS : GET_REGIONS, {
-        variables: id
-            ? {
-                  id,
-              }
-            : null,
-        ssr: false,
-    });
+    const { loading, data: { address: { __typename, ...newAddress } = {}, regions } = {} } = useQuery(
+        id ? GET_ADDRESS : GET_REGIONS,
+        {
+            variables: id
+                ? {
+                      id,
+                  }
+                : null,
+            ssr: false,
+        }
+    );
 
     if (loading) return <Loader />;
 
     return (
         <AddressForm
-            {...props}
+            id={id}
+            actions={actions}
             regions={regions.data}
             values={id ? newAddress : null}
             error={errorMutation}
@@ -81,3 +79,16 @@ export default props => {
         />
     );
 };
+
+Root.defaultProps = {
+    id: null,
+    actions: null,
+};
+
+Root.propTypes = {
+    id: PropTypes.number,
+    actions: PropTypes.node,
+    onSubmit: PropTypes.func.isRequired,
+};
+
+export default Root;

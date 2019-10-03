@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useMutation } from '@apollo/react-hooks';
+import { FormattedMessage } from 'react-intl';
 import { Edit as EditIcon, X as RemoveIcon } from 'react-feather';
 
-import { GET_ADDRESSES } from 'query';
 import { REMOVE_ADDRESS_MUTATION } from 'mutations';
+import { GET_ADDRESSES } from 'query';
 
 import ListItem from 'components/ListItem';
 import Button from 'components/Button';
@@ -20,7 +21,7 @@ const TEXT = {
     zip: 'индекс:',
 };
 
-const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
+const Addresses = ({ items = [], onSubmit }) => {
     const formEl = useRef(null);
     const [showForm, setShowForm] = useState(null);
     const [handleRemoveAddress] = useMutation(REMOVE_ADDRESS_MUTATION, {
@@ -56,28 +57,36 @@ const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
 
     if (showForm) {
         return (
-            <div ref={formEl}>
-                <AddressForm
-                    id={showForm.id}
-                    actions={
-                        <Button
-                            kind="secondary"
-                            bold
-                            onClick={() => {
-                                setShowForm(null);
-                            }}
-                        >
-                            Назад
-                        </Button>
-                    }
-                    onSubmit={handleSubmitAddress}
-                />
+            <div className={styles.root} ref={formEl}>
+                <div className={styles.form}>
+                    <h1 className={styles.formTitle}>Edit address</h1>
+                    <AddressForm
+                        id={showForm.id}
+                        actions={
+                            <Button
+                                kind="secondary"
+                                bold
+                                onClick={() => {
+                                    setShowForm(null);
+                                }}
+                            >
+                                <FormattedMessage id="back" />
+                            </Button>
+                        }
+                        onSubmit={handleSubmitAddress}
+                    />
+                </div>
             </div>
         );
     }
 
     return (
-        <>
+        <div className={styles.root}>
+            <div className={styles.header}>
+                <div className={styles.title}>
+                    <FormattedMessage id="addresses" />
+                </div>
+            </div>
             {items && items.length ? (
                 items.map(item => (
                     <ListItem
@@ -124,9 +133,6 @@ const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
                                 </Button>
                             </>
                         }
-                        active={value === item.id}
-                        onClick={() => onChange(item)}
-                        pointer={!!value}
                     />
                 ))
             ) : (
@@ -142,8 +148,8 @@ const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
                     Добавить адрес
                 </Button>
             </div>
-        </>
+        </div>
     );
 };
 
-export default AddressList;
+export default Addresses;

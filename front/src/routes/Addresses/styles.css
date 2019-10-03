@@ -1,0 +1,52 @@
+.root {
+    padding: 60px 18px;
+
+    @media (--viewport-ipad) {
+        padding-right: 36px;
+        padding-left: 36px;
+    }
+
+    @media (--viewport-desktop) {
+        padding-right: 48px;
+        padding-left: 48px;
+    }
+
+    @media (--viewport-wide) {
+        padding-right: 60px;
+        padding-left: 60px;
+    }
+}
+
+.header {
+    margin-bottom: 48px;
+    text-align: center;
+
+    @media (--viewport-wide) {
+        margin-bottom: 72px;
+    }
+}
+
+.title {
+    font-weight: var(--headings-font-weight);
+    font-size: 30px;
+    font-family: var(--headings-font);
+
+    @media (--viewport-ipad) {
+        font-size: 40px;
+    }
+
+    @media (--viewport-wide) {
+        font-size: 60px;
+    }
+}
+
+.form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.formTitle {
+    margin-bottom: 48px;
+    font-size: 24px;
+    font-family: var(--headings-font);
+}
