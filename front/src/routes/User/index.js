@@ -1,13 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { IS_LOGGED_IN } from 'query';
 import { useLangLinks } from 'hooks';
-
-import NotFound from 'routes/NotFound';
 
 import Title from 'components/Title';
 import Button from 'components/Button';
@@ -21,9 +17,6 @@ import PrescriptionsIcon from './icons/prescriptions.svg';
 import AddressesIcon from './icons/addresses.svg';
 
 const User = () => {
-    const {
-        data: { isLoggedIn },
-    } = useQuery(IS_LOGGED_IN);
     const [favoritesLink, prescriptionsLink, addressesLink, profileLink] = useLangLinks([
         '/account/favorites',
         '/account/prescriptions',
@@ -34,8 +27,6 @@ const User = () => {
     const handleLogoOut = () => {
         //
     };
-
-    if (!isLoggedIn) return <NotFound />;
 
     return (
         <div className={styles.root}>
