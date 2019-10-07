@@ -73,7 +73,7 @@ class Users implements UserInterface
     {
         $this->orders = new ArrayCollection();
         $this->addresses = new ArrayCollection();
-        $this->created = new ArrayCollection();
+        $this->created = new \DateTime();
     }
 
     public function getId(): ?int

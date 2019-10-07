@@ -41,6 +41,7 @@ class UserService
 
     /**
      * @param RegisterInput $input
+     * @return Users
      */
     public function create(RegisterInput $input)
     {
@@ -56,5 +57,12 @@ class UserService
         $this->manager->persist($user);
         $this->manager->flush();
         return $user;
+    }
+
+    public function byEmail(string $email)
+    {
+        return $this->em
+            ->getRepository('App:Users')
+            ->findByEmail($email);
     }
 }

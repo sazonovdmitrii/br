@@ -9,6 +9,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Redis;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Overblog\GraphQLBundle\Error\UserError;
 
 class UserMutation extends AuthMutation
 {
@@ -18,39 +19,50 @@ class UserMutation extends AuthMutation
 
     private $authenticatorService;
 
+    private $userService;
+
     public function __construct(
         Redis $redis,
         ContainerInterface $container,
         AuthenticatorService $authenticatorService,
         JWTTokenManagerInterface $JWTManager,
-        AuthenticatorService $authenticator,
         UserService $userService
     ) {
         $this->redis = $redis;
         $this->authenticatorService = $authenticatorService;
         $this->jwtManager = $JWTManager;
-        $this->authenticator = $authenticator;
         $this->userService = $userService;
-        parent::__construct($redis, $container, $authenticatorService);
+        parent::__construct($redis, $container, $authenticatorService, $userService);
     }
 
     public function auth(Argument $args)
     {
         $input = new UserInput($args);
 
-        if($user = $this->authenticator->auth($input->email, $input->password)) {
+        if($user = $this->authenticatorService->auth($input->email, $input->password)) {
             $user->setHash($this->jwtManager->create($user));
             return $user;
         }
+        throw new UserError('Введенные вами данные не соответствуют ни одной учетной записи!');
     }
 
     public function register(Argument $args)
     {
         $input = new RegisterInput($args);
 
+        $this->setArgs($input);
+
+        if(!$this->checkPasswords()) {
+            throw new UserError('Введенные пароли не совпадают.');
+        }
+
+        if($this->checkEmail()) {
+            throw new UserError('Пользователь ранее зарегистрирован.');
+        }
+
         $this->userService->create($input);
 
-        if($user = $this->authenticator->auth($input->email, $input->password)) {
+        if($user = $this->authenticatorService->auth($input->email, $input->password)) {
             $user->setHash($this->jwtManager->create($user));
             return $user;
         }
