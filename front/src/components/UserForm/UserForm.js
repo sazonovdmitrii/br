@@ -155,20 +155,13 @@ const UserForm = ({ data, type, onSubmit }) => {
                 />
             </InputGroup>
             {(isRegistration || isPersonal) && (
-                <>
-                    <Button type="submit" kind="primary" size="large" bold fullWidth={isRegistration}>
-                        {isRegistration ? (
-                            <FormattedMessage id="create_account" />
-                        ) : (
-                            <FormattedMessage id="save" />
-                        )}
-                    </Button>
-                    {isPersonal && (
-                        <Button type="reset" kind="secondary" size="large">
-                            <FormattedMessage id="cancel" />
-                        </Button>
+                <Button type="submit" kind="primary" size="large" bold fullWidth>
+                    {isRegistration ? (
+                        <FormattedMessage id="create_account" />
+                    ) : (
+                        <FormattedMessage id="save" />
                     )}
-                </>
+                </Button>
             )}
         </form>
     );

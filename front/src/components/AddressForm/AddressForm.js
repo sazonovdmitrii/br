@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import Input from 'components/Input';
 import InputGroup from 'components/InputGroup';
@@ -6,7 +7,9 @@ import Button from 'components/Button';
 import Select from 'components/Select';
 import Snackbar from 'components/Snackbar';
 
-const AddressForm = ({ values: valuesProp, onSubmit, history, actions, regions }) => {
+import styles from './styles.css';
+
+const AddressForm = ({ className, values: valuesProp, onSubmit, history, actions, regions }) => {
     const regionsForSelect = regions.map(({ id, title }) => ({ id, value: title }));
     const [notification, setNotification] = useState(null);
     const [values, setValues] = useState({
@@ -74,7 +77,7 @@ const AddressForm = ({ values: valuesProp, onSubmit, history, actions, regions }
     } = values;
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className={className} onSubmit={handleSubmit}>
             {notification && (
                 <Snackbar
                     text={notification.text}
@@ -83,50 +86,34 @@ const AddressForm = ({ values: valuesProp, onSubmit, history, actions, regions }
                     onClose={handleCloseNotification}
                 />
             )}
-            <div className="cabinet-content__row">
-                <div className="cabinet-content__column">
-                    <InputGroup>
-                        <Select
-                            label="Регион*"
-                            items={regionsForSelect}
-                            value={region_id}
-                            onChange={handleChangeSelect}
-                        />
-                    </InputGroup>
-                    <InputGroup>
-                        <Input label="Город" name="city" value={city} onChange={handleChange} required />
-                    </InputGroup>
-                    <InputGroup>
-                        <Input label="Улица" name="street" value={street} onChange={handleChange} required />
-                    </InputGroup>
-                    <InputGroup>
-                        <Input label="Индекс" name="zip" value={zip} onChange={handleChange} required />
-                    </InputGroup>
-                </div>
-                <div className="cabinet-content__column">
-                    <InputGroup>
-                        <Input label="Дом" name="house" value={house} onChange={handleChange} required />
-                        <Input
-                            label="Офис/квартира"
-                            name="flat"
-                            value={flat}
-                            onChange={handleChange}
-                            required
-                        />
-                        <Input label="Домофон" name="code" value={code} onChange={handleChange} />
-                        <Input label="Корпус" name="corp" value={corp} onChange={handleChange} />
-                        <Input label="Этаж" name="level" value={level} onChange={handleChange} />
-                    </InputGroup>
-                    <InputGroup>
-                        <Input label="Получатель" name="person" value={person} onChange={handleChange} />
-                        <Input
-                            label="Название адреса"
-                            name="name"
-                            value={name}
-                            onChange={handleChange}
-                            required
-                        />
-                        {/* <Input
+            <InputGroup>
+                <Select
+                    label="Регион*"
+                    items={regionsForSelect}
+                    value={region_id}
+                    onChange={handleChangeSelect}
+                />
+            </InputGroup>
+            <InputGroup>
+                <Input label="Город" name="city" value={city} onChange={handleChange} required />
+            </InputGroup>
+            <InputGroup>
+                <Input label="Улица" name="street" value={street} onChange={handleChange} required />
+            </InputGroup>
+            <InputGroup>
+                <Input label="Индекс" name="zip" value={zip} onChange={handleChange} required />
+            </InputGroup>
+            <InputGroup>
+                <Input label="Дом" name="house" value={house} onChange={handleChange} required />
+                <Input label="Офис/квартира" name="flat" value={flat} onChange={handleChange} required />
+                <Input label="Домофон" name="code" value={code} onChange={handleChange} />
+                <Input label="Корпус" name="corp" value={corp} onChange={handleChange} />
+                <Input label="Этаж" name="level" value={level} onChange={handleChange} />
+            </InputGroup>
+            <InputGroup>
+                <Input label="Получатель" name="person" value={person} onChange={handleChange} />
+                <Input label="Название адреса" name="name" value={name} onChange={handleChange} required />
+                {/* <Input
                             label="Коментарий"
                             name="comment"
                             value={comment}
@@ -134,16 +121,14 @@ const AddressForm = ({ values: valuesProp, onSubmit, history, actions, regions }
                             rowsMax="4"
                             multiline
                         /> */}
-                    </InputGroup>
-                </div>
-            </div>
-            <div className="cabinet-content__buttons">
+            </InputGroup>
+            <div className={styles.actions}>
                 <Button type="submit" kind="primary" bold>
-                    Сохранить
+                    <FormattedMessage id="save_address" />
                 </Button>
                 {actions || (
                     <Button kind="secondary" onClick={handleBackURL} bold>
-                        Назад
+                        <FormattedMessage id="back" />
                     </Button>
                 )}
             </div>

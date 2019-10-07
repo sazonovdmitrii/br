@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { MenuItem, Products, Addresses, Address } from 'fragments';
+import { Products, Addresses, Address } from 'fragments';
 
 export const IS_LOGGED_IN = gql`
     query IsUserLoggedIn {
@@ -324,6 +324,15 @@ export const GET_COPYRIGHT_MENU = gql`
                 text
                 url
             }
+        }
+    }
+`;
+
+export const GET_USER = gql`
+    query user($id: Int) {
+        user(id: $id) {
+            id
+            email
         }
     }
 `;

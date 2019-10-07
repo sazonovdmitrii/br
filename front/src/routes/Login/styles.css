@@ -1,6 +1,7 @@
 .root {
-    max-width: 384px;
+    max-width: 418px;
     margin: 48px auto;
+    padding: 0 18px;
     text-align: center;
 }
 

@@ -1,96 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Switch, Route, withRouter } from 'react-router';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useQuery } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
-import { IS_LOGGED_IN } from 'query';
+import { useLangLinks } from 'hooks';
 
-import AddressBook from 'routes/AddressBook';
-import NotFound from 'routes/NotFound';
-import Personal from 'routes/Personal';
-import Register from 'routes/Register';
-import RemindPassword from 'routes/RemindPassword';
-import Security from 'routes/Security';
-import LogIn from 'routes/LogIn';
+import Title from 'components/Title';
+import Button from 'components/Button';
 
-const routes = [
-    { path: '/account/register', component: Register },
-    { path: '/account/login', component: LogIn },
-    { path: '/account/remind-password', component: RemindPassword },
-    { component: NotFound },
-];
+import CardContent from './CardContent';
+import styles from './styles.css';
 
-const loggedInRoutes = [
-    // { path: '/addresses', component: AddressBook },
-    // { path: '/orders', component: Orders },
-    // { path: '/profile', component: Personal },
-    { path: '/account/security', component: Security },
-    { path: '/account/prescription', component: null },
-];
+import FavoritesIcon from './icons/favorites.svg';
+import ProfileIcon from './icons/profile.svg';
+import PrescriptionsIcon from './icons/prescriptions.svg';
+import AddressesIcon from './icons/addresses.svg';
 
-const getTitle = (params = '') => {
-    switch (params) {
-        case 'profile':
-            return 'Персональные данные';
-        case 'addresses':
-            return 'Адреса';
-        case 'security':
-            return 'How do I reset my password?';
-        case 'orders':
-            return 'Мои заказы';
-        case 'prescription':
-            return 'Рецепты';
-        default:
-            return 'Личный кабинет';
-    }
-};
+const User = () => {
+    const [favoritesLink, prescriptionsLink, addressesLink, profileLink] = useLangLinks([
+        '/account/favorites',
+        '/account/prescriptions',
+        '/account/addresses',
+        '/account/profile',
+    ]);
 
-const User = ({
-    match: {
-        params: { slug },
-    },
-}) => {
-    const {
-        data: { isLoggedIn },
-    } = useQuery(IS_LOGGED_IN);
-    const titleBySlug = getTitle(slug);
-    const [title, setTitle] = useState(titleBySlug);
-
-    useEffect(() => {
-        setTitle(titleBySlug);
-    }, [slug, titleBySlug]);
-
-    if (!isLoggedIn) {
-        return (
-            <Switch>
-                {routes.map(({ component, path }, index) => (
-                    <Route key={index} path={path} component={component} exact />
-                ))}
-            </Switch>
-        );
-    }
+    const handleLogoOut = () => {
+        //
+    };
 
     return (
-        <>
-            <Helmet title={title} />
-            <div className={styles.header}>
-                <Title>{title}</Title>
+        <div className={styles.root}>
+            <Helmet title="Account" />
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <Title className={styles.title}>
+                        <FormattedMessage id="account" />
+                    </Title>
+                </div>
+                <section className={styles.cards}>
+                    <Link to={favoritesLink} className={styles.card}>
+                        <CardContent
+                            title={<FormattedMessage id="favorites" />}
+                            icon={<FavoritesIcon />}
+                            text={<FormattedMessage id="favorites_text" />}
+                        />
+                    </Link>
+                    <Link to={prescriptionsLink} className={styles.card}>
+                        <CardContent
+                            title={<FormattedMessage id="prescriptions" />}
+                            icon={<PrescriptionsIcon />}
+                            text={<FormattedMessage id="prescriptions_text" />}
+                        />
+                    </Link>
+                    <Link to={addressesLink} className={styles.card}>
+                        <CardContent
+                            title={<FormattedMessage id="addresses" />}
+                            icon={<AddressesIcon />}
+                            text={<FormattedMessage id="addresses_text" />}
+                        />
+                    </Link>
+                    <Link to={profileLink} className={styles.card}>
+                        <CardContent
+                            title={<FormattedMessage id="profile" />}
+                            icon={<ProfileIcon />}
+                            text={<FormattedMessage id="profile_text" />}
+                        />
+                    </Link>
+                </section>
+                <p className={styles.footer}>
+                    <Button onClick={handleLogoOut} kind="simple" bold>
+                        <FormattedMessage id="log_out" />
+                    </Button>
+                </p>
             </div>
-            <Switch>
-                {loggedInRoutes.map(({ component, path }, index) => (
-                    <Route key={index} path={path} component={component} exact />
-                ))}
-            </Switch>
-        </>
+        </div>
     );
-};
-
-User.propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired,
-    match: PropTypes.shape({
-        isExact: PropTypes.bool,
-    }).isRequired,
 };
 
 export default User;
