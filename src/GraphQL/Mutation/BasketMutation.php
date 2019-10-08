@@ -9,6 +9,7 @@ use Overblog\GraphQLBundle\Definition\Argument;
 use Doctrine\ORM\EntityManager;
 use Redis;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use App\Service\UserService;
 
 class BasketMutation extends AuthMutation
 {
@@ -19,13 +20,14 @@ class BasketMutation extends AuthMutation
         Redis $redis,
         ContainerInterface $container,
         AuthenticatorService $authenticatorService,
-        BasketService $basketService
+        BasketService $basketService,
+        UserService $userService
     ) {
         $this->redis = $redis;
         $this->em = $em;
         $this->basketService = $basketService;
         $this->authenticatorService = $authenticatorService;
-        parent::__construct($redis, $container, $authenticatorService);
+        parent::__construct($redis, $container, $authenticatorService, $userService);
     }
 
     public function add(Argument $args)

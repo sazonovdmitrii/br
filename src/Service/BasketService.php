@@ -135,14 +135,21 @@ class BasketService extends AbstractController
                         ->getRepository('App:ProductItem')
                         ->find($basketItem['item_id']);
                     if($productItem) {
+                        $product = $productItem->getEntity();
+                        $productData = [];
+                        if($product) {
+                            $productData[] = [
+                                'product_name' => $product->getName(),
+                                'url' => $product->getProductUrls()->first()->getUrl()
+                            ];
+                        }
                         $basket[$basketItem['item_id']] = array_merge(
                             $basketItem,
                             [
                                 'name' => $productItem->getName(),
-                                'product_name' => $productItem->getEntity()->getName(),
                                 'price' => $productItem->getPrice(),
-                                'url' => $productItem->getEntity()->getProductUrls()->first()->getUrl()
-                            ]
+                            ],
+                            $productData
                         );
                     }
                 }
