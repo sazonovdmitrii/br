@@ -150,6 +150,10 @@ easy_admin:
         ImportProduct:
             class: App\Entity\ImportProduct
             controller: App\Controller\Admin\ImportProductController
+        Translation:
+            class: App\Entity\Translation
+            label: 'Переводы'
+            controller: App\Controller\Admin\TranslationController
         ProductTag:
             class: App\Entity\ProductTag
             label: 'Теги продуктов'
@@ -413,6 +417,7 @@ easy_admin:
           - Banner
           - Sale
           - Configuration
+          - Translation
         assets:
             css:
                 - '/bundles/lp/css/lp.css'

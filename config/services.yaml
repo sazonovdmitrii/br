@@ -15,6 +15,7 @@ parameters:
     app.url.Catalog: '/uploads/catalog'
     app.path.Menu: '%kernel.project_dir%/public/uploads/menu'
     app.url.Menu: '/uploads/menu'
+    app.path.locale_dir: '%kernel.project_dir%/front/src/lang/'
 
 services:
     # default configuration for services in *this* file
@@ -44,6 +45,10 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%app.path.ProductItemImage%'
+
+    App\Service\JsonService:
+        arguments:
+            $localeDir: '%app.path.locale_dir%'
 
     Redis:
         class: Redis
