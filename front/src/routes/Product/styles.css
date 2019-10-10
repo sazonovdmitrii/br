@@ -5,16 +5,16 @@
         display: grid;
         grid-gap: 48px;
         grid-template-columns: 2fr 1fr;
-        align-items: center;
         align-content: center;
+        align-items: center;
         padding: 48px 24px;
     }
 
     @media (--viewport-wide) {
         grid-gap: 60px;
         grid-template-columns: 8fr 3fr;
-        padding-left: 60px;
         padding-right: 60px;
+        padding-left: 60px;
     }
 }
 
@@ -148,6 +148,6 @@
     padding: 0 15px;
 
     @media (--viewport-ipad) {
-        flex: 1;
+        flex: 1 33.333333%;
     }
 }
