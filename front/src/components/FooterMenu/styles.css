@@ -1,5 +1,4 @@
 .menu {
-    position: relative;
     margin-right: 18px;
     margin-left: 18px;
     padding-top: 30px;
@@ -45,7 +44,6 @@
 
 .link {
     color: #676f78;
-    line-height: calc(1em + 10px);
     transition: color 0.2s ease;
 
     &:hover {
