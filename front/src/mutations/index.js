@@ -63,3 +63,11 @@ export const ORDER_MUTATION = gql`
         }
     }
 `;
+
+export const CREATE_USER_MUTATION = gql`
+    mutation register($input: RegisterInput!) {
+        register(input: $input) {
+            hash
+        }
+    }
+`;

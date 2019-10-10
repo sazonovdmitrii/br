@@ -7,7 +7,9 @@ import InputGroup from 'components/InputGroup';
 import RadioButton from 'components/RadioButton';
 import RadioGroup from 'components/RadioGroup';
 import Button from 'components/Button';
-import Checkbox from 'components/Checkbox';
+import Link from 'components/Link';
+
+import styles from './styles.css';
 
 const UserForm = ({ data, type, onSubmit }) => {
     const isRegistration = type === 'registration';
@@ -21,17 +23,12 @@ const UserForm = ({ data, type, onSubmit }) => {
         email: '',
         phone: '',
         password: '',
-        disclaimer: true,
-        email_subscription: true,
-        sms_subscription: true,
         ...data,
     });
-    const handleChange = ({ target: { name, value, type: targetType } }, checked) => {
-        const newValue = targetType === 'checkbox' ? checked : value;
-
+    const handleChange = ({ target: { name, value } }) => {
         setState(prevState => ({
             ...prevState,
-            [name]: newValue,
+            [name]: value,
         }));
     };
     const handleSubmit = event => {
@@ -51,9 +48,6 @@ const UserForm = ({ data, type, onSubmit }) => {
         email,
         phone,
         password,
-        disclaimer,
-        email_subscription,
-        sms_subscription,
     } = state;
 
     return (
@@ -129,39 +123,28 @@ const UserForm = ({ data, type, onSubmit }) => {
                     />
                 </InputGroup>
             )}
-            <InputGroup>
-                <Checkbox
-                    label={<FormattedMessage id="disclaimer" />}
-                    name="disclaimer"
-                    checked={disclaimer}
-                    onChange={handleChange}
-                    required
-                />
-            </InputGroup>
-            <InputGroup>
-                <Checkbox
-                    label={<FormattedMessage id="email_subscription" />}
-                    name="email_subscription"
-                    checked={email_subscription}
-                    onChange={handleChange}
-                />
-            </InputGroup>
-            <InputGroup>
-                <Checkbox
-                    label={<FormattedMessage id="sms_subscription" />}
-                    name="sms_subscription"
-                    checked={sms_subscription}
-                    onChange={handleChange}
-                />
-            </InputGroup>
             {(isRegistration || isPersonal) && (
-                <Button type="submit" kind="primary" size="large" bold fullWidth>
-                    {isRegistration ? (
-                        <FormattedMessage id="create_account" />
-                    ) : (
-                        <FormattedMessage id="save" />
-                    )}
-                </Button>
+                <InputGroup>
+                    <Button type="submit" kind="primary" size="large" bold fullWidth>
+                        {isRegistration ? (
+                            <FormattedMessage id="create_account" />
+                        ) : (
+                            <FormattedMessage id="save" />
+                        )}
+                    </Button>
+                </InputGroup>
+            )}
+            {isRegistration && (
+                <div className={styles.termsConditions}>
+                    <FormattedMessage
+                        id="terms_and_conditions"
+                        values={{
+                            terms: msg => <Link to="/">{msg}</Link>,
+                            privacy: msg => <Link to="/">{msg}</Link>,
+                            notice: msg => <Link to="/">{msg}</Link>,
+                        }}
+                    />
+                </div>
             )}
         </form>
     );
@@ -169,9 +152,13 @@ const UserForm = ({ data, type, onSubmit }) => {
 
 UserForm.defaultProps = {
     onSubmit: () => {},
+    data: {},
+    type: null,
 };
 
 UserForm.propTypes = {
+    type: PropTypes.string,
+    data: PropTypes.objectOf(PropTypes.string),
     onSubmit: PropTypes.func,
 };
 

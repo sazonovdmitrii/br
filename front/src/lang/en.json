@@ -1,4 +1,5 @@
 {
+    "terms_and_conditions": "By creating this account, you agree to the <terms>Terms of Use</terms>, <privacy>Privacy Policy</privacy>, and <notice>Notice of Privacy Practices.</notice>",
     "save_address": "Save Address",
     "back": "Back",
     "men": "Men",
@@ -37,16 +38,13 @@
 
     "cancel": "Cancel",
     "create_account": "Create account",
-    "disclaimer": "I accept the terms and conditions",
     "email": "Email",
-    "email_subscription": "Receive notifications of new sales",
     "first_name": "First name",
     "gender": "Gender",
     "last_name": "Last name",
     "password": "Password",
     "phone": "Phone",
     "save": "Save",
-    "sms_subscription": "Receive SMS",
     "locations": "Locations",
 
     "shop_men": "Shop Men",
