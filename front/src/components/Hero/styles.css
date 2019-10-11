@@ -28,9 +28,15 @@
 
 .title {
     margin-bottom: 16px;
+    color: #676f78;
     font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-extra-small);
+    font-size: 10px;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
+
+    @media (min-width: 900px) {
+        font-size: var(--font-size-extra-small);
+    }
 }
 
 .subtitle {
