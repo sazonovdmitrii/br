@@ -22,7 +22,7 @@ export default ({ bundle, helmet, html, window = {} }) => (
                     dangerouslySetInnerHTML={{
                         __html: GTM,
                     }}
-                ></script>
+                 />
             )}
         </head>
         <body>
@@ -33,7 +33,7 @@ export default ({ bundle, helmet, html, window = {} }) => (
                         height="0"
                         width="0"
                         style={{ display: 'none', visibility: 'hidden' }}
-                    ></iframe>
+                     />
                 </noscript>
             )}
             <div id="root" dangerouslySetInnerHTML={{ __html: html }} />
