@@ -51,11 +51,11 @@ const Landing = () => {
             <section>
                 <HomeTry
                     image={<img src={homeTryImage} alt="" />}
-                    title={<FormattedMessage id="sunglasses_home_try_on" />}
-                    text={<FormattedMessage id="sunglasses_home_try_text" />}
+                    title={<FormattedMessage id="home_try_on" />}
+                    text={<FormattedMessage id="home_try_text" />}
                     action={
                         <Button to="" kind="simple" bold>
-                            <FormattedMessage id="sunglasses_home_try_button" />
+                            <FormattedMessage id="home_try_button" />
                         </Button>
                     }
                 />

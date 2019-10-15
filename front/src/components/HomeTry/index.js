@@ -24,8 +24,8 @@ const HomeTry = ({ title, text, image, action }) => (
                     <Quotes
                         items={[
                             {
-                                author: <FormattedMessage id="sunglasses_home_try_feedback_author" />,
-                                text: <FormattedMessage id="sunglasses_home_try_feedback_text" />,
+                                author: <FormattedMessage id="home_try_feedback_author" />,
+                                text: <FormattedMessage id="home_try_feedback_text" />,
                             },
                         ]}
                     />

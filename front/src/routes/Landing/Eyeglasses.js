@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link as LinkRoute } from 'react-router-dom';
+// import { Link as LinkRoute } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import { useLangLinks } from 'hooks';
 
 import Link from 'components/Link';
-import Collections from 'components/Collections';
+// import Collections from 'components/Collections';
 import Container from 'components/Container';
 import Button from 'components/Button';
-import VideoSection from 'components/VideoSection';
+// import VideoSection from 'components/VideoSection';
 import HomeTry from 'components/HomeTry';
 import Lenses from 'components/Lenses';
 
@@ -16,7 +16,7 @@ import styles from './styles.css';
 import heroImage from './images/eyeglasses-hero.jpg';
 import homeTryImage from './images/eyeglasses-hometry.jpg';
 import lensesImage from './images/eyeglasses-lenses.jpg';
-import videoPosterImage from './images/videposter.jpg';
+// import videoPosterImage from './images/videposter.jpg';
 
 const Landing = () => {
     const [manUrl, womanUrl] = useLangLinks(['/muzhskie-opravy/', '/zhenskie-opravy/']);
@@ -38,10 +38,10 @@ const Landing = () => {
                     </p>
                     <div className={styles.heroActions} role="group" aria-label="Button Group">
                         <Button to={manUrl} kind="simple" bold>
-                            <FormattedMessage id="shop_men" />
+                            <FormattedMessage id="eyeglasses_button_men" />
                         </Button>
                         <Button to={womanUrl} kind="simple" bold>
-                            <FormattedMessage id="shop_women" />
+                            <FormattedMessage id="eyeglasses_button_women" />
                         </Button>
                     </div>
                 </div>
@@ -49,12 +49,12 @@ const Landing = () => {
             <section>
                 <HomeTry
                     image={<img src={homeTryImage} alt="" />}
-                    title={<FormattedMessage id="eyeglasses_home_try_on" />}
-                    text={<FormattedMessage id="eyeglasses_home_try_text" />}
+                    title={<FormattedMessage id="home_try_on" />}
+                    text={<FormattedMessage id="home_try_text" />}
                     action={
                         <>
                             <Button to="" kind="simple" bold>
-                                <FormattedMessage id="get_started" />
+                                <FormattedMessage id="home_try_button" />
                             </Button>
                             <Link to="#">
                                 <FormattedMessage id="quiz_action" />
@@ -63,6 +63,7 @@ const Landing = () => {
                     }
                 />
             </section>
+            {/*
             <section className={styles.section}>
                 <VideoSection
                     title={<FormattedMessage id="video_title" />}
@@ -74,7 +75,7 @@ const Landing = () => {
                         </LinkRoute>
                     }
                 />
-            </section>
+            </section> */}
             <section className={styles.section}>
                 <Lenses
                     image={<img src={lensesImage} alt="" />}
@@ -82,8 +83,8 @@ const Landing = () => {
                     text={<FormattedMessage id="eyeglasses_lenses_text" />}
                     items={[
                         {
-                            label: 'Prescription types',
-                            value: 'Single-vision, progressives, readers, non-prescription',
+                            label: <FormattedMessage id="prescription_types" />,
+                            value: <FormattedMessage id="prescription_types_text" />,
                         },
                     ]}
                     action={
@@ -93,7 +94,7 @@ const Landing = () => {
                     }
                 />
             </section>
-            <Collections />
+            {/* <Collections /> */}
         </Container>
     );
 };

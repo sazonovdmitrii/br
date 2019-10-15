@@ -86,6 +86,9 @@
     "shop_now": "Shop now",
     "eyeglasses": "Eyeglasses",
     "eyeglasses_text": "Prescription eyeglasses, starting at $95, with free shipping and free returns",
+    "eyeglasses_button_men": "For men",
+    "eyeglasses_button_women": "For women",
+
     "sunglasses": "Sunglasses",
     "sunglasses_text": "Each pair is equipped with scratch-resistant lenses that block 100% of UVA and UVB rays. Starting at $95, with free shipping and free returns.",
 
@@ -96,13 +99,11 @@
     "video_action": "We filmed it!",
     "find_your_lenses": "Find your lenses",
 
-    "eyeglasses_home_try_on": "Home Try–On",
-    "eyeglasses_home_try_text": "Pick five frames to test out for five days—and we’ll ship them to you for free!",
-    "sunglasses_home_try_on": "Try before you buy",
-    "sunglasses_home_try_text": "Want to try five pairs of glasses or sunglasses in the comfort of your very own home? It’s easy. And fun. And free.",
-    "sunglasses_home_try_button": "Get started",
-    "sunglasses_home_try_feedback_author": "CHRISTINA C, IL",
-    "sunglasses_home_try_feedback_text": "Friendly, quick service. Love the Home Try-On option for five days because it really let me see how wearing one pair felt all day long.",
+    "home_try_on": "Try before you buy",
+    "home_try_text": "Want to try five pairs of glasses or sunglasses in the comfort of your very own home? It’s easy. And fun. And free.",
+    "home_try_button": "Get started",
+    "home_try_feedback_author": "CHRISTINA C, IL",
+    "home_try_feedback_text": "Friendly, quick service. Love the Home Try-On option for five days because it really let me see how wearing one pair felt all day long.",
 
     "eyeglasses_lenses_title": "Lenses with benefits",
     "eyeglasses_lenses_text": "Every pair of Brillenhof glasses comes with anti-reflective, scratch-resistant lenses that block 100% of UV rays. Pick from a range of lens options to fit your vision needs.",
