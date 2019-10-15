@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+
+import { isBrowser } from 'utils';
 
 import Button from 'components/Button';
 
@@ -21,6 +23,19 @@ const HeaderMenu = ({ items }) => {
     const handleClose = () => {
         setState({ active: null, open: false });
     };
+
+    const domNode = isBrowser ? document.body : {};
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+        if (state.active) {
+            domNode.style.paddingRight = '15px';
+            domNode.style.overflow = 'hidden';
+        }
+
+        return () => {
+            domNode.style = null;
+        };
+    }, [state.active, domNode.style]);
 
     const homeTryId = 'homeTry';
     const homeTryActive = state.active === homeTryId;
@@ -103,7 +118,7 @@ const HeaderMenu = ({ items }) => {
                         style={{
                             backgroundImage: `url(${homeTryImage})`,
                         }}
-                     />
+                    />
                     <div className={styles.homeTryText}>
                         <h2 className={styles.homeTryTitle}>
                             <FormattedMessage id="header_home_try_title" />
