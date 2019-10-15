@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
+
+import Button from 'components/Button';
 
 import styles from './desktop.css';
+import homeTryImage from './images/hometry.jpg';
 
 const cx = classnames.bind(styles);
 
@@ -17,6 +21,15 @@ const HeaderMenu = ({ items }) => {
     const handleClose = () => {
         setState({ active: null, open: false });
     };
+
+    const homeTryId = 'homeTry';
+    const homeTryActive = state.active === homeTryId;
+    const homeTryLinkClassName = cx(styles.link, {
+        active: homeTryActive,
+    });
+    const homeTrySubmenuClassName = cx(styles.submenu, styles.homeTrySubmenu, {
+        active: homeTryActive,
+    });
 
     return (
         <ul className={rootClassName}>
@@ -71,6 +84,51 @@ const HeaderMenu = ({ items }) => {
                     </li>
                 );
             })}
+            <li className={styles.item}>
+                <button
+                    type="button"
+                    className={homeTryLinkClassName}
+                    onClick={() =>
+                        setState({
+                            open: !homeTryActive,
+                            active: homeTryActive ? null : homeTryId,
+                        })
+                    }
+                >
+                    <FormattedMessage id="home_try_on" />
+                </button>
+                <div className={homeTrySubmenuClassName}>
+                    <div
+                        className={styles.homeTryImage}
+                        style={{
+                            backgroundImage: `url(${homeTryImage})`,
+                        }}
+                     />
+                    <div className={styles.homeTryText}>
+                        <h2 className={styles.homeTryTitle}>
+                            <FormattedMessage id="header_home_try_title" />
+                        </h2>
+                        <ul className={styles.homeTryActions}>
+                            <Button
+                                kind="simple"
+                                size="large"
+                                onClick={() => setState({ open: true, active: 0 })}
+                                bold
+                            >
+                                <FormattedMessage id="shop_eyeglasses" />
+                            </Button>
+                            <Button
+                                kind="simple"
+                                size="large"
+                                onClick={() => setState({ open: true, active: 1 })}
+                                bold
+                            >
+                                <FormattedMessage id="shop_sunglasses" />
+                            </Button>
+                        </ul>
+                    </div>
+                </div>
+            </li>
         </ul>
     );
 };
