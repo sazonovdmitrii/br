@@ -19,7 +19,7 @@ import lensesImage from './images/eyeglasses-lenses.jpg';
 // import videoPosterImage from './images/videposter.jpg';
 
 const Landing = () => {
-    const [manUrl, womanUrl] = useLangLinks(['/muzhskie-opravy/', '/zhenskie-opravy/']);
+    const [manUrl, womanUrl, lensesUrl] = useLangLinks(['/muzhskie-opravy/', '/zhenskie-opravy/', '/lenses']);
 
     return (
         <Container>
@@ -88,7 +88,7 @@ const Landing = () => {
                         },
                     ]}
                     action={
-                        <Button to="/lenses" kind="simple" size="large" bold>
+                        <Button to={lensesUrl} kind="simple" size="large" bold>
                             <FormattedMessage id="find_your_lenses" />
                         </Button>
                     }
