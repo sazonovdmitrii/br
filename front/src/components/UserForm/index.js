@@ -1,18 +1,10 @@
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
 import { useApp } from 'hooks';
+import { CREATE_USER_MUTATION } from 'mutations';
 
 import UserForm from './UserForm';
-
-const CREATE_USER_MUTATION = gql`
-    mutation register($input: RegisterInput!) {
-        register(input: $input) {
-            hash
-        }
-    }
-`;
 
 export default ({ type, onSubmit = () => {}, onCompleted = () => {}, data = {} }) => {
     if (type === 'registration') {

@@ -1,0 +1,34 @@
+.empty {
+    width: 58.33333%;
+    margin: 60px auto;
+    text-align: center;
+
+    @media (--viewport-desktop) {
+        width: 41.66667%;
+    }
+
+    @media (--viewport-wide) {
+        width: 33.33333%;
+    }
+}
+
+.title {
+    @media (--viewport-wide) {
+        font-size: 40px;
+    }
+}
+
+.subtitle {
+    margin-bottom: 32px;
+    color: #676f78;
+
+    @media (--viewport-desktop) {
+        font-size: 18px;
+    }
+}
+
+.actions {
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+}

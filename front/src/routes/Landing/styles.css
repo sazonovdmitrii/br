@@ -47,7 +47,7 @@
     }
 
     @media (--viewport-wide) {
-        font-size: 55px;
+        font-size: 45px;
     }
 }
 
@@ -140,7 +140,7 @@
     outline: 0;
     cursor: pointer;
     transition: background-color 0.4s;
-    -webkit-appearance: none;
+    appearance: none;
 
     &:hover {
         color: var(--color-font);

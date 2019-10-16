@@ -1,0 +1,20 @@
+.image {
+    margin-bottom: 24px;
+}
+
+.title {
+    margin-bottom: 8px;
+    color: var(--color-font);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: var(--headings-line-height);
+}
+
+.text {
+    color: #676f78;
+    font-size: var(--font-size-base);
+
+    @media (--viewport-desktop) {
+        font-size: 18px;
+    }
+}

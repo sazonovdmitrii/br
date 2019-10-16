@@ -14,15 +14,19 @@ const Quotes = ({ items }) => (
             </div>
         ))}
         <div className={styles.actions}>
-            <Link to="/reviews/home-try-on">
+            <Link to="#">
                 <FormattedMessage id="more_reviews" />
             </Link>
         </div>
     </div>
 );
 
-Quotes.defaultProps = {};
+Quotes.defaultProps = {
+    items: [],
+};
 
-Quotes.propTypes = {};
+Quotes.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.string),
+};
 
 export default Quotes;
