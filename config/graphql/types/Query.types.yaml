@@ -126,6 +126,9 @@ Query:
             name:
               description: "Name"
               type: "String"
+            locale:
+              description: "Locale"
+              type: "String"
       brands_list:
         type: "CatalogThumb"
         resolve: "@=resolver('BrandsList', [args])"
