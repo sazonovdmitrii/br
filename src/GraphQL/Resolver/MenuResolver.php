@@ -24,7 +24,7 @@ class MenuResolver extends LocaleAlias
     {
         $topMenu = $this->em->getRepository('App:Menu')
             ->findOneBy(
-                ['name' => $args['name'] . '_' . $this->getLocale()]
+                ['name' => $args['name'] . '_' . $args['locale']]
             );
 
         $result = [];
