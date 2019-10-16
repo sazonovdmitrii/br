@@ -422,6 +422,6 @@ easy_admin:
             css:
                 - '/bundles/lp/css/lp.css'
             js:
-                - 'http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js'
+                - 'https://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js'
                 - '/bundles/lp/js/jq-ui.js'
                 - '/bundles/lp/js/fileupload.js'
