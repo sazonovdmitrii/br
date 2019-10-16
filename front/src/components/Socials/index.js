@@ -14,7 +14,7 @@ const cx = classnames.bind(styles);
 const socials = [
     {
         name: 'vk',
-        url: 'https://www.facebook.com/Brillenhof-100867174671198/',
+        url: 'https://vk.com/brillenhof',
         icon: vkIcon,
     },
     {
