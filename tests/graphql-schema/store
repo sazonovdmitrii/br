@@ -1,0 +1,10 @@
+{
+  store(slug:"asdfasdfasdf") {
+    id
+    name
+    latitude
+    visible
+    full_name
+    longitude
+  }
+}

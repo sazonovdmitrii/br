@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
@@ -33,6 +35,16 @@ class Store
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $latitude;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StoreUrl", mappedBy="entity")
+     */
+    private $storeUrls;
+
+    public function __construct()
+    {
+        $this->storeUrls = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -87,5 +99,36 @@ class Store
         $method = 'get' . implode(array_map('ucfirst', explode('_', $name)));
         $arguments = [];
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    /**
+     * @return Collection|StoreUrl[]
+     */
+    public function getStoreUrls(): Collection
+    {
+        return $this->storeUrls;
+    }
+
+    public function addStoreUrl(StoreUrl $storeUrl): self
+    {
+        if (!$this->storeUrls->contains($storeUrl)) {
+            $this->storeUrls[] = $storeUrl;
+            $storeUrl->setEntity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStoreUrl(StoreUrl $storeUrl): self
+    {
+        if ($this->storeUrls->contains($storeUrl)) {
+            $this->storeUrls->removeElement($storeUrl);
+            // set the owning side to null (unless already changed)
+            if ($storeUrl->getEntity() === $this) {
+                $storeUrl->setEntity(null);
+            }
+        }
+
+        return $this;
     }
 }

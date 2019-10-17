@@ -11,7 +11,8 @@ label[for=product_producttagitem],
 .edit-items label[for=items_productItemImages],
 .new-items label[for=items_productItemImages],
 label[for=productitemtagitem_entity],
-label[for=items_productItemTagItems]
+label[for=items_productItemTagItems],
+label[for=store_storeUrls]
 {
     display: none;
 }

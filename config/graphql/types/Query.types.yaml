@@ -142,6 +142,13 @@ Query:
       stores:
         type: "Stores"
         resolve: "@=resolver('Stores', [args])"
+      store:
+        type: "Store"
+        args:
+            slug:
+              description: "Resolves using the store slug."
+              type: "String"
+        resolve: "@=resolver('Store', [args])"
 DateTime:
     type: custom-scalar
     config:
