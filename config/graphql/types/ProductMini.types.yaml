@@ -9,9 +9,6 @@ ProductMini:
       name:
         type: "String"
         description: "Product Name"
-      url:
-        type: "String"
-        description: "Product Url"
-      image:
-        type: "String"
-        description: "Product Image"
+      items:
+        type: ItemConnection
+        argsBuilder: PaginatoringBuilder

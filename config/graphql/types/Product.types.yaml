@@ -23,7 +23,7 @@ Product:
         type: "[ProductFilters]"
         description: "Product Filter"
       similars:
-        type: "[ProductMini]"
+        type: "[Product]"
         description: "Similar Products"
 ProductFilters:
   type: object
