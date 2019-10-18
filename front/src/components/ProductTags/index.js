@@ -1,0 +1,42 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import styles from './styles.css';
+
+const ProductTags = ({ items, image }) => (
+    <div className={styles.root}>
+        {items.length ? (
+            <div className={styles.list}>
+                <ul>
+                    {items.map((tag, index) => {
+                        if (!tag.name || !tag.value) return null;
+
+                        return (
+                            <li key={index} className={styles.listItem}>
+                                <span className={styles.listLabel}>{tag.name}</span>
+                                <span className={styles.listValue}>{tag.value}</span>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        ) : null}
+        {image && (
+            <div className={styles.imageContainer}>
+                <img className={styles.image} src={image} alt="" />
+            </div>
+        )}
+    </div>
+);
+
+ProductTags.defaultProps = {
+    items: [],
+    image: null,
+};
+
+ProductTags.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.string),
+    image: PropTypes.string,
+};
+
+export default ProductTags;

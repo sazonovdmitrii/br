@@ -13,12 +13,12 @@ import {
 // import { GET_SHORT_BASKET } from 'query';
 
 import Button from 'components/Button';
-// import HeadTurn from 'components/HeadTurn';
-import Delivery from 'components/Delivery';
 import Colors from 'components/Colors';
 import Container from 'components/Container';
-import ProductCarousel from 'components/ProductCarousel';
+import Delivery from 'components/Delivery';
+import ProductTags from 'components/ProductTags';
 import ProductCard from 'components/ProductCard';
+import ProductCarousel from 'components/ProductCarousel';
 
 import styles from './styles.css';
 // import headTurnImage from './headturn.jpg';
@@ -30,7 +30,7 @@ const Product = ({
     // id,
     name,
     items: { edges: items = [] },
-    // tags,
+    tags,
     similars,
 }) => {
     const [buyLink] = useLangLinks(['/retail']);
@@ -91,8 +91,6 @@ const Product = ({
     const sectionTitleCenterClassName = cx(styles.sectionTitle, styles.center);
     const rootClassName = cx(styles.root, { hide: showChooseLenses });
 
-    console.log(images);
-
     return (
         <Container>
             <SeoHead type="product" name={name} items={items} image={images ? images[0].path : null} />
@@ -125,35 +123,16 @@ const Product = ({
                     )}
                 </div>
             </div>
-            {/* <div className={styles.section}>
-                <HeadTurn
-                    images={[headTurnImage]}
-                    title={<FormattedMessage id="about_the_frames" />}
-                    text={
-                        tags.length ? (
-                            <>
-                                <ul>
-                                    {tags.map((tag, index) => {
-                                        return (
-                                            <li key={index}>
-                                                {tag.name}: {tag.value}
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </>
-                        ) : null
-                    }
-                />
-            </div> */}
-            {images[1] && (
-                <div className={styles.sectionImage}>
-                    <img src={images[1].path} alt="" />
-                </div>
-            )}
             <Delivery
                 title={<FormattedMessage id="delivery_block_title" />}
                 text={<FormattedMessage id="delivery_block_text" />}
+            />
+            <div className={styles.section}>
+                <ProductTags items={tags} image={images[1].path} />
+            </div>
+            <Delivery
+                title={<FormattedMessage id="product_lenses_block_title" />}
+                text={<FormattedMessage id="product_lenses_block_text" />}
             />
             {images[2] && (
                 <div className={styles.sectionImage}>
