@@ -345,3 +345,29 @@ export const GET_USER = gql`
         }
     }
 `;
+export const GET_STORES = gql`
+    {
+        stores {
+            data {
+                id
+                name
+                full_name
+                city
+                visible
+                longitude
+                latitude
+            }
+        }
+    }
+`;
+
+export const GET_STORE = gql`
+    query store($slug: String) {
+        store(slug: $slug) {
+            name
+            full_name
+            longitude
+            latitude
+        }
+    }
+`;
