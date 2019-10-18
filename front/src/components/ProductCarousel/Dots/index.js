@@ -36,7 +36,7 @@ Dots.defaultProps = {
 };
 
 Dots.propTypes = {
-    items: PropTypes.node,
+    items: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
     active: PropTypes.number.isRequired,
     onClick: PropTypes.func,
 };

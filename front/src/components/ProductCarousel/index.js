@@ -83,7 +83,7 @@ ProductCarousel.defaultProps = {
     items: [],
 };
 ProductCarousel.propTypes = {
-    items: PropTypes.node,
+    items: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
 };
 
 export default ProductCarousel;

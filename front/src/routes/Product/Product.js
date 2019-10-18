@@ -5,7 +5,10 @@ import { FormattedMessage } from 'react-intl';
 // import { useMutation } from '@apollo/react-hooks';
 
 import { SeoHead } from 'utils';
-import { useLangLinks, useApp } from 'hooks';
+import {
+    useLangLinks,
+    // useApp
+} from 'hooks';
 // import { ADD_TO_BASKET } from 'mutations';
 // import { GET_SHORT_BASKET } from 'query';
 
@@ -27,7 +30,7 @@ const Product = ({
     // id,
     name,
     items: { edges: items = [] },
-    //tags,
+    // tags,
     similars,
 }) => {
     const [buyLink] = useLangLinks(['/retail']);
@@ -87,6 +90,8 @@ const Product = ({
 
     const sectionTitleCenterClassName = cx(styles.sectionTitle, styles.center);
     const rootClassName = cx(styles.root, { hide: showChooseLenses });
+
+    console.log(images);
 
     return (
         <Container>
@@ -161,11 +166,23 @@ const Product = ({
                         <FormattedMessage id="recommended" />
                     </h2>
                     <div className={styles.related}>
-                        {similars.map(item => (
-                            <div key={item.id} className={styles.relatedProduct}>
-                                <ProductCard name={item.name} url={item.url} image={item.image} />
-                            </div>
-                        ))}
+                        {similars.map(item => {
+                            const [{ node: firstItem }] = item.items.edges;
+
+                            return (
+                                <div key={item.id} className={styles.relatedProduct}>
+                                    <ProductCard
+                                        name={item.name}
+                                        url={item.url}
+                                        image={
+                                            firstItem.productItemImages[0]
+                                                ? firstItem.productItemImages[0].path
+                                                : null
+                                        }
+                                    />
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             ) : null}
@@ -177,6 +194,7 @@ Product.defaultProps = {
     items: [],
     name: 'Без названия',
     tags: [],
+    similars: [],
 };
 
 Product.propTypes = {
@@ -185,6 +203,7 @@ Product.propTypes = {
     items: PropTypes.shape({
         edges: PropTypes.arrayOf(PropTypes.object),
     }),
+    similars: PropTypes.arrayOf(PropTypes.object),
     // tags: PropTypes.arrayOf(PropTypes.object),
 };
 

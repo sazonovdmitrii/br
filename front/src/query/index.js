@@ -90,7 +90,16 @@ export const GET_PRODUCT = gql`
                 id
                 name
                 url
-                image
+                items(limit: 1, offset: 0) {
+                    edges {
+                        node {
+                            productItemImages {
+                                id
+                                path
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -333,6 +342,32 @@ export const GET_USER = gql`
         user(id: $id) {
             id
             email
+        }
+    }
+`;
+export const GET_STORES = gql`
+    {
+        stores {
+            data {
+                id
+                name
+                full_name
+                city
+                visible
+                longitude
+                latitude
+            }
+        }
+    }
+`;
+
+export const GET_STORE = gql`
+    query store($slug: String) {
+        store(slug: $slug) {
+            name
+            full_name
+            longitude
+            latitude
         }
     }
 `;
