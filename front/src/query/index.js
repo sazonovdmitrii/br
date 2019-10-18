@@ -90,7 +90,16 @@ export const GET_PRODUCT = gql`
                 id
                 name
                 url
-                image
+                items(limit: 1, offset: 0) {
+                    edges {
+                        node {
+                            productItemImages {
+                                id
+                                path
+                            }
+                        }
+                    }
+                }
             }
         }
     }

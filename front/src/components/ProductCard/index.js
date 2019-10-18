@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { isProd } from 'utils';
-
 import Colors from 'components/Colors';
 
 // import Loader from './Loader';
@@ -34,14 +32,14 @@ const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, 
 
     if (loading) return null;
 
-    const $Link = url ? Link : 'div';
+    const RootLink = url ? Link : 'div';
 
     return (
         <div className={styles.root}>
-            <$Link to={url} className={styles.imageWrapper} title={name}>
+            <RootLink to={url} className={styles.imageWrapper} title={name}>
                 <img className={styles.image} src={image} alt={name} />
-            </$Link>
-            <h2 className={styles.title}>{name}</h2>
+            </RootLink>
+            {name && <h2 className={styles.title}>{name}</h2>}
             {colors.length ? (
                 <div className={styles.colors}>
                     <Colors value={color} list={colors} onChange={value => handleChangeColor(value)} />
@@ -61,17 +59,21 @@ ProductCard.defaultProps = {
     id: null,
     price: null,
     items: [],
+    loading: false,
+    name: null,
     onClick: () => {},
+    image: null,
 };
 
 ProductCard.propTypes = {
     id: PropTypes.number,
     price: PropTypes.number,
     url: PropTypes.string.isRequired,
-    loading: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired,
+    loading: PropTypes.bool,
+    name: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.object),
     onClick: PropTypes.func,
+    image: PropTypes.string,
 };
 
 export default ProductCard;
