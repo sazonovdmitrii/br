@@ -21,9 +21,10 @@ class StoresResolver extends LocaleAlias
     /**
      * @return mixed
      */
-    public function resolve()
+    public function resolve($args)
     {
         $stores = $this->em->getRepository('App:Store')
+            ->setCheckVision((isset($args['check_vision'])) ? $args['check_vision'] : 0)
             ->findAll();
 
         foreach($stores as $store) {

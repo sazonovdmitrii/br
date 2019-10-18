@@ -14,9 +14,27 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class StoreRepository extends ServiceEntityRepository
 {
+    private $checkVision = 0;
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Store::class);
+    }
+
+    public function setCheckVision(int $checkVision)
+    {
+        $this->checkVision = $checkVision;
+        return $this;
+    }
+
+    public function getCheckVision()
+    {
+        return $this->checkVision;
+    }
+
+    public function findAll()
+    {
+        return $this->findBy(['check_vision' => $this->getCheckVision()]);
     }
 
     // /**

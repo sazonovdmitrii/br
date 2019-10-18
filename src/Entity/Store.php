@@ -41,6 +41,11 @@ class Store
      */
     private $storeUrls;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $check_vision;
+
     public function __construct()
     {
         $this->storeUrls = new ArrayCollection();
@@ -128,6 +133,18 @@ class Store
                 $storeUrl->setEntity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCheckVision(): ?bool
+    {
+        return $this->check_vision;
+    }
+
+    public function setCheckVision(?bool $check_vision): self
+    {
+        $this->check_vision = $check_vision;
 
         return $this;
     }

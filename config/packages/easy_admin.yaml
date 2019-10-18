@@ -374,6 +374,7 @@ easy_admin:
                     - {property: visible, label: 'Видимость'}
                     - {property: latitude, label: 'Широта'}
                     - {property: longitude, label: 'Долгота'}
+                    - {property: check_vision, label: 'Проверка зрения'}
                     - { type: 'tab' , label: 'Мультиязычный контент' }
                     - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
                         type_options: {

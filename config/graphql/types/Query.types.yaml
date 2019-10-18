@@ -142,6 +142,10 @@ Query:
       stores:
         type: "Stores"
         resolve: "@=resolver('Stores', [args])"
+        args:
+            check_vision:
+              description: "Check vision option"
+              type: "Int"
       store:
         type: "Store"
         args:
