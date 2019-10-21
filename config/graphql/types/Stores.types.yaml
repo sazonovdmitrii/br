@@ -31,3 +31,17 @@ Store:
       latitude:
         type: "String"
         description: "Latitude"
+      storeUrls:
+        type: "[StoreUrl]"
+        description: "Store Url"
+StoreUrl:
+  type: object
+  config:
+    description: "Store Url"
+    fields:
+      id:
+        type: "Int"
+        description: "Store ID"
+      url:
+        type: "String"
+        description: "Store Url"
