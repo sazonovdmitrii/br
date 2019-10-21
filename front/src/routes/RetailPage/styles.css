@@ -18,29 +18,18 @@
     }
 }
 
-.row {
+.center {
     display: flex;
-    flex-wrap: wrap;
-    margin: 0 -12px;
-
-    &.center {
-        justify-content: center;
-        text-align: center;
-    }
-
-    @media (--viewport-desktop) {
-        margin: 0 -18px;
-    }
+    justify-content: center;
+    text-align: center;
 }
 
-.col {
+.inner {
     flex: 0 0 100%;
     max-width: 100%;
-    padding: 0 12px;
 
     @media (--viewport-desktop) {
         flex: 0 0 50%;
-        padding: 0 18px;
     }
 }
 
@@ -68,7 +57,6 @@
 
 .description {
     color: #676f78;
-    line-height: calc(1em + 10px);
 
     @media (--viewport-ipad) {
         font-size: 20px;
@@ -108,5 +96,4 @@
 .time {
     color: #676f78;
     font-size: var(--font-size-base);
-    line-height: calc(1em + 10px);
 }

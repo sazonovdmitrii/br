@@ -16,7 +16,6 @@ const cx = classnames.bind(styles);
 
 const RetailPage = ({ name, full_name, longitude, latitude, phone, description, image, hours }) => {
     const mapLink = `https://www.google.com/maps/place/${latitude},${longitude}`;
-    const rowCenterClassName = cx(styles.row, styles.center);
     const phoneClassName = cx(styles.phone, styles.block);
     const descriptionClassName = cx(styles.description, styles.block);
 
@@ -26,8 +25,8 @@ const RetailPage = ({ name, full_name, longitude, latitude, phone, description, 
             <Hero image={image || bgImage} />
             <section className={styles.section}>
                 <Container>
-                    <div className={rowCenterClassName}>
-                        <div className={styles.col}>
+                    <div className={styles.center}>
+                        <div className={styles.inner}>
                             <h1 className={styles.title}>{name}</h1>
                             <div>
                                 <div className={styles.location}>

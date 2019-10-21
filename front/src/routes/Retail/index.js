@@ -1,40 +1,24 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import { FormattedMessage } from 'react-intl';
+
+import { GET_STORES } from 'query';
 
 import Hero from 'components/Hero';
 import Container from 'components/Container';
-import Switch from 'components/Switch';
+// import Switch from 'components/Switch';
 import Shops from 'components/Shops';
+import Loader from 'components/Loader';
 
 import styles from './styles.css';
 import bgImage from './images/bg.jpg';
 
-const _SHOPS = [
-    {
-        region: 'Московская область',
-        shops: [
-            {
-                city: 'Москва',
-                name: 'ЦККЗ на Тверской',
-                address:
-                    'метро Тверская, Пушкинская, Чеховская (1 минута от метро), Малый Палашевский пер. д. 6',
-                phone: '+7 (495) 587 95 95, +7 (800) 100 95 96',
-                link: null,
-            },
-            {
-                city: 'Москва',
-                name: 'ЦККЗ на Рижской',
-                address: `м. Рижская, пр. Мира д. 78a, здание аптеки "Горздрав"`,
-                phone: '+7 (926) 653-04-71',
-                link: null,
-            },
-        ],
-    },
-];
+const Retail = () => {
+    const { loading, error, data: { stores } = {} } = useQuery(GET_STORES);
+    // const [filter, setFilter] = useState(true);
 
-const Retail = props => {
-    const [filter, setFilter] = useState(true);
+    if (loading) return <Loader />;
+    if (error || !stores) return null;
 
     return (
         <div>
@@ -42,24 +26,20 @@ const Retail = props => {
             <Container>
                 <section className={styles.body}>
                     <h2 className={styles.title}>
-                        <FormattedMessage id="retail_title" />
+                        <FormattedMessage id="p_retail_title" />
                     </h2>
-                    <div className={styles.filter}>
+                    {/* <div className={styles.filter}>
                         <Switch
-                            label={<FormattedMessage id="retail_filter" />}
+                            label={<FormattedMessage id="p_retail_filter" />}
                             checked={filter}
                             onChange={(e, value) => setFilter(value)}
                         />
-                    </div>
-                    <Shops items={_SHOPS} />
+                    </div> */}
+                    <Shops items={stores.data} />
                 </section>
             </Container>
         </div>
     );
 };
-
-Retail.defaultProps = {};
-
-Retail.propTypes = {};
 
 export default Retail;
