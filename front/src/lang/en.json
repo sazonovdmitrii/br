@@ -70,7 +70,7 @@
     "eye_exam_description": "Comprehensive eye exams are available at or next to all of the below stores. (In some areas, exams are provided by independent optometrists.)",
     "eye_exam_title": "Book an eye exam",
     "forgot_password": "Forgot password",
-    "help_subtitle": "We’re available by phone {phone} every day from {time} to {timeEnd}.",
+    "help_subtitle": "We’re available by phone 8 (495) 587 98 99 every day from 8 to 21.",
     "i_have_an_account": "I have an account",
     "im_new_here": "I’m new here",
     "need_a_hand": "Need a hand",
@@ -115,6 +115,8 @@
 
     "delivery_block_title": "Free shipping and free returns on every order",
     "delivery_block_text": "We have a 30-day, hassle-free return or exchange policy as well as a one-year, no scratch guarantee for our lenses; we'll replace your scratched lenses for free within the first 12 months.",
+    "product_lenses_block_title": "Our lenses",
+    "product_lenses_block_text": "Every pair of Brillenhof glasses comes with anti-reflective, scratch-resistant lenses that block 100% of UV rays. Pick from a range of lens options to fit your vision needs.",
 
     "locations_title": "Other nearby locations",
     "locations_link": "Search all our stores and showrooms",

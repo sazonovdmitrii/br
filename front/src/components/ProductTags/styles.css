@@ -1,0 +1,80 @@
+.root {
+    display: flex;
+    flex-direction: column-reverse;
+
+    @media (--viewport-desktop) {
+        flex-direction: row;
+    }
+}
+
+.list {
+    padding-right: 18px;
+    padding-left: 18px;
+
+    @media (--viewport-ipad) {
+        padding-right: 36px;
+        padding-left: 36px;
+    }
+
+    @media (--viewport-desktop) {
+        flex: 0 0 50%;
+        max-width: 100%;
+        padding-right: 48px;
+        padding-left: 48px;
+    }
+
+    @media (--viewport-wide) {
+        padding-right: 60px;
+        padding-left: 60px;
+    }
+}
+
+.listItem {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.listLabel {
+    flex-basis: 40%;
+    max-width: 175px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-large);
+}
+
+.listValue {
+    flex-basis: 60%;
+    max-width: 175px;
+    color: #677079;
+}
+
+.imageContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 36px;
+    margin-bottom: 36px;
+    overflow: hidden;
+
+    @media (--viewport-desktop) {
+        justify-content: flex-start;
+        flex: 0 0 50%;
+        max-width: 50%;
+        margin: 0;
+    }
+}
+
+.image {
+    margin-left: 15px;
+
+    @media (--viewport-ipad) {
+        width: auto;
+        max-height: 250px;
+        margin: 0;
+    }
+
+    @media (--viewport-desktop) {
+        max-width: 130%;
+        max-height: 460px;
+    }
+}

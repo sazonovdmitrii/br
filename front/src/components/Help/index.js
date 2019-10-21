@@ -23,12 +23,18 @@ const Help = ({ className, socials }) => {
                 <FormattedMessage id="need_a_hand" />?
             </h4>
             <div className={styles.text}>
-                <p>
-                    <FormattedMessage
-                        id="help_subtitle"
-                        values={{ phone: '8 (495) 587 98 99', time: '8', timeEnd: '21' }}
-                    />
-                </p>
+                <FormattedMessage
+                    id="help_subtitle"
+                    values={{
+                        phone: msg => (
+                            <>
+                                <br />
+                                {msg}
+                                <br />
+                            </>
+                        ),
+                    }}
+                />
             </div>
             {socials.length ? (
                 <ul className={styles.items}>

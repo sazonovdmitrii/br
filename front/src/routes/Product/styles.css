@@ -19,7 +19,6 @@
 }
 
 .carouselWrapper {
-    max-height: 428px;
     margin: 0 auto 20px;
 
     @media (--viewport-desktop) {
