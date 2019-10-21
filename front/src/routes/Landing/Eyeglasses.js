@@ -31,17 +31,17 @@ const Landing = () => {
                 </div>
                 <div className={styles.heroBody}>
                     <h1 className={styles.heroTitle}>
-                        <FormattedMessage id="eyeglasses" />
+                        <FormattedMessage id="p_eyeglasses_hero_title" />
                     </h1>
                     <p className={styles.heroText}>
-                        <FormattedMessage id="eyeglasses_text" />
+                        <FormattedMessage id="p_eyeglasses_hero_text" />
                     </p>
                     <div className={styles.heroActions} role="group" aria-label="Button Group">
                         <Button to={manUrl} kind="simple" bold>
-                            <FormattedMessage id="eyeglasses_button_men" />
+                            <FormattedMessage id="p_eyeglasses_button_men" />
                         </Button>
                         <Button to={womanUrl} kind="simple" bold>
-                            <FormattedMessage id="eyeglasses_button_women" />
+                            <FormattedMessage id="p_eyeglasses_button_women" />
                         </Button>
                     </div>
                 </div>

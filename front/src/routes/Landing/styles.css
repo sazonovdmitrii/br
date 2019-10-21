@@ -28,7 +28,7 @@
     text-align: center;
 
     @media (--viewport-tablet) {
-        width: 41.66667%;
+        flex: 0 0 41.66667%;
         padding: 0 36px;
         text-align: left;
     }
