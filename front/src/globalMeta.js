@@ -44,4 +44,11 @@ export default {
             description: ``,
         };
     },
+    retail({ name, image, description }) {
+        return {
+            description,
+            image,
+            title: name,
+        };
+    },
 };
