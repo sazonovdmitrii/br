@@ -12,11 +12,16 @@ const Hero = ({ image, title, subtitle, actions }) => (
                 <img className={styles.image} src={image} alt="" />
             </picture>
         </div>
-        <div className={styles.text}>
-            {title && <h1 className={styles.title}>{title}</h1>}
-            {subtitle && <div className={styles.subtitle} dangerouslySetInnerHTML={createMarkup(subtitle)} />}
-            {actions && <div className={styles.actions}>{actions}</div>}
-        </div>
+        {title ||
+            (subtitle && (
+                <div className={styles.text}>
+                    {title && <h1 className={styles.title}>{title}</h1>}
+                    {subtitle && (
+                        <div className={styles.subtitle} dangerouslySetInnerHTML={createMarkup(subtitle)} />
+                    )}
+                    {actions && <div className={styles.actions}>{actions}</div>}
+                </div>
+            ))}
     </div>
 );
 

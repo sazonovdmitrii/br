@@ -132,7 +132,7 @@
     height: 100%;
     padding-top: 50px;
     padding-bottom: 54%;
-    background-color: #f5f6fb;
+    background-color: var(--color-background);
     background-repeat: no-repeat;
     background-position: 0 0;
     background-size: cover;
@@ -150,17 +150,20 @@
     align-items: center;
     min-height: 300px;
     padding: 24px;
-    background: #f5f6fb;
-}
+    background: #f1f1f1;
+    overflow: hidden;
 
-.homeTryImage {
-    width: 50%;
-    height: 100%;
-    min-height: 250px;
-    padding-bottom: 28.45%;
-    background-repeat: no-repeat;
-    background-position: right center;
-    background-size: contain;
+    &::before {
+        content: '';
+        width: 50%;
+        height: 100%;
+        min-height: 250px;
+        padding-bottom: 28.45%;
+        background-image: url('./images/hometry.jpg');
+        background-repeat: no-repeat;
+        background-position: right center;
+        background-size: contain;
+    }
 }
 
 .homeTryText {

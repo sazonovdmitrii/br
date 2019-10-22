@@ -9,7 +9,6 @@ import { isBrowser } from 'utils';
 import Button from 'components/Button';
 
 import styles from './desktop.css';
-import homeTryImage from './images/hometry.jpg';
 
 const cx = classnames.bind(styles);
 
@@ -113,15 +112,9 @@ const HeaderMenu = ({ items }) => {
                     <FormattedMessage id="home_try_on" />
                 </button>
                 <div className={homeTrySubmenuClassName}>
-                    <div
-                        className={styles.homeTryImage}
-                        style={{
-                            backgroundImage: `url(${homeTryImage})`,
-                        }}
-                    />
                     <div className={styles.homeTryText}>
                         <h2 className={styles.homeTryTitle}>
-                            <FormattedMessage id="header_home_try_title" />
+                            <FormattedMessage id="c_header_menu_hometry_title" />
                         </h2>
                         <ul className={styles.homeTryActions}>
                             <Button
