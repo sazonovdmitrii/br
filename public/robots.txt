@@ -1,0 +1,11 @@
+User-agent: Yandex
+Allow: /
+
+Host: https://www.brillenhof.com/
+Clean-param: utm
+
+User-agent: GoogleBot
+Allow: /
+
+User-agent: *
+Allow: /
