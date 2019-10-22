@@ -31,7 +31,7 @@ const Product = ({
     name,
     items: { edges: items = [] },
     tags,
-    similars,
+    similars: { edges: similars = [] },
 }) => {
     const [buyLink] = useLangLinks(['/retail']);
     // const { createNotification } = useApp();
@@ -146,7 +146,7 @@ const Product = ({
                     </h2>
                     <div className={styles.related}>
                         {similars.map(item => {
-                            const [{ node: firstItem }] = item.items.edges;
+                            const [{ node: firstItem }] = item.node.items.edges;
 
                             return (
                                 <div key={item.id} className={styles.relatedProduct}>
@@ -182,7 +182,7 @@ Product.propTypes = {
     items: PropTypes.shape({
         edges: PropTypes.arrayOf(PropTypes.object),
     }),
-    similars: PropTypes.arrayOf(PropTypes.object),
+    similars: PropTypes.objectOf(PropTypes.array),
     // tags: PropTypes.arrayOf(PropTypes.object),
 };
 

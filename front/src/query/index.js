@@ -86,16 +86,20 @@ export const GET_PRODUCT = gql`
                 name
                 value
             }
-            similars {
-                id
-                name
-                url
-                items(limit: 1, offset: 0) {
-                    edges {
-                        node {
-                            productItemImages {
-                                id
-                                path
+            similars(limit: 3, offset: 0) {
+                edges {
+                    node {
+                        id
+                        name
+                        url
+                        items(limit: 1, offset: 0) {
+                            edges {
+                                node {
+                                    productItemImages {
+                                        id
+                                        path
+                                    }
+                                }
                             }
                         }
                     }
