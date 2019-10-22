@@ -1,4 +1,14 @@
 {
+    "p_home_mensunglasses_title": "Men's sunglasses.",
+    "p_home_womensunglasses_title": "Women's Sunglasses.",
+    "p_home_meneyeglasses_title": "Men's glasses for vision.",
+    "p_home_womeneyeglasses_title": "Women's glasses for vision.",
+    "p_home_menglasses_text": "Each pair is equipped with scratch resistant lenses that block 100% of UVA and UVB rays.",
+    "p_home_womenglasses_text": "Choose 5 frames for trying on the house and we will deliver them to you for free!",
+    "p_home_sunglasses_button": "Buy glasses",
+    "p_home_eyeglasses_button": "Buy a frame",
+    "с_collection_title": "Collection 2019",
+    "с_collection_text": "Our best offers",
     "c_headermenu_hometry_title": "Pick 5 frames to try on at home (it's free!)",
     "terms_and_conditions": "By creating this account, you agree to the <terms>Terms of Use</terms>, <privacy>Privacy Policy</privacy>, and <notice>Notice of Privacy Practices.</notice>",
     "your_cart": "Your cart",
@@ -62,7 +72,7 @@
 
     "shop_men": "Shop Men",
     "shop_women": "Shop Women",
-    "hero_title": "Try {amount} frames at home for free",
+    "p_home_hero_title": "Try 5 frames at home for free",
     "recommended": "Recommended",
 
     "about_the_frames": "About the frames",
@@ -122,7 +132,7 @@
     "locations_link": "Search all our stores and showrooms",
     "shop_the_collection": "Shop the collection",
 
-    "home_text": "Buying glasses should leave you happy and good-looking, with money in your pocket. Glasses starting at $95, including prescription lenses.",
+    "p_home_text": "Buying glasses should leave you happy and good-looking, with money in your pocket. Glasses starting at $95, including prescription lenses.",
 
     "usa": "USA",
     "russia": "Russia",

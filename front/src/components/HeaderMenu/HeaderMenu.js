@@ -114,7 +114,7 @@ const HeaderMenu = ({ items }) => {
                 <div className={homeTrySubmenuClassName}>
                     <div className={styles.homeTryText}>
                         <h2 className={styles.homeTryTitle}>
-                            <FormattedMessage id="c_header_menu_hometry_title" />
+                            <FormattedMessage id="c_headermenu_hometry_title" />
                         </h2>
                         <ul className={styles.homeTryActions}>
                             <Button
