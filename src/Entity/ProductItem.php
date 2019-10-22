@@ -98,6 +98,13 @@ class ProductItem
      */
     private $productItemTagItems;
 
+    private $images;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $sku;
+
     public function __construct()
     {
         $this->product_id = new ArrayCollection();
@@ -168,7 +175,7 @@ class ProductItem
 
     public function __toString()
     {
-        return $this->name;
+        return (string)$this->name;
     }
 
     /**
@@ -423,6 +430,11 @@ class ProductItem
         return $this;
     }
 
+    public function getImages()
+    {
+        return $this->getProductItemImages();
+    }
+
     public function __call($method, $arguments)
     {
         $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
@@ -435,5 +447,17 @@ class ProductItem
         $method = 'get'. ucfirst($name);
         $arguments = [];
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function getSku(): ?string
+    {
+        return $this->sku;
+    }
+
+    public function setSku(?string $sku): self
+    {
+        $this->sku = $sku;
+
+        return $this;
     }
 }

@@ -73,6 +73,8 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         'aa53dcba601214d17ad405b7c291b7e8' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/multiply.php',
         '75c79eb1b25749b05a47976f32b0d8a2' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideby.php',
         '6ab8ad87a734f276a6bcd5a0fe1289be' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideinto.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -173,6 +175,7 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Link\\' => 9,
+            'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
             'PhpParser\\' => 10,
@@ -210,8 +213,14 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         array (
             'JavierEguiluz\\Bundle\\EasyAdminBundle\\' => 37,
         ),
+        'I' => 
+        array (
+            'Intervention\\Image\\' => 19,
+            'Impulze\\Bundle\\InterventionImageBundle\\' => 39,
+        ),
         'G' => 
         array (
+            'GuzzleHttp\\Psr7\\' => 16,
             'GraphQL\\' => 8,
         ),
         'F' => 
@@ -560,6 +569,10 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         array (
             0 => __DIR__ . '/..' . '/psr/link/src',
         ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
@@ -631,6 +644,18 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         'JavierEguiluz\\Bundle\\EasyAdminBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/easycorp/easyadmin-bundle/legacy',
+        ),
+        'Intervention\\Image\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
+        ),
+        'Impulze\\Bundle\\InterventionImageBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/impulze/intervention-image-bundle/src',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
         'GraphQL\\' => 
         array (

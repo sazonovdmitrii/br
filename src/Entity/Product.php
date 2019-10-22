@@ -75,6 +75,11 @@ class Product
      */
     private $productItems;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $sku;
+
     public function __construct()
     {
         $this->catalog = new ArrayCollection();
@@ -348,5 +353,17 @@ class Product
         $method = 'get'. ucfirst($name);
         $arguments = [];
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function getSku(): ?string
+    {
+        return $this->sku;
+    }
+
+    public function setSku(?string $sku): self
+    {
+        $this->sku = $sku;
+
+        return $this;
     }
 }

@@ -11,6 +11,7 @@
         "doctrine/doctrine-bundle": "^1.9",
         "easycorp/easyadmin-bundle": "^1.17",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
+        "impulze/intervention-image-bundle": "^1.2",
         "knplabs/doctrine-behaviors": "~1.1",
         "lexik/jwt-authentication-bundle": "^2.6",
         "onurb/excel-bundle": "^1.0",

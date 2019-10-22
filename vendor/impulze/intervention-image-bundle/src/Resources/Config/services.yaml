@@ -1,0 +1,6 @@
+services:
+    Impulze\Bundle\InterventionImageBundle\ImageManager:
+        class: Impulze\Bundle\InterventionImageBundle\ImageManager
+        public: true
+        autoconfigure: true
+        autowire: true

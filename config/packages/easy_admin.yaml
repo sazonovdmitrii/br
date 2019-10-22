@@ -90,7 +90,8 @@ easy_admin:
             form:
                 fields:
                     - { type: 'tab' , label: 'Основные' }
-                    - price
+                    - { property: 'price', label: 'Цена'}
+                    - { property: 'sku', label: 'Артикул'}
                     - { type: 'tab' , label: 'Мультиязычный контент' }
                     - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
                         type_options: {
@@ -111,11 +112,12 @@ easy_admin:
             controller: App\Controller\Admin\ProductController
             list:
                 title: 'Продукты'
-                fields: ['id', 'name', 'visible']
+                fields: ['id', 'sku', 'name', 'visible']
             form:
                 fields:
                     - { type: 'tab' , label: 'Основные' }
-                    - visible
+                    - { property: 'sku', label: 'Артикул'}
+                    - { property: 'visible', label: 'Видимость'}
                     - { type: 'tab' , label: 'Мультиязычный контент' }
                     - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
                         type_options: {
@@ -231,7 +233,7 @@ easy_admin:
                 - { property: 'visible', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
 
         Configuration:
-            label: 'Конфигурация'
+            label: 'Конфигурация сайта'
             class: App\Entity\ProductTag
             controller: App\Controller\Admin\ConfigurationController
         Address:
@@ -358,6 +360,9 @@ easy_admin:
             class: App\Entity\Courier
         UserAddress:
             class: App\Entity\UserAddress
+        ImageType:
+            label: 'Тип изображений'
+            class: App\Entity\ImageType
         Store:
             class: App\Entity\Store
             controller: App\Controller\Admin\StoreController
@@ -421,7 +426,8 @@ easy_admin:
             children: ['Page', 'Block', 'Store']
           - Banner
           - Sale
-          - Configuration
+          - label: 'Конфигурация'
+            children: ['Configuration', 'ImageType']
           - Translation
         assets:
             css:
