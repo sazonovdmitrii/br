@@ -168,18 +168,6 @@ class ProductFieldResolver implements ResolverInterface
     }
 
     /**
-     * @param Product $product
-     * @return mixed
-     */
-    public function similars(Product $product)
-    {
-        return $this->tagService
-            ->setEntity($product)
-            ->setEntityType(Product::class)
-            ->similars();
-    }
-
-    /**
      * @return array
      */
     public static function getAliases()

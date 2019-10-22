@@ -1,22 +1,20 @@
 {
   product(slug: "sun-k3130.htm"){
-    similars {
-      id
-      name
-      url
-      items(limit: 40, offset:0) {
+    similars(limit: 3, offset:0) {
       edges {
         node {
           id
-          name
-          price
-          productItemImages {
-            id
-            path
+          items(limit: 40, offset:0){
+            edges {
+              node{
+                id
+                name
+                price
+              }
+            }
           }
         }
       }
-    }
     }
     id,
     name,

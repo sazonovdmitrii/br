@@ -23,8 +23,9 @@ Product:
         type: "[ProductFilters]"
         description: "Product Filter"
       similars:
-        type: "[Product]"
-        description: "Similar Products"
+        type: ProductConnection
+        argsBuilder: PaginatoringBuilder
+        resolve: '@=resolver("SimilarProduct", [value, args])'
 ProductFilters:
   type: object
   config:
