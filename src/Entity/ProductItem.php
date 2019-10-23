@@ -440,8 +440,6 @@ class ProductItem
         return $this->images;
     }
 
-    }
-
     public function __call($method, $arguments)
     {
         $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
