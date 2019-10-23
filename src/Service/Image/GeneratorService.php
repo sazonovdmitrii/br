@@ -4,6 +4,7 @@ namespace App\Service\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\EnvService;
 use Impulze\Bundle\InterventionImageBundle\ImageManager;
+use WebPConvert\WebPConvert;
 
 class GeneratorService extends AbstractController
 {
