@@ -5,11 +5,6 @@ class ItemsImagesType
 {
     public $name = 'ItemsImages';
 
-    public function __construct(
-        EnvService $envService
-    ) {
-    }
-
     /**
      * {@inheritdoc}
      */
