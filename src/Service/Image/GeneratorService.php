@@ -14,8 +14,6 @@ class GeneratorService extends AbstractController
 
     private $config;
 
-    private $manager;
-
     private $envService;
 
     private $imageManager;
@@ -94,7 +92,7 @@ class GeneratorService extends AbstractController
     {
         $result = [];
 
-        $imagePath = $this->envService->getBasePath() .  '/public' . $this->getImage()->getPath();
+        $imagePath = $this->envService->getPublicPath() .  '/' . $this->getImage()->getPath();
 
         $pathInfo = pathinfo($imagePath);
 
@@ -110,7 +108,6 @@ class GeneratorService extends AbstractController
                 $newImagePath = $typeDir . '/' . $pathInfo['basename'];
 
                 foreach($this->getTypes() as $imageType) {
-                    $path = '';
                     switch($imageType) {
 
                         case 'webp':
@@ -139,7 +136,7 @@ class GeneratorService extends AbstractController
                     }
 
                     $result[$imageSizeType][$imageType][] = str_replace(
-                        $this->envService->getBasePath(), $this->envService->getBaseUrl(), $path
+                        $this->envService->getPublicPath(), $this->envService->getBaseUrl(), $path
                     );
                 }
             }

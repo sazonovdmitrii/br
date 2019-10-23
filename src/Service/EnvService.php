@@ -6,15 +6,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EnvService extends AbstractController
 {
-    public function getBaseUrl()
+    public function getPublicPath()
     {
+        $url = '';
         if (isset($_ENV) && isset($_ENV['BASE_URL'])) {
-            return $_ENV['BASE_URL'];
+            $url = $_ENV['BASE_URL'];
         }
         if (isset($_SERVER['HTTP_HOST'])) {
-            return $_SERVER['HTTP_HOST'];
+            $url = $_SERVER['HTTP_HOST'];
         }
-        return '';
+        return $url . '/public';
     }
 
     public function getBasePath()
