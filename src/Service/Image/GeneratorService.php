@@ -92,7 +92,7 @@ class GeneratorService extends AbstractController
     {
         $result = [];
 
-        $imagePath = $this->envService->getPublicPath() .  '/' . $this->getImage()->getPath();
+        $imagePath = $this->envService->getBasePath() .  '/public' . $this->getImage()->getPath();
 
         $pathInfo = pathinfo($imagePath);
 
@@ -136,7 +136,7 @@ class GeneratorService extends AbstractController
                     }
 
                     $result[$imageSizeType][$imageType][] = str_replace(
-                        $this->envService->getPublicPath(), $this->envService->getBaseUrl(), $path
+                        $this->envService->getBaseUrl(), $this->envService->getPublicUrl(), $path
                     );
                 }
             }
