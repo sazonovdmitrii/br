@@ -3,21 +3,59 @@ namespace App\GraphQL\Resolver;
 
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
+use App\Service\JsonService;
+use App\Service\Image\GeneratorService;
 
 class ProductItemResolver extends LocaleAlias {
 
     private $em;
 
-    public function __construct(EntityManager $em)
-    {
+    private $imageGenerator;
+
+    public function __construct(
+        EntityManager $em,
+        GeneratorService $generatorService
+    ) {
         $this->em = $em;
+        $this->imageGenerator = $generatorService;
     }
 
     public function resolve(Argument $args)
     {
+        $config = [
+            'big' => [
+                'width' => 800,
+                'height' => 600
+            ],
+            'small' => [
+                'width' => 300,
+                'height' => 200
+            ],
+            'middle' => [
+                'width' => 600,
+                'height' => 500
+            ],
+        ];
+
         $productItem = $this->em->getRepository('App:ProductItem')
             ->find($args['id']);
+
         $productItem->setCurrentLocale($this->getLocale());
+
+        $images = [];
+
+        foreach($productItem->getProductItemImages() as $image) {
+
+            $images[] = $this->imageGenerator
+                ->setImage($image)
+                ->setTypes(['original', 'webp'])
+                ->setConfig($config)
+                ->getAll();
+
+        }
+
+        $productItem->setImages($images);
+
         return $productItem;
     }
 

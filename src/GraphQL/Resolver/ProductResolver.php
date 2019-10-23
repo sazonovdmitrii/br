@@ -28,7 +28,7 @@ class ProductResolver extends LocaleAlias {
     {
         $productUrl = $this->em
             ->getRepository('App:ProductUrl')
-            ->findByUrl($args['slug'] . '/');
+            ->findByUrl($args['slug']);
 
         if($productUrl) {
             $product = $productUrl->getEntity();

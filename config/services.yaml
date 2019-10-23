@@ -50,6 +50,9 @@ services:
         arguments:
             $localeDir: '%app.path.locale_dir%'
 
+    App\GraphQL\Type\ItemsImagesType:
+        public: true
+        autowire: true
     Redis:
         class: Redis
         calls:

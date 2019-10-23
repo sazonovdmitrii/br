@@ -18,6 +18,14 @@ ProductItem:
       productItemTagItems:
         type: "[ProductItemTagItem]"
         description: "Product Item Tag Item"
+      images:
+        type: "ItemsImages"
+        description: "Images"
+
+ItemsImages:
+    type: custom-scalar
+    config:
+        serialize: ["App\\GraphQL\\Type\\ItemsImagesType", "serialize"]
 
 ProductItemImage:
   type: object

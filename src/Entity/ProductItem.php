@@ -430,9 +430,16 @@ class ProductItem
         return $this;
     }
 
+    public function setImages($images)
+    {
+        $this->images = $images;
+    }
+
     public function getImages()
     {
-        return $this->getProductItemImages();
+        return $this->images;
+    }
+
     }
 
     public function __call($method, $arguments)

@@ -24,6 +24,7 @@ RUN apt-get install -y libmemcachedutil2
 RUN apt-get install -y build-essential
 RUN apt-get install -y libmemcached-dev
 RUN apt-get install -y libz-dev
+RUN apt-get install -y webp
 RUN pecl install memcached
 RUN echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini
 
