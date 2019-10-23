@@ -90,6 +90,7 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         'W' => 
         array (
             'Webmozart\\Assert\\' => 17,
+            'WebPConvert\\' => 12,
         ),
         'V' => 
         array (
@@ -217,6 +218,7 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         array (
             'Intervention\\Image\\' => 19,
             'Impulze\\Bundle\\InterventionImageBundle\\' => 39,
+            'ImageMimeTypeGuesser\\' => 21,
         ),
         'G' => 
         array (
@@ -288,6 +290,10 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'WebPConvert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rosell-dk/webp-convert/src',
         ),
         'Vich\\UploaderBundle\\' => 
         array (
@@ -652,6 +658,10 @@ class ComposerStaticInit833f4c0224c0917c2c4e7db85a16614f
         'Impulze\\Bundle\\InterventionImageBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/impulze/intervention-image-bundle/src',
+        ),
+        'ImageMimeTypeGuesser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rosell-dk/image-mime-type-guesser/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
