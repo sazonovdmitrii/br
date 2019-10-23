@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Link from 'components/Link';
@@ -8,19 +8,15 @@ import styles from './styles.css';
 const Shops = ({ items }) => {
     return (
         <section className={styles.columns}>
-            {items.map((item, index) => (
-                <div key={index} className={styles.column}>
-                    <h3 className={styles.region}>{item.region}</h3>
-                    {item.shops.map((shop, shopIndex) => (
-                        <Fragment key={shopIndex}>
-                            <h1 className={styles.title}>
-                                {shop.city}
-                                {', '}
-                                {shop.link ? <Link to={shop.link}>{shop.name}</Link> : shop.name}
-                            </h1>
-                            <p className={styles.text}>{shop.address}</p>
-                        </Fragment>
-                    ))}
+            {items.map(({ id, region, city, name, full_name, url }) => (
+                <div key={id} className={styles.column}>
+                    {region && <h3 className={styles.region}>{region}</h3>}
+                    <h1 className={styles.title}>
+                        {city}
+                        {', '}
+                        {url ? <Link to={url}>{name}</Link> : name}
+                    </h1>
+                    <p className={styles.text}>{full_name}</p>
                 </div>
             ))}
         </section>
