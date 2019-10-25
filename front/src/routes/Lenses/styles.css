@@ -60,7 +60,6 @@
 .nav {
     position: sticky;
     top: -1px;
-    z-index: 1;
     background-color: #fff;
     border-color: #e1e5e6;
     border-width: 1px;
