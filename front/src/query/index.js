@@ -349,6 +349,7 @@ export const GET_USER = gql`
         }
     }
 `;
+
 export const GET_STORES = gql`
     {
         stores {
