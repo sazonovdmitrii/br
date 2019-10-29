@@ -3,15 +3,15 @@
 namespace App\Service\Manager;
 
 use App\Entity\Catalog;
-use App\Entity\ProductItem;
+use App\Entity\Product;
 use App\Entity\ProductTag;
 use App\Entity\ProductTagItem;
+use App\Service\ConfigService;
 use App\Service\DoctrineService;
 use Doctrine\ORM\EntityManager;
 use Redis;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Service\ConfigService;
-use App\Entity\Product;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class TagManager extends AbstractController
 {
@@ -31,12 +31,14 @@ class TagManager extends AbstractController
         Redis $redis,
         EntityManager $em,
         DoctrineService $doctrineService,
-        ConfigService $configService
+        ConfigService $configService,
+        ObjectManager $manager
     ) {
         $this->em              = $em;
         $this->redis           = $redis;
         $this->doctrineService = $doctrineService;
-        $this->configService = $configService;
+        $this->configService   = $configService;
+        $this->manager         = $manager;
     }
 
     /**
@@ -49,11 +51,11 @@ class TagManager extends AbstractController
 
 //        $cacheItem = json_decode($this->redis->get($cacheKey));
 //        if (!$cacheItem) {
-            if (method_exists($this, $method)) {
-                $cacheItem = $this->$method();
-                $this->redis->set($cacheKey, json_encode($cacheItem));
-                return $cacheItem;
-            }
+        if (method_exists($this, $method)) {
+            $cacheItem = $this->$method();
+            $this->redis->set($cacheKey, json_encode($cacheItem));
+            return $cacheItem;
+        }
 //        }
 //        return $cacheItem;
     }
@@ -199,7 +201,8 @@ class TagManager extends AbstractController
     {
         return $this->getEntity()->getProducttagitem()->filter(function (ProductTagItem $productTagItem) {
             return in_array($productTagItem->getEntityId()->getId(), $this->getTagsIds());
-        });
+        }
+        );
     }
 
     /**
@@ -209,14 +212,14 @@ class TagManager extends AbstractController
     {
         $productsTagIds = $this->_getProductTagsIds();
 
-        $tagsItems = $this->setEntityType(Product::class)
+        $tagsItems            = $this->setEntityType(Product::class)
             ->setEntity($this->getEntity())
             ->setTagsIds($productsTagIds)
             ->getMultiple();
         $productsTagsItemsIds = [];
 
-        foreach($tagsItems as $tagsItem) {
-            if(in_array($tagsItem->getEntityId()->getId(), $productsTagIds)) {
+        foreach ($tagsItems as $tagsItem) {
+            if (in_array($tagsItem->getEntityId()->getId(), $productsTagIds)) {
                 $productsTagsItemsIds[] = $tagsItem->getId();
             }
         }
@@ -228,7 +231,7 @@ class TagManager extends AbstractController
     /**
      * @return array
      */
-    private function _getExtraTagsIds ()
+    private function _getExtraTagsIds()
     {
         return explode(
             ',', $this->configService->get('extra_tags_similar_products')
@@ -238,7 +241,7 @@ class TagManager extends AbstractController
     /**
      * @return array
      */
-    private function _getProductTagsIds ()
+    private function _getProductTagsIds()
     {
         return explode(
             ',', $this->configService->get('required_tags_similar_products')
@@ -250,7 +253,7 @@ class TagManager extends AbstractController
      */
     public function getProducts()
     {
-        if(!$this->getTagsIds()) {
+        if (!$this->getTagsIds()) {
             return [];
         }
 
@@ -258,8 +261,8 @@ class TagManager extends AbstractController
             ->getProducts($this->getTagsIds());
 
         $categoriesProductsIds = [];
-        foreach($this->getEntity()->getCatalog() as $catalog) {
-            foreach($catalog->getProducts() as $product) {
+        foreach ($this->getEntity()->getCatalog() as $catalog) {
+            foreach ($catalog->getProducts() as $product) {
                 $categoriesProductsIds[] = $product->getId();
             }
         }

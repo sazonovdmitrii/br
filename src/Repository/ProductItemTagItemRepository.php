@@ -19,6 +19,14 @@ class ProductItemTagItemRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductItemTagItem::class);
     }
 
+    public function flushByProductItem($productItem)
+    {
+        $query = 'DELETE FROM productitemtagitem_productitem WHERE productitem_id = :productitem_id';
+        $statement = $this->_em->getConnection()->prepare($query);
+        $statement->bindValue('productitem_id', $productItem->getId());
+        $statement->execute();
+    }
+
     // /**
     //  * @return ProductItemTagItem[] Returns an array of ProductItemTagItem objects
     //  */
