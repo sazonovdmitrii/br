@@ -57,24 +57,19 @@
     overflow: hidden;
 
     @media (--viewport-desktop) {
-        justify-content: flex-start;
         flex: 0 0 50%;
+        justify-content: flex-start;
         max-width: 50%;
         margin: 0;
     }
 }
 
 .image {
-    margin-left: 15px;
-
     @media (--viewport-ipad) {
-        width: auto;
         max-height: 250px;
-        margin: 0;
     }
 
     @media (--viewport-desktop) {
-        max-width: 130%;
         max-height: 460px;
     }
 }
