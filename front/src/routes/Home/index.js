@@ -17,16 +17,7 @@ import menEyeglassesImg from './images/men-eyeglasses.jpg';
 import womenEyeglassesImg from './images/women-eyeglasses.jpg';
 
 export default () => {
-    const [
-        manUrl,
-        womanUrl,
-        menSunglassesUrl,
-        womenSunglassesUrl,
-        menEyeglassesUrl,
-        womenEyeglassesUrl,
-    ] = useLangLinks([
-        '/muzhskie-opravy/',
-        '/zhenskie-opravy/',
+    const [menSunglassesUrl, womenSunglassesUrl, menEyeglassesUrl, womenEyeglassesUrl] = useLangLinks([
         '/muzhskie-solncezashhitnye-ochki/',
         '/zhenskie-solncezashhitnye-ochki/',
         '/muzhskie-opravy/',
@@ -36,14 +27,14 @@ export default () => {
     return (
         <>
             <HeroHome
-                title={<FormattedMessage id="p_home_hero_title" />}
+                title={<FormattedMessage id="p_home_hero_title" values={{ br: <br /> }} />}
                 image={bgImage}
                 actions={
                     <>
-                        <Button to={manUrl} kind="primary" size="small" bold outlined rounded>
+                        <Button to={menEyeglassesUrl} kind="primary" size="small" bold outlined rounded>
                             <FormattedMessage id="shop_men" />
                         </Button>
-                        <Button to={womanUrl} kind="primary" size="small" bold outlined rounded>
+                        <Button to={womenEyeglassesUrl} kind="primary" size="small" bold outlined rounded>
                             <FormattedMessage id="shop_women" />
                         </Button>
                     </>

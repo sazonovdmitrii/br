@@ -15,8 +15,7 @@ export default {
     url: data.url,
     phone: data.phone,
     fullSiteName: `${data.domain}`,
-    defaultTitle: `Glasses & Prescription Eyeglasses | ${data.siteName}`,
-    titleTemplate: `%s | ${data.siteName}`,
+    titleTemplate: `%s - «${data.siteName.toUpperCase()}»`,
     title: '',
     content({ name, keywords, description }) {
         return {

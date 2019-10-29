@@ -2,12 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { X as CloseIcon } from 'react-feather';
-import { injectIntl } from 'react-intl';
 
 import styles from './styles.css';
 
-const SearchForm = ({ show, onClose, intl }) => {
-    const placeholder = intl.formatMessage({ id: 'search' });
+const SearchForm = ({ show, onClose, title, placeholder }) => {
     const [search, setSearch] = useState('');
     const overlayNode = useRef(null);
 
@@ -33,7 +31,7 @@ const SearchForm = ({ show, onClose, intl }) => {
                 <button className={styles.closeButton} onClick={onClose}>
                     <CloseIcon className={styles.closeIcon} size="16" />
                 </button>
-                <div className={styles.title}>{placeholder} Brillenhof</div>
+                <div className={styles.title}>{title}</div>
                 <input
                     type="text"
                     className={styles.input}
@@ -44,9 +42,7 @@ const SearchForm = ({ show, onClose, intl }) => {
                 />
             </div>
             <hr className={styles.hr} />
-            <div className={styles.inner}>
-                <div className="u-pt6 u-grid__row" />
-            </div>
+            <div className={styles.inner}>{/* TODO PRODUCTS */}</div>
         </div>
     );
 
@@ -63,4 +59,4 @@ SearchForm.propTypes = {
     show: PropTypes.bool,
 };
 
-export default injectIntl(SearchForm);
+export default SearchForm;

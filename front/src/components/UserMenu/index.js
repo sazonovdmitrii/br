@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Search as SearchIcon, MapPin as MapPinIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 
-import { useLangLinks, useApp } from 'hooks';
+import { useLangLinks, useApp, useFormatMessage } from 'hooks';
 import { IS_LOGGED_IN } from 'query';
 
 import Button from 'components/Button';
@@ -14,11 +14,17 @@ import styles from './styles.css';
 
 const UserMenu = () => {
     const [reailsLink, accountLink, signInLink] = useLangLinks(['/retail', '/account', '/account/login']);
+    const [placeholder] = useFormatMessage([{ id: 'c_search_placeholder' }]);
     const [showSearch, setShowSearch] = useState(false);
 
     return (
         <>
-            <SearchForm show={showSearch} onClose={() => setShowSearch(false)} />
+            <SearchForm
+                title={`${placeholder} Brillenhof`}
+                placeholder={placeholder}
+                show={showSearch}
+                onClose={() => setShowSearch(false)}
+            />
             <ul className={styles.root}>
                 <li className={styles.item}>
                     <div className={styles.icon}>
@@ -48,7 +54,5 @@ const UserMenu = () => {
         </>
     );
 };
-
-UserMenu.propTypes = {};
 
 export default UserMenu;

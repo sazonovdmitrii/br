@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet';
 import classnames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
 
+import { useFormatMessage } from 'hooks';
+
 import Button from 'components/Button';
 
 import styles from './styles.css';
@@ -19,6 +21,7 @@ const cx = classnames.bind(styles);
 const NAV_HEIGHT = 66;
 
 const Lenses = () => {
+    const [metaTitle] = useFormatMessage([{ id: 'p_lenses_meta_title' }]);
     const _sections = {
         eyeglasses: { name: <FormattedMessage id="p_lenses_nav_eyeglasses" />, node: useRef(null) },
         sunglasses: { name: <FormattedMessage id="p_lenses_nav_sunglasses" />, node: useRef(null) },
@@ -43,7 +46,7 @@ const Lenses = () => {
 
     return (
         <div className={styles.root}>
-            <Helmet>
+            <Helmet title={metaTitle}>
                 <meta name="robots" content="noindex" />
             </Helmet>
             <div className={styles.hero}>

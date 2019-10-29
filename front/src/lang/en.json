@@ -1,4 +1,5 @@
 {
+    "p_catalog_meta_title": "{name} buy with delivery in Moscow",
     "p_home_mensunglasses_title": "Men's sunglasses.",
     "p_home_womensunglasses_title": "Women's Sunglasses.",
     "p_home_meneyeglasses_title": "Men's glasses for vision.",
@@ -136,6 +137,7 @@
 
     "usa": "USA",
     "russia": "Russia",
+    "c_search_placeholder": "Search",
 
     "call": "Call",
     "chat": "Chat",

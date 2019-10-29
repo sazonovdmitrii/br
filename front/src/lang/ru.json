@@ -1,4 +1,6 @@
 {
+    "p_catalog_meta_title": "{name} купить с доставкой в Москве",
+    "meta_title": "«BRILLENHOF» купить очки с доставкой оптика в Москве",
     "p_home_mensunglasses_title": "Мужские солнцезащитные очки.",
     "p_home_womensunglasses_title": "Женские солнцезащитные очки.",
     "p_home_meneyeglasses_title": "Мужские очки для зрения.",
@@ -57,7 +59,6 @@
     "yes": "Да",
     "no": "Нет",
     "remove_from_cart": "Удалить из корзины",
-    "meta_title": "Очки и очки по рецепту",
 
     "cancel": "Отменить",
     "create_account": "Зарегистрироваться",
@@ -72,7 +73,7 @@
 
     "shop_men": "Купить мужские",
     "shop_women": "Купить женские",
-    "p_home_hero_title": "Примерьте 5 оправ бесплатно с доставкой для примерки на дом",
+    "p_home_hero_title": "Выберите бесплатную доставку {br} 5 оправ для примерки",
     "recommended": "Рекомендуемые",
 
     "about_the_frames": "О оправе",
@@ -137,6 +138,7 @@
 
     "usa": "США",
     "russia": "Россия",
+    "c_search_placeholder": "Поиск",
 
     "call": "Звонок",
     "chat": "Чат",

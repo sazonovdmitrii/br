@@ -3,12 +3,13 @@ import { Switch, Route } from 'react-router';
 import Helmet from 'react-helmet';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { IntlProvider, injectIntl } from 'react-intl';
+import { IntlProvider } from 'react-intl';
 
 import routes from 'routes';
 import SEO from 'globalMeta';
 import LANGS from 'lang';
 import { isProd } from 'utils';
+import { useFormatMessage } from 'hooks';
 
 import NotFound from 'routes/NotFound';
 import Header from 'components/Header';
@@ -29,8 +30,8 @@ const SET_LANG_MUTATION = gql`
 
 const defaultLang = LANGS.find(item => item.default);
 
-const Meta = injectIntl(({ intl, lang }) => {
-    const defaultTitle = intl.formatMessage({ id: 'meta_title' });
+const Meta = ({ lang }) => {
+    const [defaultTitle] = useFormatMessage([{ id: 'meta_title' }]);
 
     return (
         <Helmet defaultTitle={defaultTitle} titleTemplate={SEO.titleTemplate}>
@@ -60,7 +61,7 @@ const Meta = injectIntl(({ intl, lang }) => {
             <meta name="theme-color" content="#ffffff" />
         </Helmet>
     );
-});
+};
 
 const App = ({ lang }) => {
     const { data: { getMessages = {} } = {} } = useQuery(GET_MESSAGES, { variables: { lang } });
@@ -88,6 +89,7 @@ const App = ({ lang }) => {
             <Header lang={lang} />
             <Switch>
                 {routes({ lang, defaultLang }).map(([Component, props], index) => (
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     <Route key={index} {...props}>
                         <Component lang={lang} />
                     </Route>
