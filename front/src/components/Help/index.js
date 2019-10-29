@@ -20,19 +20,13 @@ const Help = ({ className, socials }) => {
     return (
         <div className={rootClassName}>
             <h4 className={styles.title}>
-                <FormattedMessage id="need_a_hand" />?
+                <FormattedMessage id="c_help_title" />?
             </h4>
             <div className={styles.text}>
                 <FormattedMessage
-                    id="help_subtitle"
+                    id="c_help_subtitle"
                     values={{
-                        phone: msg => (
-                            <>
-                                <br />
-                                {msg}
-                                <br />
-                            </>
-                        ),
+                        br: <br />,
                     }}
                 />
             </div>
@@ -44,7 +38,7 @@ const Help = ({ className, socials }) => {
                                 <img src={phoneIcon} alt="Call icon" />
                             </span>
                             <span className={styles.itemTitle}>
-                                <FormattedMessage id="call" />
+                                <FormattedMessage id="c_help_call" />
                             </span>
                         </a>
                     </li>
@@ -54,7 +48,7 @@ const Help = ({ className, socials }) => {
                                 <img src={faqIcon} alt="FAQ icon" className={styles.icon} />
                             </span>
                             <span className={styles.itemTitle}>
-                                <FormattedMessage id="faq" />
+                                <FormattedMessage id="c_help_faq" />
                             </span>
                         </Link>
                     </li>
@@ -64,7 +58,7 @@ const Help = ({ className, socials }) => {
                                 <img src={emailIcon} alt="Email icon" />
                             </span>
                             <span className={styles.itemTitle}>
-                                <FormattedMessage id="email" />
+                                <FormattedMessage id="c_help_email" />
                             </span>
                         </a>
                     </li>
@@ -74,7 +68,7 @@ const Help = ({ className, socials }) => {
                                 <img src={smsIcon} alt="Text icon" />
                             </span>
                             <span className={styles.itemTitle}>
-                                <FormattedMessage id="text" />
+                                <FormattedMessage id="c_help_text" />
                             </span>
                         </a>
                     </li>
@@ -84,7 +78,7 @@ const Help = ({ className, socials }) => {
                                 <img src={chatIcon} alt="Chat icon" />
                             </span>
                             <span className={styles.itemTitle}>
-                                <FormattedMessage id="chat" />
+                                <FormattedMessage id="c_help_chat" />
                             </span>
                         </a>
                     </li>

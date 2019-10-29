@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import Container from 'components/Container';
@@ -10,7 +10,7 @@ export default () => (
     <Container>
         <div className={styles.text}>
             <Title>
-                <FormattedMessage id="500" /> 😢
+                <FormattedMessage id="p_500_title" /> 😢
             </Title>
         </div>
     </Container>

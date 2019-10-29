@@ -28,10 +28,10 @@ class ErrorBoundary extends Component {
     }
 }
 
-const withErrorBoundary = Component => (props = {}) => {
+const withErrorBoundary = RootComponent => (props = {}) => {
     return (
         <ErrorBoundary>
-            <Component {...props} />
+            <RootComponent {...props} />
         </ErrorBoundary>
     );
 };

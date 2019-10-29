@@ -22,11 +22,11 @@ class NotFound extends Component {
                 <div className={styles.root}>
                     <p className={styles.text}>404</p>
                     <Title>
-                        <FormattedMessage id="not_found_title" />
+                        <FormattedMessage id="p_404_title" />
                     </Title>
                     <p>
                         <FormattedMessage
-                            id="not_found_text"
+                            id="p_404_text"
                             values={{
                                 homelink: msg => <Link to="/">{msg}</Link>,
                             }}

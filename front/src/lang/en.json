@@ -81,10 +81,8 @@
     "eye_exam_description": "Comprehensive eye exams are available at or next to all of the below stores. (In some areas, exams are provided by independent optometrists.)",
     "eye_exam_title": "Book an eye exam",
     "forgot_password": "Forgot password",
-    "help_subtitle": "We’re available by phone 8 (495) 587 98 99 every day from 8 to 21.",
     "i_have_an_account": "I have an account",
     "im_new_here": "I’m new here",
-    "need_a_hand": "Need a hand",
     "nice_to_meet_you": "Nice to meet you",
     "p_retail_filter": "Stores where I can get an eye exam or update my prescription",
     "p_retail_title": "Retail locations in the U.S.",
@@ -92,8 +90,8 @@
     "sign_up": "Sign up",
     "product_text": "Possible options: a frame without lenses, a frame with single-focal lenses,{br} bifocal, progressive and sun-protection",
     "buy_at_optics_for": "Buy at optics for",
-    "not_found_title": "Our Apologies",
-    "not_found_text": "Go back to our <homelink>homepage</homelink>.",
+    "p_404_title": "Our Apologies",
+    "p_404_text": "Go back to our <homelink>homepage</homelink>.",
     "our_newest_collections": "Our newest collections",
     "shop_now": "Shop now",
     "p_eyeglasses_hero_title": "Eyeglasses",
@@ -139,12 +137,14 @@
     "russia": "Russia",
     "c_search_placeholder": "Search",
 
-    "call": "Call",
-    "chat": "Chat",
-    "email": "Email",
-    "faq": "FAQ",
-    "search": "Search",
-    "text": "Text",
+    "c_help_title": "Need a hand",
+    "c_help_subtitle": "We’re available by phone 8 (495) 587 98 99 every day from 8 to 21.",
+    "c_help_call": "Call",
+    "c_help_chat": "Chat",
+    "c_help_email": "Email",
+    "c_help_faq": "FAQ",
+    "c_help_search": "Search",
+    "c_help_text": "Text",
 
-    "500": "Something went wrong."
+    "p_500_title": "Something went wrong."
 }
