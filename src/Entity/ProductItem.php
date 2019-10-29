@@ -29,11 +29,6 @@ class ProductItem
     private $created;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Product", inversedBy="productItems")
      */
     private $product_id;
@@ -131,18 +126,6 @@ class ProductItem
     public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
 
         return $this;
     }

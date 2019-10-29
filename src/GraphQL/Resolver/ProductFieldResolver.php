@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use App\Entity\Product;
 use GraphQL\Type\Definition\ResolveInfo;
 use Overblog\GraphQLBundle\Definition\Argument;
+use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 use Overblog\GraphQLBundle\Relay\Connection\Paginator;
 use Overblog\GraphQLBundle\Relay\Connection\Output\Connection;
 use App\Service\TagService;
@@ -121,6 +122,9 @@ class ProductFieldResolver extends LocaleAlias
     public function items(Product $product, Argument $args) :Connection
     {
         $items = $product->getProductItems()->toArray();
+        foreach($items as $item) {
+            $item->setCurrentLocale($this->getLocale());
+        }
         $paginator = new Paginator(function () use ($items, $args) {
             return array_slice($items, $args['offset'], $args['limit'] ?? 10);
         });
