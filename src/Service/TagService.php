@@ -16,6 +16,26 @@ class TagService extends TagManager
 
     private $parentTagId;
 
+    private $locale;
+
+    /**
+     * @return mixed
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param $locale
+     * @return $this
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+        return $this;
+    }
+
     public function getEntityType()
     {
         return $this->entityType;
