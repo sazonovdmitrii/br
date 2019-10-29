@@ -6,14 +6,13 @@ use Doctrine\ORM\EntityManager;
 use App\Entity\Product;
 use GraphQL\Type\Definition\ResolveInfo;
 use Overblog\GraphQLBundle\Definition\Argument;
-use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 use Overblog\GraphQLBundle\Relay\Connection\Paginator;
 use Overblog\GraphQLBundle\Relay\Connection\Output\Connection;
 use App\Service\TagService;
 use App\Service\ConfigService;
 use App\Entity\Catalog;
 
-class ProductFieldResolver implements ResolverInterface
+class ProductFieldResolver extends LocaleAlias
 {
 
     private $em;
@@ -110,6 +109,7 @@ class ProductFieldResolver implements ResolverInterface
         return $this->tagService
             ->setEntityType(Product::class)
             ->setEntity($product)
+            ->setLocale($this->getLocale())
             ->getFilters();
     }
 

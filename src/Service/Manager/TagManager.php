@@ -47,15 +47,15 @@ class TagManager extends AbstractController
         $method   = 'get' . $this->getEntityType() . 'Filters';
         $cacheKey = $method . $this->getEntity()->getId();
 
-        $cacheItem = json_decode($this->redis->get($cacheKey));
-        if (!$cacheItem) {
+//        $cacheItem = json_decode($this->redis->get($cacheKey));
+//        if (!$cacheItem) {
             if (method_exists($this, $method)) {
                 $cacheItem = $this->$method();
                 $this->redis->set($cacheKey, json_encode($cacheItem));
                 return $cacheItem;
             }
-        }
-        return $cacheItem;
+//        }
+//        return $cacheItem;
     }
 
     /**
@@ -119,8 +119,10 @@ class TagManager extends AbstractController
         $tags = [];
         foreach ($tagsItems as $tag) {
             if ($tag->getName()) {
+                $tagEntity = $tag->getEntityId();
+                $tagEntity->setCurrentLocale($this->getLocale());
                 $tags[] = [
-                    'name'  => $tag->getEntityId()->getName(),
+                    'name'  => $tagEntity->getName(),
                     'value' => $tag->getName()
                 ];
             }
