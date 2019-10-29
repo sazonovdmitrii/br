@@ -5,8 +5,8 @@ import { FormattedMessage } from 'react-intl';
 
 import Colors from 'components/Colors';
 
-// import Loader from './Loader';
 import styles from './styles.css';
+import placeholderImage from './images/placeholder.png';
 
 const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, onClick }) => {
     const colors = items.reduce((array, item) => {
@@ -19,14 +19,15 @@ const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, 
         imageProps ||
             (items.length && items[0].node.productItemImages.length
                 ? items[0].node.productItemImages[0].path
-                : 'https://placehold.it/377x167')
+                : placeholderImage)
     );
     const handleChangeColor = value => {
         const {
             node: { productItemImages },
         } = items.find(({ node }) => node.id === value);
+        const newImage = productItemImages.length ? productItemImages[0].path : placeholderImage;
 
-        setImage(productItemImages[0].path);
+        setImage(newImage);
         setColor(value);
     };
 
