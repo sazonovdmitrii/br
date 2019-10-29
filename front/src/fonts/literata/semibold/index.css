@@ -1,0 +1,8 @@
+@font-face {
+    font-weight: 600;
+    font-family: Literata;
+    font-style: normal;
+    src: url('./literata-v14-cyrillic_latin-600.woff2') format('woff2'),
+        url('./literata-v14-cyrillic_latin-600.woff') format('woff');
+    font-display: swap;
+}
