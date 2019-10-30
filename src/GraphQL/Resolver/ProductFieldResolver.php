@@ -125,35 +125,28 @@ class ProductFieldResolver extends LocaleAlias
     public function items(Product $product, Argument $args) :Connection
     {
         $items = $product->getProductItems()->toArray();
-        $config = [
-            'big' => [
-                'width' => 800,
-                'height' => 600
-            ],
-            'small' => [
-                'width' => 300,
-                'height' => 200
-            ],
-            'middle' => [
-                'width' => 600,
-                'height' => 500
-            ],
-        ];
+
+        $imageConfiguration = $this->em->getRepository('App:ImageType')->findAll();
+
         foreach($items as $item) {
+
             $item->setCurrentLocale($this->getLocale());
+
             $images = [];
             foreach($item->getProductItemImages() as $image) {
                 $images[] = $this->imageGenerator
                     ->setImage($image)
                     ->setTypes(['original', 'webp'])
-                    ->setConfig($config)
+                    ->setConfig($imageConfiguration)
                     ->getAll();
             }
             $item->setImages($images);
         }
+
         $paginator = new Paginator(function () use ($items, $args) {
             return array_slice($items, $args['offset'], $args['limit'] ?? 10);
         });
+
         return $paginator->auto($args, count($items));
     }
 

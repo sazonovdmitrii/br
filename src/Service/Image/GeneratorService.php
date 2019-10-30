@@ -97,9 +97,9 @@ class GeneratorService extends AbstractController
         $pathInfo = pathinfo($imagePath);
 
         if($extension = $pathInfo['extension']) {
-            foreach(array_keys($this->getConfig()) as $imageSizeType) {
+            foreach($this->getConfig() as $imageSizeType) {
 
-                $typeDir = $pathInfo['dirname'] . '/' . $imageSizeType;
+                $typeDir = $pathInfo['dirname'] . '/' . $imageSizeType->getName();
 
                 if(!file_exists($typeDir)) {
                     mkdir($typeDir);
@@ -125,8 +125,8 @@ class GeneratorService extends AbstractController
                                     ->configure(['driver' => 'imagick'])
                                     ->make($imagePath)
                                     ->resize(
-                                        $this->getConfig()[$imageSizeType]['width'],
-                                        $this->getConfig()[$imageSizeType]['height'], function ($constraint) {
+                                        $imageSizeType->getWidth(),
+                                        $imageSizeType->getHeight(), function ($constraint) {
                                         $constraint->aspectRatio();
                                     }
                                     );
@@ -135,7 +135,7 @@ class GeneratorService extends AbstractController
                             $path = $newImagePath;
                     }
 
-                    $result[$imageSizeType][$imageType][] = str_replace(
+                    $result[$imageSizeType->getName()][$imageType][] = str_replace(
                         $this->envService->getBasePath().  '/public', $this->envService->getPublicUrl(), $path
                     );
                 }
