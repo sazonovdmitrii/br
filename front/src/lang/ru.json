@@ -1,4 +1,8 @@
 {
+    "p_catalog_filters_modal_header": "Выбор фильтра",
+    "p_catalog_filters_modal_reset_button": "Сбросить фильтры ({count})",
+    "p_catalog_filters_modal_button": "Показать {count}",
+    "p_catalog_filters_button": "Фильтры",
     "p_catalog_meta_title": "{name} купить с доставкой в Москве",
     "meta_title": "«BRILLENHOF» купить очки с доставкой оптика в Москве",
     "p_home_mensunglasses_title": "Мужские солнцезащитные очки.",

@@ -22,8 +22,13 @@
 }
 
 .inner {
-    padding: 20px 0 10px;
+    padding: 20px 15px 10px;
+    height: 100%;
     background-color: var(--color-white);
+
+    @media (--viewport-tablet) {
+        padding: 20px 0 10px;
+    }
 }
 
 .tabs {
@@ -112,11 +117,9 @@
 
 .tabContent {
     position: absolute;
-    top: 50%;
+    top: 0;
     right: 0;
     left: 0;
-    height: 72px;
-    transform: translateY(-50%);
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.2s ease-in-out 0.2s;
@@ -125,13 +128,20 @@
         visibility: visible;
         opacity: 1;
     }
+
+    @media (--viewport-tablet) {
+        top: 50%;
+        transform: translateY(-50%);
+        height: 72px;
+    }
 }
 
 .tabContentItems {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    height: 100%;
+    text-align: left;
+
+    @media (--viewport-tablet) {
+        text-align: center;
+    }
 }
 
 .filterItem {
@@ -218,4 +228,9 @@
 .modalButton {
     margin: 12px 18px;
     padding: 12px 18px;
+}
+
+.resetButton {
+    text-decoration: underline;
+    border: none;
 }

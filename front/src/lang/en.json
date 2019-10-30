@@ -1,4 +1,8 @@
 {
+    "p_catalog_filters_modal_header": "Filter frame selection",
+    "p_catalog_filters_modal_reset_button": "Reset filters ({count})",
+    "p_catalog_filters_modal_button": "See {count} frames",
+    "p_catalog_filters_button": "Filter frames",
     "p_catalog_meta_title": "{name} buy with delivery in Moscow",
     "p_home_mensunglasses_title": "Men's sunglasses.",
     "p_home_womensunglasses_title": "Women's Sunglasses.",

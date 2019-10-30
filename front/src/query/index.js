@@ -40,15 +40,6 @@ export const GET_HEADER_MENU = gql`
     }
 `;
 
-// tags {
-//     id
-//     name
-//     childrens {
-//         id
-//         name
-//         count
-//     }
-// }
 export const GET_CATALOG = gql`
     query Catalog($slug: String!) {
         catalog(slug: $slug) {
@@ -118,8 +109,8 @@ export const SEARCH_PRODUCTS = gql`
 `;
 
 export const GET_PRODUCTS = gql`
-    query Products($slug: String!, $offset: Int!, $limit: Int!) {
-        catalog(slug: $slug) {
+    query Products($slug: String!, $offset: Int!, $limit: Int!, $tags: [Int]) {
+        catalog(slug: $slug, tags: $tags) {
             count
             products(limit: $limit, offset: $offset) {
                 edges {
@@ -145,6 +136,15 @@ export const GET_PRODUCTS = gql`
                             }
                         }
                     }
+                }
+            }
+            tags {
+                id
+                name
+                childrens {
+                    id
+                    name
+                    count
                 }
             }
         }

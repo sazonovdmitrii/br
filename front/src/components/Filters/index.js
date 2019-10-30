@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classnames from 'classnames/bind';
 import { Filter as FilterIcon, Search as SearchIcon, X as CloseIcon } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
 
 import { Tabs, Tab, TabsView } from 'components/Tabs';
 import Checkbox from 'components/Checkbox';
@@ -10,54 +11,69 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Filters = ({ list }) => {
-    const [{ value, active }, setState] = useState({
+const Filters = ({ list, count, onChange }) => {
+    const [tab, setTab] = useState({
         value: null,
         active: false,
     });
+    const [tagsIds, setTagsIds] = useState([]);
 
-    const handleChange = newValue => {
-        setState(prevState => ({
+    useEffect(() => {
+        onChange(tagsIds);
+    }, [onChange, tagsIds, tagsIds.length]);
+
+    const handleChangeTab = newValue => {
+        setTab(prevState => ({
             ...prevState,
-            value: value === newValue ? null : newValue,
-            active: value !== newValue,
+            value: tab.value === newValue ? null : newValue,
+            active: tab.value !== newValue,
         }));
     };
-    const handleChangeFilter = () => {};
+    const handleChangeFilter = (tagId, active) => {
+        setTagsIds(prevState => (active ? [...prevState, tagId] : prevState.filter(id => id !== tagId)));
+    };
 
-    const tabWrapperClassName = cx(styles.tabWrapper, { active });
-    const innerClassName = cx(styles.inner, { active });
-    const wrapperClassName = cx(styles.wrapper, { expanded: active });
-    const modalClassName = cx(styles.modal, { expanded: active });
-    const tabsClassName = cx(styles.tabs, { expanded: active });
-    const buttonsClassName = cx(styles.buttons, { expanded: active });
+    const tabWrapperClassName = cx(styles.tabWrapper, { active: tab.active });
+    const innerClassName = cx(styles.inner, { active: tab.active });
+    const wrapperClassName = cx(styles.wrapper, { expanded: tab.active });
+    const modalClassName = cx(styles.modal, { expanded: tab.active });
+    const tabsClassName = cx(styles.tabs, { expanded: tab.active });
+    const buttonsClassName = cx(styles.buttons, { expanded: tab.active });
 
     return (
         <div className={wrapperClassName}>
             <div className={modalClassName}>
-                <h2 className={styles.modalHeader}>Filter frame selection</h2>
+                <h2 className={styles.modalHeader}>
+                    <FormattedMessage id="p_catalog_filters_modal_header" />
+                </h2>
                 <button
                     type="button"
                     className={styles.modalClose}
-                    onClick={() => setState({ value: null, active: false })}
+                    onClick={() => setTab({ value: null, active: false })}
                 >
                     <CloseIcon />
                 </button>
                 <div className={styles.modalFooter}>
-                    <span className="c-gallery-filters__clear-filters -disabled">Clear filters (0)</span>
+                    <button type="button" className={styles.resetButton} onClick={() => setTagsIds([])}>
+                        <FormattedMessage
+                            id="p_catalog_filters_modal_reset_button"
+                            values={{ count: tagsIds.length }}
+                        />
+                    </button>
                     <Button className={styles.modalButton} kind="simple">
-                        See 90 frames
+                        <FormattedMessage id="p_catalog_filters_modal_button" values={{ count }} />
                     </Button>
                 </div>
             </div>
             <div className={innerClassName}>
                 {list.length ? (
-                    <Tabs className={tabsClassName} value={value} onChange={handleChange}>
+                    <Tabs className={tabsClassName} value={tab.value} onChange={handleChangeTab}>
                         {list.map(item => {
                             if (!item.childrens.length) return null;
+
                             const tabClassName = cx(styles.tab, {
-                                active: value ? value === item.id : true,
-                                inactive: value !== item.id,
+                                active: tab.value ? tab.value === item.id : true,
+                                inactive: tab.value !== item.id,
                             });
 
                             return (
@@ -79,11 +95,11 @@ const Filters = ({ list }) => {
                             if (!item.childrens.length) return null;
 
                             const tabContentClassName = cx(styles.tabContent, {
-                                active: item.id === value,
+                                active: item.id === tab.value,
                             });
 
                             return (
-                                <TabsView key={item.id} value={value} className={tabContentClassName}>
+                                <TabsView key={item.id} value={tab.value} className={tabContentClassName}>
                                     <div className={styles.tabContentItems}>
                                         {item.childrens.map(({ name, id }) => {
                                             if (!name) return null;
@@ -93,7 +109,7 @@ const Filters = ({ list }) => {
                                                     <Checkbox
                                                         label={name}
                                                         name={id}
-                                                        onChange={handleChangeFilter}
+                                                        onChange={(e, value) => handleChangeFilter(id, value)}
                                                     />
                                                 </div>
                                             );
@@ -109,15 +125,15 @@ const Filters = ({ list }) => {
                 <Button
                     className={styles.button}
                     kind="simple"
-                    onClick={() => setState({ active: true, value: list[0].id })}
+                    onClick={() => setTab({ active: true, value: list[0].id })}
                 >
                     <FilterIcon size="15" className={styles.buttonIcon} />
-                    Filter frames
+                    <FormattedMessage id="p_catalog_filters_button" />
                 </Button>
-                <Button className={styles.button} kind="simple">
+                {/*<Button className={styles.button} kind="simple">
                     <SearchIcon size="15" className={styles.buttonIcon} />
                     Search frames
-                </Button>
+                </Button>*/}
             </div>
         </div>
     );

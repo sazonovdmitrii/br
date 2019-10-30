@@ -1,23 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
+import classnames from 'classnames';
 
 import { GET_PRODUCTS } from 'query';
 
 import ProductCard from 'components/ProductCard';
 import Loader from 'components/Loader';
-
-import classnames from 'classnames/bind';
+import Filters from 'components/Filters';
 
 import styles from './styles.css';
 
-const cx = classnames.bind(styles);
-
-const Products = ({ title, slug, limit, offset, className }) => {
-    const { loading, error, data } = useQuery(GET_PRODUCTS, {
+const Products = ({ slug, limit, offset, className }) => {
+    const { loading, error, data, refetch } = useQuery(GET_PRODUCTS, {
         variables: { slug, limit, offset },
     });
-    const rowClassName = cx(styles.row, className);
 
     if (loading && !data) return <Loader />;
     if (error || !data) {
@@ -25,32 +22,41 @@ const Products = ({ title, slug, limit, offset, className }) => {
         return null;
     }
 
-    const { products } = data.catalog;
+    const { products, tags, count } = data.catalog;
+    const rowClassName = classnames(styles.row, className);
 
     return (
-        <div className={styles.root}>
-            {title}
-            <div className={rowClassName}>
-                {products &&
-                    products.edges.map(({ node: { id, name, url, image, items } }) => (
-                        <ProductCard
-                            key={id}
-                            name={name}
-                            url={url}
-                            image={image}
-                            items={items.edges}
-                            loading={loading}
-                        />
-                    ))}
+        <>
+            {tags.length ? (
+                <Filters
+                    count={count}
+                    list={tags}
+                    onChange={newTags => {
+                        refetch({ slug, limit, offset, tags: newTags });
+                    }}
+                />
+            ) : null}
+            <div className={styles.root}>
+                <div className={rowClassName}>
+                    {products &&
+                        products.edges.map(({ node: { id, name, url, items } }) => (
+                            <ProductCard
+                                key={id}
+                                name={name}
+                                url={url}
+                                items={items.edges}
+                                loading={loading}
+                            />
+                        ))}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
 Products.defaultProps = {
     limit: 40,
     offset: 0,
-    title: null,
     slug: '',
     className: null,
 };
@@ -58,7 +64,6 @@ Products.defaultProps = {
 Products.propTypes = {
     limit: PropTypes.number,
     offset: PropTypes.number,
-    title: PropTypes.node,
     slug: PropTypes.string,
     className: PropTypes.string,
 };
