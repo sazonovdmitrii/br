@@ -35,9 +35,11 @@ class CatalogProductResolver implements ResolverInterface, AliasedInterface {
         $parsed = $catalog->getParsed();
         $products = [];
         if($parsed['path']) {
+
             $catalogUrl = $this->em
                 ->getRepository('App:CatalogUrl')
-                ->findByUrl($parsed['path']);
+                ->findByUrl($parsed['path'] . '/');
+            
             if(count($parsed['filters'])) {
                 $productsIds = [];
                 foreach($parsed['filters'] as $filter) {
@@ -66,7 +68,6 @@ class CatalogProductResolver implements ResolverInterface, AliasedInterface {
                 $products = $catalog->getProducts()->toArray();
             }
         }
-
         $paginator = new Paginator(function () use ($products, $args) {
             return array_slice($products, $args['offset'], $args['limit'] ?? 10);
         });
