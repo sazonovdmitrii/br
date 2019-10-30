@@ -12,6 +12,7 @@ use Overblog\GraphQLBundle\Relay\Connection\Output\Connection;
 use App\Service\TagService;
 use App\Service\ConfigService;
 use App\Entity\Catalog;
+use App\Service\Image\GeneratorService;
 
 class ProductFieldResolver extends LocaleAlias
 {
@@ -28,11 +29,13 @@ class ProductFieldResolver extends LocaleAlias
     public function __construct(
         EntityManager $em,
         TagService $tagService,
-        ConfigService $configService
+        ConfigService $configService,
+        GeneratorService $generatorService
     ) {
         $this->em = $em;
         $this->tagService = $tagService;
         $this->configService = $configService;
+        $this->imageGenerator = $generatorService;
     }
 
     /**
@@ -122,8 +125,31 @@ class ProductFieldResolver extends LocaleAlias
     public function items(Product $product, Argument $args) :Connection
     {
         $items = $product->getProductItems()->toArray();
+        $config = [
+            'big' => [
+                'width' => 800,
+                'height' => 600
+            ],
+            'small' => [
+                'width' => 300,
+                'height' => 200
+            ],
+            'middle' => [
+                'width' => 600,
+                'height' => 500
+            ],
+        ];
         foreach($items as $item) {
             $item->setCurrentLocale($this->getLocale());
+            $images = [];
+            foreach($item->getProductItemImages() as $image) {
+                $images[] = $this->imageGenerator
+                    ->setImage($image)
+                    ->setTypes(['original', 'webp'])
+                    ->setConfig($config)
+                    ->getAll();
+            }
+            $item->setImages($images);
         }
         $paginator = new Paginator(function () use ($items, $args) {
             return array_slice($items, $args['offset'], $args['limit'] ?? 10);

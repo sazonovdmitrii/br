@@ -1,5 +1,5 @@
 {
-  product(slug: "sun-k3130.htm"){
+  product(slug: "sun-pilko.htm/"){
     similars(limit: 3, offset:0) {
       edges {
         node {
@@ -34,6 +34,7 @@
             name
             image
           }
+          images
         }
       }
     }

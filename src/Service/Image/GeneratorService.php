@@ -113,22 +113,22 @@ class GeneratorService extends AbstractController
                         case 'webp':
                             $path = $typeDir . '/' . $pathInfo['filename'] . '.webp';
 
-                            if(!file_exists($path)) {
+                            if(!file_exists($path) && file_exists($newImagePath)) {
                                 WebPConvert::convert($newImagePath, $path, []);
                             }
 
                             break;
 
                         default:
-                            if(!file_exists($newImagePath)) {
+                            if(!file_exists($newImagePath) && file_exists($imagePath)) {
                                 $image = $this->getManager()
                                     ->configure(['driver' => 'imagick'])
                                     ->make($imagePath)
                                     ->resize(
                                         $this->getConfig()[$imageSizeType]['width'],
                                         $this->getConfig()[$imageSizeType]['height'], function ($constraint) {
-                                            $constraint->aspectRatio();
-                                        }
+                                        $constraint->aspectRatio();
+                                    }
                                     );
                                 $image->save($newImagePath);
                             }
