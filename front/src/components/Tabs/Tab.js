@@ -7,7 +7,7 @@ import styles from './styles.css';
 const cx = classnames.bind(styles);
 
 const Tab = ({ onClick, value, active, children, className, ...props }) => {
-    if (!children.length) return null;
+    if (!children) return null;
 
     const buttonClassName = cx(styles.tab, className);
 
