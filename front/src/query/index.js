@@ -351,8 +351,8 @@ export const GET_USER = gql`
 `;
 
 export const GET_STORES = gql`
-    {
-        stores {
+    query stores($vision: Int) {
+        stores(check_vision: $vision) {
             data {
                 id
                 name
@@ -361,6 +361,9 @@ export const GET_STORES = gql`
                 visible
                 longitude
                 latitude
+                storeUrls {
+                    url
+                }
             }
         }
     }

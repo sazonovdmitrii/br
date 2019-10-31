@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { FormattedMessage } from 'react-intl';
 
@@ -6,7 +6,7 @@ import { GET_STORES } from 'query';
 
 import Hero from 'components/Hero';
 import Container from 'components/Container';
-// import Switch from 'components/Switch';
+import Switch from 'components/Switch';
 import Shops from 'components/Shops';
 import Loader from 'components/Loader';
 
@@ -14,11 +14,12 @@ import styles from './styles.css';
 import bgImage from './images/bg.jpg';
 
 const Retail = () => {
-    const { loading, error, data: { stores } = {} } = useQuery(GET_STORES);
-    // const [filter, setFilter] = useState(true);
+    const { loading, data: { stores } = {}, refetch } = useQuery(GET_STORES);
+    const [filter, setFilter] = useState(false);
 
-    if (loading) return <Loader />;
-    if (error || !stores) return null;
+    useEffect(() => {
+        refetch({ vision: filter ? 1 : 0 });
+    }, [filter]);
 
     return (
         <div>
@@ -28,14 +29,14 @@ const Retail = () => {
                     <h2 className={styles.title}>
                         <FormattedMessage id="p_retail_title" />
                     </h2>
-                    {/* <div className={styles.filter}>
+                    <div className={styles.filter}>
                         <Switch
                             label={<FormattedMessage id="p_retail_filter" />}
                             checked={filter}
                             onChange={(e, value) => setFilter(value)}
                         />
-                    </div> */}
-                    <Shops items={stores.data} />
+                    </div>
+                    {loading ? <Loader /> : <Shops items={stores.data} />}
                 </section>
             </Container>
         </div>

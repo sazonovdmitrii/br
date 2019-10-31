@@ -8,7 +8,7 @@ import styles from './styles.css';
 const Shops = ({ items }) => {
     return (
         <section className={styles.columns}>
-            {items.map(({ id, region, city, name, full_name, url }) => (
+            {items.map(({ id, region, city, name, full_name, storeUrls: [{ url }] }) => (
                 <div key={id} className={styles.column}>
                     {region && <h3 className={styles.region}>{region}</h3>}
                     <h1 className={styles.title}>
