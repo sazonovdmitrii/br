@@ -93,11 +93,13 @@ class TagManager extends AbstractController
                 if (isset($productTags[$productTagItem->getId()])) {
                     $count = $productTags[$productTagItem->getId()];
                 }
-                $tagChildrens[] = [
-                    'name'  => $productTagItem->getName(),
-                    'id'    => $productTagItem->getId(),
-                    'count' => $count
-                ];
+                if($count) {
+                    $tagChildrens[] = [
+                        'name'  => $productTagItem->getName(),
+                        'id'    => $productTagItem->getId(),
+                        'count' => $count
+                    ];
+                }
             }
             $tag['childrens'] = $tagChildrens;
             $tags[]           = $tag;
