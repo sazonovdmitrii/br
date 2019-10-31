@@ -93,7 +93,7 @@ const Product = ({
 
     return (
         <Container>
-            <SeoHead type="product" name={name} items={items} image={images ? images[0].path : null} />
+            <SeoHead type="product" name={name} items={items} image={images.length ? images[0].path : null} />
             {/* showChooseLenses && <ChooseLenses title={name} onClose={handleShowCL} /> */}
             <div className={rootClassName}>
                 {images.length ? (
@@ -131,7 +131,7 @@ const Product = ({
                 text={<FormattedMessage id="p_product_delivery_text" />}
             />
             <div className={styles.section}>
-                <ProductTags items={tags} image={images[1].path} />
+                <ProductTags items={tags} image={images.length === 2 ? images[1].path : null} />
             </div>
             <Delivery
                 title={<FormattedMessage id="p_product_lenses_block_title" />}
