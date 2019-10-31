@@ -1,4 +1,8 @@
 {
+    "p_catalog_filters_modal_header": "Filter frame selection",
+    "p_catalog_filters_modal_reset_button": "Reset filters ({count})",
+    "p_catalog_filters_modal_button": "See {count} frames",
+    "p_catalog_filters_button": "Filter frames",
     "p_catalog_meta_title": "{name} buy with delivery in Moscow",
     "p_home_mensunglasses_title": "Men's sunglasses.",
     "p_home_womensunglasses_title": "Women's Sunglasses.",
@@ -74,6 +78,8 @@
     "shop_men": "Shop Men",
     "shop_women": "Shop Women",
     "p_home_hero_title": "Try 5 frames at home for free",
+    "p_home_hero_button_men": "Shop Men",
+    "p_home_hero_button_women": "Shop Women",
     "recommended": "Recommended",
 
     "about_the_frames": "About the frames",
@@ -88,8 +94,8 @@
     "p_retail_title": "Retail locations in the U.S.",
     "sign_in": "Sign in",
     "sign_up": "Sign up",
-    "product_text": "Possible options: a frame without lenses, a frame with single-focal lenses,{br} bifocal, progressive and sun-protection",
-    "buy_at_optics_for": "Buy at optics for",
+    "p_product_text": "Possible options: a frame without lenses, a frame with single-focal lenses,{br} bifocal, progressive and sun-protection",
+    "p_product_buy_at_optics_for": "Buy at optics for",
     "p_404_title": "Our Apologies",
     "p_404_text": "Go back to our <homelink>homepage</homelink>.",
     "our_newest_collections": "Our newest collections",
@@ -100,7 +106,7 @@
     "p_eyeglasses_button_women": "For women",
 
     "sunglasses": "Sunglasses",
-    "sunglasses_text": "Each pair is equipped with scratch-resistant lenses that block 100% of UVA and UVB rays. Starting at $95, with free shipping and free returns.",
+    "p_sunglasses_text": "Each pair is equipped with scratch-resistant lenses that block 100% of UVA and UVB rays. Starting at $95, with free shipping and free returns.",
 
     "quiz_action": "Take a quiz to find your frames",
     "get_started": "Get started",
@@ -122,10 +128,10 @@
     "prescription_types": "Prescription types",
     "prescription_types_text": "Single-vision, progressives, readers, non-prescription",
 
-    "delivery_block_title": "Free shipping and free returns on every order",
-    "delivery_block_text": "We have a 30-day, hassle-free return or exchange policy as well as a one-year, no scratch guarantee for our lenses; we'll replace your scratched lenses for free within the first 12 months.",
-    "product_lenses_block_title": "Our lenses",
-    "product_lenses_block_text": "Every pair of Brillenhof glasses comes with anti-reflective, scratch-resistant lenses that block 100% of UV rays. Pick from a range of lens options to fit your vision needs.",
+    "p_product_delivery_title": "Free shipping and free returns on every order",
+    "p_product_delivery_text": "We have a 30-day, hassle-free return or exchange policy as well as a one-year, no scratch guarantee for our lenses; we'll replace your scratched lenses for free within the first 12 months.",
+    "p_product_lenses_block_title": "Our lenses",
+    "p_product_lenses_block_text": "Every pair of Brillenhof glasses comes with anti-reflective, scratch-resistant lenses that block 100% of UV rays. Pick from a range of lens options to fit your vision needs.",
 
     "locations_title": "Other nearby locations",
     "locations_link": "Search all our stores and showrooms",

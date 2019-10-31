@@ -52,6 +52,10 @@ export default ({ lang, defaultLang }) => {
                   ],
               ]),
         [
+            withErrorBoundary(loadable(() => import('./Lenses'), loadableOpts)),
+            routerOptions({ path: '/lenses' }),
+        ],
+        [
             withErrorBoundary(loadable(() => import('./Landing/Eyeglasses'), loadableOpts)),
             routerOptions({ path: '/eyeglasses' }),
         ],

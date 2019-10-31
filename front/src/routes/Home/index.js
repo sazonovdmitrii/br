@@ -32,10 +32,10 @@ export default () => {
                 actions={
                     <>
                         <Button to={menEyeglassesUrl} kind="primary" size="small" bold outlined rounded>
-                            <FormattedMessage id="shop_men" />
+                            <FormattedMessage id="p_home_hero_button_men" />
                         </Button>
                         <Button to={womenEyeglassesUrl} kind="primary" size="small" bold outlined rounded>
-                            <FormattedMessage id="shop_women" />
+                            <FormattedMessage id="p_home_hero_button_women" />
                         </Button>
                     </>
                 }
