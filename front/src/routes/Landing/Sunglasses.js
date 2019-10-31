@@ -37,7 +37,7 @@ const Landing = () => {
                         <FormattedMessage id="sunglasses" />
                     </h1>
                     <p className={styles.heroText}>
-                        <FormattedMessage id="sunglasses_text" />
+                        <FormattedMessage id="p_sunglasses_text" />
                     </p>
                     <div className={styles.heroActions}>
                         <Button to={manUrl} kind="simple" bold>

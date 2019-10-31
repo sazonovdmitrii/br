@@ -112,27 +112,30 @@ const Product = ({
                         />
                     </div>
                     <div className={styles.info}>
-                        <FormattedMessage id="product_text" values={{ br: <br /> }} />
+                        <FormattedMessage id="p_product_text" values={{ br: <br /> }} />
                     </div>
                     {selectedProduct.price && (
                         <div className={styles.buttons}>
                             <Button to={buyLink} kind="primary" size="large" bold>
-                                <FormattedMessage id="buy_at_optics_for" /> {selectedProduct.price} руб.
+                                <FormattedMessage
+                                    id="p_product_buy_at_optics_for"
+                                    values={{ price: selectedProduct.price }}
+                                />
                             </Button>
                         </div>
                     )}
                 </div>
             </div>
             <Delivery
-                title={<FormattedMessage id="delivery_block_title" />}
-                text={<FormattedMessage id="delivery_block_text" />}
+                title={<FormattedMessage id="p_product_delivery_title" />}
+                text={<FormattedMessage id="p_product_delivery_text" />}
             />
             <div className={styles.section}>
                 <ProductTags items={tags} image={images[1].path} />
             </div>
             <Delivery
-                title={<FormattedMessage id="product_lenses_block_title" />}
-                text={<FormattedMessage id="product_lenses_block_text" />}
+                title={<FormattedMessage id="p_product_lenses_block_title" />}
+                text={<FormattedMessage id="p_product_lenses_block_text" />}
             />
             {images[2] && (
                 <div className={styles.sectionImage}>
