@@ -84,7 +84,7 @@ const Lenses = () => {
                     })}
                 </div>
             </div>
-            <div ref={_sections.eyeglasses.node} className={styles.category} data-test="1">
+            <div ref={_sections.eyeglasses.node} className={styles.category}>
                 <div className={styles.container}>
                     <div className={styles.section}>
                         <h3 className={styles.sectionTitle}>
@@ -94,8 +94,8 @@ const Lenses = () => {
                         <div className={styles.textBlocks}>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Single-vision</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Most people order eyeglasses with single-vision prescriptions, meaning
                                         their lenses will correct for one field of vision (near or distance).
                                     </p>
@@ -103,22 +103,20 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Progressives</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         If you want to correct for both your reading and distance vision, and
                                         everything in between, progressives are for you. Your prescription is
                                         eligible if it includes an “ADD” value. (Learn more{' '}
-                                        <a href="/progressives" className="c-lenses-landing__markdown__a">
-                                            here
-                                        </a>
+                                        <a href="/progressives">here</a>
                                         .)
                                     </p>
                                 </div>
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Non-prescription frames and readers</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Select “Single-vision prescription” when adding a frame to your cart,
                                         and in checkout you’ll have the option to select lenses that have no
                                         prescription at all, or lenses that offer simple magnification (like
@@ -129,14 +127,14 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Prism</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Doctors will sometimes prescribe a prism correction that’s necessary
                                         for your eyes to work together properly. Pricing for a prism
                                         correction is based on your prescription strength as well as the type
                                         of lenses you choose to purchase.
                                     </p>
-                                    <p className="c-lenses-landing__markdown__p">
+                                    <p>
                                         If your prescription includes a prism correction, just chat, text,
                                         call, or email us (or come into a store) for exact pricing. Not sure?
                                         Don’t sweat it—we’ll send you an email if we see a prism correction on
@@ -154,8 +152,8 @@ const Lenses = () => {
                         <div className={styles.textBlocks}>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Clear</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         We’re talking crystal clear. If you want completely uncolored vision
                                         while wearing your frames, inside and out, go with our standard clear
                                         lenses.
@@ -164,17 +162,14 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Light-responsive</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         These lenses transition from fully clear indoors to dark grey outdoors
                                         (even on a cloudy day, because they respond to UV rays). Head{' '}
-                                        <a href="/light-responsive" className="c-lenses-landing__markdown__a">
-                                            here
-                                        </a>{' '}
-                                        for details.
+                                        <a href="/light-responsive">here</a> for details.
                                     </p>
-                                    <p className="c-lenses-landing__markdown__p">
-                                        <em className="c-lenses-landing__markdown__em">
+                                    <p>
+                                        <em>
                                             FYI: The animation above is for illustrative purposes only, and
                                             darkens and lightens more quickly than light-responsive lenses do.
                                         </em>
@@ -190,13 +185,13 @@ const Lenses = () => {
                         <div className={styles.textBlocks}>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Polycarbonate lenses</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Standard with any Warby Parker optical order, these are some of the
                                         most lightweight and impact-resistant lenses available.{' '}
                                     </p>
-                                    <p className="c-lenses-landing__markdown__p">
-                                        <em className="c-lenses-landing__markdown__em">
+                                    <p>
+                                        <em>
                                             These lenses are included in the price of any Warby Parker
                                             eyeglasses
                                         </em>
@@ -205,60 +200,44 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>1.67 high-index lenses</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
-                                        If you have a{' '}
-                                        <a href="/help#lenses" className="c-lenses-landing__markdown__a">
-                                            strong prescription
-                                        </a>
-                                        , you may want to opt for 1.67 high-index lenses, which are up to 20%
-                                        thinner than polycarbonate lenses with the same prescription. (You'll
-                                        be able to add this option when you select the lenses for your
-                                        frames.)
+                                <div className={styles.markdown}>
+                                    <p>
+                                        If you have a <a href="/help#lenses">strong prescription</a>, you may
+                                        want to opt for 1.67 high-index lenses, which are up to 20% thinner
+                                        than polycarbonate lenses with the same prescription. (You'll be able
+                                        to add this option when you select the lenses for your frames.)
                                     </p>
-                                    <p className="c-lenses-landing__markdown__p">
-                                        <em className="c-lenses-landing__markdown__em">
-                                            These lenses cost an additional $30
-                                        </em>
+                                    <p>
+                                        <em>These lenses cost an additional $30</em>
                                     </p>
                                 </div>
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Blue-light-filtering lenses</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
-                                        If you have a{' '}
-                                        <a href="/help#lenses" className="c-lenses-landing__markdown__a">
-                                            strong prescription
-                                        </a>
-                                        , you may want to opt for 1.67 high-index lenses, which are up to 20%
-                                        thinner than polycarbonate lenses with the same prescription. (You'll
-                                        be able to add this option when you select the lenses for your
-                                        frames.)
+                                <div className={styles.markdown}>
+                                    <p>
+                                        If you have a <a href="/help#lenses">strong prescription</a>, you may
+                                        want to opt for 1.67 high-index lenses, which are up to 20% thinner
+                                        than polycarbonate lenses with the same prescription. (You'll be able
+                                        to add this option when you select the lenses for your frames.)
                                     </p>
-                                    <p className="c-lenses-landing__markdown__p">
-                                        <em className="c-lenses-landing__markdown__em">
-                                            These lenses cost an additional $30
-                                        </em>
+                                    <p>
+                                        <em>These lenses cost an additional $30</em>
                                     </p>
                                 </div>
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>1.74 high-index lenses</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         These lenses, recommended for anyone with an{' '}
-                                        <a href="/help#lenses" className="c-lenses-landing__markdown__a">
-                                            especially strong prescription
-                                        </a>
-                                        , are up to 10% thinner than 1.67 high-index lenses with the same
-                                        prescription. (We’ll reach out after you’ve placed your order if
-                                        they’d be a good fit for you.)
+                                        <a href="/help#lenses">especially strong prescription</a>, are up to
+                                        10% thinner than 1.67 high-index lenses with the same prescription.
+                                        (We’ll reach out after you’ve placed your order if they’d be a good
+                                        fit for you.)
                                     </p>
-                                    <p className="c-lenses-landing__markdown__p">
-                                        <em className="c-lenses-landing__markdown__em">
-                                            These lenses cost an additional $130
-                                        </em>
+                                    <p>
+                                        <em>These lenses cost an additional $130</em>
                                     </p>
                                 </div>
                             </div>
@@ -271,8 +250,8 @@ const Lenses = () => {
                         <div className={styles.textBlocks}>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Scratch-resistant coating</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Just what it sounds like! (Oh, and if any scratches appear, we’ll
                                         replace your lenses for free within a year of purchase.)
                                     </p>
@@ -280,8 +259,8 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Anti-reflective coating</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         This coating does double duty: It eases eye strain caused by
                                         reflections and also eliminates any glare from your lenses in photos.
                                     </p>
@@ -289,8 +268,8 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Superhydrophobic coating</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         “Hydrophobic” describes something that does not like water. We treat
                                         our lenses with superhydrophobic coatings, which repel moisture to
                                         help prevent smudging. (Because smudges are the worst.)
@@ -299,8 +278,8 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>UV protection</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Our lenses block 100% of UVA and UVB rays for superior eyeball health.
                                         (Protect those peepers.)
                                     </p>
@@ -321,7 +300,7 @@ const Lenses = () => {
                     </div>
                 </div>
             </div>
-            <div ref={_sections.sunglasses.node} className={styles.category} data-test="2">
+            <div ref={_sections.sunglasses.node} className={styles.category}>
                 <div className={styles.container}>
                     <div className={styles.section}>
                         <h3 className={styles.sectionTitle}>
@@ -331,8 +310,8 @@ const Lenses = () => {
                         <div className={styles.textBlocks}>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Solid</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Our solid sun lenses come in a glorious array of colors, from blue to
                                         green to brown to grey to violet (and beyond).
                                     </p>
@@ -340,8 +319,8 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Flash Mirrored</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         These lenses’ mirrored surfaces cut down on the amount of light
                                         entering the eye. (Healthy.) And they keep things mysterious.
                                         (Stealthy.)
@@ -350,8 +329,8 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Gradient</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         These lenses gradually transition from one color at the top to another
                                         color (or a lighter tint of the same color) at the bottom.
                                     </p>
@@ -363,10 +342,18 @@ const Lenses = () => {
                         <h3 className={styles.sectionTitle}>
                             <FormattedMessage id="p_lenses_lens_treatments_title" />
                         </h3>
-                        <div>
-                            Our non-prescription sun lenses are crafted from CR-39, a polymer that holds color
-                            beautifully and hits that sweet spot of lightweight and durable. All of our sun
-                            lenses block 100% of UVA and UVB rays for A+ eyeball health.
+                        <div className={styles.textBlockCenter}>
+                            <div className={styles.markdown}>
+                                <p>
+                                    Our non-prescription sun lenses are crafted from CR-39, a polymer that
+                                    holds color beautifully and hits that sweet spot of lightweight and
+                                    durable.
+                                </p>
+                                <p>
+                                    All of our sun lenses block 100% of UVA and UVB rays for A+ eyeball
+                                    health.
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div className={styles.section}>
@@ -376,8 +363,8 @@ const Lenses = () => {
                         <div className={styles.textBlocks}>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Scratch-resistant coating</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Just what it sounds like! (Oh, and if any scratches appear, we’ll
                                         replace your lenses for free within a year of purchase.)
                                     </p>
@@ -385,8 +372,8 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Polarization</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Light rays reflecting off pavement, snow, or water can impair your
                                         vision. The polarized filter in many of our sun lenses reduces this
                                         glare—and that filter comes securely encased in your lenses so it
@@ -399,23 +386,21 @@ const Lenses = () => {
                     </div>
                 </div>
             </div>
-            <div ref={_sections.prescription_sunglasses.node} className={styles.category} data-test="3">
+            <div ref={_sections.prescription_sunglasses.node} className={styles.category}>
                 <div className={styles.container}>
                     <div className={styles.section}>
                         <h3 className={styles.sectionTitle}>
                             <FormattedMessage id="p_lenses_lens_colors_title" />
                         </h3>
                         <img className={styles.sectionImage} alt="" src={prSunglassesLensColorsImage} />
-                        <div className="u-fs16 u-fs18--600 u-ffss u-color--dark-gray-alt-3 u-oh u-mb24 u-w10c--600 u-tac u-m0a u-db u-mb0--600">
-                            <div className="u-dib">
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
-                                        Our prescription sun lenses come in a versatile palette of solids,
-                                        from grey to green. Each pair of prescription sunglasses comes with
-                                        lenses selected to complement the color of the frame. (FYI: We’re not
-                                        able accommodate requests for different lens colors.)
-                                    </p>
-                                </div>
+                        <div className={styles.textBlockCenter}>
+                            <div className={styles.markdown}>
+                                <p>
+                                    Our prescription sun lenses come in a versatile palette of solids, from
+                                    grey to green. Each pair of prescription sunglasses comes with lenses
+                                    selected to complement the color of the frame. (FYI: We’re not able
+                                    accommodate requests for different lens colors.)
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -427,8 +412,8 @@ const Lenses = () => {
                         <div className={styles.textBlocks}>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Single-vision</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Just like our single-vision optical lenses, these will correct for one
                                         field of vision, reading or distance.
                                     </p>
@@ -436,8 +421,8 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Progressives</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Sunglasses with progressive lenses will correct for both your reading
                                         and distance vision (and everything in between). How to tell if you
                                         need progressives? If you see an “ADD” value on your prescription,
@@ -454,8 +439,8 @@ const Lenses = () => {
                         <div className={styles.textBlocks}>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Polarized polycarbonate lenses</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Standard with our prescription sunglasses, these are treated to reduce
                                         glare entering the eye and are made from one of the most lightweight
                                         and impact-resistant lens materials around.
@@ -464,20 +449,14 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>1.67 high-index lenses</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
-                                        Those with{' '}
-                                        <a href="/help#lenses" className="c-lenses-landing__markdown__a">
-                                            stronger prescriptions
-                                        </a>{' '}
-                                        can opt for 1.67 high-index lenses during checkout for lenses that are
-                                        up to 20% thinner than polycarbonate lenses with the same
-                                        prescription.
+                                <div className={styles.markdown}>
+                                    <p>
+                                        Those with <a href="/help#lenses">stronger prescriptions</a> can opt
+                                        for 1.67 high-index lenses during checkout for lenses that are up to
+                                        20% thinner than polycarbonate lenses with the same prescription.
                                     </p>
-                                    <p className="c-lenses-landing__markdown__p">
-                                        <em className="c-lenses-landing__markdown__em">
-                                            These lenses cost an additional $120
-                                        </em>
+                                    <p>
+                                        <em>These lenses cost an additional $120</em>
                                     </p>
                                 </div>
                             </div>
@@ -490,8 +469,8 @@ const Lenses = () => {
                         <div className={styles.textBlocks}>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>UV protection</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         All of our sun lenses block 100% of UVA and UVB rays for A+ eyeball
                                         health.
                                     </p>
@@ -499,8 +478,8 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Scratch-resistant coating</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Just what it sounds like! (Oh, and if any scratches appear, we’ll
                                         replace your lenses for free within a year of purchase.)
                                     </p>
@@ -508,8 +487,8 @@ const Lenses = () => {
                             </div>
                             <div className={styles.textBlock}>
                                 <p className={styles.textBlockTitle}>Polarization</p>
-                                <div className="c-markdown ">
-                                    <p className="c-lenses-landing__markdown__p">
+                                <div className={styles.markdown}>
+                                    <p>
                                         Light rays reflecting off pavement, snow, or water can impair your
                                         vision. The polarized filter in our prescription sun lenses (and many
                                         of our nonprescription sun lenses) reduces this glare—and that filter
