@@ -27,3 +27,11 @@ b,
 strong {
     font-weight: 600;
 }
+
+svg {
+    display: block;
+    height: inherit;
+    width: inherit;
+    max-height: inherit;
+    min-height: inherit;
+}

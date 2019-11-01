@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames/bind';
 import { Filter as FilterIcon, Search as SearchIcon, X as CloseIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
@@ -17,11 +17,6 @@ const Filters = ({ list, count, onChange }) => {
         active: false,
     });
     const [tagsIds, setTagsIds] = useState([]);
-
-    useEffect(() => {
-        onChange(tagsIds);
-    }, [onChange, tagsIds, tagsIds.length]);
-
     const handleChangeTab = newValue => {
         setTab(prevState => ({
             ...prevState,
@@ -30,7 +25,12 @@ const Filters = ({ list, count, onChange }) => {
         }));
     };
     const handleChangeFilter = (tagId, active) => {
-        setTagsIds(prevState => (active ? [...prevState, tagId] : prevState.filter(id => id !== tagId)));
+        setTagsIds(prevState => {
+            const newTagsIds = active ? [...prevState, tagId] : prevState.filter(id => id !== tagId);
+            onChange(newTagsIds);
+
+            return newTagsIds;
+        });
     };
 
     const tabWrapperClassName = cx(styles.tabWrapper, { active: tab.active });
@@ -130,10 +130,10 @@ const Filters = ({ list, count, onChange }) => {
                     <FilterIcon size="15" className={styles.buttonIcon} />
                     <FormattedMessage id="p_catalog_filters_button" />
                 </Button>
-                {/*<Button className={styles.button} kind="simple">
+                {/* <Button className={styles.button} kind="simple">
                     <SearchIcon size="15" className={styles.buttonIcon} />
                     Search frames
-                </Button>*/}
+                </Button> */}
             </div>
         </div>
     );

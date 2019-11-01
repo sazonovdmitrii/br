@@ -52,6 +52,10 @@ export default ({ lang, defaultLang }) => {
                   ],
               ]),
         [
+            withErrorBoundary(loadable(() => import('./HomeTryOn'), loadableOpts)),
+            routerOptions({ path: '/home-try-on' }),
+        ],
+        [
             withErrorBoundary(loadable(() => import('./Lenses'), loadableOpts)),
             routerOptions({ path: '/lenses' }),
         ],

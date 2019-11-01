@@ -1,0 +1,157 @@
+.root {
+    margin-bottom: 48px;
+    margin-top: 48px;
+    background-color: #eff3f5;
+    color: #525e69;
+    overflow: hidden;
+    position: relative;
+
+    @media (min-width: 900px) {
+        height: 720px;
+        margin-bottom: 72px;
+        margin-top: 72px;
+    }
+
+    @media (min-width: 600px) {
+        margin-bottom: 60px;
+        margin-top: 60px;
+    }
+}
+
+.row {
+    @media (min-width: 900px) {
+        display: flex;
+        height: 100%;
+        flex-direction: row-reverse;
+    }
+}
+
+.content {
+    position: relative;
+
+    @media (min-width: 900px) {
+        height: 100%;
+        flex: 0 0 41.66667%;
+        max-width: 41.66667%;
+    }
+}
+
+.contentContainer {
+    width: 464px;
+    max-width: 100%;
+    padding-top: 36px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+    @media (min-width: 600px) {
+        padding-top: 48px;
+    }
+
+    @media (min-width: 900px) {
+        position: absolute;
+
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        padding-right: 24px;
+        padding-top: 0;
+    }
+}
+
+.title {
+    font-family: var(--headings-font);
+    margin: 0;
+    font-size: 24px;
+    font-weight: var(--headings-font-weight);
+
+    @media (min-width: 600px) {
+        font-size: 30px;
+    }
+
+    @media (min-width: 900px) {
+        font-size: 40px;
+    }
+}
+
+.text {
+    margin: 12px 18px 30px;
+    line-height: 24px;
+    font-size: 16px;
+    color: #676f78;
+
+    @media (min-width: 900px) {
+        margin-left: 6px;
+        margin-right: 6px;
+        line-height: 26px;
+        font-size: 18px;
+    }
+}
+
+.buttonIcon {
+    width: 8px;
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 12px;
+    fill: #414b56;
+}
+
+.image {
+    position: relative;
+
+    @media (min-width: 900px) {
+        flex: 0 0 58.33333%;
+        max-width: 58.33333%;
+        height: 100%;
+    }
+}
+
+.imageContainer {
+    width: 280px;
+    height: 312px;
+    right: 0;
+    top: 0;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 36px;
+    position: relative;
+    background-color: #fff;
+
+    @media (min-width: 600px) {
+        width: 540px;
+        height: 400px;
+        margin-top: 48px;
+    }
+
+    @media (min-width: 900px) {
+        width: 1000px;
+        height: 575px;
+        margin-top: 72px;
+        position: absolute;
+    }
+}
+
+.slide {
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    position: absolute;
+    transform: translateY(24px);
+    opacity: 0;
+    transition: transform 0.5s linear 0.12s, opacity 0.5s linear;
+
+    &.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.device {
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    position: absolute;
+}

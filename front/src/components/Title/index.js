@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames/bind';
+import classnames from 'classnames';
 
 import styles from './styles.css';
 
-const cx = classnames.bind(styles);
+const Title = ({ children, className, element: Root }) => {
+    const rootClassName = classnames(styles.root, className);
 
-const Title = ({ children, className }) => {
-    const rootClassName = cx(styles.root, className);
-
-    return <div className={rootClassName}>{children}</div>;
+    return <Root className={rootClassName}>{children}</Root>;
 };
 
-Title.defaultProps = {};
+Title.defaultProps = {
+    className: null,
+    element: 'div',
+};
 
-Title.propTypes = {};
+Title.propTypes = {
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    element: PropTypes.string,
+};
 
 export default Title;

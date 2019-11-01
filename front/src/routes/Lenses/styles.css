@@ -8,9 +8,9 @@
 }
 
 .heroText {
-    text-align: center;
-    padding: 36px 18px;
     margin: 0 auto;
+    padding: 36px 18px;
+    text-align: center;
 
     @media (--viewport-ipad) {
         width: 66.66667%;
@@ -18,18 +18,18 @@
     }
 
     @media (--viewport-desktop) {
-        transform: translateY(-50%);
-        top: 50%;
-        width: 33.33333%;
-        left: 8.33333%;
         position: absolute;
+        top: 50%;
+        left: 8.33333%;
+        width: 33.33333%;
+        transform: translateY(-50%);
     }
 }
 
 .heroTitle {
+    font-weight: var(--headings-font-weight);
     font-size: 24px;
     font-family: var(--headings-font);
-    font-weight: var(--headings-font-weight);
 
     @media (--viewport-desktop) {
         font-size: 30px;
@@ -42,8 +42,8 @@
 
 .heroSubtitle {
     margin-bottom: 0;
-    font-size: 16px;
     color: #676f78;
+    font-size: 16px;
 
     @media (--viewport-ipad) {
         font-size: 18px;
@@ -52,6 +52,7 @@
     @media (--viewport-desktop) {
         font-size: 16px;
     }
+
     @media (--viewport-wide) {
         font-size: 18px;
     }
@@ -63,18 +64,18 @@
     background-color: var(--color-background);
     border-color: #e1e5e6;
     border-width: 1px;
-    border-bottom-style: solid;
     border-top-style: solid;
+    border-bottom-style: solid;
 }
 
 .navInner {
     max-width: 960px;
-    text-align: center;
-    padding-bottom: 18px;
-    padding-top: 18px;
     margin: 0 auto;
-    font-size: 16px;
+    padding-top: 18px;
+    padding-bottom: 18px;
     font-weight: 600;
+    font-size: 16px;
+    text-align: center;
 
     @media (min-width: 600px) {
         font-size: 18px;
@@ -82,26 +83,26 @@
 }
 
 .navLink {
-    transition: all 0.1s;
-    margin-left: 9px;
-    margin-right: 9px;
     position: relative;
+    margin-right: 9px;
+    margin-left: 9px;
     color: #a0a0a0;
     border-bottom: 2px solid transparent;
+    transition: all 0.1s;
 
     &.active {
-        border-color: #414b56;
         color: #414b56;
+        border-color: #414b56;
     }
 
     &:hover:not(.active) {
-        border-color: #a1a4a6;
         color: #a1a4a6;
+        border-color: #a1a4a6;
     }
 
     @media (--viewport-ipad) {
-        margin-left: 18px;
         margin-right: 18px;
+        margin-left: 18px;
     }
 }
 
@@ -111,19 +112,19 @@
 
 .container {
     max-width: 1000px;
-    padding-left: 18px;
     padding-right: 18px;
+    padding-left: 18px;
 
     @media (--viewport-ipad) {
-        padding-left: 36px;
-        padding-right: 36px;
         margin: 0 auto;
+        padding-right: 36px;
+        padding-left: 36px;
     }
 }
 
 .section {
-    padding-bottom: 24px;
     padding-top: 48px;
+    padding-bottom: 24px;
     border-color: #e1e5e6;
     border-width: 1px;
     border-bottom-style: solid;
@@ -133,17 +134,17 @@
     }
 
     @media (--viewport-ipad) {
-        padding-bottom: 72px;
         padding-top: 72px;
+        padding-bottom: 72px;
     }
 }
 
 .sectionTitle {
+    margin: 0 auto 12px;
+    font-weight: var(--headings-font-weight);
+    font-size: 24px;
     font-family: var(--headings-font);
     text-align: center;
-    margin: 0 auto 12px;
-    font-size: 24px;
-    font-weight: var(--headings-font-weight);
 
     @media (--viewport-ipad) {
         width: 41.66667%;
@@ -157,32 +158,32 @@
     margin: 18px auto 36px;
 
     @media (--viewport-ipad) {
-        margin-bottom: 72px;
         margin-top: 36px;
+        margin-bottom: 72px;
     }
 }
 
 .textBlock {
-    vertical-align: top;
-    overflow: hidden;
     margin-bottom: 24px;
+    overflow: hidden;
     color: #676f78;
+    vertical-align: top;
 
     @media (--viewport-ipad) {
-        width: 50%;
-        padding-left: 18px;
-        padding-right: 48px;
-        font-size: 18px;
         display: inline-block;
+        width: 50%;
+        padding-right: 48px;
+        padding-left: 18px;
+        font-size: 18px;
     }
 }
 
 .textBlockCenter {
-    text-align: center;
-    overflow: hidden;
-    margin-bottom: 24px;
     margin: 0 auto;
+    margin-bottom: 24px;
+    overflow: hidden;
     color: #676f78;
+    text-align: center;
 
     @media (--viewport-ipad) {
         width: 83.33333%;
@@ -192,17 +193,17 @@
 }
 
 .textBlockTitle {
-    font-weight: var(--headings-font-weight);
-    color: #414b56;
     margin-bottom: 9px;
+    color: #414b56;
+    font-weight: var(--headings-font-weight);
 }
 
 .banner {
-    text-align: center;
-    padding-bottom: 36px;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 36px;
     font-weight: 600;
+    text-align: center;
 
     @media (--viewport-tablet) {
         padding-bottom: 84px;
@@ -210,14 +211,14 @@
 }
 
 .bannerTitle {
-    text-align: center;
-    padding-top: 48px;
     margin: 0 auto 24px;
+    padding-top: 48px;
+    text-align: center;
 
     @media (--viewport-ipad) {
         width: 41.66667%;
-        padding-top: 72px;
         margin-bottom: 48px;
+        padding-top: 72px;
         font-size: 24px;
     }
 }
@@ -235,8 +236,8 @@
 
 .markdown {
     & a {
-        font-weight: 700;
         color: #00a2e1;
+        font-weight: 700;
     }
 
     & p {
