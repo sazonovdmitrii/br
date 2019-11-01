@@ -153,6 +153,13 @@ Query:
               description: "Resolves using the store slug."
               type: "String"
         resolve: "@=resolver('Store', [args])"
+      catalog_search:
+        type: "CatalogSearch"
+        args:
+            name:
+              description: "Search Name"
+              type: "String"
+        resolve: "@=resolver('CatalogSearch', [args])"
 DateTime:
     type: custom-scalar
     config:

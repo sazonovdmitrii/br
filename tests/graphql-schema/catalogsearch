@@ -1,0 +1,32 @@
+{
+  catalog_search(name: "Tortoise") {
+    products(limit: 40, offset:0) {
+      edges {
+        node {
+          id
+          name
+          url
+          items(limit: 40, offset:0) {
+          edges {
+            node {
+              id
+              name
+              price
+              productItemImages {
+                id
+                path
+              }
+              productItemTagItems {
+                id
+                name
+                image
+              }
+              images
+            }
+          }
+        }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+CatalogSearch:
+  type: object
+  config:
+    description: "Catalog Search"
+    fields:
+      products:
+       type: ProductConnection
+       argsBuilder: PaginatoringBuilder
+       resolve: '@=resolver("CatalogSearchProducts", [value, args])'
