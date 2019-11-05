@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { Switch, Route } from 'react-router';
+import { Switch, Route, withRouter } from 'react-router';
 import Helmet from 'react-helmet';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -30,7 +30,7 @@ const SET_LANG_MUTATION = gql`
 
 const defaultLang = LANGS.find(item => item.default);
 
-const Meta = ({ lang }) => {
+const Meta = withRouter(({ lang, location: { pathname } }) => {
     const [defaultTitle] = useFormatMessage([{ id: 'meta_title' }]);
 
     return (
@@ -46,7 +46,7 @@ const Meta = ({ lang }) => {
                         key={index}
                         rel="alternate"
                         hrefLang={item.value === lang ? 'x-default' : item.value}
-                        href={`/${item.default ? '' : `${item.value}/`}`}
+                        href={`${item.default ? '' : `/${item.value}`}${pathname}`}
                     />
                 );
             })}
@@ -61,7 +61,7 @@ const Meta = ({ lang }) => {
             <meta name="theme-color" content="#ffffff" />
         </Helmet>
     );
-};
+});
 
 const App = ({ lang }) => {
     const { data: { getMessages = {} } = {} } = useQuery(GET_MESSAGES, { variables: { lang } });

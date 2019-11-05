@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { IMaskMixin } from 'react-imask';
 import classnames from 'classnames/bind';
@@ -36,7 +36,7 @@ const Input = ({
         focused: false,
         error: errorProp,
     });
-    const [height, setHeight] = useState(null);
+    // const [height, setHeight] = useState(null);
     const textAreaNode = useRef(null);
 
     const wrapperClassName = cx(styles.wrapper, theme.wrapper);
@@ -96,7 +96,7 @@ const Input = ({
         }));
     };
 
-    if (multiline)
+    if (multiline) {
         return (
             <div className={wrapperClassName}>
                 {label && (
@@ -120,11 +120,12 @@ const Input = ({
                     onChange={onChange}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
-                    style={{ height }}
+                    // style={{ height }}
                 />
                 {text && <div className={textClassName}>{text}</div>}
             </div>
         );
+    }
 
     return (
         <div className={wrapperClassName}>
