@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
+import { FormattedMessage } from 'react-intl';
 
 import FooterMenu from 'components/FooterMenu';
 import Socials from 'components/Socials';
@@ -41,6 +42,12 @@ const Footer = ({ lang }) => (
                 </div>
             </div>
             <CopyrightMenu lang={lang} />
+        </section>
+        <section className={styles.copyright}>
+            <FormattedMessage id="c_footer_copyright" values={{ br: <br /> }} />
+        </section>
+        <section className={styles.disclamer}>
+            <FormattedMessage id="c_footer_disclamer" />
         </section>
     </footer>
 );
