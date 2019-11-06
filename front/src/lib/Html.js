@@ -2,6 +2,22 @@ import React from 'react';
 
 const isProd = process.env.NODE_ENV === 'production';
 const GTM = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PV7HJ4Z');`;
+const LIVETEX = `
+    <script type='text/javascript'>
+        window['l'+'i'+'ve'+'Te'+'x'] = true,
+        window['liv'+'e'+'Tex'+'ID'] = 163612,
+        window['li'+'veTex_'+'obje'+'ct'] = true;
+        (function() {
+            var t = document['create'+'El'+'em'+'ent']('script');
+            t.type ='text/javascript';
+            t.async = true;
+            t.src = '//cs15.'+'livet'+'ex.ru/js/c'+'l'+'ient.js';
+            var c = document['getE'+'le'+'ment'+'sByTag'+'Name']('script')[0];
+            if ( c ) c['p'+'aren'+'t'+'Node']['inser'+'t'+'Befo'+'re'](t, c);
+            else document['doc'+'u'+'me'+'n'+'tEleme'+'nt']['first'+'Ch'+'i'+'ld']['app'+'en'+'dCh'+'i'+'ld'](t);
+        })();
+    </script>
+`;
 
 export default ({ bundle, helmet, html, window = {} }) => (
     <html {...helmet.htmlAttributes.toString()}>
@@ -22,7 +38,7 @@ export default ({ bundle, helmet, html, window = {} }) => (
                     dangerouslySetInnerHTML={{
                         __html: GTM,
                     }}
-                 />
+                />
             )}
         </head>
         <body>
@@ -33,7 +49,7 @@ export default ({ bundle, helmet, html, window = {} }) => (
                         height="0"
                         width="0"
                         style={{ display: 'none', visibility: 'hidden' }}
-                     />
+                    />
                 </noscript>
             )}
             <div id="root" dangerouslySetInnerHTML={{ __html: html }} />
@@ -46,6 +62,13 @@ export default ({ bundle, helmet, html, window = {} }) => (
                 }}
             />
             {bundle.getScriptElements()}
+            {isProd && (
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: LIVETEX,
+                    }}
+                />
+            )}
         </body>
     </html>
 );
