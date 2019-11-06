@@ -8,6 +8,26 @@ class BasketService extends AbstractController
 {
     private $authKey;
 
+    private $locale;
+
+    /**
+     * @return mixed
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param $locale
+     * @return $this
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+        return $this;
+    }
+
     public function __construct(
         EntityManager $em,
         Redis $redis
@@ -102,21 +122,6 @@ class BasketService extends AbstractController
                 $basket[$itemId]['qty'] = $qty;
             }
             $this->redis->set($key, json_encode($basket));
-            foreach($basket as $basketItem) {
-                $productItem = $this->em
-                    ->getRepository('App:ProductItem')
-                    ->find($basketItem['item_id']);
-                if($productItem) {
-                    $basket[$basketItem['item_id']] = array_merge(
-                        $basketItem,
-                        [
-                            'name' => $productItem->getName(),
-                            'product_name' => $productItem->getEntity()->getName(),
-                            'price' => $productItem->getPrice()
-                        ]
-                    );
-                }
-            }
             return $this->getAll();
         }
         return [
@@ -129,31 +134,36 @@ class BasketService extends AbstractController
         if($authKey = $this->getAuthKey()) {
             $key = 'basket::' . $this->getAuthKey();
             $basket = json_decode($this->redis->get($key), true);
+            $result = [];
             if($basket) {
                 foreach($basket as $basketItem) {
                     $productItem = $this->em
                         ->getRepository('App:ProductItem')
                         ->find($basketItem['item_id']);
+
                     if($productItem) {
-                        $product = $productItem->getEntity();
+
+                        $productItem->setCurrentLocale($this->getLocale());
+
+                        $product = $productItem->getProduct();
                         $productData = [];
                         if($product) {
                             $productData[] = [
                                 'product_name' => $product->getName(),
                                 'url' => $product->getProductUrls()->first()->getUrl()
                             ];
+                            $result[$basketItem['item_id']] = array_merge(
+                                $basketItem,
+                                [
+                                    'name' => $productItem->getName(),
+                                    'price' => $productItem->getPrice(),
+                                ],
+                                $productData
+                            );
                         }
-                        $basket[$basketItem['item_id']] = array_merge(
-                            $basketItem,
-                            [
-                                'name' => $productItem->getName(),
-                                'price' => $productItem->getPrice(),
-                            ],
-                            $productData
-                        );
                     }
                 }
-                return ['products' => $basket];
+                return ['products' => $result];
             }
         }
         return [

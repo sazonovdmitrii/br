@@ -7,7 +7,7 @@ mutation ($input: UserInput!) {
 
 {
   "input": {
-    "email": "ai@robo.ru",
-    "password": "fa8a150a09"
+    "email": "sazon@nxt.ru",
+    "password": "everest1024"
   }
 }
