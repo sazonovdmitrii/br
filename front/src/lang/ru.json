@@ -173,7 +173,7 @@
     "c_search_placeholder": "Поиск",
 
     "c_help_title": "Нужна помощь",
-    "c_help_subtitle": "Колл-центр:{br}8 (495) 587 98 99{br} каждый день с 8 до 21.",
+    "c_help_subtitle": "Колл-центр:{br}<phone>8 (495) 587 98 99</phone>{br} каждый день с 8 до 21.",
     "c_help_call": "Звонок",
     "c_help_chat": "Чат",
     "c_help_faq": "FAQ",

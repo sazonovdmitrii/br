@@ -27,6 +27,7 @@ const Help = ({ className, socials }) => {
                     id="c_help_subtitle"
                     values={{
                         br: <br />,
+                        phone: msg => <a href={`tel:${msg}`}>{msg}</a>,
                     }}
                 />
             </div>
