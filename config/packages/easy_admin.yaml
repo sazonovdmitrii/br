@@ -393,6 +393,37 @@ easy_admin:
                       }
                     - { type: 'tab', label: 'Адреса' }
                     - { property: 'storeUrls', type_options: { block_name: 'store_urls' }}
+        LenseTag:
+            class: App\Entity\LenseTag
+            label: 'Теги линз'
+            controller: App\Controller\Admin\LenseTagController
+            list:
+              title: 'Теги линз'
+              fields: ['id', 'name', 'created', 'visible']
+            form:
+              fields:
+                - { type: 'tab' , label: 'Основные' }
+                - { property: 'visible', label: 'Видимость', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
+                - { type: 'tab' , label: 'Мультиязычный контент' }
+                - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                    type_options: {
+                        default_locale: '%locale%',
+                        fields: {
+                            name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                        }
+                    }
+                  }
+                - { type: 'tab' , label: 'Теги' }
+                - { property: 'lenseItemTags', label: 'Добавить тег', type_options: { block_name: 'lense_item_tags' }}
+        LenseTagItem:
+            class: App\Entity\LenseItemTag
+            label: 'Опции тегов линз'
+            form:
+              fields:
+                - name
+                - slug
+            list:
+              title: 'Опции тегов линз'
     design:
         brand_color: 'black'
         form_theme:
@@ -418,7 +449,7 @@ easy_admin:
           - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']
           - label: 'Каталоги'
-            children: ['Catalog', 'Product', 'Items', 'ProductTag','ProductItemTag']
+            children: ['Catalog', 'Product', 'Items', 'ProductTag','ProductItemTag','LenseTag','LenseTagItem']
           - Users
           - label: 'Меню'
             children: ['Menu', 'MenuItem']
