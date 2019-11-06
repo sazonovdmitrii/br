@@ -1,4 +1,6 @@
 {
+    "c_footer_disclamer": "There are contraindications, it is necessary to consult a specialist",
+    "c_footer_copyright": "Общество с ограниченной ответственностью «Брилленхоф».{br}127055, город Москва, туп. 1-й Тихвинский, дом 5-7, пом. I, комн.2.{br}©brillenhof Все права защищены, 2019 г",
     "p_catalog_filters_modal_header": "Filter frame selection",
     "p_catalog_filters_modal_reset_button": "Reset filters ({count})",
     "p_catalog_filters_modal_button": "See {count} frames",
