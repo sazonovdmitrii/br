@@ -33,9 +33,9 @@ const Item = ({ image, items, active, text, url, onLink, onClick, value }) => {
                         />
                     </button>
                     <div className={submenuClassName} onClick={() => onClick(null)}>
-                        <div className={styles.submenuText}>
+                        {/* <div className={styles.submenuText}>
                             Starting at $95, including prescription lenses
-                        </div>
+                        </div> */}
                         <div className={styles.childrens}>
                             {items.map(child => (
                                 <div key={child.url} className={styles.childCol}>
