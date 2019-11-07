@@ -59,6 +59,7 @@
         "@loadable/component": "^5.10.3",
         "@loadable/server": "^5.10.3",
         "@loadable/webpack-plugin": "^5.7.1",
+        "@react-google-maps/api": "^1.7.8",
         "@svgr/webpack": "^4.3.3",
         "apollo-cache-inmemory": "^1.6.3",
         "apollo-client": "^2.6.4",
