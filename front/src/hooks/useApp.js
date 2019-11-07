@@ -10,10 +10,7 @@ const useApp = () => {
 
     useEffect(() => {
         if (state.notifications.length > state.maxNotifications) {
-            const notifications = [...state.notifications]
-                .reverse()
-                .slice(0, state.maxNotifications)
-                .reverse();
+            const notifications = state.notifications.slice(-state.maxNotifications);
 
             setState(prevState => ({
                 ...prevState,
