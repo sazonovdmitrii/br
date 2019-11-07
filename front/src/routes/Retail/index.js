@@ -10,6 +10,8 @@ import Switch from 'components/Switch';
 import Shops from 'components/Shops';
 import Loader from 'components/Loader';
 
+import Map from './Map';
+
 import styles from './styles.css';
 import bgImage from './images/bg.jpg';
 
@@ -19,7 +21,7 @@ const Retail = () => {
 
     useEffect(() => {
         refetch({ vision: filter ? 1 : 0 });
-    }, [filter]);
+    }, [filter, refetch]);
 
     return (
         <div>
@@ -36,7 +38,14 @@ const Retail = () => {
                             onChange={(e, value) => setFilter(value)}
                         />
                     </div>
-                    {loading ? <Loader /> : <Shops items={stores.data} />}
+                    {loading ? (
+                        <Loader />
+                    ) : (
+                        <>
+                            <Shops items={stores.data} />
+                            {stores.data.length ? <Map items={stores.data} /> : null}
+                        </>
+                    )}
                 </section>
             </Container>
         </div>
