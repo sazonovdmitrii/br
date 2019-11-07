@@ -152,15 +152,11 @@ const Product = ({
                             const [{ node: firstItem }] = item.node.items.edges;
 
                             return (
-                                <div key={item.id} className={styles.relatedProduct}>
+                                <div key={item.node.id} className={styles.relatedProduct}>
                                     <ProductCard
-                                        name={item.name}
-                                        url={item.url}
-                                        image={
-                                            firstItem.productItemImages[0]
-                                                ? firstItem.productItemImages[0].path
-                                                : null
-                                        }
+                                        name={item.node.name}
+                                        url={item.node.url}
+                                        image={firstItem.images[0] ? firstItem.images[0] : null}
                                     />
                                 </div>
                             );
