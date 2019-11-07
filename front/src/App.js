@@ -9,12 +9,13 @@ import routes from 'routes';
 import SEO from 'globalMeta';
 import LANGS from 'lang';
 import { isProd } from 'utils';
-import { useFormatMessage } from 'hooks';
+import { useFormatMessage, useApp } from 'hooks';
 
 import NotFound from 'routes/NotFound';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import ScrollToTop from 'components/ScrollToTop';
+import Snackbar, { SnackbarOverlay } from 'components/Snackbar';
 
 const GET_MESSAGES = gql`
     query getMessages($lang: String) {
@@ -64,6 +65,7 @@ const Meta = withRouter(({ lang, location: { pathname } }) => {
 });
 
 const App = ({ lang }) => {
+    const { notifications, removeNotification } = useApp();
     const { data: { getMessages = {} } = {} } = useQuery(GET_MESSAGES, { variables: { lang } });
     const [setLang] = useMutation(SET_LANG_MUTATION, {
         variables: { lang },
@@ -96,6 +98,20 @@ const App = ({ lang }) => {
                 ))}
             </Switch>
             <Footer lang={lang} />
+            {notifications.length ? (
+                <SnackbarOverlay>
+                    {notifications.map(item => (
+                        <Snackbar
+                            key={item.id}
+                            text={item.message}
+                            active={!!item.message}
+                            theme={item.type}
+                            onClose={() => removeNotification(item.id)}
+                            overlay={false}
+                        />
+                    ))}
+                </SnackbarOverlay>
+            ) : null}
         </IntlProvider>
     );
 };

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const initialState = {
     notifications: [],
+    maxNotifications: 5,
 };
 
 const AppContext = React.createContext([initialState, () => {}]);

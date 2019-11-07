@@ -8,11 +8,14 @@ import UserForm from './UserForm';
 
 export default ({ type, onSubmit = () => {}, onCompleted = () => {}, data = {} }) => {
     if (type === 'registration') {
-        const { login } = useApp();
+        const { createNotification, login } = useApp();
         const [createUser] = useMutation(CREATE_USER_MUTATION, {
             onCompleted({ register: { hash } }) {
                 login(hash);
                 if (onCompleted) onCompleted();
+            },
+            onError({ graphQLErrors: [{ message }] }) {
+                createNotification({ type: 'error', message });
             },
         });
 

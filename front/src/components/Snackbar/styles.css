@@ -1,35 +1,43 @@
 .overlay {
     position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
     z-index: 1400;
 
     @media (--viewport-tablet) {
         right: auto;
-        bottom: 24px;
         left: 24px;
+        bottom: 24px;
+    }
+}
+
+.item {
+    position: relative;
+
+    &:not(:last-child) {
+        margin-bottom: 15px;
     }
 }
 
 .snackbar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 6px 24px;
     color: var(--color-white);
-    font-size: var(--font-size-small);
-    line-height: 1.5;
+    display: inline-flex;
+    min-width: 100%;
+    padding: 6px 24px;
+    align-items: center;
     background-color: rgb(49, 49, 49);
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14),
         0 1px 18px 0 rgba(0, 0, 0, 0.12);
+    font-size: var(--font-size-small);
+    line-height: 1.5;
     transition: transform 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    box-sizing: border-box;
+    border-radius: 4px;
 
     @media (--viewport-tablet) {
         min-width: 288px;
         max-width: 568px;
-        border-radius: 4px;
     }
 
     &.success {
@@ -59,51 +67,51 @@
 }
 
 .icon {
-    display: inline-block;
-    flex-shrink: 0;
+    opacity: 0.9;
+    margin-right: 8px;
+    fill: currentColor;
     width: 20px;
     height: 20px;
-    margin-right: 8px;
-    opacity: 0.9;
+    display: inline-block;
     transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     user-select: none;
-    fill: currentColor;
+    flex-shrink: 0;
 }
 
 .right {
     display: flex;
     align-items: center;
-    margin-right: -8px;
     margin-left: auto;
     padding-left: 24px;
+    margin-right: -8px;
 }
 
 .button {
+    border: 0;
+    background: none;
     flex: 0 0 auto;
     padding: 12px;
     overflow: visible;
-    color: inherit;
     text-align: center;
-    background: none;
-    border: 0;
-    border-radius: 50%;
-    cursor: pointer;
     transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-radius: 50%;
+    color: inherit;
+    cursor: pointer;
 }
 
 .close {
+    width: 100%;
     display: flex;
     align-items: inherit;
     justify-content: inherit;
-    width: 100%;
 
     & svg {
-        display: inline-block;
-        flex-shrink: 0;
+        fill: currentColor;
         width: 20px;
         height: 20px;
+        display: inline-block;
         transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
         user-select: none;
-        fill: currentColor;
+        flex-shrink: 0;
     }
 }

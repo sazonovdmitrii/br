@@ -21,19 +21,17 @@ class ErrorBoundary extends Component {
 
     render() {
         if (this.state.hasError) {
-            return <MyErrorBoundary />;
+            return this.props.fallback;
         }
 
         return this.props.children;
     }
 }
 
-const withErrorBoundary = RootComponent => (props = {}) => {
-    return (
-        <ErrorBoundary>
-            <RootComponent {...props} />
-        </ErrorBoundary>
-    );
-};
+const withErrorBoundary = RootComponent => (props = {}) => (
+    <ErrorBoundary fallback={MyErrorBoundary}>
+        <RootComponent {...props} />
+    </ErrorBoundary>
+);
 
 export default withErrorBoundary;
