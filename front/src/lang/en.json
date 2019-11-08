@@ -174,7 +174,7 @@
     "c_search_placeholder": "Search",
 
     "c_help_title": "Need a hand",
-    "c_help_subtitle": "We’re available by phone 8 (495) 587 98 99 every day from 8 to 21.",
+    "c_help_subtitle": "We’re available by phone <phone>8 (495) 587 98 99</phone> every day from 8 to 21.",
     "c_help_call": "Call",
     "c_help_chat": "Chat",
     "c_help_email": "Email",
