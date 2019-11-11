@@ -116,7 +116,14 @@ const Animated = () => {
                         <p className={styles.text}>
                             <FormattedMessage id="p_hometry_animatedsection_text" />
                         </p>
-                        <Button to="/quiz?active=true" kind="simple" size="large" bold>
+                        <Button
+                            href="https://www.ochkov.net/ckkz/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            kind="simple"
+                            size="large"
+                            bold
+                        >
                             <FormattedMessage id="p_hometry_animatedsection_button" />
                             <span className={styles.buttonIcon}>
                                 <svg viewBox="0 0 8 12" focusable="false">

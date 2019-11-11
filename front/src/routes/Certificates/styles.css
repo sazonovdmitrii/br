@@ -1,0 +1,14 @@
+.root {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    padding: 0 18px 48px;
+
+    @media (--viewport-desktop) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.link {
+    text-align: center;
+}

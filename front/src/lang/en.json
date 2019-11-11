@@ -16,7 +16,7 @@
     "p_hometry_benefit_buy_text": "Make it your own by purchasing online and we’ll send you a fresh new pair.",
     "p_hometry_benefit_return_title": "Return your frames",
     "p_hometry_benefit_return_text": "Once your 5 days are up, place your box in the mail with the prepaid return label. Done!",
-    "p_hometry_animatedsection_title": "Need help? Take a quiz!",
+    "p_hometry_animatedsection_title": "Sign up for a selection of glasses and we will recommend frames for you.",
     "p_hometry_animatedsection_text": "Answer a few quick questions and we’ll suggest some great-looking glasses to fill your Home Try-On.",
     "p_hometry_animatedsection_button": "Start the quiz",
     "p_hometry_shop_section_title": "Shop all Home Try-On frames",
@@ -174,7 +174,7 @@
     "c_search_placeholder": "Search",
 
     "c_help_title": "Need a hand",
-    "c_help_subtitle": "We’re available by phone 8 (495) 587 98 99 every day from 8 to 21.",
+    "c_help_subtitle": "We’re available by phone <phone>8 (495) 587 98 99</phone> every day from 8 to 21.",
     "c_help_call": "Call",
     "c_help_chat": "Chat",
     "c_help_email": "Email",

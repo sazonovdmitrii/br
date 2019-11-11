@@ -23,8 +23,8 @@ export default ({ onCompleted }) => {
     };
     const [auth] = useMutation(LOGIN_MUTATION, {
         onCompleted,
-        onError(error) {
-            createNotification({ type: 'error', message: error.message });
+        onError({ graphQLErrors: [{ message }] }) {
+            createNotification({ type: 'error', message });
         },
     });
 
