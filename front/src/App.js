@@ -31,25 +31,24 @@ const SET_LANG_MUTATION = gql`
 
 const defaultLang = LANGS.find(item => item.default);
 
-const Meta = withRouter(({ lang, location: { pathname } }) => {
+const Meta = withRouter(({ lang, location: { pathname }, match: { path } }) => {
     const [defaultTitle] = useFormatMessage([{ id: 'meta_title' }]);
 
     return (
         <Helmet defaultTitle={defaultTitle} titleTemplate={SEO.titleTemplate}>
+            <html lang={lang} />
             <meta
                 name="viewport"
                 content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
             />
-            <html lang={lang} />
-            {LANGS.map((item, index) => {
-                return (
-                    <link
-                        key={index}
-                        rel="alternate"
-                        hrefLang={item.value === lang ? 'x-default' : item.value}
-                        href={`${item.default ? '' : `/${item.value}`}${pathname}`}
-                    />
-                );
+            {LANGS.map(item => {
+                const isDefault = item.default;
+                const isActive = item.value === lang;
+                const href = `/${isDefault ? '' : `${item.value}/`}${pathname
+                    .replace(path, '')
+                    .replace(/^\//, '')}`;
+
+                return <link key={item.value} rel="alternate" hrefLang={item.value} href={href} />;
             })}
             <link rel="shortcut icon" href="/favicon.ico" />
             <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -85,7 +84,7 @@ const App = ({ lang }) => {
     if (!finalMessages) return null;
 
     return (
-        <IntlProvider locale={lang} messages={finalMessages}>
+        <IntlProvider locale={lang} key={lang} messages={finalMessages}>
             {isProd && <ScrollToTop />}
             <Meta lang={lang} />
             <Header lang={lang} />
