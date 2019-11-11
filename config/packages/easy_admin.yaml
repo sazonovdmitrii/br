@@ -418,9 +418,18 @@ easy_admin:
         LenseTagItem:
             class: App\Entity\LenseItemTag
             label: 'Опции тегов линз'
-            form:
+            edit:
               fields:
-                - name
+                - { type: 'tab' , label: 'Мультиязычный контент' }
+                - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                    type_options: {
+                        default_locale: '%locale%',
+                        fields: {
+                            name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                        }
+                    }
+                  }
+                - { type: 'tab' , label: 'Urls' }
                 - slug
             list:
               title: 'Опции тегов линз'
@@ -445,6 +454,7 @@ easy_admin:
             - 'admin/form/product_item_tag_items.html.twig'
             - 'admin/form/product_item_tag_image.html.twig'
             - 'admin/form/catalog_banner.html.twig'
+            - 'admin/form/lense_item_tags.html.twig'
         menu:
           - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']

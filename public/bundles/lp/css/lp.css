@@ -28,3 +28,6 @@ label[for=store_storeUrls]
         width: 100% !important;
     }
 }
+#easyadmin-new-LenseTag #_easyadmin_form_design_element_4-tab {
+    display: none;
+}
