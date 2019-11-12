@@ -80,6 +80,11 @@ class Product
      */
     private $sku;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $lenses = [];
+
     public function __construct()
     {
         $this->catalog = new ArrayCollection();
@@ -363,6 +368,18 @@ class Product
     public function setSku(?string $sku): self
     {
         $this->sku = $sku;
+
+        return $this;
+    }
+
+    public function getLenses(): ?array
+    {
+        return $this->lenses;
+    }
+
+    public function setLenses(?array $lenses): self
+    {
+        $this->lenses = $lenses;
 
         return $this;
     }

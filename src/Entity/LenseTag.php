@@ -38,6 +38,7 @@ class LenseTag
     public function __construct()
     {
         $this->lenseItemTags = new ArrayCollection();
+        $this->created = new \DateTime();
     }
 
     public function getId(): ?int

@@ -1,0 +1,36 @@
+{% block _product_product_lenses_widget %}
+    {% set currentProduct = form.parent.vars.data %}
+    <div class="steps-count">
+        <label for="steps">Кол-во шагов:</label>&nbsp;
+        <input type="number" min="1" max="6" id="steps" name="steps"/>&nbsp;
+        <button class="btn btn-primary" id="set-step">
+            <i class="fa"></i> Задать
+        </button>
+    </div><br/><br/>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#set-step').click(function(event){
+                event.preventDefault();
+                var steps = $('#steps').val();
+                var wizard = $('#steps-wizard');
+                wizard.html('');
+                for(var i = 0; i < steps; i++) {
+                    wizard.append('<h3></h3><section></section>');
+                }
+                $("#steps-wizard").steps({
+                    headerTag: "h3",
+                    bodyTag: "section",
+                    transitionEffect: "slideLeft",
+                    autoFocus: true,
+                    onFinish: function () {
+                        alert();
+                    }
+                });
+            });
+        });
+    </script>
+
+    <div id="steps-wizard">
+
+    </div>
+{% endblock %}

@@ -31,3 +31,6 @@ label[for=store_storeUrls]
 #easyadmin-new-LenseTag #_easyadmin_form_design_element_4-tab {
     display: none;
 }
+label[for=product_lenses] {
+    display: none;
+}

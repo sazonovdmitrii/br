@@ -33,6 +33,12 @@ class LenseItemTag
      */
     private $visible;
 
+    public function __construct()
+    {
+        $this->created = new \DateTime();
+        $this->visible = 1;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
