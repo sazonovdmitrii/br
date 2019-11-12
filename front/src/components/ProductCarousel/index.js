@@ -41,10 +41,18 @@ const ProductCarousel = ({ items }) => {
 
         return (
             <div
-                key={item.id} // eslint-disable-line
+                key={index} // eslint-disable-line
                 className={activeBannerClassName}
             >
-                <img className={styles.image} src={item.path} alt="" />
+                <picture>
+                    <source srcSet={`${item.middle.webp} 1x, ${item.big.webp} 2x`} type="image/webp" />
+                    <img
+                        className={styles.image}
+                        src={item.middle.original}
+                        srcSet={`${item.big.original} 2x`}
+                        alt=""
+                    />
+                </picture>
             </div>
         );
     });
@@ -71,7 +79,7 @@ const ProductCarousel = ({ items }) => {
                 </div>
             </div>
             <Dots
-                items={items}
+                amount={items.length}
                 active={state.active}
                 onClick={index => dispatch({ type: 'ACTIVE', active: index })}
             />

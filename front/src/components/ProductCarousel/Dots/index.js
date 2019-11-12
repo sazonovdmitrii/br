@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
@@ -6,23 +6,25 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Dots = ({ items, onClick, active }) => {
-    if (!items.length) return null;
+const Dots = ({ amount, onClick, active }) => {
+    if (!amount) return null;
+
+    const array = useMemo(() => [...new Array(amount).keys()], [amount]);
 
     return (
         <div className={styles.dots}>
-            {items.map((item, index) => {
+            {array.map(item => {
                 const dotClassName = cx(styles.dot, {
-                    active: active === index,
+                    active: active === item,
                 });
 
                 return (
                     <button
-                        key={item.id}
+                        key={item}
                         type="button"
-                        aria-label={`Slide ${index + 1}`}
+                        aria-label={`Slide ${item + 1}`}
                         className={dotClassName}
-                        onClick={() => onClick(index)}
+                        onClick={() => onClick(item)}
                     />
                 );
             })}
@@ -31,12 +33,12 @@ const Dots = ({ items, onClick, active }) => {
 };
 
 Dots.defaultProps = {
-    items: [],
+    amount: 0,
     onClick: () => {},
 };
 
 Dots.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
+    amount: PropTypes.number,
     active: PropTypes.number.isRequired,
     onClick: PropTypes.func,
 };

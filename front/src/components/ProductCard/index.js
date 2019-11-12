@@ -17,15 +17,14 @@ const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, 
     const [color, setColor] = useState(colors.length ? colors[0].id : null);
     const [image, setImage] = useState(
         imageProps ||
-            (items.length && items[0].node.productItemImages.length
-                ? items[0].node.productItemImages[0].path
-                : placeholderImage)
+            (items.length && items[0].node.images.length ? items[0].node.images[0] : placeholderImage)
     );
+
     const handleChangeColor = value => {
         const {
-            node: { productItemImages },
+            node: { images },
         } = items.find(({ node }) => node.id === value);
-        const newImage = productItemImages.length ? productItemImages[0].path : placeholderImage;
+        const newImage = images.length ? images[0] : placeholderImage;
 
         setImage(newImage);
         setColor(value);
@@ -38,7 +37,22 @@ const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, 
     return (
         <div className={styles.root}>
             <RootLink to={url} className={styles.imageWrapper} title={name}>
-                <img className={styles.image} src={image} alt={name} />
+                {typeof image === 'object' ? (
+                    <picture>
+                        <source
+                            srcSet={`${image.small.webp} 1x, ${image.premiddle.webp} 2x`}
+                            type="image/webp"
+                        />
+                        <img
+                            className={styles.image}
+                            src={image.small.original}
+                            srcSet={`${image.premiddle.original} 2x`}
+                            alt={name}
+                        />
+                    </picture>
+                ) : (
+                    <img className={styles.image} src={image} alt={name} />
+                )}
             </RootLink>
             {name && <h2 className={styles.title}>{name}</h2>}
             {colors.length ? (

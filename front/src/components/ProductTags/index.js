@@ -23,7 +23,15 @@ const ProductTags = ({ items, image }) => (
         ) : null}
         {image && (
             <div className={styles.imageContainer}>
-                <img className={styles.image} src={image} alt="" />
+                <picture>
+                    <source srcSet={`${image.middle.webp} 1x, ${image.big.webp} 2x`} type="image/webp" />
+                    <img
+                        className={styles.image}
+                        src={image.middle.original}
+                        srcSet={`${image.big.original} 2x`}
+                        alt=""
+                    />
+                </picture>
             </div>
         )}
     </div>

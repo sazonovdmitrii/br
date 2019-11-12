@@ -131,7 +131,7 @@ const Product = ({
                 text={<FormattedMessage id="p_product_delivery_text" />}
             />
             <div className={styles.section}>
-                <ProductTags items={tags} image={images.length === 2 ? images[1].path : null} />
+                <ProductTags items={tags} image={images[1] ? images[1] : null} />
             </div>
             <Delivery
                 title={<FormattedMessage id="p_product_lenses_block_title" />}
@@ -139,7 +139,13 @@ const Product = ({
             />
             {images[2] && (
                 <div className={styles.sectionImage}>
-                    <img src={images[2].path} alt="" />
+                    <picture>
+                        <source
+                            srcSet={`${images[2].middle.webp} 1x, ${images[2].big.webp} 2x`}
+                            type="image/webp"
+                        />
+                        <img src={images[2].middle.original} srcSet={`${images[2].big.original} 2x`} alt="" />
+                    </picture>
                 </div>
             )}
             {similars.length ? (
