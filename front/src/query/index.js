@@ -59,12 +59,9 @@ export const GET_PRODUCT = gql`
                 edges {
                     node {
                         id
+                        images
                         name
                         price
-                        productItemImages {
-                            id
-                            path
-                        }
                         productItemTagItems {
                             id
                             name
@@ -86,10 +83,7 @@ export const GET_PRODUCT = gql`
                         items(limit: 1, offset: 0) {
                             edges {
                                 node {
-                                    productItemImages {
-                                        id
-                                        path
-                                    }
+                                    images
                                 }
                             }
                         }
@@ -122,11 +116,8 @@ export const GET_PRODUCTS = gql`
                             edges {
                                 node {
                                     id
+                                    images
                                     name
-                                    productItemImages {
-                                        id
-                                        path
-                                    }
                                     productItemTagItems {
                                         id
                                         name
