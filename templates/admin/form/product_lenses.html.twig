@@ -1,5 +1,7 @@
 {% block _product_product_lenses_widget %}
+    <input type="hidden" id="product_lenses" name="product[lenses]" class="form-control">
     {% set currentProduct = form.parent.vars.data %}
+    {% set lenses_tags = json.json_decode(currentProduct.lenses) %}
     <div class="steps-count">
         <label for="steps">Кол-во шагов:</label>&nbsp;
         <input type="number" min="1" max="6" id="steps" name="steps"/>&nbsp;
@@ -14,23 +16,71 @@
                 var steps = $('#steps').val();
                 var wizard = $('#steps-wizard');
                 wizard.html('');
+                var tags = $('#tags').html();
+                var rules = new Object();
                 for(var i = 0; i < steps; i++) {
-                    wizard.append('<h3></h3><section></section>');
+                    wizard.append('<h3></h3><section class="step' + i + '">' + tags + '</section>');
+                    rules[i] = [];
                 }
                 $("#steps-wizard").steps({
                     headerTag: "h3",
                     bodyTag: "section",
                     transitionEffect: "slideLeft",
                     autoFocus: true,
-                    onFinish: function () {
-                        alert();
+                    onFinished: function (event, currentIndex)
+                    {
+                        for(var i = 0; i < steps; i++) {
+                            $('.step' + i + ' input[type=checkbox]:checked').each(function() {
+                                rules[i].push($(this).val());
+                            });
+                        }
+                        $('#product_lenses').val(JSON.stringify(rules));
                     }
                 });
+            });
+            $("#steps-wizard").steps({
+                headerTag: "h3",
+                bodyTag: "section",
+                transitionEffect: "slideLeft",
+                autoFocus: true,
+                onFinished: function (event, currentIndex)
+                {
+                    for(var i = 0; i < steps; i++) {
+                        $('.step' + i + ' input[type=checkbox]:checked').each(function() {
+                            rules[i].push($(this).val());
+                        });
+                    }
+                    $('#product_lenses').val(JSON.stringify(rules));
+                }
             });
         });
     </script>
 
     <div id="steps-wizard">
+        {% for step, tags in lenses_tags %}
+            <h3></h3>
+            <section class="step{{ step }}">
+                {% for tag in tags %}
+                    <div class="form-group form-check">
+                        <input type="checkbox" name="lense_tag[]" class="form-check-input" id="tag{{ tag }}" value="{{ tag }}">
+                        <label class="form-check-label" for="tag{{ tag }}">{{ tag }}</label>
+                    </div>
+                {% endfor %}
+            </section>
+        {% endfor %}
+    </div>
 
+    <div id="tags" style="display: none">
+        {% for tag in lense_tags.getTree() %}
+            <div class="form-group">
+                <h4>{{ tag.name }}</h4>
+            </div>
+            {% for tagItem in tag.lenseItemTags %}
+                <div class="form-group form-check">
+                    <input type="checkbox" name="lense_tag[]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">
+                    <label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>
+                </div>
+            {% endfor %}
+        {% endfor %}
     </div>
 {% endblock %}

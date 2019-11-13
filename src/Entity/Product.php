@@ -81,9 +81,9 @@ class Product
     private $sku;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $lenses = [];
+    private $lenses;
 
     public function __construct()
     {
@@ -372,12 +372,12 @@ class Product
         return $this;
     }
 
-    public function getLenses(): ?array
+    public function getLenses(): ?string
     {
         return $this->lenses;
     }
 
-    public function setLenses(?array $lenses): self
+    public function setLenses(?string $lenses): self
     {
         $this->lenses = $lenses;
 

@@ -34,3 +34,10 @@ label[for=store_storeUrls]
 label[for=product_lenses] {
     display: none;
 }
+label.form-check-label {
+    font-weight: 500 !important;
+    padding-left: 5px;
+}
+#steps-wizard .form-group {
+    margin-bottom: 0px !important;
+}

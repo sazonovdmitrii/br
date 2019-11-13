@@ -10,3 +10,5 @@ twig:
         catalog_urls: '@App\Service\Twig\CatalogUrls'
         catalogs: '@App\Service\Twig\Catalogs'
         config: '@App\Service\Twig\Config'
+        lense_tags: '@App\Service\Twig\LenseTags'
+        json: '@App\Service\Twig\Json'
