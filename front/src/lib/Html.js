@@ -17,6 +17,9 @@ const LIVETEX = `
     })();
 `;
 
+// Anti-Flicker Snippet Google Optimize
+const AFSGO = `(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date; h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')}; (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c; })(window,document.documentElement,'async-hide','dataLayer',4000, {'GTM-PV7HJ4Z':true});`;
+
 export default ({ bundle, helmet, html, window = {} }) => (
     <html {...helmet.htmlAttributes.toString()}>
         <head>
@@ -32,11 +35,21 @@ export default ({ bundle, helmet, html, window = {} }) => (
             {helmet.script.toComponent()}
             {helmet.noscript.toComponent()}
             {isProd && (
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: GTM,
-                    }}
-                />
+                <>
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: GTM,
+                        }}
+                    />
+                    {/* 16103 */}
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: AFSGO,
+                        }}
+                    />
+                    <style>{`.async-hide { opacity: 0 !important}`}</style>
+                    {/* 16103 */}
+                </>
             )}
         </head>
         <body>
