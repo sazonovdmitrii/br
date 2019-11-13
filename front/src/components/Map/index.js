@@ -9,7 +9,7 @@ import styles from './styles.css';
 
 const markers = {};
 
-const Map = ({ items }) => {
+const Map = ({ items, zoom, active }) => {
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: 'AIzaSyAy60jEl44vOurnzSHTaJtpd2KHjAA9O_0',
     });
@@ -18,12 +18,27 @@ const Map = ({ items }) => {
     const [infoWindow, setInfoWindow] = useState(null);
 
     useEffect(() => {
-        if (map && bounds) {
+        if (items.length > 1 && map && bounds) {
             map.fitBounds(bounds);
             map.panToBounds(bounds);
-            // console.log(bounds);
         }
-    }, [map, bounds]);
+    }, [items, map, bounds]);
+
+    useEffect(() => {
+        if (map && bounds && active) {
+            const { id, latitude, longitude, name, fullName } = items.find(item => active === item.id);
+
+            setInfoWindow({
+                id,
+                position: {
+                    lat: 1 * latitude,
+                    lng: 1 * longitude,
+                },
+                title: name,
+                description: fullName,
+            });
+        }
+    }, [map, bounds, active]);
 
     if (loadError) {
         return <div>Map cannot be loaded right now, sorry.</div>;
@@ -33,7 +48,7 @@ const Map = ({ items }) => {
         <GoogleMap
             mapContainerClassName={styles.map}
             options={{
-                zoom: 10,
+                zoom,
             }}
             onLoad={mapInstance => {
                 setBounds(new window.google.maps.LatLngBounds());
@@ -57,6 +72,7 @@ const Map = ({ items }) => {
                             title: name,
                             description: fullName,
                         });
+                        map.setZoom(16);
                     }}
                     position={{
                         lat: 1 * latitude,
@@ -67,7 +83,6 @@ const Map = ({ items }) => {
             {infoWindow && (
                 <InfoWindow
                     onLoad={() => {
-                        map.setZoom(16);
                         map.setCenter(markers[infoWindow.id].getPosition());
                     }}
                     onCloseClick={() => {
@@ -89,9 +104,13 @@ const Map = ({ items }) => {
 
 Map.defaultProps = {
     items: [],
+    active: null,
+    zoom: 10,
 };
 
 Map.propTypes = {
+    zoom: PropTypes.number,
+    active: PropTypes.number,
     items: PropTypes.arrayOf(PropTypes.object),
 };
 
