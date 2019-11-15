@@ -49,12 +49,12 @@ class AuthMutation implements MutationInterface
     {
         $sessionKey = '';
         if($this->request) {
-            $cookies = explode('; ', $this->request->headers->get('cookie'));
-            if(count($cookies)) {
-                foreach($cookies as $cookie) {
-                    $cookie = explode('=', $cookie);
-                    if(count($cookie) == 2 && $cookie[0] == 'session_key') {
-                        $sessionKey = $cookie[1];
+            $authData = explode('; ', $this->request->headers->get('Authorization'));
+            if(count($authData)) {
+                foreach($authData as $authItem) {
+                    $authItem = explode('=', $authItem);
+                    if(count($authItem) == 2 && $authItem[0] == 'session') {
+                        $sessionKey = $authItem[1];
                     }
                 }
             }
