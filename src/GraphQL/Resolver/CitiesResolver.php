@@ -22,9 +22,9 @@ class CitiesResolver extends LocaleAlias
         foreach($cities as $city) {
             $city->setCurrentLocale($this->getLocale());
         }
-        
+
         return [
-            'data' => $city
+            'data' => $cities
         ];
     }
 
