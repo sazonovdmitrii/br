@@ -22,20 +22,7 @@ class ProductItemResolver extends LocaleAlias {
 
     public function resolve(Argument $args)
     {
-        $config = [
-            'big' => [
-                'width' => 800,
-                'height' => 600
-            ],
-            'small' => [
-                'width' => 300,
-                'height' => 200
-            ],
-            'middle' => [
-                'width' => 600,
-                'height' => 500
-            ],
-        ];
+        $config = $this->em->getRepository('App:ImageType')->findAll();
 
         $productItem = $this->em->getRepository('App:ProductItem')
             ->find($args['id']);

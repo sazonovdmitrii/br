@@ -29,3 +29,6 @@ BasketProduct:
       url:
         type: "String"
         description: "Product Url"
+      images:
+        type: "ItemsImages"
+        description: "Images"

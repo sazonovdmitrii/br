@@ -3,6 +3,7 @@ namespace App\Service;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Redis;
 use Doctrine\ORM\EntityManager;
+use App\Service\Image\GeneratorService;
 
 class BasketService extends AbstractController
 {
@@ -30,10 +31,12 @@ class BasketService extends AbstractController
 
     public function __construct(
         EntityManager $em,
-        Redis $redis
+        Redis $redis,
+        GeneratorService $generatorService
     ) {
         $this->em = $em;
         $this->redis = $redis;
+        $this->imageGenerator = $generatorService;
     }
 
     public function setAuthKey(string $authKey)
@@ -152,11 +155,26 @@ class BasketService extends AbstractController
                                 'product_name' => $product->getName(),
                                 'url' => $product->getProductUrls()->first()->getUrl()
                             ];
+                            $config = $this->em->getRepository('App:ImageType')->findAll();
+
+                            $images = [];
+
+                            foreach($productItem->getProductItemImages() as $image) {
+
+                                $images[] = $this->imageGenerator
+                                    ->setImage($image)
+                                    ->setTypes(['original', 'webp'])
+                                    ->setConfig($config)
+                                    ->getAll();
+
+                            }
+
                             $result[$basketItem['item_id']] = array_merge(
                                 $basketItem,
                                 [
                                     'name' => $productItem->getName(),
                                     'price' => $productItem->getPrice(),
+                                    'images' => $images
                                 ],
                                 $productData
                             );
