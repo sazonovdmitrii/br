@@ -144,6 +144,7 @@ easy_admin:
             list:
                 fields: ['id', 'name', 'visible']
         Delivery:
+              label: 'Доставки'
               class: App\Entity\Delivery
               list:
                   fields: ['id', 'name', 'visible']
@@ -288,6 +289,7 @@ easy_admin:
                     - { type: 'tab' , label: 'Products' }
                     - products
         City:
+            label: 'Города'
             class: App\Entity\City
             form:
                 fields:
@@ -357,6 +359,7 @@ easy_admin:
         Pickup:
             class: App\Entity\Pickup
         Region:
+            label: 'Регионы'
             class: App\Entity\Region
         Courier:
             class: App\Entity\Courier
@@ -469,7 +472,7 @@ easy_admin:
           - label: 'Меню'
             children: ['Menu', 'MenuItem']
           - label: 'Контент'
-            children: ['Page', 'Block', 'Store']
+            children: ['Page', 'Block', 'Store', 'Region', 'Delivery', 'City']
           - Banner
           - Sale
           - label: 'Конфигурация'
