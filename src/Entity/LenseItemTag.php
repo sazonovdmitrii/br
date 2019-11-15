@@ -33,6 +33,11 @@ class LenseItemTag
      */
     private $visible;
 
+    /**
+     * @ORM\Column(type="decimal", precision=7, scale=2, nullable=true)
+     */
+    private $price;
+
     public function __construct()
     {
         $this->created = new \DateTime();
@@ -97,5 +102,17 @@ class LenseItemTag
         $method = 'get'. ucfirst($name);
         $arguments = [];
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    public function setPrice($price): self
+    {
+        $this->price = $price;
+
+        return $this;
     }
 }

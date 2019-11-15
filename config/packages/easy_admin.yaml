@@ -431,8 +431,10 @@ easy_admin:
                         }
                     }
                   }
-                - { type: 'tab' , label: 'Urls' }
-                - slug
+                - { type: 'tab' , label: 'Адреса' }
+                - { property: slug, label: 'Адрес'}
+                - { type: 'tab' , label: 'Цены' }
+                - { property: price, label: 'Цена'}
             list:
               title: 'Опции тегов линз'
     design:

@@ -16,6 +16,9 @@ Product:
       items:
         type: ItemConnection
         argsBuilder: PaginatoringBuilder
+      lenses:
+        type: "[Steps]"
+        description: "Lenses Configuration"
       catalog:
         type: "[Catalog]"
         description: "Product Catalog"
@@ -48,3 +51,23 @@ ProductCatalog:
       value:
         type: "String"
         description: "Product Catalog Value"
+
+Steps:
+  type: object
+  config:
+    fields:
+      steps:
+        type: "[Step]"
+        description: "Step Configuration"
+
+Step:
+  type: object
+  config:
+    description: "Lenses Items"
+    fields:
+      name:
+        type: "String"
+        description: "Lense Name"
+      price:
+        type: "String"
+        description: "Lense Price"
