@@ -9,6 +9,7 @@ use Overblog\GraphQLBundle\Definition\Argument;
 use Doctrine\ORM\EntityManager;
 use Redis;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use App\Service\UserService;
 
 class AddressMutation extends AuthMutation
 {
@@ -19,13 +20,14 @@ class AddressMutation extends AuthMutation
         Redis $redis,
         ContainerInterface $container,
         AuthenticatorService $authenticatorService,
-        AddressService $addressService
+        AddressService $addressService,
+        UserService $userService
     ) {
         $this->redis = $redis;
         $this->em = $em;
         $this->addressService = $addressService;
         $this->authenticatorService = $authenticatorService;
-        parent::__construct($redis, $container, $authenticatorService);
+        parent::__construct($redis, $container, $authenticatorService, $userService);
     }
 
     public function create(Argument $args)
