@@ -261,4 +261,18 @@ class City
 
         return $this;
     }
+
+    public function __call($method, $arguments)
+    {
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function __get($name)
+    {
+        $method = 'get' . implode(array_map('ucfirst', explode('_', $name)));
+        $arguments = [];
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
 }
