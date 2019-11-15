@@ -26,13 +26,13 @@ class LenseTags
     public function getTags($tagsIds)
     {
         $result = [];
-        foreach($tagsIds as $tagsItemsIds) {
-            foreach($tagsItemsIds as $tagsItemsId) {
-                $lenseTagItem = $this->em->getRepository(LenseItemTag::class)->find($tagsItemsId);
-                $result[$lenseTagItem->getEntity()->getName()][] = [
-                    'id' => $lenseTagItem->getId(),
-                    'name' => $lenseTagItem->getName()
-                ];
+        if($tagsIds && count($tagsIds)) {
+            foreach($tagsIds as $step => $tagsItemsIds) {
+                $result[$step] = [];
+                foreach($tagsItemsIds as $tagsItemsId) {
+                    $lenseTagItem = $this->em->getRepository(LenseItemTag::class)->find($tagsItemsId);
+                    $result[$step][] = $lenseTagItem->getId();
+                }
             }
         }
         return $result;
