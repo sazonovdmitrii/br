@@ -5,7 +5,7 @@ use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 
-class CitiesResolver implements ResolverInterface, AliasedInterface
+class CitiesResolver extends LocaleAlias
 {
     private $em;
 
@@ -16,9 +16,15 @@ class CitiesResolver implements ResolverInterface, AliasedInterface
 
     public function resolve()
     {
-        $regions = $this->em->getRepository('App:City')->findAll();
+        $cities = $this->em->getRepository('App:City')
+            ->findAll();
+
+        foreach($cities as $city) {
+            $city->setCurrentLocale($this->getLocale());
+        }
+        
         return [
-            'data' => $regions
+            'data' => $city
         ];
     }
 
