@@ -29,7 +29,11 @@ class ProductResolver extends LocaleAlias {
         $productUrl = $this->em
             ->getRepository('App:ProductUrl')
             ->findByUrl($args['slug']);
-
+        if(!$productUrl) {
+            $productUrl = $this->em
+                ->getRepository('App:ProductUrl')
+                ->findByUrl($args['slug'] . '/');
+        }
         if($productUrl) {
             $product = $productUrl->getEntity();
             $product->setCurrentLocale($this->getLocale());
