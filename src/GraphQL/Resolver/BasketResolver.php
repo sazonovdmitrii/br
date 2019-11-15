@@ -23,7 +23,7 @@ class BasketResolver extends AuthAlias
 
     public function resolve(Argument $args)
     {
-        $authKey = ($this->getUser()) ? $this->getUser()->getId() : $this->getSessionKey();
+        $authKey = ($this->getUser()) ? $this->getUser()->getId() : $this->getAuth('session');
         $basket = $this->basketService
             ->setAuthKey($authKey)
             ->getAll();
