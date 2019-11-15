@@ -36,7 +36,7 @@ const Product = ({
     const [buyLink] = useLangLinks(['/retail']);
     // const { createNotification } = useApp();
     const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
-    const images = selectedProduct.productItemImages;
+    const images = selectedProduct.images;
     const colors = items.reduce((array, item) => {
         const [{ image }] = item.node.productItemTagItems;
 
