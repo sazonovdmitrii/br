@@ -149,6 +149,7 @@ easy_admin:
               list:
                   fields: ['id', 'name', 'visible']
         PaymentMethod:
+            label: 'Платежные методы'
             class: App\Entity\PaymentMethod
             list:
                 fields: ['id', 'name']
@@ -472,7 +473,7 @@ easy_admin:
           - label: 'Меню'
             children: ['Menu', 'MenuItem']
           - label: 'Контент'
-            children: ['Page', 'Block', 'Store', 'Region', 'Delivery', 'City']
+            children: ['Page', 'Block', 'Store', 'Region', 'Delivery', 'City', 'PaymentMethod']
           - Banner
           - Sale
           - label: 'Конфигурация'
