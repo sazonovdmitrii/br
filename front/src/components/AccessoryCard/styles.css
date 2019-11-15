@@ -1,0 +1,112 @@
+.root {
+    text-align: center;
+}
+
+.body {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 48px;
+    padding: 12px 12px 0;
+    vertical-align: top;
+
+    @media (--viewport-ipad) {
+        margin-bottom: 60px;
+        padding-top: 24px;
+    }
+
+    @media (--viewport-desktop) {
+        margin-bottom: 78px;
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+
+    @media (--viewport-wide) {
+        margin-bottom: 90px;
+        padding-right: 24px;
+        padding-left: 24px;
+    }
+}
+
+.price {
+    margin-bottom: 6px;
+    font-weight: var(--headings-font-weight);
+    font-size: var(--font-size-large);
+    font-family: var(--headings-font);
+    line-height: var(--headings-line-height);
+
+    @media (--viewport-ipad) {
+        font-size: 20px;
+    }
+
+    @media (--viewport-desktop) {
+        margin-bottom: 12px;
+        font-size: 20px;
+    }
+
+    @media (--viewport-wide) {
+        font-size: 24px;
+    }
+}
+
+.title {
+    margin-bottom: 6px;
+    color: #414b56;
+    font-size: 20px;
+
+    @media (--viewport-ipad) {
+        font-size: 24px;
+    }
+
+    @media (--viewport-desktop) {
+        font-size: 26px;
+    }
+
+    @media (--viewport-wide) {
+        font-size: 30px;
+    }
+}
+
+.subTitle {
+    margin-bottom: 12px;
+    color: #676f78;
+    font-size: var(--font-size-large);
+    font-family: var(--headings-font);
+    font-style: italic;
+    line-height: var(--headings-line-height);
+
+    @media (--viewport-ipad) {
+        font-size: 20px;
+    }
+
+    @media (--viewport-desktop) {
+        margin-bottom: 18px;
+        font-size: 20px;
+    }
+
+    @media (--viewport-wide) {
+        font-size: 24px;
+    }
+}
+
+.actions {
+    margin-top: 24px;
+}
+
+.shopLink {
+    padding-bottom: 6px;
+    color: var(--color-primary);
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 2px solid var(--color-primary);
+
+    @media (--viewport-desktop) {
+        font-size: var(--font-size-large);
+        border-bottom-width: 0;
+        transition: all 0.1s;
+
+        &:hover {
+            color: var(--color-primary);
+            border-bottom-width: 2px;
+        }
+    }
+}

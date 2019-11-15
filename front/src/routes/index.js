@@ -52,6 +52,10 @@ export default ({ lang, defaultLang }) => {
                   ],
               ]),
         [
+            withErrorBoundary(loadable(() => import('./Accessories'), loadableOpts)),
+            routerOptions({ path: '/accessories' }),
+        ],
+        [
             withErrorBoundary(loadable(() => import('./Certificates'), loadableOpts)),
             routerOptions({ path: '/certificates' }),
         ],
