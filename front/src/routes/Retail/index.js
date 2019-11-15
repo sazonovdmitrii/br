@@ -9,19 +9,27 @@ import Container from 'components/Container';
 import Switch from 'components/Switch';
 import Shops from 'components/Shops';
 import Loader from 'components/Loader';
-
-import Map from './Map';
+import Map from 'components/Map';
+import Title from 'components/Title';
 
 import styles from './styles.css';
 import bgImage from './images/bg.jpg';
 
 const Retail = () => {
-    const { loading, data: { stores } = {}, refetch } = useQuery(GET_STORES);
-    const [filter, setFilter] = useState(false);
-
-    useEffect(() => {
-        refetch({ vision: filter ? 1 : 0 });
-    }, [filter, refetch]);
+    const { loading: loadingStores, data: { stores } = {} } = useQuery(GET_STORES, {
+        variables: {
+            vision: false,
+        },
+    });
+    const { loading: loadingStoresWithVision, data: { stores: storesWithVision } = {} } = useQuery(
+        GET_STORES,
+        {
+            variables: {
+                vision: true,
+            },
+        }
+    );
+    const loading = loadingStores && loadingStoresWithVision;
 
     return (
         <div>
@@ -31,21 +39,23 @@ const Retail = () => {
                     <h2 className={styles.title}>
                         <FormattedMessage id="p_retail_title" />
                     </h2>
-                    <div className={styles.filter}>
-                        <Switch
-                            label={<FormattedMessage id="p_retail_filter" />}
-                            checked={filter}
-                            onChange={(e, value) => setFilter(value)}
-                        />
-                    </div>
-                    {loading ? (
+                    {loadingStores ? (
                         <Loader />
                     ) : (
                         <>
+                            <Title className={styles.subTitle}>Оптики</Title>
                             <Shops items={stores.data} />
-                            {stores.data.length ? <Map items={stores.data} /> : null}
                         </>
                     )}
+                    {loadingStoresWithVision ? (
+                        <Loader />
+                    ) : (
+                        <>
+                            <Title className={styles.subTitle}>Витрины</Title>
+                            <Shops items={storesWithVision.data} />
+                        </>
+                    )}
+                    {loading ? null : <Map items={[...stores.data, ...storesWithVision.data]} />}
                 </section>
             </Container>
         </div>

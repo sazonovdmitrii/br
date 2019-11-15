@@ -8,13 +8,14 @@ import Container from 'components/Container';
 import Hero from 'components/Hero';
 import Link from 'components/Link';
 import LocationsSection from 'components/LocationsSection';
+import Map from 'components/Map';
 
 import styles from './styles.css';
 import bgImage from './images/bg.jpg';
 
 const cx = classnames.bind(styles);
 
-const RetailPage = ({ name, full_name, longitude, latitude, phone, description, image, hours }) => {
+const RetailPage = ({ name, full_name, longitude, latitude, phone, description, image, hours, nearby }) => {
     const mapLink = `https://www.google.com/maps/place/${latitude},${longitude}`;
     const phoneClassName = cx(styles.phone, styles.block);
     const descriptionClassName = cx(styles.description, styles.block);
@@ -57,9 +58,16 @@ const RetailPage = ({ name, full_name, longitude, latitude, phone, description, 
                             )}
                         </div>
                     </div>
+                    {longitude && latitude && (
+                        <Map
+                            items={[{ id: 666, name, full_name, longitude, latitude }]}
+                            zoom={16}
+                            active={666}
+                        />
+                    )}
                 </Container>
             </section>
-            <LocationsSection />
+            {nearby.length ? <LocationsSection /> : null}
         </div>
     );
 };
@@ -69,6 +77,7 @@ RetailPage.defaultProps = {
     hours: null,
     image: null,
     description: null,
+    nearby: [],
 };
 
 RetailPage.propTypes = {
