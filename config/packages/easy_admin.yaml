@@ -359,11 +359,13 @@ easy_admin:
         District:
             class: App\Entity\District
         Pickup:
+            label: 'Самовывоз'
             class: App\Entity\Pickup
         Region:
             label: 'Регионы'
             class: App\Entity\Region
         Courier:
+            label: 'Курьерская доставка'
             class: App\Entity\Courier
         UserAddress:
             class: App\Entity\UserAddress
@@ -474,7 +476,7 @@ easy_admin:
           - label: 'Меню'
             children: ['Menu', 'MenuItem']
           - label: 'Контент'
-            children: ['Page', 'Block', 'Store', 'Region', 'Delivery', 'City', 'PaymentMethod']
+            children: ['Page', 'Block', 'Store', 'Region', 'Courier', 'Pickup', 'City', 'PaymentMethod']
           - Order
           - Banner
           - Sale
