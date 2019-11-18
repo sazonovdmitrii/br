@@ -14,6 +14,7 @@ use Redis;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\GraphQL\Input\OrderInput;
 use GraphQL\Error\UserError;
+use App\Service\UserService;
 
 class OrderMutation extends AuthMutation
 {
@@ -25,14 +26,15 @@ class OrderMutation extends AuthMutation
         ContainerInterface $container,
         AuthenticatorService $authenticatorService,
         BasketService $basketService,
-        ObjectManager $manager
+        ObjectManager $manager,
+        UserService $userService
     ) {
         $this->manager              = $manager;
         $this->redis                = $redis;
         $this->em                   = $em;
         $this->basketService        = $basketService;
         $this->authenticatorService = $authenticatorService;
-        parent::__construct($redis, $container, $authenticatorService);
+        parent::__construct($redis, $container, $authenticatorService, $userService);
     }
 
     public function create(Argument $args)
@@ -48,20 +50,48 @@ class OrderMutation extends AuthMutation
         $user  = $this->getUser();
         if ($user) {
             $order->setUserId($user);
-            $deliveryId = ($input->pvz_id) ? $input->pvz_id : $input->courier_id;
-            if(!$deliveryId) {
+
+            if(!$input->courier_id && !$input->pickup_id) {
                 throw new UserError('Необходимо указать хотя бы один метод доставки.');
             }
-            $order->setDeliveryId($deliveryId);
+
+            if($input->pickup_id) {
+                $order->setPickup(
+                    $this->em->getRepository('App:Pickup')
+                        ->find($input->pickup_id)
+                );
+            }
+
+            if($input->courier_id) {
+                $order->setCourier(
+                    $this->em->getRepository('App:Courier')
+                        ->find($input->courier_id)
+                );
+            }
+
+            $order->setLenses($input->lenses);
+
+            if(!$input->payment_method_id) {
+                throw new UserError('Необходимо указать способ оплаты.');
+            }
+
             $paymentMethod = $this->em
                 ->getRepository('App:PaymentMethod')
                 ->find($input->payment_method_id);
+
             $order->setPaymentMethodId($paymentMethod);
-            $address = $this->em
-                ->getRepository('App:Address')
-                ->find($input->address_id);
-            $order->setAddressId($address);
+
+            if($input->courier_id && !$input->address_id) {
+                throw new UserError('Необходимо указать способ адрес для курьерской доставки.');
+            }
+
+            $order->setAddressId(
+                $this->em->getRepository('App:Address')
+                    ->find($input->address_id)
+            );
+
             $order->setComment($input->comment);
+            $order->setLenses($input->lenses);
         }
 
         if(!count($basket)) {

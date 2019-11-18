@@ -53,6 +53,21 @@ class Orders
      */
     private $comment;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Courier", inversedBy="orders")
+     */
+    private $courier;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Pickup", inversedBy="orders")
+     */
+    private $pickup;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $lenses;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
@@ -165,5 +180,46 @@ class Orders
         $this->comment = $comment;
 
         return $this;
+    }
+
+    public function getCourier(): ?Courier
+    {
+        return $this->courier;
+    }
+
+    public function setCourier(?Courier $courier): self
+    {
+        $this->courier = $courier;
+
+        return $this;
+    }
+
+    public function getPickup(): ?Pickup
+    {
+        return $this->pickup;
+    }
+
+    public function setPickup(?Pickup $pickup): self
+    {
+        $this->pickup = $pickup;
+
+        return $this;
+    }
+
+    public function getLenses(): ?string
+    {
+        return $this->lenses;
+    }
+
+    public function setLenses(?string $lenses): self
+    {
+        $this->lenses = $lenses;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return (string)$this->getId();
     }
 }

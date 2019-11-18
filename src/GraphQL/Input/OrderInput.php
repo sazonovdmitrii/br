@@ -4,7 +4,7 @@ use AssoConnect\GraphQLMutationValidatorBundle\Input\RequestObject;
 
 class OrderInput extends RequestObject
 {
-    public $pvz_id;
+    public $pickup_id;
 
     public $courier_id;
 
@@ -13,4 +13,6 @@ class OrderInput extends RequestObject
     public $payment_method_id;
 
     public $comment;
+
+    public $lenses;
 }

@@ -17,7 +17,7 @@ class OrderItem
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ProductItem", inversedBy="orderItems")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ProductItem", inversedBy="orderItems", cascade={"persist"})
      */
     private $item;
 
@@ -27,7 +27,7 @@ class OrderItem
     private $qty;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Orders", inversedBy="orderItems")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Orders", inversedBy="orderItems", cascade={"persist"})
      */
     private $entity;
 

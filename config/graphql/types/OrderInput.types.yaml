@@ -2,7 +2,7 @@ OrderInput:
   type: input-object
   config:
     fields:
-      pvz_id:
+      pickup_id:
         type: "Int"
         description: "Pvz ID"
       payment_method_id:
@@ -17,3 +17,6 @@ OrderInput:
       address_id:
         type: "Int"
         description: "User Address Id"
+      lenses:
+        type: "Int"
+        description: "Lenses Configuration"
