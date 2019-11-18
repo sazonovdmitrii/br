@@ -68,6 +68,11 @@ class Orders
      */
     private $lenses;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $secret_key;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
@@ -221,5 +226,17 @@ class Orders
     public function __toString()
     {
         return (string)$this->getId();
+    }
+
+    public function getSecretKey(): ?string
+    {
+        return $this->secret_key;
+    }
+
+    public function setSecretKey(?string $secret_key): self
+    {
+        $this->secret_key = $secret_key;
+
+        return $this;
     }
 }

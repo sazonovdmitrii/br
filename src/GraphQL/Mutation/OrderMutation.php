@@ -124,7 +124,8 @@ class OrderMutation extends AuthMutation
             ->setAuthKey($this->getAuthKey())
             ->delete();
         return [
-            'id' => $order->getId()
+            'id' => $order->getId(),
+            'secret_key' => $order->getSecretKey()
         ];
     }
 }

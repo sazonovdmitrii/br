@@ -160,6 +160,13 @@ Query:
               description: "Search Name"
               type: "String"
         resolve: "@=resolver('CatalogSearch', [args])"
+      order:
+        type: "Order"
+        args:
+            secret_key:
+              description: "Resolves using the order secret key."
+              type: "String"
+        resolve: "@=resolver('Order', [args])"
 DateTime:
     type: custom-scalar
     config:

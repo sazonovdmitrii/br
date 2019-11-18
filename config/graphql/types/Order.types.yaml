@@ -6,3 +6,9 @@ Order:
       id:
         type: "Int"
         description: "Order Id."
+      secret_key:
+        type: "String"
+        description: "Secret Key"
+      orderItems:
+        type: "[OrderItem]"
+        description: "Orders Items"

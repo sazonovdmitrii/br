@@ -1,5 +1,13 @@
-mutation {
-  order {
+mutation ($input: OrderInput!) {
+  order(input: $input) {
     id
+  }
+}
+
+{
+  "input": {
+    	"courier_id": 1,
+    	"payment_method_id": 1,
+    	"address_id": 5
   }
 }

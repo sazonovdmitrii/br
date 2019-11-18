@@ -19,6 +19,15 @@ class OrdersRepository extends ServiceEntityRepository
         parent::__construct($registry, Orders::class);
     }
 
+    public function findBySecretKey(string $secretKey)
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.secret_key = :secret_key')
+            ->setParameter('secret_key', $secretKey)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Orders[] Returns an array of Orders objects
     //  */
