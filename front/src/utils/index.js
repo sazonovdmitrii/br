@@ -48,3 +48,5 @@ export const SeoHead = props => {
 export const createMarkup = __html => ({
     __html,
 });
+
+export const isNumber = value => parseInt(value, 10) === parseInt(value, 10);
