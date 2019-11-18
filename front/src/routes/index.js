@@ -18,6 +18,10 @@ export default ({ lang, defaultLang }) => {
     const routerOptions = ({ path, exact = true }) => ({ path: LANG_PREFIX + path, exact });
 
     return [
+        [
+            withErrorBoundary(loadable(() => import('./Basket'), loadableOpts)),
+            routerOptions({ path: '/cart' }),
+        ],
         ...(isLoggedIn
             ? [
                   [

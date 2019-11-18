@@ -9,6 +9,7 @@ export const Products = gql`
             name
             product_name
             url
+            images
         }
     }
 `;
