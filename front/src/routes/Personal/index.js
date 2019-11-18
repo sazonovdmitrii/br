@@ -9,7 +9,7 @@ import UserForm from 'components/UserForm';
 import styles from './styles.css';
 
 export default () => {
-    const { loading, error, data: { user } = {} } = useQuery(GET_USER, { variables: { id: 1 } });
+    const { loading, error, data: { user } = {} } = useQuery(GET_USER);
 
     if (loading || error) return null;
 

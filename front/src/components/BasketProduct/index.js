@@ -10,7 +10,7 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const BasketProduct = ({ url, name, subName, image, item_id, price, onRemove }) => {
+const BasketProduct = ({ url, name, subName, images, price, tags, onRemove }) => {
     const [expanded, setExpanded] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const rootClassName = cx(styles.root);
@@ -21,11 +21,22 @@ const BasketProduct = ({ url, name, subName, image, item_id, price, onRemove }) 
     return (
         <div className={rootClassName}>
             <button type="button" className={styles.removeButton} onClick={() => setShowConfirm(true)}>
-                <RemoveIcon size="20" />
+                <RemoveIcon size="10" />
             </button>
             <div className={styles.imageContainer}>
                 <Link to={url}>
-                    <img className={styles.image} src={image} alt="" />
+                    <picture>
+                        <source
+                            srcSet={`${images.basket.webp} 1x, ${images.middle.webp} 2x`}
+                            type="image/webp"
+                        />
+                        <img
+                            className={styles.image}
+                            src={images.basket.original}
+                            srcSet={`${images.middle.original} 2x`}
+                            alt=""
+                        />
+                    </picture>
                 </Link>
             </div>
             <div className={styles.info}>
@@ -36,22 +47,21 @@ const BasketProduct = ({ url, name, subName, image, item_id, price, onRemove }) 
                 </h4>
                 <div className={styles.footer}>
                     <p className={styles.subhead}>{subName}</p>
-                    <div className={expansionContainerClassName}>
-                        <div className={styles.frameDetails}>
-                            <h5 className={styles.frameDetailsLabel}>Prescription type</h5>
-                            <p className={styles.frameDetailsValue}>
-                                Single-vision <span className={styles.frameDetailsPrice}>$ 95</span>
-                            </p>
-                            <h5 className={styles.frameDetailsLabel}>Lens type</h5>
-                            <p className={styles.frameDetailsValue}>
-                                Light-responsive<span className={styles.frameDetailsPrice}>$ 100</span>
-                            </p>
-                            <h5 className={styles.frameDetailsLabel}>Lens material</h5>
-                            <p className={styles.frameDetailsValue}>
-                                1.67 high-index<span className={styles.frameDetailsPrice}>$ 30</span>
-                            </p>
+                    {tags.length ? (
+                        <div className={expansionContainerClassName}>
+                            <div className={styles.frameDetails}>
+                                {tags.map(({ name, value, price }) => (
+                                    <>
+                                        <h5 className={styles.frameDetailsLabel}>{name}</h5>
+                                        <p className={styles.frameDetailsValue}>
+                                            {value} <span className={styles.frameDetailsPrice}>{price}</span>
+                                        </p>
+                                    </>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    ) : null}
+
                     <div className={styles.footerRight}>
                         <button
                             type="button"
@@ -92,8 +102,9 @@ const BasketProduct = ({ url, name, subName, image, item_id, price, onRemove }) 
 };
 
 BasketProduct.defaultProps = {
-    name: 'Whalen',
-    price: '666',
+    name: 'Без названия',
+    price: null,
+    tags: [],
 };
 
 export default BasketProduct;

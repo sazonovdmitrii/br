@@ -9,7 +9,7 @@ import ErrorMessage from 'components/Error';
 const withQuery = ({ query, ...opts }) => Component => {
     const { data = {}, loading, error } = useQuery(query, opts);
 
-    if (loading) return <Loader />;
+    if (loading) return <Loader fullHeight />;
     if (error) {
         return (
             <>

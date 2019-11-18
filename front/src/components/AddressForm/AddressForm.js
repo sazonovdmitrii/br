@@ -9,13 +9,19 @@ import Snackbar from 'components/Snackbar';
 
 import styles from './styles.css';
 
-const AddressForm = ({ className, values: valuesProp, onSubmit, history, actions, regions }) => {
-    const regionsForSelect = regions.map(({ id, title }) => ({ id, value: title }));
-    const [notification, setNotification] = useState(null);
+const AddressForm = ({
+    className,
+    values: valuesProp,
+    onSubmit,
+    history,
+    actions,
+    // regions
+}) => {
+    // const regionsForSelect = regions.map(({ id, title }) => ({ id, value: title }));
     const [values, setValues] = useState({
         name: '',
         person: '',
-        region_id: null,
+        // region_id: null,
         city: '',
         street: '',
         zip: '',
@@ -27,35 +33,24 @@ const AddressForm = ({ className, values: valuesProp, onSubmit, history, actions
         // comment: '',
         ...valuesProp,
     });
-    const handleCloseNotification = () => {
-        setNotification(null);
-    };
     const handleChange = ({ target: { name, value } }) => {
         setValues(prevState => ({
             ...prevState,
             [name]: value,
         }));
     };
-    const handleChangeSelect = ({ id }) => {
-        setValues(prevState => ({
-            ...prevState,
-            region_id: id,
-        }));
-    };
-    const isValid = () => {
-        // todo
-        return true;
-    };
+    // const handleChangeSelect = ({ id }) => {
+    //     setValues(prevState => ({
+    //         ...prevState,
+    //         region_id: id,
+    //     }));
+    // };
     const handleSubmit = event => {
         event.preventDefault();
 
-        if (isValid()) {
-            onSubmit({
-                variables: { input: values },
-            });
-        } else {
-            setNotification();
-        }
+        onSubmit({
+            variables: { input: values },
+        });
     };
     const handleBackURL = () => {
         history.goBack();
@@ -78,22 +73,14 @@ const AddressForm = ({ className, values: valuesProp, onSubmit, history, actions
 
     return (
         <form className={className} onSubmit={handleSubmit}>
-            {notification && (
-                <Snackbar
-                    text={notification.text}
-                    active={!!notification}
-                    theme={notification.type}
-                    onClose={handleCloseNotification}
-                />
-            )}
-            <InputGroup>
+            {/*<InputGroup>
                 <Select
                     label="Регион*"
                     items={regionsForSelect}
                     value={region_id}
                     onChange={handleChangeSelect}
                 />
-            </InputGroup>
+            </InputGroup>*/}
             <InputGroup>
                 <Input label="Город" name="city" value={city} onChange={handleChange} required />
             </InputGroup>
@@ -114,13 +101,13 @@ const AddressForm = ({ className, values: valuesProp, onSubmit, history, actions
                 <Input label="Получатель" name="person" value={person} onChange={handleChange} />
                 <Input label="Название адреса" name="name" value={name} onChange={handleChange} required />
                 {/* <Input
-                            label="Коментарий"
-                            name="comment"
-                            value={comment}
-                            onChange={handleChange}
-                            rowsMax="4"
-                            multiline
-                        /> */}
+                    label="Коментарий"
+                    name="comment"
+                    value={comment}
+                    onChange={handleChange}
+                    rowsMax="4"
+                    multiline
+                /> */}
             </InputGroup>
             <div className={styles.actions}>
                 <Button type="submit" kind="primary" bold>

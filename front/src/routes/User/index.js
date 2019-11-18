@@ -1,9 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { useLangLinks } from 'hooks';
+import { useLangLinks, useApp } from 'hooks';
 
 import Title from 'components/Title';
 import Button from 'components/Button';
@@ -17,6 +18,8 @@ import PrescriptionsIcon from './icons/prescriptions.svg';
 import AddressesIcon from './icons/addresses.svg';
 
 const User = () => {
+    const history = useHistory();
+    const { logout } = useApp();
     const [favoritesLink, prescriptionsLink, addressesLink, profileLink] = useLangLinks([
         '/account/favorites',
         '/account/prescriptions',
@@ -25,7 +28,8 @@ const User = () => {
     ]);
 
     const handleLogoOut = () => {
-        //
+        logout();
+        history.push('/');
     };
 
     return (

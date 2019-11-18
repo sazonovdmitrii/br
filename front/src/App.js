@@ -97,20 +97,18 @@ const App = ({ lang }) => {
                 ))}
             </Switch>
             <Footer lang={lang} />
-            {notifications.length ? (
-                <SnackbarOverlay>
-                    {notifications.map(item => (
-                        <Snackbar
-                            key={item.id}
-                            text={item.message}
-                            active={!!item.message}
-                            theme={item.type}
-                            onClose={() => removeNotification(item.id)}
-                            overlay={false}
-                        />
-                    ))}
-                </SnackbarOverlay>
-            ) : null}
+            <SnackbarOverlay>
+                {notifications.map(item => (
+                    <Snackbar
+                        key={item.id}
+                        text={item.message}
+                        active={!!item.message}
+                        theme={item.type}
+                        onClose={() => removeNotification(item.id)}
+                        overlay={false}
+                    />
+                ))}
+            </SnackbarOverlay>
         </IntlProvider>
     );
 };

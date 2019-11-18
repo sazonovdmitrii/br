@@ -16,6 +16,12 @@
     }
 }
 
+.containerSmall {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
 .header {
     margin-bottom: 12px;
 }
@@ -23,7 +29,7 @@
 .title {
     font-weight: var(--headings-font-weight);
     font-size: 24px;
-    font-family: var(--headings-font-family);
+    font-family: var(--headings-font);
     line-height: var(--headings-line-height);
     text-align: center;
 
@@ -52,3 +58,69 @@
         margin-bottom: 12px;
     }
 }
+
+.firstStepBody {
+    max-width: 660px;
+    margin: 0 auto;
+
+    @media (--viewport-wide) {
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        grid-gap: 72px;
+        /* for sticky sidebar */
+        align-items: flex-start;
+    }
+}
+
+.block {
+    margin-bottom: 56px;
+}
+
+.blockTitle {
+    margin-bottom: 24px;
+    font-size: 20px;
+}
+
+.orderBlock {
+    padding: 30px 0 24px;
+    background-color: #f8f8f8;
+}
+
+.orderBlockInfo {
+    padding-bottom: 24px;
+}
+
+.orderBlockList {
+}
+
+.orderBlockListItem {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 8px;
+}
+
+.orderBlockListKey {
+    text-transform: uppercase;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-extra-small);
+    color: #a1a4a6;
+    letter-spacing: 3px;
+}
+
+.orderBlockListValue {
+    text-align: right;
+    padding-bottom: 8px;
+    font-size: var(--font-size-base);
+    color: #676f78;
+}
+
+.orderBlockFooter {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    border-top: 1px solid #d2d6d9;
+}
+

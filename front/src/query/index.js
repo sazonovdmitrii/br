@@ -54,7 +54,6 @@ export const GET_PRODUCT = gql`
     query Product($slug: String!) {
         product(slug: $slug) {
             name
-            id
             items(limit: 40, offset: 0) {
                 edges {
                     node {
@@ -156,12 +155,6 @@ export const GET_ADDRESS = gql`
         address(id: $id) {
             ...Address
         }
-        regions {
-            data {
-                id
-                title
-            }
-        }
     }
     ${Address}
 `;
@@ -171,11 +164,6 @@ export const GET_SHORT_BASKET = gql`
         basket {
             products {
                 item_id
-                qty
-                name
-                product_name
-                price
-                url
             }
         }
     }

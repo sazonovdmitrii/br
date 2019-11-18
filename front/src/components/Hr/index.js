@@ -15,7 +15,7 @@ Hr.defaultProps = {
     className: null,
 };
 
-Hr.PropTypes = {
+Hr.propTypes = {
     className: PropTypes.string,
 };
 

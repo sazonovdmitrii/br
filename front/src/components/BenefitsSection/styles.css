@@ -1,7 +1,6 @@
 .root {
     padding: 60px 0;
     text-align: center;
-    background-color: #f8f8f8;
 }
 
 .title {
@@ -27,9 +26,9 @@
 .row {
     display: grid;
     grid-gap: 12px;
-    grid-template-columns: repeat(3, 1fr);
 
     @media (--viewport-desktop) {
+        grid-template-columns: repeat(3, 1fr);
         grid-gap: 18px;
     }
 

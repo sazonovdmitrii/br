@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { Edit as EditIcon, X as RemoveIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
+import { Edit as EditIcon, X as RemoveIcon } from 'react-feather';
 
-import { GET_ADDRESSES } from 'query';
 import { REMOVE_ADDRESS_MUTATION } from 'mutations';
+import { GET_ADDRESSES } from 'query';
 
 import ListItem from 'components/ListItem';
 import Button from 'components/Button';
@@ -12,16 +12,7 @@ import AddressForm from 'components/AddressForm';
 
 import styles from './styles.css';
 
-const TEXT = {
-    city: 'г.',
-    corp: 'корп.',
-    flat: 'кв.',
-    house: 'д.',
-    street: 'ул.',
-    zip: 'индекс:',
-};
-
-const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
+const Addresses = ({ items = [], onSubmit }) => {
     const formEl = useRef(null);
     const [showForm, setShowForm] = useState(null);
     const [handleRemoveAddress] = useMutation(REMOVE_ADDRESS_MUTATION, {
@@ -57,28 +48,36 @@ const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
 
     if (showForm) {
         return (
-            <div ref={formEl}>
-                <AddressForm
-                    id={showForm.id}
-                    actions={
-                        <Button
-                            kind="secondary"
-                            bold
-                            onClick={() => {
-                                setShowForm(null);
-                            }}
-                        >
-                            Назад
-                        </Button>
-                    }
-                    onSubmit={handleSubmitAddress}
-                />
+            <div className={styles.root} ref={formEl}>
+                <div className={styles.form}>
+                    <h1 className={styles.formTitle}>Edit address</h1>
+                    <AddressForm
+                        id={showForm.id}
+                        actions={
+                            <Button
+                                kind="secondary"
+                                bold
+                                onClick={() => {
+                                    setShowForm(null);
+                                }}
+                            >
+                                <FormattedMessage id="back" />
+                            </Button>
+                        }
+                        onSubmit={handleSubmitAddress}
+                    />
+                </div>
             </div>
         );
     }
 
     return (
-        <>
+        <div className={styles.root}>
+            <div className={styles.header}>
+                <div className={styles.title}>
+                    <FormattedMessage id="p_addresses_title" />
+                </div>
+            </div>
             {items && items.length ? (
                 items.map(item => (
                     <ListItem
@@ -133,13 +132,12 @@ const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
                                 </Button>
                             </>
                         }
-                        active={value === item.id}
-                        onClick={() => onChange(item)}
-                        pointer={!!value}
                     />
                 ))
             ) : (
-                <p>Вы не указали ни одного адреса</p>
+                <p>
+                    <FormattedMessage id="p_addresses_empty_text" />
+                </p>
             )}
             <div>
                 <Button
@@ -147,13 +145,12 @@ const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
                     onClick={() => {
                         setShowForm({});
                     }}
-                    bold
                 >
-                    Добавить адрес
+                    <FormattedMessage id="p_addresses_add_address" />
                 </Button>
             </div>
-        </>
+        </div>
     );
 };
 
-export default AddressList;
+export default Addresses;

@@ -16,7 +16,7 @@ const initialStore = {
     isLoggedIn: false,
 };
 
-const create = ({ token } = {}) => {
+const create = ({ session, token } = {}) => {
     const cache = new InMemoryCache({
         // https://github.com/apollographql/apollo-client/pull/4514
         freezeResults: !isProd,
@@ -25,16 +25,15 @@ const create = ({ token } = {}) => {
     // server from the `GRAPHQL` environment variable, which by default is
     // set to an external playground at https://graphqlhub.com/graphql
     const httpLink = new createHttpLink({
-        credentials: 'include',
+        // credentials: 'include',
         uri: isServer ? process.env.GRAPHQL_SSR : process.env.GRAPHQL,
     });
     const middlewareLink = new ApolloLink((operation, forward) => {
         operation.setContext({
-            headers: token
-                ? {
-                      Authorization: token,
-                  }
-                : {},
+            headers: {
+                // login
+                Authorization: `session=${session}${token ? `;token=${token}` : ''}`,
+            },
         });
 
         return forward(operation);
@@ -44,7 +43,7 @@ const create = ({ token } = {}) => {
         cache,
         // mb todo use get for better cache
         // link: createPersistedQueryLink({ useGETForHashedQueries: true }).concat({
-        //     ...httpLink, // <-- just use HTTP on the server
+        //     ...middlewareLink.concat(httpLink),
 
         //     // General error handler, to log errors back to the console.
         //     // Replace this in production with whatever makes sense in your
@@ -64,6 +63,21 @@ const create = ({ token } = {}) => {
         //         }
         //     },
         // }),
+        link: ApolloLink.from([
+            onError(({ graphQLErrors, networkError }) => {
+                if (graphQLErrors) {
+                    graphQLErrors.map(({ message, locations, path }) =>
+                        console.log(
+                            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+                        )
+                    );
+                }
+                if (networkError) {
+                    console.log(`[Network error]: ${networkError}`);
+                }
+            }),
+            middlewareLink.concat(httpLink),
+        ]),
         resolvers: {
             Query: {
                 getMessages: async (_root, variables, { cache }) => {
@@ -92,21 +106,6 @@ const create = ({ token } = {}) => {
                 },
             },
         },
-        link: ApolloLink.from([
-            onError(({ graphQLErrors, networkError }) => {
-                if (graphQLErrors) {
-                    graphQLErrors.map(({ message, locations, path }) =>
-                        console.log(
-                            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-                        )
-                    );
-                }
-                if (networkError) {
-                    console.log(`[Network error]: ${networkError}`);
-                }
-            }),
-            middlewareLink.concat(httpLink),
-        ]),
         // On the server, enable SSR mode
         ssrMode: isServer,
     });
@@ -131,11 +130,11 @@ const create = ({ token } = {}) => {
     return client;
 };
 
-export function createClient({ token = '' } = {}) {
+export function createClient({ session = '', token = '' } = {}) {
     if (!isBrowser) return create({ token });
 
     if (!graphQLClient || token !== userToken) {
-        graphQLClient = create({ token });
+        graphQLClient = create({ session, token });
         userToken = token;
     }
 

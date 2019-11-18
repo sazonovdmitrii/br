@@ -16,22 +16,6 @@
     &:not(:last-child) {
         margin-right: 20px;
     }
-
-    @media (--viewport-tablet) {
-        &:hover {
-            & .dropdown {
-                display: block;
-            }
-
-            & .submenu {
-                height: auto;
-                padding-top: 0.9375rem;
-                overflow: visible;
-                border: 0.0625rem solid #ccc;
-                border-radius: 0.125rem;
-            }
-        }
-    }
 }
 
 .itemWithText {
@@ -41,13 +25,14 @@
     justify-content: center;
     box-sizing: border-box;
     text-align: center;
+    white-space: nowrap;
 
     &:not(:last-child) {
         margin-right: 20px;
     }
 
     & .icon {
-        @media (--viewport-tablet) {
+        @media (--viewport-desktop) {
             display: none;
         }
     }
@@ -55,7 +40,7 @@
     & .text {
         display: none;
 
-        @media (--viewport-tablet) {
+        @media (--viewport-desktop) {
             display: block;
         }
     }
@@ -111,14 +96,41 @@
 }
 
 .submenu {
+    margin-top: 10px;
     position: absolute;
     top: 100%;
-    left: -50%;
     z-index: 4;
-    width: 300%;
-    height: 0;
-    margin-top: 0.125rem;
     overflow: hidden;
     text-align: left;
     background: var(--color-white);
+    border: 1px solid #e4e6e8;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition-delay: 0.1s;
+    transition-property: opacity, visibility;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    visibility: hidden;
+
+    &.open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+}
+
+.submenuItem:not(:last-child) {
+    margin-bottom: 12px;
+}
+
+.submenuLink {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.63;
+
+    &:hover,
+    &:focus {
+        opacity: 0.7;
+    }
 }
