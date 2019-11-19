@@ -1,0 +1,20 @@
+{
+  order(secret_key:"14e21d702514ae3f886981a3a1b6d638") {
+    id
+    secret_key
+    orderItems {
+      id
+      qty
+      item {
+        id
+        name
+        price
+        images
+        productItemTagItems{
+          id
+          name
+        }
+      }
+    }
+  }
+}
