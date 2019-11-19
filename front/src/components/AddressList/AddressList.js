@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { Edit as EditIcon, X as RemoveIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
@@ -22,7 +22,6 @@ const TEXT = {
 };
 
 const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
-    const formEl = useRef(null);
     const [showForm, setShowForm] = useState(null);
     const [handleRemoveAddress] = useMutation(REMOVE_ADDRESS_MUTATION, {
         update(
@@ -49,109 +48,97 @@ const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
         onSubmit(data.data ? data.data : data);
     };
 
-    useEffect(() => {
-        if (formEl.current) {
-            formEl.current.scrollIntoView();
-        }
-    }, [showForm]);
-
-    if (showForm) {
-        return (
-            <div ref={formEl}>
-                <AddressForm
-                    id={showForm.id}
-                    actions={
-                        <Button
-                            kind="secondary"
-                            bold
-                            onClick={() => {
-                                setShowForm(null);
-                            }}
-                        >
-                            Назад
-                        </Button>
-                    }
-                    onSubmit={handleSubmitAddress}
-                />
-            </div>
-        );
-    }
-
     return (
         <>
             {items && items.length ? (
-                items.map(item => (
-                    <ListItem
-                        key={item.id}
-                        title={item.name}
-                        description={
-                            <FormattedMessage
-                                id="p_addresses_address_text"
-                                values={{
-                                    city: item.city,
-                                    zip: item.zip,
-                                    street: item.street,
-                                    house: item.house,
-                                    corp: item.corp,
-                                    flat: item.flat,
-                                }}
-                            />
-                        }
-                        actions={
-                            <>
-                                <Button
-                                    aria-label="Редактировать"
-                                    kind="primary"
-                                    outlined
-                                    onClick={event => {
-                                        event.stopPropagation();
-
-                                        setShowForm({
-                                            id: item.id,
-                                        });
+                <>
+                    {items.map(item => (
+                        <ListItem
+                            key={item.id}
+                            title={item.name}
+                            description={
+                                <FormattedMessage
+                                    id="p_addresses_address_text"
+                                    values={{
+                                        city: item.city,
+                                        zip: item.zip,
+                                        street: item.street,
+                                        house: item.house,
+                                        corp: item.corp,
+                                        flat: item.flat,
                                     }}
-                                >
-                                    <EditIcon size="15" className={styles.icon} />
-                                </Button>
-                                <Button
-                                    aria-label="Удалить"
-                                    kind="primary"
-                                    outlined
-                                    onClick={event => {
-                                        event.stopPropagation();
+                                />
+                            }
+                            actions={
+                                <>
+                                    <Button
+                                        aria-label="Редактировать"
+                                        kind="primary"
+                                        outlined
+                                        onClick={event => {
+                                            event.stopPropagation();
 
-                                        handleRemoveAddress({
-                                            variables: {
-                                                input: {
-                                                    id: item.id,
+                                            setShowForm({
+                                                id: item.id,
+                                            });
+                                        }}
+                                    >
+                                        <EditIcon size="15" className={styles.icon} />
+                                    </Button>
+                                    <Button
+                                        aria-label="Удалить"
+                                        kind="primary"
+                                        outlined
+                                        onClick={event => {
+                                            event.stopPropagation();
+
+                                            handleRemoveAddress({
+                                                variables: {
+                                                    input: {
+                                                        id: item.id,
+                                                    },
                                                 },
-                                            },
-                                        });
-                                    }}
-                                >
-                                    <RemoveIcon size="15" className={styles.icon} />
-                                </Button>
-                            </>
-                        }
-                        active={value === item.id}
-                        onClick={() => onChange(item)}
-                        pointer={!!value}
-                    />
-                ))
+                                            });
+                                        }}
+                                    >
+                                        <RemoveIcon size="15" className={styles.icon} />
+                                    </Button>
+                                </>
+                            }
+                            active={value === item.id}
+                            onClick={() => onChange(item)}
+                            pointer={!!value}
+                        />
+                    ))}
+                    <Button
+                        kind="primary"
+                        onClick={() => {
+                            setShowForm({});
+                        }}
+                        bold
+                    >
+                        Добавить адрес
+                    </Button>
+                </>
             ) : (
-                <p>Вы не указали ни одного адреса</p>
+                <div ref={formEl}>
+                    <AddressForm
+                        id={showForm.id}
+                        actions={
+                            <Button
+                                kind="secondary"
+                                bold
+                                onClick={() => {
+                                    setShowForm(null);
+                                }}
+                            >
+                                Назад
+                            </Button>
+                        }
+                        onSubmit={handleSubmitAddress}
+                    />
+                </div>
             )}
-            <div>
-                <Button
-                    kind="primary"
-                    onClick={() => {
-                        setShowForm({});
-                    }}
-                    bold
-                >
-                    Добавить адрес
-                </Button>
-            </div>
         </>
     );
 };
