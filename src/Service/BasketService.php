@@ -148,6 +148,23 @@ class BasketService extends AbstractController
 
                         $productItem->setCurrentLocale($this->getLocale());
 
+                        $images = [];
+
+                        $config = $this->em->getRepository('App:ImageType')
+                            ->findAll();
+
+                        foreach($productItem->getProductItemImages() as $image) {
+
+                            $images[] = $this->imageGenerator
+                                ->setImage($image)
+                                ->setTypes(['original', 'webp'])
+                                ->setConfig($config)
+                                ->getAll();
+
+                        }
+
+                        $productItem->setImages($images);
+
                         $result[] = [
                             'item' => $productItem,
                             'qty' => $basketItem['qty'],

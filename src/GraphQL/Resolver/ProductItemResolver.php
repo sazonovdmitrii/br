@@ -22,14 +22,15 @@ class ProductItemResolver extends LocaleAlias {
 
     public function resolve(Argument $args)
     {
-        $config = $this->em->getRepository('App:ImageType')->findAll();
-
         $productItem = $this->em->getRepository('App:ProductItem')
             ->find($args['id']);
 
         $productItem->setCurrentLocale($this->getLocale());
 
         $images = [];
+
+        $config = $this->em->getRepository('App:ImageType')
+            ->findAll();
 
         foreach($productItem->getProductItemImages() as $image) {
 
