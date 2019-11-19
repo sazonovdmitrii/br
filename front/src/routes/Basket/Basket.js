@@ -25,6 +25,8 @@ import Title from 'components/Title';
 import Link from 'components/Link';
 import RemindPasswordForm from 'components/RemindPasswordForm';
 import Hr from 'components/Hr';
+// TODO REMOVE
+import Order from 'routes/Order/Order';
 
 // import Success from 'routes/Success';
 
@@ -64,7 +66,7 @@ const Basket = ({
     isLoggedIn,
 }) => {
     const { login, createNotification } = useApp();
-    const [success, setSuccess] = useState(false);
+    const [orderId, setOrderId] = useState(false);
     const [products, setProducts] = useState(productsProps);
     const [step, setStep] = useState(0);
     const [values, setValues] = useState({
@@ -142,7 +144,20 @@ const Basket = ({
 
     const [createOrder] = useMutation(ORDER_MUTATION, {
         onCompleted({ order: { id } }) {
-            if (id) setSuccess(id);
+            if (id) {
+                setOrderId(id);
+            }
+        },
+        update(cache) {
+            cache.writeQuery({
+                query: GET_SHORT_BASKET,
+                data: {
+                    basket: {
+                        products: [],
+                        __typename: 'Basket',
+                    },
+                },
+            });
         },
         onError({ graphQLErrors: [{ message }] }) {
             createNotification({
@@ -247,6 +262,18 @@ const Basket = ({
         }));
     };
 
+    if (orderId) {
+        return (
+            <Order
+                id={orderId}
+                products={products}
+                address={values.address}
+                delivery={values.delivery}
+                payment={values.payment}
+            />
+        );
+    }
+
     if (!products.length) {
         return <Empty />;
     }
@@ -275,10 +302,9 @@ const Basket = ({
                             }) => (
                                 <BasketProduct
                                     key={id}
-                                    id={id}
                                     images={images}
                                     name={productName}
-                                    description={name}
+                                    subName={name}
                                     price={price}
                                     url={url}
                                     onRemove={() => {
@@ -292,7 +318,7 @@ const Basket = ({
                     </div>
                     <Sidebar
                         className={styles.sidebar}
-                        messages={['Includes frame case and lens cloth']}
+                        messages={['p_cart_sidebar_message']}
                         pricing={[
                             {
                                 name: 'p_cart_sidebar_shipping',
@@ -482,7 +508,7 @@ const Basket = ({
                                                         actions={
                                                             <b>
                                                                 <FormattedMessage
-                                                                    id={price === '0' ? 'currency' : 'free'}
+                                                                    id={price === '0' ? 'free' : 'currency'}
                                                                     values={{ price }}
                                                                 />
                                                             </b>
@@ -500,7 +526,10 @@ const Basket = ({
                                                             // set default first payment
                                                             setValues(prevState => ({
                                                                 ...prevState,
-                                                                payment: item.payments_methods[0],
+                                                                payment: paymentsMethodsProps.find(
+                                                                    ({ id }) =>
+                                                                        id === item.payments_methods[0].id
+                                                                ),
                                                             }));
                                                         }}
                                                         pointer

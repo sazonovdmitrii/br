@@ -18,19 +18,13 @@
     }
 }
 
-.subtitle {
-    margin-bottom: 32px;
-    color: #676f78;
-
-    @media (--viewport-desktop) {
-        font-size: 18px;
-    }
-}
-
 .actions {
     display: grid;
     grid-gap: 15px;
-    grid-template-columns: repeat(2, 1fr);
+
+    @media (--viewport-tablet) {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .benefitsSection {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames/bind';
 import { X as RemoveIcon, ChevronDown as ChevronDownIcon } from 'react-feather';
@@ -20,9 +21,11 @@ const BasketProduct = ({ url, name, subName, images, price, tags, onRemove }) =>
 
     return (
         <div className={rootClassName}>
-            <button type="button" className={styles.removeButton} onClick={() => setShowConfirm(true)}>
-                <RemoveIcon size="10" />
-            </button>
+            {onRemove && (
+                <button type="button" className={styles.removeButton} onClick={() => setShowConfirm(true)}>
+                    <RemoveIcon size="10" />
+                </button>
+            )}
             <div className={styles.imageContainer}>
                 <Link to={url}>
                     <picture>
@@ -63,39 +66,45 @@ const BasketProduct = ({ url, name, subName, images, price, tags, onRemove }) =>
                     ) : null}
 
                     <div className={styles.footerRight}>
-                        <button
-                            type="button"
-                            className={styles.expansionButton}
-                            onClick={() => setExpanded(!expanded)}
-                        >
-                            <span className={expansionIconClassName}>
-                                <ChevronDownIcon size="20" />
-                            </span>
+                        {tags.length ? (
+                            <button
+                                type="button"
+                                className={styles.expansionButton}
+                                onClick={() => setExpanded(!expanded)}
+                            >
+                                <span className={expansionIconClassName}>
+                                    <ChevronDownIcon size="20" />
+                                </span>
+                                <p className={styles.totalPrice}>{price} руб</p>
+                            </button>
+                        ) : (
                             <p className={styles.totalPrice}>{price} руб</p>
-                        </button>
+                        )}
                     </div>
                 </div>
-                <div className={removeConfirmClassName}>
-                    <div className={styles.removeConfirmInner}>
-                        <p className={styles.removeConfimTitle}>
-                            <FormattedMessage id="remove_from_cart" />?
-                        </p>
-                        <div className={styles.removeConfirmActions}>
-                            <Button kind="primary" size="small" onClick={onRemove} bold rounded>
-                                <FormattedMessage id="yes" />
-                            </Button>
-                            <Button
-                                kind="secondary"
-                                size="small"
-                                onClick={() => setShowConfirm(false)}
-                                bold
-                                rounded
-                            >
-                                <FormattedMessage id="no" />
-                            </Button>
+                {onRemove && (
+                    <div className={removeConfirmClassName}>
+                        <div className={styles.removeConfirmInner}>
+                            <p className={styles.removeConfimTitle}>
+                                <FormattedMessage id="remove_from_cart" />?
+                            </p>
+                            <div className={styles.removeConfirmActions}>
+                                <Button kind="primary" size="small" onClick={onRemove} bold rounded>
+                                    <FormattedMessage id="yes" />
+                                </Button>
+                                <Button
+                                    kind="secondary"
+                                    size="small"
+                                    onClick={() => setShowConfirm(false)}
+                                    bold
+                                    rounded
+                                >
+                                    <FormattedMessage id="no" />
+                                </Button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );
@@ -104,7 +113,21 @@ const BasketProduct = ({ url, name, subName, images, price, tags, onRemove }) =>
 BasketProduct.defaultProps = {
     name: 'Без названия',
     price: null,
+    subName: null,
     tags: [],
+    onRemove: null,
+    url: null,
+    images: {},
+};
+
+BasketProduct.propTypes = {
+    images: PropTypes.objectOf(PropTypes.string),
+    url: PropTypes.string,
+    subName: PropTypes.string,
+    onRemove: PropTypes.func,
+    name: PropTypes.string,
+    price: PropTypes.string,
+    tags: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default BasketProduct;
