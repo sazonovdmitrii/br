@@ -1,12 +1,12 @@
 mutation ($input: AddBasketInput!) {
   addBasket(input: $input) {
     products {
-      item_id
+      item{
+        id
+        name
+      }
       qty
       price
-      name
-      product_name
-      url
     }
   }
 }
