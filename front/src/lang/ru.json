@@ -1,4 +1,5 @@
 {
+    "p_cart_sidebar_message": "Включая линзы",
     "p_cart_order_receiving_title": "Способ получения",
     "p_cart_order_delivery_title": "Способ доставки",
     "p_cart_order_pickup_title": "Самовывозы",
@@ -67,7 +68,6 @@
     "terms_and_conditions": "Создавая эту учетную запись, вы соглашаетесь с <terms> Условия использования </terms>, <privacy> Политика конфиденциальности </privacy> и <notice> Уведомление о правилах конфиденциальности. </notice>",
     "your_cart": "Ваша корзина",
     "p_cart_empty_title": "Ваша корзина пуста",
-    "p_cart_empty_text": "Вы пропускаете все, что мы говорим.",
     "cart_benefits_title": "Просто некоторые вещи, чтобы рассмотреть",
     "benefit_free_shipping": "Бесплатная доставка",
     "benefit_free_shipping_text": "Это на нас всегда. Мы также предлагаем бесплатный возврат.",

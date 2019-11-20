@@ -3,13 +3,13 @@ import gql from 'graphql-tag';
 export const Products = gql`
     fragment Products on Basket {
         products {
-            item_id
-            qty
+            item {
+                id
+                name
+                images
+            }
             price
-            name
-            product_name
-            url
-            images
+            qty
         }
     }
 `;

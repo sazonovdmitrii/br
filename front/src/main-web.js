@@ -13,7 +13,7 @@ import { loadableReady } from '@loadable/component';
 import hardtack from 'hardtack';
 import nanoid from 'nanoid';
 
-// import { isProd } from 'utils';
+import { isProd } from 'utils';
 import { useApp } from 'hooks';
 import { AppProvider } from 'AppContext';
 
@@ -30,8 +30,7 @@ const history = createBrowserHistory();
 const HotApp = hot(App);
 
 const RootApp = () => {
-    const { client, createSession } = useApp();
-    createSession();
+    const { client } = useApp();
 
     return (
         <ApolloProvider client={client}>
@@ -44,14 +43,15 @@ const RootApp = () => {
 const init = () => {
     const root = document.querySelector('#root');
     const token = hardtack.get('token');
-    const session = hardtack.get('session_key');
+    let session = hardtack.get('session_key');
 
     if (!session) {
         const date = new Date();
         const currentYear = date.getFullYear();
+        session = nanoid();
 
         date.setFullYear(currentYear + 1);
-        hardtack.set('session_key', nanoid(), {
+        hardtack.set('session_key', session, {
             path: '/',
             expires: date.toUTCString(),
         });
@@ -71,7 +71,7 @@ const init = () => {
     }
 };
 
-if (process.env.SSR) {
+if (process.env.SSR || isProd) {
     loadableReady(init);
 } else {
     init();

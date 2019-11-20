@@ -7,7 +7,6 @@ import { createHttpLink } from 'apollo-link-http';
 // import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 
 const isServer = process.env.SERVER;
-const isBrowser = process.browser;
 const isProd = process.env.NODE_ENV === 'production';
 let graphQLClient = null;
 let userToken = '';
@@ -30,10 +29,12 @@ const create = ({ session, token } = {}) => {
     });
     const middlewareLink = new ApolloLink((operation, forward) => {
         operation.setContext({
-            headers: {
-                // login
-                Authorization: `session=${session}${token ? `;token=${token}` : ''}`,
-            },
+            headers: session
+                ? {
+                      // login
+                      Authorization: `session=${session}${token ? `;token=${token}` : ''}`,
+                  }
+                : {},
         });
 
         return forward(operation);
@@ -131,9 +132,9 @@ const create = ({ session, token } = {}) => {
 };
 
 export function createClient({ session = '', token = '' } = {}) {
-    if (!isBrowser) return create({ token });
+    if (isServer) return create({ token });
 
-    if (!graphQLClient || token !== userToken) {
+    if (token !== userToken || !graphQLClient) {
         graphQLClient = create({ session, token });
         userToken = token;
     }
