@@ -13,7 +13,7 @@ import { loadableReady } from '@loadable/component';
 import hardtack from 'hardtack';
 import nanoid from 'nanoid';
 
-// import { isProd } from 'utils';
+import { isProd } from 'utils';
 import { useApp } from 'hooks';
 import { AppProvider } from 'AppContext';
 
@@ -43,12 +43,12 @@ const RootApp = () => {
 const init = () => {
     const root = document.querySelector('#root');
     const token = hardtack.get('token');
-    let session = hardtack.get('session_key');
+    const sessionCookie = hardtack.get('session_key');
+    const session = sessionCookie ? sessionCookie : nanoid();
 
     if (!session) {
         const date = new Date();
         const currentYear = date.getFullYear();
-        session = nanoid();
 
         date.setFullYear(currentYear + 1);
         hardtack.set('session_key', session, {
@@ -71,7 +71,7 @@ const init = () => {
     }
 };
 
-if (process.env.SSR) {
+if (process.env.SSR || isProd) {
     loadableReady(init);
 } else {
     init();
