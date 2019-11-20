@@ -30,8 +30,7 @@ const history = createBrowserHistory();
 const HotApp = hot(App);
 
 const RootApp = () => {
-    const { client, createSession } = useApp();
-    createSession();
+    const { client } = useApp();
 
     return (
         <ApolloProvider client={client}>

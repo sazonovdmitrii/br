@@ -163,7 +163,7 @@ export const GET_SHORT_BASKET = gql`
     query Basket {
         basket {
             products {
-                item_id
+                qty
             }
         }
     }

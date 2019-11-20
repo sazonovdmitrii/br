@@ -19,23 +19,9 @@ const useApp = () => {
         }
     }, [state.notifications]);
 
-    const createSession = () => {
-        const sessionKey = hardtack.get('session_key');
-
-        if (!sessionKey) {
-            const date = new Date();
-            const currentYear = date.getFullYear();
-
-            date.setFullYear(currentYear + 1);
-            hardtack.set('session_key', nanoid(), {
-                path: '/',
-                expires: date.toUTCString(),
-            });
-        }
-    };
-
     const init = token => {
-        const client = createClient({ token });
+        const session = hardtack.get('session_key');
+        const client = createClient({ token, session });
 
         setState(prevState => ({
             ...prevState,
@@ -86,7 +72,6 @@ const useApp = () => {
         init,
         logout,
         login,
-        createSession,
         createNotification,
         removeNotification,
         notifications: state.notifications,

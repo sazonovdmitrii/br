@@ -291,30 +291,20 @@ const Basket = ({
                     theme={{ ...theme, body: styles.firstStepBody }}
                 >
                     <div className={styles.products}>
-                        {products.map(
-                            ({
-                                product_name: productName,
-                                name,
-                                item_id: id,
-                                price,
-                                url,
-                                images: [images],
-                            }) => (
-                                <BasketProduct
-                                    key={id}
-                                    images={images}
-                                    name={productName}
-                                    subName={name}
-                                    price={price}
-                                    url={url}
-                                    onRemove={() => {
-                                        handleRemoveProduct({
-                                            variables: { input: { item_id: id } },
-                                        });
-                                    }}
-                                />
-                            )
-                        )}
+                        {products.map(({ item, name, price, url }) => (
+                            <BasketProduct
+                                key={item.id}
+                                images={item.images[0]}
+                                name={item.name}
+                                price={<FormattedMessage id="currency" values={{ price }} />}
+                                url={url}
+                                onRemove={() => {
+                                    handleRemoveProduct({
+                                        variables: { input: { id: item.id } },
+                                    });
+                                }}
+                            />
+                        ))}
                     </div>
                     <Sidebar
                         className={styles.sidebar}

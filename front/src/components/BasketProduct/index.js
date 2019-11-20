@@ -75,10 +75,10 @@ const BasketProduct = ({ url, name, subName, images, price, tags, onRemove }) =>
                                 <span className={expansionIconClassName}>
                                     <ChevronDownIcon size="20" />
                                 </span>
-                                <p className={styles.totalPrice}>{price} руб</p>
+                                <p className={styles.totalPrice}>{price}</p>
                             </button>
                         ) : (
-                            <p className={styles.totalPrice}>{price} руб</p>
+                            <p className={styles.totalPrice}>{price}</p>
                         )}
                     </div>
                 </div>
