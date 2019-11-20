@@ -134,9 +134,9 @@ const create = ({ session, token } = {}) => {
 export function createClient({ session = '', token = '' } = {}) {
     if (isServer) return create({ token });
 
-    if (!graphQLClient || token !== userToken) {
-        userToken = token;
+    if (token !== userToken || !graphQLClient) {
         graphQLClient = create({ session, token });
+        userToken = token;
     }
 
     return graphQLClient;

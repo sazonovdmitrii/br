@@ -43,12 +43,12 @@ const RootApp = () => {
 const init = () => {
     const root = document.querySelector('#root');
     const token = hardtack.get('token');
-    const sessionCookie = hardtack.get('session_key');
-    const session = sessionCookie ? sessionCookie : nanoid();
+    let session = hardtack.get('session_key');
 
     if (!session) {
         const date = new Date();
         const currentYear = date.getFullYear();
+        session = nanoid();
 
         date.setFullYear(currentYear + 1);
         hardtack.set('session_key', session, {
