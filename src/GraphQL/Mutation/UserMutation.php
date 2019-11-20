@@ -10,6 +10,7 @@ use Overblog\GraphQLBundle\Definition\Argument;
 use Redis;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Overblog\GraphQLBundle\Error\UserError;
+use App\Service\BasketService;
 
 class UserMutation extends AuthMutation
 {
@@ -26,12 +27,14 @@ class UserMutation extends AuthMutation
         ContainerInterface $container,
         AuthenticatorService $authenticatorService,
         JWTTokenManagerInterface $JWTManager,
-        UserService $userService
+        UserService $userService,
+        BasketService $basketService
     ) {
         $this->redis = $redis;
         $this->authenticatorService = $authenticatorService;
         $this->jwtManager = $JWTManager;
         $this->userService = $userService;
+        $this->basketService = $basketService;
         parent::__construct($redis, $container, $authenticatorService, $userService);
     }
 
@@ -41,6 +44,9 @@ class UserMutation extends AuthMutation
 
         if($user = $this->authenticatorService->auth($input->email, $input->password)) {
             $user->setHash($this->jwtManager->create($user));
+
+            $this->basketService->updateCartForUser($this->getAuthKey(), $user->getId());
+
             return $user;
         }
         throw new UserError('Введенные вами данные не соответствуют ни одной учетной записи!');

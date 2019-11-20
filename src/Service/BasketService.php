@@ -187,4 +187,11 @@ class BasketService extends AbstractController
             $this->redis->delete($key);
         }
     }
+
+    public function updateCartForUser($authKey, $userId)
+    {
+        if(!$this->redis->get('basket::' . $userId)) {
+            return $this->redis->set('basket::' . $userId, $this->redis->get('basket::' . $authKey));
+        }
+    }
 }
