@@ -300,7 +300,7 @@ const Basket = ({
                                 url={url}
                                 onRemove={() => {
                                     handleRemoveProduct({
-                                        variables: { input: { id: item.id } },
+                                        variables: { input: { item_id: item.id } },
                                     });
                                 }}
                             />
