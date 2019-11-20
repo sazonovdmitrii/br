@@ -43,14 +43,15 @@ const RootApp = () => {
 const init = () => {
     const root = document.querySelector('#root');
     const token = hardtack.get('token');
-    const session = hardtack.get('session_key');
+    let session = hardtack.get('session_key');
 
     if (!session) {
         const date = new Date();
         const currentYear = date.getFullYear();
+        session = nanoid();
 
         date.setFullYear(currentYear + 1);
-        hardtack.set('session_key', nanoid(), {
+        hardtack.set('session_key', session, {
             path: '/',
             expires: date.toUTCString(),
         });
