@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { FormattedMessage } from 'react-intl';
+import classnames from 'classnames/bind';
 
 import { useApp } from 'hooks';
 import { GET_SHORT_BASKET, GET_DELIVERY, GET_PICKUPS } from 'query';
@@ -34,6 +35,8 @@ import Snackbar, { SnackbarOverlay } from 'components/Snackbar';
 import Empty from './Empty';
 import Sidebar from './Sidebar';
 import styles from './styles.css';
+
+const cx = classnames.bind(styles);
 
 const DELIVERY_TYPES = [
     {
@@ -191,6 +194,15 @@ const Basket = ({
     /* EFFECTS */
     useEffect(() => {
         window.scrollTo(0, 0);
+        const footerNode = document.querySelector('#footer');
+
+        if (step === 1) {
+            footerNode.style.display = 'none';
+        }
+
+        return () => {
+            footerNode.style.display = 'block';
+        };
     }, [step]);
 
     useEffect(() => {
@@ -318,8 +330,12 @@ const Basket = ({
         return <Empty />;
     }
 
+    const rootClassName = cx(styles.root, {
+        grey: step === 0,
+    });
+
     return (
-        <div className={styles.root}>
+        <div className={rootClassName}>
             <SnackbarOverlay>
                 {notification && (
                     <Snackbar

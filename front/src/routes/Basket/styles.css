@@ -1,4 +1,7 @@
 .root {
+}
+
+.grey {
     background-color: #f8f8f8;
 }
 
@@ -83,7 +86,7 @@
 }
 
 .orderBlock {
-    padding: 30px 0 24px;
+    padding: 30px 36px 24px;
     background-color: #f8f8f8;
 }
 
