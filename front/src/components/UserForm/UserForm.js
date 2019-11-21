@@ -139,9 +139,8 @@ const UserForm = ({ data, type, onSubmit }) => {
                     <FormattedMessage
                         id="terms_and_conditions"
                         values={{
-                            terms: msg => <Link to="/">{msg}</Link>,
-                            privacy: msg => <Link to="/">{msg}</Link>,
-                            notice: msg => <Link to="/">{msg}</Link>,
+                            terms: msg => <Link to="/info/public-offer/">{msg}</Link>,
+                            privacy: msg => <Link to="/info/сonfidentiality/">{msg}</Link>,
                         }}
                     />
                 </div>

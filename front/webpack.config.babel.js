@@ -250,4 +250,4 @@ const getConfig = target => {
     };
 };
 
-export default (isAnalyze ? getConfig('web') : [getConfig('node'), getConfig('web')]);
+export default isAnalyze ? getConfig('web') : [getConfig('node'), getConfig('web')];

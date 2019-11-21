@@ -6,7 +6,7 @@ import Title from 'components/Title';
 
 import styles from './styles.css';
 
-export default () => (
+const ErrorBoundary = () => (
     <Container>
         <div className={styles.text}>
             <Title>
@@ -15,3 +15,5 @@ export default () => (
         </div>
     </Container>
 );
+
+export default ErrorBoundary;

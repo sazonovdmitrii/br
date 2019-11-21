@@ -9,3 +9,8 @@
     height: 15px;
     margin: auto;
 }
+
+.title {
+    margin-bottom: 24px;
+    font-size: 20px;
+}
