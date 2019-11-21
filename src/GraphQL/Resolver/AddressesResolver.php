@@ -49,6 +49,11 @@ class AddressesResolver extends AuthAlias
             return [
                 'data' => $this->getUser()->getAddresses()
             ];
+        } else {
+            return [
+                'data' => $this->em->getRepository('App:Address')
+                    ->findBy(['session_key' => $this->getAuthKey()])
+            ];
         }
     }
 

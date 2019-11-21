@@ -98,6 +98,11 @@ class Address
      */
     private $flat;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $session_key;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -331,6 +336,18 @@ class Address
             $method = 'set' . implode('', array_map('ucfirst', explode('_', $key)));
             $this->$method($value);
         }
+        return $this;
+    }
+
+    public function getSessionKey(): ?string
+    {
+        return $this->session_key;
+    }
+
+    public function setSessionKey(?string $session_key): self
+    {
+        $this->session_key = $session_key;
+
         return $this;
     }
 }

@@ -36,16 +36,17 @@ class AddressMutation extends AuthMutation
 
         $address = [];
 
-        if($userId = $this->getAuthKey()) {
-            if(is_int($userId)) {
-                $address = $this->addressService
-                    ->setUserId($userId)
-                    ->setData($input)
-                    ->create();
+        if($authKey = $this->getAuthKey()) {
+            $address = $this->addressService
+                ->setData($input);
+            if(is_int($authKey)) {
+                $address->setUserId($authKey);
+            } else {
+                $address->setSessionKey($authKey);
             }
+            return $address->create();
         }
-
-        return $address;
+        return [];
     }
 
     public function update(Argument $args)
@@ -74,8 +75,8 @@ class AddressMutation extends AuthMutation
     {
         $input = new UpdateAddressInput($args);
 
-        if($userId = $this->getAuthKey()) {
-            if(is_int($userId)) {
+        if($authKey = $this->getAuthKey()) {
+            if(is_int($authKey)) {
                 $this->addressService
                     ->setAddressId($input->id)
                     ->remove();
@@ -83,6 +84,10 @@ class AddressMutation extends AuthMutation
                 return [
                     'data' => $this->getUser()->getAddresses()
                 ];
+            } else {
+                $this->addressService
+                    ->setAddressId($input->id)
+                    ->remove();
             }
         }
 

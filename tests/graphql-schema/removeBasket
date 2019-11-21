@@ -1,7 +1,10 @@
 mutation ($input: AddBasketInput!) {
   removeBasket(input: $input) {
     products {
-      item_id
+      item {
+        id
+        name
+      }
     }
   }
 }

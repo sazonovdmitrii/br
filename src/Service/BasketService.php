@@ -98,7 +98,7 @@ class BasketService extends AbstractController
                 $productItem = $this->em
                     ->getRepository('App:ProductItem')
                     ->find($basketItem['item_id']);
-                if($productItem) {
+                if($productItem && $productItem->getEntity()) {
                     $basket[$basketItem['item_id']] = array_merge(
                         $basketItem,
                         [

@@ -15,6 +15,8 @@ class AddressService extends AbstractController
 
     private $data;
 
+    private $session_key;
+
     public function __construct(
         EntityManager $em,
         ObjectManager $manager
@@ -56,6 +58,22 @@ class AddressService extends AbstractController
         return $this->addressId;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getSessionKey()
+    {
+        return $this->session_key;
+    }
+
+    /**
+     * @param mixed $session_key
+     */
+    public function setSessionKey($session_key)
+    {
+        $this->session_key = $session_key;
+    }
+
     public function create()
     {
         $address = new Address();
@@ -64,16 +82,21 @@ class AddressService extends AbstractController
                 $address->setData($attribute, $value);
             }
         }
-        $user = $this->em
-            ->getRepository('App:Users')
-            ->find($this->getUserId());
+        if($this->getUserId()) {
+            $user = $this->em
+                ->getRepository('App:Users')
+                ->find($this->getUserId());
 
-        if($user) {
-            $address->setUserId($user);
+            if($user) {
+                $address->setUserId($user);
+            }
+        } else {
+            $address->setSessionKey($this->getSessionKey());
         }
 
         $this->manager->persist($address);
         $this->manager->flush();
+
         return $address;
     }
 

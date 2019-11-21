@@ -66,6 +66,11 @@ class UserAddress
      */
     private $options;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $session_key;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -187,6 +192,18 @@ class UserAddress
     public function setOptions(?string $options): self
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    public function getSessionKey(): ?string
+    {
+        return $this->session_key;
+    }
+
+    public function setSessionKey(?string $session_key): self
+    {
+        $this->session_key = $session_key;
 
         return $this;
     }
