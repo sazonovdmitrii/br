@@ -85,6 +85,7 @@ const Basket = ({
     });
     const [loginType, setLoginType] = useState('login');
     const [notification, setNotification] = useState(null);
+    const [disabledOrderButton, setDisabledOrderButton] = useState(true);
 
     const isCourier = values.deliveryType === 'courier';
     const currentDelivery = isCourier ? values.delivery : values.pickup;
@@ -207,6 +208,28 @@ const Basket = ({
             }));
         }
     }, [values.delivery, deliveries]);
+
+    useEffect(() => {
+        // todo refactor
+        const fields = isCourier ? ['delivery', 'address'] : ['pickup'];
+        const requiredFields = ['city', ...fields, 'payment'];
+
+        const valid = requiredFields
+            .map(field => {
+                const value = values[field];
+
+                if (!value) return field;
+
+                if (isNumber(value) || (typeof value === 'object' && value.id)) {
+                    return null;
+                }
+
+                return field;
+            })
+            .filter(Boolean);
+
+        setDisabledOrderButton(!!valid.length);
+    }, [values]);
     /* EFFECTS  */
 
     const handleChangeStep = index => {
@@ -661,6 +684,7 @@ const Basket = ({
                                         });
                                     }
                                 }}
+                                disabled={disabledOrderButton}
                                 bold
                                 fullWidth
                             >
