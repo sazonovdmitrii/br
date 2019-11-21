@@ -462,8 +462,8 @@ const Basket = ({
                                                             <FormattedMessage
                                                                 id={
                                                                     currentDelivery.price === '0'
-                                                                        ? 'currency'
-                                                                        : 'free'
+                                                                        ? 'free'
+                                                                        : 'currency'
                                                                 }
                                                                 values={{ price: currentDelivery.price }}
                                                             />
