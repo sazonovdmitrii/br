@@ -61,6 +61,7 @@ Button.defaultProps = {
     kind: null,
     size: null,
     fullWidth: false,
+    disabled: false,
     className: '',
     outlined: false,
 };
@@ -70,6 +71,7 @@ Button.propTypes = {
     to: PropTypes.string,
     kind: PropTypes.string,
     size: PropTypes.string,
+    disabled: PropTypes.bool,
     fullWidth: PropTypes.bool,
     className: PropTypes.string,
     outlined: PropTypes.bool,

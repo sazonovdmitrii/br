@@ -15,7 +15,7 @@ import styles from './styles.css';
 const cx = classnames.bind(styles);
 
 const Footer = ({ lang }) => (
-    <footer className={styles.root}>
+    <footer id="footer" className={styles.root}>
         <section className={styles.top}>
             <div className={styles.row}>
                 <FooterMenu lang={lang} className={styles.menu} />

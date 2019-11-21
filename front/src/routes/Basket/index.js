@@ -6,6 +6,7 @@ import { GET_BASKET } from 'query';
 import { useFormatMessage } from 'hooks';
 
 import Loader from 'components/Loader';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 import Basket from './Basket';
 
@@ -18,6 +19,8 @@ export default () => {
     } = useQuery(GET_BASKET, {
         ssr: false,
     });
+
+    if (error) return <ErrorBoundary />;
 
     if (loading) return <Loader />;
 

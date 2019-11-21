@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { FormattedMessage } from 'react-intl';
+import classnames from 'classnames/bind';
 
 import { useApp } from 'hooks';
 import { GET_SHORT_BASKET, GET_DELIVERY, GET_PICKUPS } from 'query';
@@ -27,12 +28,15 @@ import RemindPasswordForm from 'components/RemindPasswordForm';
 import Hr from 'components/Hr';
 // TODO REMOVE
 import Order from 'routes/Order/Order';
+import Snackbar, { SnackbarOverlay } from 'components/Snackbar';
 
 // import Success from 'routes/Success';
 
 import Empty from './Empty';
 import Sidebar from './Sidebar';
 import styles from './styles.css';
+
+const cx = classnames.bind(styles);
 
 const DELIVERY_TYPES = [
     {
@@ -65,7 +69,7 @@ const Basket = ({
     addresses,
     isLoggedIn,
 }) => {
-    const { login, createNotification } = useApp();
+    const { login } = useApp();
     const [orderId, setOrderId] = useState(false);
     const [products, setProducts] = useState(productsProps);
     const [step, setStep] = useState(0);
@@ -83,6 +87,8 @@ const Basket = ({
         delivery: false,
     });
     const [loginType, setLoginType] = useState('login');
+    const [notification, setNotification] = useState(null);
+    const [disabledOrderButton, setDisabledOrderButton] = useState(true);
 
     const isCourier = values.deliveryType === 'courier';
     const currentDelivery = isCourier ? values.delivery : values.pickup;
@@ -160,7 +166,7 @@ const Basket = ({
             });
         },
         onError({ graphQLErrors: [{ message }] }) {
-            createNotification({
+            setNotification({
                 type: 'error',
                 message,
             });
@@ -173,7 +179,13 @@ const Basket = ({
         loadDeliveries,
         { called: calledDeliveries, loading: loadingDeliveries, data: { couriers, pickups } = {} },
     ] = useLazyQuery(isCourier ? GET_DELIVERY : GET_PICKUPS);
-    const deliveries = couriers || pickups;
+    const deliveries = !calledDeliveries
+        ? []
+        : loadingDeliveries
+        ? []
+        : couriers
+        ? couriers.data.slice(-1)
+        : pickups.data;
     const { payments_methods: newPaymentsMethods = [] } = currentDelivery || {};
     const allIdsPaymentMethods = newPaymentsMethods.map(({ id }) => id);
     const paymentsMethods = paymentsMethodsProps.filter(({ id }) => allIdsPaymentMethods.indexOf(id) !== -1);
@@ -182,6 +194,15 @@ const Basket = ({
     /* EFFECTS */
     useEffect(() => {
         window.scrollTo(0, 0);
+        const footerNode = document.querySelector('#footer');
+
+        if (step === 1) {
+            footerNode.style.display = 'none';
+        }
+
+        return () => {
+            footerNode.style.display = 'block';
+        };
     }, [step]);
 
     useEffect(() => {
@@ -190,7 +211,38 @@ const Basket = ({
             delivery: false,
         });
     }, [values.city.id]);
-    /* EFFECTS */
+
+    useEffect(() => {
+        if (!values.delivery && deliveries && deliveries.length === 1) {
+            setValues(prevState => ({
+                ...prevState,
+                delivery: deliveries[0],
+            }));
+        }
+    }, [values.delivery, deliveries]);
+
+    useEffect(() => {
+        // todo refactor
+        const fields = isCourier ? ['delivery', 'address'] : ['pickup'];
+        const requiredFields = ['city', ...fields, 'payment'];
+
+        const valid = requiredFields
+            .map(field => {
+                const value = values[field];
+
+                if (!value) return field;
+
+                if (isNumber(value) || (typeof value === 'object' && value.id)) {
+                    return null;
+                }
+
+                return field;
+            })
+            .filter(Boolean);
+
+        setDisabledOrderButton(!!valid.length);
+    }, [values]);
+    /* EFFECTS  */
 
     const handleChangeStep = index => {
         // if (notification && notification.errorType === 'lowPrice') return;
@@ -238,7 +290,7 @@ const Basket = ({
         if (valid.length) {
             const name = [...valid].shift();
 
-            createNotification({
+            setNotification({
                 type: 'error',
                 message: ERORRS[name],
             });
@@ -278,8 +330,23 @@ const Basket = ({
         return <Empty />;
     }
 
+    const rootClassName = cx(styles.root, {
+        grey: step === 0,
+    });
+
     return (
-        <div className={styles.root}>
+        <div className={rootClassName}>
+            <SnackbarOverlay>
+                {notification && (
+                    <Snackbar
+                        text={notification.message}
+                        active={!!notification.message}
+                        theme={notification.type}
+                        onClose={() => setNotification(null)}
+                        overlay={false}
+                    />
+                )}
+            </SnackbarOverlay>
             <StepView active={step} onChange={handleChangeStep}>
                 <StepContainer
                     title={
@@ -291,7 +358,7 @@ const Basket = ({
                     theme={{ ...theme, body: styles.firstStepBody }}
                 >
                     <div className={styles.products}>
-                        {products.map(({ item, name, price, url }) => (
+                        {products.map(({ item, price, url }) => (
                             <BasketProduct
                                 key={item.id}
                                 images={item.images[0]}
@@ -397,7 +464,7 @@ const Basket = ({
                                     </Title>
                                     <div>
                                         {collapse[values.deliveryType] &&
-                                        deliveries.data.length > 1 &&
+                                        deliveries.length > 1 &&
                                         currentDelivery ? (
                                             <div>
                                                 <ListItem
@@ -434,8 +501,8 @@ const Basket = ({
                                                             <FormattedMessage
                                                                 id={
                                                                     currentDelivery.price === '0'
-                                                                        ? 'currency'
-                                                                        : 'free'
+                                                                        ? 'free'
+                                                                        : 'currency'
                                                                 }
                                                                 values={{ price: currentDelivery.price }}
                                                             />
@@ -453,11 +520,11 @@ const Basket = ({
                                                     }
                                                     bold
                                                 >
-                                                    Показать еще ({deliveries.data.length})
+                                                    Показать еще ({deliveries.length - 1})
                                                 </Button>
                                             </div>
                                         ) : (
-                                            deliveries.data.map(item => {
+                                            deliveries.map(item => {
                                                 const {
                                                     direction_title: title,
                                                     delivery_days: deliveryDays,
@@ -517,8 +584,9 @@ const Basket = ({
                                                             setValues(prevState => ({
                                                                 ...prevState,
                                                                 payment: paymentsMethodsProps.find(
-                                                                    ({ id }) =>
-                                                                        id === item.payments_methods[0].id
+                                                                    payment =>
+                                                                        payment.id ===
+                                                                        item.payments_methods[0].id
                                                                 ),
                                                             }));
                                                         }}
@@ -531,9 +599,6 @@ const Basket = ({
                                 </div>
                                 {isCourier && (
                                     <div className={styles.block}>
-                                        <Title className={styles.blockTitle}>
-                                            <FormattedMessage id="p_cart_order_address_title" />
-                                        </Title>
                                         <AddressList
                                             items={addresses}
                                             onChange={handleChangeAddress}
@@ -635,6 +700,7 @@ const Basket = ({
                                         });
                                     }
                                 }}
+                                disabled={disabledOrderButton}
                                 bold
                                 fullWidth
                             >
@@ -651,10 +717,12 @@ const Basket = ({
                                         <FormattedMessage id="c_login_title" />
                                     </Title>
                                     <LoginForm onCompleted={handleLogInCompleted} />
-                                    <Link onClick={() => setLoginType('remind')}>Forgot password?</Link>
+                                    {/* <Link onClick={() => setLoginType('remind')}>
+                                        <FormattedMessage id="forgot_password" />?
+                                    </Link> */}
                                     <Hr />
                                     <Link onClick={() => setLoginType('register')}>
-                                        Continue as a new customer
+                                        <FormattedMessage id="create_account" />
                                     </Link>
                                 </>
                             )}
@@ -666,7 +734,7 @@ const Basket = ({
                                     <UserForm type="registration" onCompleted={handleRegisterCompleted} />
                                     <Hr />
                                     <Link onClick={() => setLoginType('login')}>
-                                        I already have an account
+                                        <FormattedMessage id="i_have_an_account" />
                                     </Link>
                                 </>
                             )}
@@ -679,7 +747,9 @@ const Basket = ({
                                         <FormattedMessage id="remind_password_subtitle" />
                                     </div>
                                     <RemindPasswordForm />
-                                    <Link onClick={() => setLoginType('login')}>Go back to sign in</Link>
+                                    <Link onClick={() => setLoginType('login')}>
+                                        <FormattedMessage id="remind_password_login_link" />
+                                    </Link>
                                 </>
                             )}
                         </div>
