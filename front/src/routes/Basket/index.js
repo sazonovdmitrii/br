@@ -22,7 +22,7 @@ export default () => {
 
     if (error) return <ErrorBoundary />;
 
-    if (loading) return <Loader />;
+    if (loading) return <Loader fullHeight />;
 
     return (
         <>
