@@ -1,0 +1,14 @@
+Delivery:
+  type: object
+  config:
+    description: "Delivery"
+    fields:
+      id:
+        type: "Int!"
+        description: "Delivery Id"
+      name:
+        type: "String"
+        description: "Delivery Name"
+
+
+

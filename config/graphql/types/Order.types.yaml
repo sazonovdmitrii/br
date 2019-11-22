@@ -12,3 +12,12 @@ Order:
       orderItems:
         type: "[OrderItem]"
         description: "Orders Items"
+      payment_method_id:
+        type: "PaymentMethod"
+        description: "Payment Item"
+      delivery_id:
+        type: "Delivery"
+        description: "Payment Item"
+      courier:
+        type: "CourierItem"
+        description: "Courier Item"

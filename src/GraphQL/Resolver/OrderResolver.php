@@ -3,6 +3,7 @@ namespace App\GraphQL\Resolver;
 
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
+use GraphQL\Error\UserError;
 
 class OrderResolver extends LocaleAlias
 {
