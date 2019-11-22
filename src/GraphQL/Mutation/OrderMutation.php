@@ -106,7 +106,7 @@ class OrderMutation extends AuthMutation
 
             $productItem = $this->em
                 ->getRepository(ProductItem::class)
-                ->find($basketItem['item_id']);
+                ->find($basketItem['item']->getId());
             if($productItem) {
                 $orderItem->setItem($productItem);
             }
