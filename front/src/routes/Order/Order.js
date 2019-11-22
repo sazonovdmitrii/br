@@ -29,18 +29,15 @@ const Order = ({ id, address, products, delivery, payment }) => {
                 </li>
             </ul>
             <div className={styles.products}>
-                {products.map(
-                    ({ product_name: productName, name, item_id: id, price, url, images: [images] }) => (
-                        <BasketProduct
-                            key={id}
-                            images={images}
-                            name={productName}
-                            description={name}
-                            price={price}
-                            url={url}
-                        />
-                    )
-                )}
+                {products.map(({ item, price, url }) => (
+                    <BasketProduct
+                        key={item.id}
+                        images={item.images[0]}
+                        name={item.name}
+                        price={<FormattedMessage id="currency" values={{ price }} />}
+                        url={url}
+                    />
+                ))}
             </div>
             <div className={styles.pricing}>
                 <p className={styles.pricingItem}>
