@@ -18,10 +18,7 @@ const Order = ({ id, address, products, delivery, payment }) => {
         <div className={styles.container}>
             <Title>Спасибо за заказ №{id}</Title>
             <ul className={styles.info}>
-                <li className={styles.infoItem}>
-                    Способ доставки: {delivery.direction_title}{' '}
-                    {delivery.delivery_days && `(${delivery.delivery_days})`}
-                </li>
+                <li className={styles.infoItem}>Способ доставки: {delivery.direction_title}</li>
                 <li className={styles.infoItem}>Способ оплаты: {payment.name}</li>
                 <li className={styles.infoItem}>
                     Адрес:
