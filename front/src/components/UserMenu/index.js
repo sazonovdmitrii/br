@@ -23,7 +23,7 @@ const cx = classnames.bind(styles);
 const UserMenu = () => {
     const [placeholder] = useFormatMessage([{ id: 'c_search_placeholder' }]);
     const { logout, login } = useApp();
-    const { loading: loadingShortBasket, data: { basket } = {} } = useQuery(GET_SHORT_BASKET);
+    const { loading: loadingShortBasket, data: { basket } = {} } = useQuery(GET_SHORT_BASKET, { ssr: false });
     const { data: { isLoggedIn } = {} } = useQuery(IS_LOGGED_IN);
     const [reailsLink, accountLink, signInLink, profileLink, favoritesLink, ordersLink] = useLangLinks([
         '/retail',
@@ -156,14 +156,13 @@ const UserMenu = () => {
                 <li className={styles.item}>
                     <div className={styles.icon}>
                         <Link to="/cart">
-                            <Badge
-                                badgeContent={
-                                    !loadingShortBasket && basket.products ? basket.products.length : 0
-                                }
-                                kind="primary"
-                            >
+                            {!loadingShortBasket && basket.products ? (
+                                <Badge badgeContent={basket.products.length} kind="primary">
+                                    <ShoppingCartIcon size="20" />
+                                </Badge>
+                            ) : (
                                 <ShoppingCartIcon size="20" />
-                            </Badge>
+                            )}
                         </Link>
                     </div>
                 </li>
