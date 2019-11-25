@@ -1,3 +1,4 @@
+import React from 'react';
 import loadable from '@loadable/component';
 import { useQuery } from '@apollo/react-hooks';
 
@@ -9,7 +10,7 @@ import Loader from 'components/Loader';
 import NotFound from './NotFound';
 
 const loadableOpts = {
-    fallback: Loader,
+    fallback: <Loader fullHeight />,
 };
 
 export default ({ lang, defaultLang }) => {
