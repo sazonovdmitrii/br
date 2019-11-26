@@ -50,7 +50,11 @@ const Addresses = ({ items = [], onSubmit }) => {
         return (
             <div className={styles.root} ref={formEl}>
                 <div className={styles.form}>
-                    <h1 className={styles.formTitle}>Edit address</h1>
+                    <h1 className={styles.formTitle}>
+                        <FormattedMessage
+                            id={showForm.id ? 'p_addresses_edit_title' : 'p_addresses_new_title'}
+                        />
+                    </h1>
                     <AddressForm
                         id={showForm.id}
                         actions={

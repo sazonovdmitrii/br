@@ -7,6 +7,7 @@ import { isBrowser } from 'utils';
 import styles from './styles.css';
 
 const SnackbarOverlay = ({ children }) => {
+    if (!children) return null;
     if (isBrowser) {
         const domNode = document.body;
 
@@ -19,7 +20,7 @@ const SnackbarOverlay = ({ children }) => {
 };
 
 SnackbarOverlay.propTypes = {
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
 };
 
 export default SnackbarOverlay;

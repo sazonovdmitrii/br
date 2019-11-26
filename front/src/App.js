@@ -37,10 +37,7 @@ const Meta = withRouter(({ lang, location: { pathname }, match: { path } }) => {
     return (
         <Helmet defaultTitle={defaultTitle} titleTemplate={SEO.titleTemplate}>
             <html lang={lang} />
-            <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-            />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
             {LANGS.map(item => {
                 const isDefault = item.default;
                 const isActive = item.value === lang;

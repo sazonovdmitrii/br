@@ -55,7 +55,9 @@ const Retail = () => {
                             <Shops items={storesWithVision.data} />
                         </>
                     )}
-                    {loading ? null : <Map items={[...stores.data, ...storesWithVision.data]} />}
+                    {!loading && stores && storesWithVision ? (
+                        <Map items={[...stores.data, ...storesWithVision.data]} />
+                    ) : null}
                 </section>
             </Container>
         </div>

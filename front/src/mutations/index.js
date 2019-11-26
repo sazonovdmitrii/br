@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { Products, Address, Addresses } from 'fragments';
+import { BasketProducts, Address, Addresses } from 'fragments';
 
 export const ADD_TO_BASKET = gql`
     mutation addBasket($input: AddBasketInput!) {
@@ -8,7 +8,7 @@ export const ADD_TO_BASKET = gql`
             ...Products
         }
     }
-    ${Products}
+    ${BasketProducts}
 `;
 
 export const UPDATE_PRODUCT_MUTATION = gql`
@@ -17,7 +17,7 @@ export const UPDATE_PRODUCT_MUTATION = gql`
             ...Products
         }
     }
-    ${Products}
+    ${BasketProducts}
 `;
 
 export const REMOVE_PRODUCT_MUTATION = gql`
@@ -26,7 +26,7 @@ export const REMOVE_PRODUCT_MUTATION = gql`
             ...Products
         }
     }
-    ${Products}
+    ${BasketProducts}
 `;
 
 export const CREATE_ADDRESS_MUTATION = gql`
@@ -59,7 +59,7 @@ export const REMOVE_ADDRESS_MUTATION = gql`
 export const ORDER_MUTATION = gql`
     mutation createOrder($input: OrderInput) {
         order(input: $input) {
-            id
+            secret_key
         }
     }
 `;

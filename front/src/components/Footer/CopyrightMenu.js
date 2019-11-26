@@ -17,9 +17,9 @@ const CopyrightMenu = ({ lang }) => {
     if (loading || error || !menu) return null;
 
     return (
-        <ul className={styles.bottomMenu}>
+        <ul className={styles.copyrightMenu}>
             {menu.data.map(({ url, text }) => (
-                <li key={text} className={styles.bottomMenuItem}>
+                <li key={text} className={styles.copyrightMenuItem}>
                     <Link to={url}>{text}</Link>
                 </li>
             ))}

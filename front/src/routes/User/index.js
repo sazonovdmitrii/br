@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { useLangLinks, useApp } from 'hooks';
+import { useLangLinks, useApp, useFormatMessage } from 'hooks';
 
 import Title from 'components/Title';
 import Button from 'components/Button';
@@ -18,6 +18,7 @@ import PrescriptionsIcon from './icons/prescriptions.svg';
 import AddressesIcon from './icons/addresses.svg';
 
 const User = () => {
+    const [metaTitle] = useFormatMessage([{ id: 'account' }]);
     const history = useHistory();
     const { logout } = useApp();
     const [favoritesLink, prescriptionsLink, addressesLink, profileLink] = useLangLinks([
@@ -34,7 +35,7 @@ const User = () => {
 
     return (
         <div className={styles.root}>
-            <Helmet title="Account" />
+            <Helmet title={metaTitle} />
             <div className={styles.container}>
                 <div className={styles.header}>
                     <Title className={styles.title}>
@@ -42,20 +43,20 @@ const User = () => {
                     </Title>
                 </div>
                 <section className={styles.cards}>
-                    <Link to={favoritesLink} className={styles.card}>
+                    {/* <Link to={favoritesLink} className={styles.card}>
                         <CardContent
                             title={<FormattedMessage id="favorites" />}
                             icon={<FavoritesIcon />}
                             text={<FormattedMessage id="favorites_text" />}
                         />
-                    </Link>
-                    <Link to={prescriptionsLink} className={styles.card}>
+                    </Link> */}
+                    {/*<Link to={prescriptionsLink} className={styles.card}>
                         <CardContent
                             title={<FormattedMessage id="prescriptions" />}
                             icon={<PrescriptionsIcon />}
                             text={<FormattedMessage id="prescriptions_text" />}
                         />
-                    </Link>
+                    </Link> */}
                     <Link to={addressesLink} className={styles.card}>
                         <CardContent
                             title={<FormattedMessage id="addresses" />}
@@ -63,13 +64,13 @@ const User = () => {
                             text={<FormattedMessage id="addresses_text" />}
                         />
                     </Link>
-                    <Link to={profileLink} className={styles.card}>
+                    {/* <Link to={profileLink} className={styles.card}>
                         <CardContent
                             title={<FormattedMessage id="profile" />}
                             icon={<ProfileIcon />}
                             text={<FormattedMessage id="profile_text" />}
                         />
-                    </Link>
+                    </Link> */}
                 </section>
                 <p className={styles.footer}>
                     <Button onClick={handleLogoOut} kind="simple" bold>

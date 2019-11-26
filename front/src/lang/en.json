@@ -91,6 +91,8 @@
     "prescriptions_text": "Manage prescriptions",
     "addresses": "Addresses",
     "p_addresses_title": "Addresses",
+    "p_addresses_edit_title": "Edit address",
+    "p_addresses_new_title": "New address",
     "p_addresses_empty_text": "You have not entered any addresses",
     "p_addresses_add_address": "Add new address",
     "p_addresses_address_text": "{zip}, {city}, street {street}, {house} {corp}, {flat}",
