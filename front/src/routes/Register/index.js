@@ -14,8 +14,7 @@ export default () => {
     const history = useHistory();
     const [loginLink] = useLangLinks(['/account/login']);
     const { login } = useApp();
-    const handleCompleted = ({ register: { hash } }) => {
-        login(hash);
+    const handleCompleted = () => {
         history.push('/');
     };
 
