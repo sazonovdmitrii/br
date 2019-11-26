@@ -41,3 +41,6 @@ label.form-check-label {
 #steps-wizard .form-group {
     margin-bottom: 0px !important;
 }
+.children_tags {
+    margin-left: 50px;
+}
