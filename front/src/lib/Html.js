@@ -25,7 +25,6 @@ export default ({ bundle, helmet, html, window = {} }) => (
         <head>
             <meta charSet="utf-8" />
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
             {helmet.title.toComponent()}
             {bundle.getLinkElements()}
             {bundle.getStyleElements()}

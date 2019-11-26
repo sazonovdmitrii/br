@@ -99,11 +99,10 @@ const Basket = ({
     const currentDelivery = values[values.deliveryType];
     const totalSum = products.reduce((acc, item) => acc + item.price * item.qty, 0);
     const citiesForSelect = citiesProps
-        .map(({ id, title, visible, ...any }) => {
-            if (visible) return { id, value: title, ...any };
-            return null;
-        })
-        .filter(Boolean);
+        .filter(({ visible }) => visible)
+        .map(({ id, title, ...any }) => {
+            return { id, value: title, ...any };
+        });
 
     const handleChangeProducts = ({ removeBasket, updateBasket }, data = removeBasket || updateBasket) => {
         if (!data) return;
@@ -358,11 +357,12 @@ const Basket = ({
                     theme={{ ...theme, body: styles.firstStepBody }}
                 >
                     <div className={styles.products}>
-                        {products.map(({ item, price, url }) => (
+                        {products.map(({ name, item, price, url }) => (
                             <BasketProduct
                                 key={item.id}
                                 images={item.images[0]}
-                                name={item.name}
+                                name={name}
+                                subName={item.name}
                                 price={<FormattedMessage id="currency" values={{ price }} />}
                                 url={url}
                                 onRemove={() => {
@@ -715,9 +715,28 @@ const Basket = ({
 
 Basket.propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
-    basket: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]))
-        .isRequired,
-    cities: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.string])).isRequired,
+    basket: PropTypes.shape({
+        products: PropTypes.arrayOf(
+            PropTypes.shape({
+                item: PropTypes.shape({
+                    id: PropTypes.number.isRequired,
+                    images: PropTypes.arrayOf(PropTypes.object),
+                    name: PropTypes.string,
+                }),
+                price: PropTypes.string,
+                qty: PropTypes.number.isRequired,
+            })
+        ),
+    }),
+    cities: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            latitude: PropTypes.string,
+            longitude: PropTypes.string,
+            title: PropTypes.string.isRequired,
+            visible: PropTypes.bool,
+        })
+    ).isRequired,
 };
 
 export default Basket;

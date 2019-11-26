@@ -42,7 +42,7 @@ export default () => {
             />
             <div className={styles.main}>
                 <div className={styles.mainText}>
-                    <FormattedMessage id="p_home_text" />
+                    <FormattedMessage id="p_home_text" values={{ space: <>&nbsp;</> }} />
                 </div>
                 <CollectionSection />
             </div>

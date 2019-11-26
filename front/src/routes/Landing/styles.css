@@ -55,7 +55,7 @@
     margin-bottom: 24px;
     color: #676f78;
 
-    @media (--viewport-ipad) {
+    @media (--viewport-tablet) {
         max-width: 360px;
         font-size: var(--font-size-base);
     }

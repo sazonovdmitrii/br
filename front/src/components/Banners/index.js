@@ -11,32 +11,32 @@ const cx = classnames.bind(styles);
 
 const Banners = ({ children, interval, autoPlay: autoPlayProp }) => {
     const [state, dispatch] = useReducer(
-        (state, action) => {
+        (prevState, action) => {
             const childLength = children.length;
 
             switch (action.type) {
                 case 'NEXT':
                     return {
-                        ...state,
+                        ...prevState,
                         active: (state.active + 1) % childLength,
                     };
                 case 'PREV':
                     return {
-                        ...state,
+                        ...prevState,
                         active: (state.active - 1 + childLength) % childLength,
                     };
                 case 'PAUSE':
                     return {
-                        ...state,
+                        ...prevState,
                         isPlaying: false,
                     };
                 case 'PLAY':
                     return {
-                        ...state,
+                        ...prevState,
                         isPlaying: true,
                     };
                 default:
-                    return state;
+                    return prevState;
             }
         },
         {
