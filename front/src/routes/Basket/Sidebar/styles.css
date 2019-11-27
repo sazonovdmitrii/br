@@ -65,6 +65,7 @@
 
 .pricingValue {
     margin-left: auto;
+    white-space: nowrap;
 }
 
 .actions {
@@ -73,7 +74,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #fff;
+    background-color: var(--color-background);
     box-shadow: 0 -2px 7px 0 rgba(228, 230, 232, 0.35);
     margin: 0 auto;
     padding: 18px;

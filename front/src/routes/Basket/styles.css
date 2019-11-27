@@ -81,8 +81,13 @@
 }
 
 .orderBlock {
-    padding: 30px 36px 24px;
+    padding: 30px 20px 24px;
     background-color: #f8f8f8;
+
+    @media (--viewport-ipad) {
+        padding-left: 36px;
+        padding-right: 36px;
+    }
 }
 
 .orderBlockInfo {
@@ -108,9 +113,9 @@
 
 .orderBlockListValue {
     text-align: right;
-    padding-bottom: 8px;
     font-size: var(--font-size-base);
     color: #676f78;
+    white-space: nowrap;
 }
 
 .orderBlockFooter {
