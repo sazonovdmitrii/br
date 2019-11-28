@@ -143,7 +143,10 @@ easy_admin:
             class: App\Entity\Orders
             controller: App\Controller\Admin\OrderController
             list:
-                fields: ['id', 'name', 'visible']
+                fields:
+                  - { property: 'id', label: 'Номер'}
+                  - { property: 'user_id.email', label: 'Email'}
+                  - { property: 'created', label: 'Создан'}
         Delivery:
               label: 'Доставки'
               class: App\Entity\Delivery

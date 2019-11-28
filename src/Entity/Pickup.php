@@ -537,4 +537,9 @@ class Pickup
 
         return $this;
     }
+    public function __toString()
+    {
+        return self::getAddress();
+    }
+
 }
