@@ -109,7 +109,7 @@ const getConfig = target => {
                 {
                     oneOf: [
                         {
-                            test: /\.(js|jsx)$/,
+                            test: /\.(js|jsx|mjs)$/,
                             loader: require.resolve('babel-loader'),
                             options: {
                                 compact: isProd,
