@@ -8,7 +8,7 @@ import { useHistory } from 'react-router';
 import { SeoHead } from 'utils';
 import { useLangLinks, useApp } from 'hooks';
 import { ADD_TO_BASKET } from 'mutations';
-import { GET_SHORT_BASKET } from 'query';
+import { GET_SHORT_BASKET, GET_BASKET } from 'query';
 
 import Button from 'components/Button';
 import Colors from 'components/Colors';
@@ -66,14 +66,17 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars: { edges: 
                 data: { addBasket },
             }
         ) {
-            cache.writeQuery({
-                query: GET_SHORT_BASKET,
-                data: {
-                    basket: {
-                        products: addBasket.products,
-                        __typename: 'Basket',
+            /* <3 apollo */
+            [GET_SHORT_BASKET, GET_BASKET].forEach(query => {
+                cache.writeQuery({
+                    query,
+                    data: {
+                        basket: {
+                            products: addBasket.products,
+                            __typename: 'Basket',
+                        },
                     },
-                },
+                });
             });
         },
     });
