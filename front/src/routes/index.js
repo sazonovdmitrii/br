@@ -6,6 +6,7 @@ import { IS_LOGGED_IN } from 'query';
 import { withErrorBoundary } from 'hoc';
 
 import Loader from 'components/Loader';
+import Catalog from 'routes/Catalog';
 
 import NotFound from './NotFound';
 
@@ -96,10 +97,7 @@ export default ({ lang, defaultLang }) => {
             withErrorBoundary(loadable(() => import('./Product'), loadableOpts)),
             routerOptions({ path: '/:catalog?/:subcatalog?/:product.htm' }),
         ],
-        [
-            withErrorBoundary(loadable(() => import('./Catalog'), loadableOpts)),
-            routerOptions({ path: '/:catalog/:subcatalog?/:filter?' }),
-        ],
+        [withErrorBoundary(Catalog), routerOptions({ path: '/:catalog/:subcatalog?/:filter?' })],
         [withErrorBoundary(loadable(() => import('./Home'), loadableOpts)), routerOptions({ path: '/' })],
         [NotFound],
     ].filter(Boolean);

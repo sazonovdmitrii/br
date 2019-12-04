@@ -59,6 +59,7 @@ export const REMOVE_ADDRESS_MUTATION = gql`
 export const ORDER_MUTATION = gql`
     mutation createOrder($input: OrderInput) {
         order(input: $input) {
+            id
             secret_key
         }
     }

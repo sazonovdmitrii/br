@@ -8,7 +8,7 @@ import { GET_CATALOG } from 'query';
 import Loader from 'components/Loader';
 
 const Component = loadable(() => import('./Catalog'), {
-    fallback: Loader,
+    fallback: () => <Loader fullHeight />,
 });
 
 export default () => {

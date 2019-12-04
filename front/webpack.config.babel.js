@@ -57,7 +57,7 @@ const getConfig = target => {
                                   warnings: false,
                                   comparisons: false,
                                   inline: 2,
-                                  pure_funcs: ['console.log'],
+                                  pure_funcs: ['console.log', 'console.info'],
                               },
                               mangle: {
                                   safari10: true,
@@ -120,7 +120,7 @@ const getConfig = target => {
                         },
                         {
                             test: /\.svg$/,
-                            use: require.resolve('@svgr/webpack'),
+                            loader: require.resolve('@svgr/webpack'),
                             issuer: {
                                 test: /\.jsx?$/,
                             },
