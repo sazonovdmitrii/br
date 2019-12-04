@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import { metrics } from 'utils';
 
 import Colors from 'components/Colors';
-import ResponsiveImage from 'components/ResponsiveImage';
 
 import styles from './styles.css';
 import placeholderImage from './images/placeholder.png';
