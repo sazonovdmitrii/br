@@ -120,7 +120,7 @@ const Basket = ({
                     remove: {
                         products: seoProducts
                             .filter(({ item: { id } }) => ids.indexOf(id) === -1)
-                            .map(({ name, item, price, url, qty }) => ({
+                            .map(({ name, item, price, qty }) => ({
                                 price,
                                 name, // Name or ID is required.
                                 id: item.id,
@@ -190,7 +190,7 @@ const Basket = ({
                                 revenue: totalSumWithDelivery, // Total transaction value (incl. tax and shipping)
                                 shipping: currentDelivery.price,
                             },
-                            products: products.map(({ name, item, price, url, qty }) => ({
+                            products: products.map(({ name, item, price, qty }) => ({
                                 price,
                                 name, // Name or ID is required.
                                 id: item.id,
@@ -315,7 +315,7 @@ const Basket = ({
                     actionField: {
                         step: 1,
                     },
-                    products: products.map(({ name, item, price, url, qty }) => ({
+                    products: products.map(({ name, item, price, qty }) => ({
                         price,
                         name,
                         id: item.id,
