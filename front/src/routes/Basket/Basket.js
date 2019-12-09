@@ -71,18 +71,23 @@ const theme = {
 
 const Basket = ({
     basket: { products: productsProps },
-    cities: citiesProps,
+    cities: citiesProps = [],
     paymentsMethods: paymentsMethodsProps,
     addresses,
     isLoggedIn,
 }) => {
+    const avaibleCities = citiesProps.filter(({ visible }) => visible);
+    const citiesForSelect = avaibleCities.map(({ id, title, ...any }) => {
+        return { id, value: title, ...any };
+    });
+
     const { login } = useApp();
     const [orderId, setOrderId] = useState(false);
     const [products, setProducts] = useState(productsProps);
     const [step, setStep] = useState(0);
     const [values, setValues] = useState({
         deliveryType: 'delivery',
-        city: {},
+        city: citiesForSelect.length ? citiesForSelect[0] : {},
         payment: {},
         delivery: null,
         pickup: null,
@@ -101,11 +106,6 @@ const Basket = ({
     const currentDelivery = values[values.deliveryType];
     const totalSum = products.reduce((acc, item) => acc + item.price * item.qty, 0);
     const totalSumWidthDelivery = totalSum + (currentDelivery ? currentDelivery.price : 0);
-    const citiesForSelect = citiesProps
-        .filter(({ visible }) => visible)
-        .map(({ id, title, ...any }) => {
-            return { id, value: title, ...any };
-        });
 
     const handleChangeProducts = ({ removeBasket, updateBasket }, data = removeBasket || updateBasket) => {
         if (!data) return;
@@ -121,7 +121,7 @@ const Basket = ({
                             .filter(({ item: { id } }) => ids.indexOf(id) === -1)
                             .map(({ name, item, price, url, qty }) => ({
                                 price,
-                                name: name, // Name or ID is required.
+                                name, // Name or ID is required.
                                 id: item.id,
                                 variant: item.name,
                                 quantity: qty,
@@ -191,7 +191,7 @@ const Basket = ({
                             },
                             products: products.map(({ name, item, price, url, qty }) => ({
                                 price,
-                                name: name, // Name or ID is required.
+                                name, // Name or ID is required.
                                 id: item.id,
                                 variant: item.name,
                                 quantity: qty,
@@ -238,7 +238,7 @@ const Basket = ({
     /* EFFECTS */
     useEffect(() => {
         seoProducts = products;
-    }, []);
+    }, [products]);
     useEffect(() => {
         window.scrollTo(0, 0);
         const footerNode = document.querySelector('#footer');
@@ -269,6 +269,16 @@ const Basket = ({
     }, [values.delivery, deliveries]);
 
     useEffect(() => {
+        if (values.city.id) {
+            loadDeliveries({
+                variables: {
+                    city_id: values.city.id,
+                },
+            });
+        }
+    }, [loadDeliveries, values.city.id]);
+
+    useEffect(() => {
         // todo refactor
         const fields = isDelivery ? ['delivery', 'address'] : ['pickup'];
         const requiredFields = ['city', ...fields, 'payment'];
@@ -288,7 +298,7 @@ const Basket = ({
             .filter(Boolean);
 
         setDisabledOrderButton(!!valid.length);
-    }, [values]);
+    }, [isDelivery, values]);
     /* EFFECTS  */
 
     const handleChangeStep = index => {
@@ -304,7 +314,7 @@ const Basket = ({
                     },
                     products: products.map(({ name, item, price, url, qty }) => ({
                         price,
-                        name: name,
+                        name,
                         id: item.id,
                         variant: item.name,
                         quantity: qty,
@@ -314,12 +324,6 @@ const Basket = ({
         });
     };
     const handleChangeSelect = data => {
-        loadDeliveries({
-            variables: {
-                city_id: data.id,
-            },
-        });
-
         setValues(prevState => ({
             ...prevState,
             city: data,
