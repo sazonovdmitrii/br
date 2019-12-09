@@ -240,6 +240,7 @@ const Basket = ({
     useEffect(() => {
         seoProducts = products;
     }, [products]);
+
     useEffect(() => {
         window.scrollTo(0, 0);
         const footerNode = document.querySelector('#footer');
@@ -261,13 +262,14 @@ const Basket = ({
     }, [values.city.id]);
 
     useEffect(() => {
-        if (!values.delivery && deliveries && deliveries.length === 1) {
+        if (deliveries.length === 1) {
             setValues(prevState => ({
                 ...prevState,
                 delivery: deliveries[0],
+                payment: {},
             }));
         }
-    }, [values.delivery, deliveries]);
+    }, [deliveries]);
 
     useEffect(() => {
         if (values.city.id) {
@@ -328,6 +330,8 @@ const Basket = ({
         setValues(prevState => ({
             ...prevState,
             city: data,
+            delivery: null,
+            payment: {},
         }));
     };
     const handleSubmitAddress = data => {
@@ -604,14 +608,6 @@ const Basket = ({
                                                         setCollapse(prevState => ({
                                                             ...prevState,
                                                             [values.deliveryType]: true,
-                                                        }));
-                                                        // set default first payment
-                                                        setValues(prevState => ({
-                                                            ...prevState,
-                                                            payment: paymentsMethodsProps.find(
-                                                                payment =>
-                                                                    payment.id === item.payments_methods[0].id
-                                                            ),
                                                         }));
                                                     }}
                                                     pointer
