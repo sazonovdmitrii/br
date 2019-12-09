@@ -105,7 +105,8 @@ const Basket = ({
     const isDelivery = values.deliveryType === 'delivery';
     const currentDelivery = values[values.deliveryType];
     const totalSum = products.reduce((acc, item) => acc + item.price * item.qty, 0);
-    const totalSumWidthDelivery = totalSum + (currentDelivery ? currentDelivery.price : 0);
+    const totalSumWithDelivery =
+        parseInt(totalSum, 10) + (currentDelivery ? parseInt(currentDelivery.price, 10) : 0);
 
     const handleChangeProducts = ({ removeBasket, updateBasket }, data = removeBasket || updateBasket) => {
         if (!data) return;
@@ -186,7 +187,7 @@ const Basket = ({
                             actionField: {
                                 id, // Transaction ID. Required
                                 affiliation: 'Online Store',
-                                revenue: totalSumWidthDelivery, // Total transaction value (incl. tax and shipping)
+                                revenue: totalSumWithDelivery, // Total transaction value (incl. tax and shipping)
                                 shipping: currentDelivery.price,
                             },
                             products: products.map(({ name, item, price, url, qty }) => ({
@@ -696,7 +697,7 @@ const Basket = ({
                                     <div>
                                         <FormattedMessage
                                             id="currency"
-                                            values={{ price: totalSumWidthDelivery }}
+                                            values={{ price: totalSumWithDelivery }}
                                         />
                                     </div>
                                 </div>
