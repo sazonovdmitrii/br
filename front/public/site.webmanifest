@@ -1,6 +1,7 @@
 {
     "name": "Brillenhof",
     "short_name": "Brillenhof",
+    "start_url": "?utm_source=homescreen",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

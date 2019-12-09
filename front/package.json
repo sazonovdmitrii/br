@@ -17,10 +17,14 @@
         "env": "sync-dotenv"
     },
     "browserslist": [
+        "> 1%",
         "last 2 versions",
+        "firefox esr",
         "not dead",
         "not ie_mob 11",
-        "not op_mini all"
+        "not op_mob > 0",
+        "not op_mini all",
+        "not and_qq > 0"
     ],
     "husky": {
         "hooks": {
