@@ -44,3 +44,11 @@ label.form-check-label {
 .children_tags {
     margin-left: 50px;
 }
+.edit.edit-product #_easyadmin_form_design_element_13 h4,
+.edit.edit-product #_easyadmin_form_design_element_13 .form-group{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+.col-sm-10 {
+    margin-left: 22px;
+}

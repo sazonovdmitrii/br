@@ -2,20 +2,20 @@
 
     {#{% for i in 0..10 %}#}
         {#{{ app.session.set('var', i) }}#}
-        {{ block('tags') }}
+        {#{{ block('tags') }}#}
     {#{% endfor %}#}
 
     <input type="hidden" id="product_lenses" name="product[lenses]" class="form-control">
     {% set currentProduct = form.parent.vars.data %}
     {% set lenses_tags = json.json_decode(currentProduct.lenses) %}
     {% set currentTags = lense_tags.getTags(lenses_tags) %}
-    <div class="steps-count">
-        <label for="steps">Кол-во шагов:</label>&nbsp;
-        <input type="number" min="1" max="6" id="steps" name="steps" value="{{ currentTags|length }}"/>&nbsp;
-        <button class="btn btn-primary" id="set-step">
-            <i class="fa"></i> Задать
-        </button>
-    </div><br/><br/>
+    {#<div class="steps-count">#}
+        {#<label for="steps">Кол-во шагов:</label>&nbsp;#}
+        {#<input type="number" min="1" max="6" id="steps" name="steps" value="{{ currentTags|length }}"/>&nbsp;#}
+        {#<button class="btn btn-primary" id="set-step">#}
+            {#<i class="fa"></i> Задать#}
+        {#</button>#}
+    {#</div><br/><br/>#}
     <script type="text/javascript">
         $(document).ready(function(){
 
@@ -25,18 +25,32 @@
                 $('input[type=checkbox]').click(function(){
                     var e = $(this);
                     var ct = e.parent().find('.children_tags');
+                    var current_step = e.parents('.form-group.form-check').find('.maintag').data('value');
                     ct.html('');
                     if(e.is(':checked')) {
-                        ct.html($('#tags').html());
+                        ct.html(tags(current_step, ct.parents('.children_tags').length + 1));
                         init();
                     }
                 });
             }
 
-
-
-
-
+            function tags(current_step, step) {
+                return '{% for tag in lense_tags.getTree() %}\
+                                <div class="item">\
+                                    <div class="form-group">\
+                                        <h4>{{ tag.name }}</h4>\
+                                    </div>\
+                                    {% for tagItem in tag.lenseItemTags %}\
+                                        <div class="form-group form-check">\
+                                            <input type="checkbox" name="lense_tag[' + current_step + '][' + step + '][]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">\
+                                            <label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>\
+                                            <div class="children_tags_{{ tagItem.id }} children_tags"></div>\
+                                        </div>\
+                                    {% endfor %}\
+                                </div>\
+                            {% endfor %}\
+                        ';
+            }
 
 
             $('#set-step').click(function(event){
@@ -125,48 +139,49 @@
         });
     </script>
     {% set step = 0 %}
-    <div id="steps-wizard">
-        {% for step, tags in currentTags %}
-            <h3></h3>
-            <section class="step{{ step }}">
-                {% for tag in lense_tags.getTree() %}
-                    <div class="item">
-                        <div class="form-group">
-                            <h4>{{ tag.name }}</h4>
-                        </div>
-                        {% for tagItem in tag.lenseItemTags %}
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="lense_tag[]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}" {%  if tagItem.id in currentTags[step] %}checked{% endif %}>
-                                <label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-            </section>
-            {% set step = step + 1 %}
-        {% endfor %}
-    </div>
+    {#<div id="steps-wizard">#}
+        {#{% for step, tags in currentTags %}#}
+            {#<h3></h3>#}
+            {#<section class="step{{ step }}">#}
+                {#{% for tag in lense_tags.getTree() %}#}
+                    {#<div class="item">#}
+                        {#<div class="form-group">#}
+                            {#<h4>{{ tag.name }}</h4>#}
+                        {#</div>#}
+                        {#{% for tagItem in tag.lenseItemTags %}#}
+                            {#<div class="form-group form-check">#}
+                                {#<input type="checkbox" name="lense_tag[]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}" {%  if tagItem.id in currentTags[step] %}checked{% endif %}>#}
+                                {#<label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>#}
+                            {#</div>#}
+                        {#{% endfor %}#}
+                    {#</div>#}
+                {#{% endfor %}#}
+            {#</section>#}
+            {#{% set step = step + 1 %}#}
+        {#{% endfor %}#}
+    {#</div>#}
 
-    <div id="tags" style="display: none">
-        {% for tag in lense_tags.getTree() %}
-            <div class="item">
-                <div class="form-group">
-                    <h4>{{ tag.name }}</h4>
-                </div>
-                {% for tagItem in tag.lenseItemTags %}
-                    <div class="form-group form-check">
-                        <input type="checkbox" name="lense_tag[]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">
-                        <label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>
-                        <div class="children_tags_{{ tagItem.id }} children_tags">
+    {#<div id="tags" style="display: none">#}
+        {#{% for tag in lense_tags.getTree() %}#}
+            {#<div class="item">#}
+                {#<div class="form-group">#}
+                    {#<h4>{{ tag.name }}</h4>#}
+                {#</div>#}
+                {#{% for tagItem in tag.lenseItemTags %}#}
+                    {#<div class="form-group form-check">#}
+                        {#<input type="checkbox" name="lense_tag[]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">#}
+                        {#<label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>#}
+                        {#<div class="children_tags_{{ tagItem.id }} children_tags">#}
 
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endfor %}
-    </div>
+                        {#</div>#}
+                    {#</div>#}
+                {#{% endfor %}#}
+            {#</div>#}
+        {#{% endfor %}#}
+    {#</div>#}
 
     <div id="children_tags" style="display: none">
+        {% set count = 0 %}
         {% for tag in lense_tags.getTree() %}
             <div class="item">
                 <div class="form-group">
@@ -174,7 +189,7 @@
                 </div>
                 {% for tagItem in tag.lenseItemTags %}
                     <div class="form-group form-check">
-                        <input type="checkbox" name="lense_tag[]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">
+                        <input type="checkbox" name="lense_tag[]" class="form-check-input maintag" data-value="{{ count }}" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">
                         <label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>
                         <div class="children_tags_{{ tagItem.id }} children_tags">
 
@@ -182,6 +197,7 @@
                     </div>
                 {% endfor %}
             </div>
+            {% set count = count + 1 %}
         {% endfor %}
     </div>
 
@@ -192,17 +208,18 @@
                 <div class="form-group">
                     <h4>
                         {{ tag.name }}
-                        {#{{ app.session.get('var') }}#}
-                    </h4    >
+                    </h4>
                 </div>
+                {% set counter = 0 %}
                 {% for tagItem in tag.lenseItemTags %}
                     <div class="form-group form-check">
-                        <input type="checkbox" name="lense_tag[]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">
+                        <input type="checkbox" name="lense_tag[{{ counter }}][][]" class="form-check-input maintag" data-value="{{ counter }}"  id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">
                         <label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>
                         <div class="children_tags_{{ tagItem.id }} children_tags">
 
                         </div>
                     </div>
+                    {% set counter = counter + 1 %}
                 {% endfor %}
             </div>
         {% endfor %}

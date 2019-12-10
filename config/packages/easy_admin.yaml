@@ -309,6 +309,19 @@ easy_admin:
                     - { property: 'longitude'}
                     - { property: 'short_title'}
                     - { property: 'region'}
+        Lense:
+            label: 'Линзы'
+            class: App\Entity\Lense
+            list:
+                title: 'Линзы'
+                fields: ['id', 'name', 'brand', 'type', 'price']
+            form:
+                fields:
+                    - { type: 'tab' , label: 'Основные' }
+                    - {property: 'name', label: 'Наименование'}
+                    - {property: 'brand', label: 'Бренд'}
+                    - {property: 'type', label: 'Тип'}
+                    - {property: 'price', label: 'Цена'}
         Page:
             class: App\Entity\Page
             label: 'Страницы'
@@ -474,7 +487,7 @@ easy_admin:
           - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']
           - label: 'Каталоги'
-            children: ['Catalog', 'Product', 'Items', 'ProductTag','ProductItemTag','LenseTag','LenseTagItem']
+            children: ['Catalog', 'Product', 'Items', 'ProductTag','ProductItemTag','Lense','LenseTag','LenseTagItem']
           - Users
           - label: 'Меню'
             children: ['Menu', 'MenuItem']
