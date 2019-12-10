@@ -43,7 +43,7 @@ const Products = ({ slug, limit, offset, className }) => {
                 },
             });
         }
-    }, [firstRender, data]);
+    }, [data]);
 
     if (loading && !data) return <Loader />;
     if (error || !data) {

@@ -17,7 +17,7 @@ const useApp = () => {
                 notifications,
             }));
         }
-    }, [state.notifications]);
+    }, [setState, state.notifications, state.maxNotifications]);
 
     const init = token => {
         const session = hardtack.get('session_key');

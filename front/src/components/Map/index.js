@@ -38,7 +38,7 @@ const Map = ({ items, zoom, active }) => {
                 description: fullName,
             });
         }
-    }, [map, bounds, active]);
+    }, [map, bounds, active, items]);
 
     if (loadError) {
         return <div>Map cannot be loaded right now, sorry.</div>;
