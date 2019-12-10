@@ -32,6 +32,10 @@ const Filters = ({ list, count, onChange }) => {
             return newTagsIds;
         });
     };
+    const resetFilters = () => {
+        setTagsIds([]);
+        onChange([]);
+    };
 
     const tabWrapperClassName = cx(styles.tabWrapper, { active: tab.active });
     const innerClassName = cx(styles.inner, { active: tab.active });
@@ -110,6 +114,7 @@ const Filters = ({ list, count, onChange }) => {
                                                         label={name}
                                                         name={id}
                                                         onChange={(e, value) => handleChangeFilter(id, value)}
+                                                        checked={tagsIds.indexOf(id) !== -1}
                                                     />
                                                 </div>
                                             );

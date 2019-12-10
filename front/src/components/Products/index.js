@@ -12,13 +12,18 @@ import Filters from 'components/Filters';
 
 import styles from './styles.css';
 
+// avoid trigger gtm at using filters
+let firstRender = true;
+
 const Products = ({ slug, limit, offset, className }) => {
     const { loading, error, data, refetch } = useQuery(GET_PRODUCTS, {
         variables: { slug, limit, offset },
     });
 
     useEffect(() => {
-        if (data) {
+        if (firstRender && data) {
+            firstRender = !firstRender;
+
             const { name: catalogName, products } = data.catalog;
 
             metrics('gtm', {
@@ -38,7 +43,7 @@ const Products = ({ slug, limit, offset, className }) => {
                 },
             });
         }
-    }, [data]);
+    }, [firstRender, data]);
 
     if (loading && !data) return <Loader />;
     if (error || !data) {

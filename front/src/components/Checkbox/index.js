@@ -1,4 +1,4 @@
-import React, { useState, useDebugValue } from 'react';
+import React, { useState, useRef, useDebugValue } from 'react';
 import PropTypes from 'prop-types';
 import nanoid from 'nanoid';
 import classnames from 'classnames/bind';
@@ -8,7 +8,8 @@ import styles from './styles.css';
 const cx = classnames.bind(styles);
 
 const Checkbox = ({
-    checked: propChecked,
+    checked: checkedProp,
+    defaultChecked,
     className,
     disabled,
     isError,
@@ -17,21 +18,30 @@ const Checkbox = ({
     onChange,
     required,
     type,
+    readOnly,
 }) => {
+    const { current: isControlled } = useRef(checkedProp != null);
     const [id] = useState(`checkbox${nanoid()}`);
-    const [checked, setChecked] = useState(propChecked);
+    const [checkedState, setCheckedState] = useState(checkedProp);
+    const checked = isControlled ? checkedProp : checkedState;
 
-    const handleChange = event => {
+    useDebugValue(checked ? 'checked' : 'unchecked');
+
+    const handleChange = ({ target: { checked: newChecked } }) => {
         if (disabled) return;
 
-        setChecked(!checked);
-        onChange(event, !checked);
+        if (!isControlled) {
+            setCheckedState(newChecked);
+        }
+
+        if (onChange) {
+            onChange(event, newChecked);
+        }
     };
     const rootClassName = cx(styles.root, className, { disabled });
     const checkboxClassName = cx(styles.checkbox, {
         checked,
     });
-    useDebugValue(checked ? 'checked' : 'unchecked');
 
     return (
         <label className={rootClassName} htmlFor={id}>
@@ -40,9 +50,11 @@ const Checkbox = ({
                 type={type}
                 name={name}
                 className={styles.input}
-                checked={checked}
+                checked={checkedProp}
+                defaultChecked={defaultChecked}
                 disabled={disabled}
                 required={required}
+                readOnly={readOnly}
                 aria-invalid={isError || null}
                 aria-required={required || null}
                 onChange={handleChange}
