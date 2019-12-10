@@ -6,13 +6,15 @@
     }
 
     &.expanded {
+        display: flex;
+        flex-direction: column;
         position: fixed;
         top: 0;
         left: 0;
         z-index: 980;
         width: 100%;
         height: 100%;
-        max-height: none;
+        overflow-x: auto;
         background-color: var(--color-white);
 
         @media (--viewport-tablet) {
@@ -22,8 +24,8 @@
 }
 
 .inner {
+    flex: 1;
     padding: 20px 15px 10px;
-    height: 100%;
     background-color: var(--color-white);
 
     @media (--viewport-tablet) {
@@ -102,37 +104,44 @@
 }
 
 .tabWrapper {
-    position: relative;
-    height: 100%;
-    max-height: 0;
-    padding-top: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out, padding-top 0.3s ease-in-out;
+    @media (--viewport-tablet) {
+        position: relative;
+        height: 100%;
+        max-height: 0;
+        padding-top: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out, padding-top 0.3s ease-in-out;
 
-    &.active {
-        max-height: 100%;
-        padding-top: 150px;
+        &.active {
+            max-height: 100%;
+            padding-top: 150px;
+        }
     }
 }
 
 .tabContent {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out 0.2s;
+    display: none;
 
     &.active {
-        visibility: visible;
-        opacity: 1;
+        display: block;
     }
 
     @media (--viewport-tablet) {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out 0.2s;
         top: 50%;
         transform: translateY(-50%);
         height: 72px;
+
+        &.active {
+            visibility: visible;
+            opacity: 1;
+        }
     }
 }
 
@@ -183,9 +192,9 @@
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+    padding: 32px 15px 0;
 
     &.expanded {
-        padding: 32px 15px 0;
         visibility: visible;
         opacity: 1;
     }
@@ -215,14 +224,19 @@
 }
 
 .modalFooter {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    text-align: right;
+    display: none;
     background-color: #f8f8f8;
     border-top: 1px solid #ebeff2;
     box-shadow: inset 0 0 0 1px var(--color-white);
+
+    &.expanded {
+        display: flex;
+        justify-content: flex-end;
+
+        @media (--viewport-tablet) {
+            display: none;
+        }
+    }
 }
 
 .modalButton {
