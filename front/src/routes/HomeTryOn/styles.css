@@ -8,9 +8,9 @@
 }
 
 .heroText {
-    text-align: center;
-    padding: 36px 18px;
     margin: 0 auto;
+    padding: 36px 18px;
+    text-align: center;
 
     @media (--viewport-ipad) {
         width: 66.66667%;
@@ -18,18 +18,18 @@
     }
 
     @media (--viewport-desktop) {
-        width: 33.33333%;
         position: absolute;
         top: 50%;
         right: 60px;
+        width: 33.33333%;
         transform: translateY(-50%);
     }
 }
 
 .heroTitle {
+    font-weight: var(--headings-font-weight);
     font-size: 30px;
     font-family: var(--headings-font);
-    font-weight: var(--headings-font-weight);
 
     @media (--viewport-desktop) {
         font-size: 40px;
@@ -42,8 +42,8 @@
 
 .heroSubtitle {
     margin-bottom: 0;
-    font-size: 16px;
     color: #676f78;
+    font-size: 16px;
 
     @media (--viewport-ipad) {
         font-size: 18px;
@@ -52,6 +52,7 @@
     @media (--viewport-desktop) {
         font-size: 16px;
     }
+
     @media (--viewport-wide) {
         font-size: 18px;
     }
@@ -67,8 +68,8 @@
 
 .benefitsTitle {
     display: none;
-    text-align: center;
     margin-bottom: 36px;
+    text-align: center;
 
     @media (--viewport-desktop) {
         display: block;
@@ -86,10 +87,10 @@
     padding: 0 18px;
 
     @media (--viewport-ipad) {
-        max-width: 100%;
         display: grid;
         grid-gap: 12px;
         grid-template-columns: repeat(3, 1fr);
+        max-width: 100%;
         padding: 0 36px;
     }
 
@@ -99,8 +100,8 @@
     }
 
     @media (--viewport-wide) {
-        padding-left: 60px;
         padding-right: 60px;
+        padding-left: 60px;
     }
 }
 
@@ -117,9 +118,9 @@
 }
 
 .sectionTitle {
-    text-align: center;
-    font-size: 24px;
     margin-bottom: 36px;
+    font-size: 24px;
+    text-align: center;
 
     @media (--viewport-ipad) {
         font-size: 30px;
@@ -142,14 +143,14 @@
 .actionCol {
     flex: 0 0 100%;
     max-width: 100%;
-    padding: 0 12px;
     margin-bottom: 24px;
+    padding: 0 12px;
 
     @media (--viewport-desktop) {
         flex: 0 0 50%;
         max-width: 50%;
-        padding: 0 18px;
         margin: 0;
+        padding: 0 18px;
     }
 
     @media (--viewport-wide) {
@@ -158,18 +159,18 @@
 }
 
 .actionsTitle {
+    margin-bottom: 12px;
+    font-size: var(--font-size-extra-small);
+    letter-spacing: 2.5px;
     text-align: center;
     text-transform: uppercase;
-    margin-bottom: 12px;
-    letter-spacing: 2.5px;
-    font-size: var(--font-size-extra-small);
 }
 
 .actions {
     display: grid;
-    justify-content: center;
     grid-gap: 12px;
     grid-template-columns: 220px;
+    justify-content: center;
 
     @media (--viewport-ipad) {
         grid-template-columns: repeat(2, 220px);

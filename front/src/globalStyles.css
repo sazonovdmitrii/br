@@ -35,8 +35,8 @@ strong {
 
 svg {
     display: block;
-    height: inherit;
     width: inherit;
-    max-height: inherit;
+    height: inherit;
     min-height: inherit;
+    max-height: inherit;
 }
