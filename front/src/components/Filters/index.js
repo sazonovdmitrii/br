@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import classnames from 'classnames/bind';
-import { Filter as FilterIcon, Search as SearchIcon, X as CloseIcon } from 'react-feather';
+import { Filter as FilterIcon, X as CloseIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 
 import { Tabs, Tab, TabsView } from 'components/Tabs';
@@ -17,6 +17,22 @@ const Filters = ({ list, count, onChange }) => {
         active: false,
     });
     const [tagsIds, setTagsIds] = useState([]);
+    const overlayNode = useRef(null);
+
+    useEffect(() => {
+        const domNode = document.body;
+
+        if (tab.active) {
+            if (window.innerWidth !== overlayNode.current.clientWidth) {
+                domNode.style.paddingRight = '15px';
+            }
+            domNode.style.overflow = 'hidden';
+        }
+
+        return () => {
+            domNode.style = null;
+        };
+    }, [tab.active]);
     const handleChangeTab = newValue => {
         setTab(prevState => ({
             ...prevState,
@@ -32,16 +48,21 @@ const Filters = ({ list, count, onChange }) => {
             return newTagsIds;
         });
     };
+    const resetFilters = () => {
+        setTagsIds([]);
+        onChange([]);
+    };
 
     const tabWrapperClassName = cx(styles.tabWrapper, { active: tab.active });
     const innerClassName = cx(styles.inner, { active: tab.active });
     const wrapperClassName = cx(styles.wrapper, { expanded: tab.active });
     const modalClassName = cx(styles.modal, { expanded: tab.active });
+    const modalFooterClassName = cx(styles.modalFooter, { expanded: tab.active });
     const tabsClassName = cx(styles.tabs, { expanded: tab.active });
     const buttonsClassName = cx(styles.buttons, { expanded: tab.active });
 
     return (
-        <div className={wrapperClassName}>
+        <div ref={overlayNode} className={wrapperClassName}>
             <div className={modalClassName}>
                 <h2 className={styles.modalHeader}>
                     <FormattedMessage id="p_catalog_filters_modal_header" />
@@ -53,17 +74,6 @@ const Filters = ({ list, count, onChange }) => {
                 >
                     <CloseIcon />
                 </button>
-                <div className={styles.modalFooter}>
-                    <button type="button" className={styles.resetButton} onClick={() => setTagsIds([])}>
-                        <FormattedMessage
-                            id="p_catalog_filters_modal_reset_button"
-                            values={{ count: tagsIds.length }}
-                        />
-                    </button>
-                    <Button className={styles.modalButton} kind="simple">
-                        <FormattedMessage id="p_catalog_filters_modal_button" values={{ count }} />
-                    </Button>
-                </div>
             </div>
             <div className={innerClassName}>
                 {list.length ? (
@@ -110,6 +120,7 @@ const Filters = ({ list, count, onChange }) => {
                                                         label={name}
                                                         name={id}
                                                         onChange={(e, value) => handleChangeFilter(id, value)}
+                                                        checked={tagsIds.indexOf(id) !== -1}
                                                     />
                                                 </div>
                                             );
@@ -120,6 +131,17 @@ const Filters = ({ list, count, onChange }) => {
                         })}
                     </div>
                 ) : null}
+            </div>
+            <div className={modalFooterClassName}>
+                <button type="button" className={styles.resetButton} onClick={resetFilters}>
+                    <FormattedMessage
+                        id="p_catalog_filters_modal_reset_button"
+                        values={{ count: tagsIds.length }}
+                    />
+                </button>
+                <Button className={styles.modalButton} kind="simple">
+                    <FormattedMessage id="p_catalog_filters_modal_button" values={{ count }} />
+                </Button>
             </div>
             <div className={buttonsClassName}>
                 <Button

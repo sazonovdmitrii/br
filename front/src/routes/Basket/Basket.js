@@ -16,7 +16,7 @@ import {
     REMOVE_PRODUCT_MUTATION,
     ORDER_MUTATION,
 } from 'mutations';
-import { isNumber } from 'utils';
+import { isNumber, metrics } from 'utils';
 
 import Button from 'components/Button';
 import LoginForm from 'components/LoginForm';
@@ -42,6 +42,8 @@ import Sidebar from './Sidebar';
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
+
+let seoProducts = [];
 
 const DELIVERY_TYPES = {
     delivery: {
@@ -69,18 +71,23 @@ const theme = {
 
 const Basket = ({
     basket: { products: productsProps },
-    cities: citiesProps,
+    cities: citiesProps = [],
     paymentsMethods: paymentsMethodsProps,
     addresses,
     isLoggedIn,
 }) => {
+    const avaibleCities = citiesProps.filter(({ visible }) => visible);
+    const citiesForSelect = avaibleCities.map(({ id, title, ...any }) => {
+        return { id, value: title, ...any };
+    });
+
     const { login } = useApp();
     const [orderId, setOrderId] = useState(false);
     const [products, setProducts] = useState(productsProps);
     const [step, setStep] = useState(0);
     const [values, setValues] = useState({
         deliveryType: 'delivery',
-        city: {},
+        city: citiesForSelect.length ? citiesForSelect[0] : {},
         payment: {},
         delivery: null,
         pickup: null,
@@ -98,14 +105,32 @@ const Basket = ({
     const isDelivery = values.deliveryType === 'delivery';
     const currentDelivery = values[values.deliveryType];
     const totalSum = products.reduce((acc, item) => acc + item.price * item.qty, 0);
-    const citiesForSelect = citiesProps
-        .filter(({ visible }) => visible)
-        .map(({ id, title, ...any }) => {
-            return { id, value: title, ...any };
-        });
+    const totalSumWithDelivery =
+        parseInt(totalSum, 10) + (currentDelivery ? parseInt(currentDelivery.price, 10) : 0);
 
     const handleChangeProducts = ({ removeBasket, updateBasket }, data = removeBasket || updateBasket) => {
         if (!data) return;
+
+        if (removeBasket) {
+            const ids = removeBasket.products.map(({ item: { id } }) => id);
+
+            metrics('gtm', {
+                event: 'removeFromCart',
+                data: {
+                    remove: {
+                        products: seoProducts
+                            .filter(({ item: { id } }) => ids.indexOf(id) === -1)
+                            .map(({ name, item, price, qty }) => ({
+                                price,
+                                name, // Name or ID is required.
+                                id: item.id,
+                                variant: item.name,
+                                quantity: qty,
+                            })),
+                    },
+                },
+            });
+        }
 
         const { products: newProducts } = data;
 
@@ -155,6 +180,27 @@ const Basket = ({
     const [createOrder] = useMutation(ORDER_MUTATION, {
         onCompleted({ order: { id } }) {
             if (id) {
+                metrics('gtm', {
+                    event: 'transaction',
+                    data: {
+                        purchase: {
+                            actionField: {
+                                id, // Transaction ID. Required
+                                affiliation: 'Online Store',
+                                revenue: totalSumWithDelivery, // Total transaction value (incl. tax and shipping)
+                                shipping: currentDelivery.price,
+                            },
+                            products: products.map(({ name, item, price, qty }) => ({
+                                price,
+                                name, // Name or ID is required.
+                                id: item.id,
+                                variant: item.name,
+                                quantity: qty,
+                            })),
+                        },
+                    },
+                });
+
                 setOrderId(id);
             }
         },
@@ -192,6 +238,10 @@ const Basket = ({
 
     /* EFFECTS */
     useEffect(() => {
+        seoProducts = products;
+    }, [products]);
+
+    useEffect(() => {
         window.scrollTo(0, 0);
         const footerNode = document.querySelector('#footer');
 
@@ -212,13 +262,24 @@ const Basket = ({
     }, [values.city.id]);
 
     useEffect(() => {
-        if (!values.delivery && deliveries && deliveries.length === 1) {
+        if (deliveries.length === 1) {
             setValues(prevState => ({
                 ...prevState,
                 delivery: deliveries[0],
+                payment: {},
             }));
         }
-    }, [values.delivery, deliveries]);
+    }, [deliveries]);
+
+    useEffect(() => {
+        if (values.city.id) {
+            loadDeliveries({
+                variables: {
+                    city_id: values.city.id,
+                },
+            });
+        }
+    }, [loadDeliveries, values.city.id]);
 
     useEffect(() => {
         // todo refactor
@@ -240,24 +301,37 @@ const Basket = ({
             .filter(Boolean);
 
         setDisabledOrderButton(!!valid.length);
-    }, [values]);
+    }, [isDelivery, values]);
     /* EFFECTS  */
 
     const handleChangeStep = index => {
         // if (notification && notification.errorType === 'lowPrice') return;
 
         setStep(index);
-    };
-    const handleChangeSelect = data => {
-        loadDeliveries({
-            variables: {
-                city_id: data.id,
+        metrics('gtm', {
+            event: 'checkout',
+            data: {
+                checkout: {
+                    actionField: {
+                        step: 1,
+                    },
+                    products: products.map(({ name, item, price, qty }) => ({
+                        price,
+                        name,
+                        id: item.id,
+                        variant: item.name,
+                        quantity: qty,
+                    })),
+                },
             },
         });
-
+    };
+    const handleChangeSelect = data => {
         setValues(prevState => ({
             ...prevState,
             city: data,
+            delivery: null,
+            payment: {},
         }));
     };
     const handleSubmitAddress = data => {
@@ -535,14 +609,6 @@ const Basket = ({
                                                             ...prevState,
                                                             [values.deliveryType]: true,
                                                         }));
-                                                        // set default first payment
-                                                        setValues(prevState => ({
-                                                            ...prevState,
-                                                            payment: paymentsMethodsProps.find(
-                                                                payment =>
-                                                                    payment.id === item.payments_methods[0].id
-                                                            ),
-                                                        }));
                                                     }}
                                                     pointer
                                                 />
@@ -625,7 +691,10 @@ const Basket = ({
                                         <FormattedMessage id="p_cart_order_block_total" />
                                     </div>
                                     <div>
-                                        <FormattedMessage id="currency" values={{ price: totalSum }} />
+                                        <FormattedMessage
+                                            id="currency"
+                                            values={{ price: totalSumWithDelivery }}
+                                        />
                                     </div>
                                 </div>
                             </div>

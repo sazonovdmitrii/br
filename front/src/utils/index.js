@@ -50,3 +50,23 @@ export const createMarkup = __html => ({
 });
 
 export const isNumber = value => parseInt(value, 10) === parseInt(value, 10);
+
+const _metrics = {
+    gtm: ({ event, data }) => {
+        window.dataLayer.push({
+            event,
+            ecommerce: data,
+        });
+    },
+};
+
+export const metrics = (name, { event, data = {} }) => {
+    if (!_metrics[name]) return;
+
+    try {
+        _metrics[name]({ event, data });
+        console.log('📊', name, `event: ${event} - data:`, data);
+    } catch (error) {
+        console.warn(error);
+    }
+};

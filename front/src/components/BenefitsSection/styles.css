@@ -28,8 +28,8 @@
     grid-gap: 12px;
 
     @media (--viewport-desktop) {
-        grid-template-columns: repeat(3, 1fr);
         grid-gap: 18px;
+        grid-template-columns: repeat(3, 1fr);
     }
 
     @media (--viewport-wide) {

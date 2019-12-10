@@ -8,7 +8,7 @@ import Helmet from 'react-helmet';
 import { getDataFromTree } from '@apollo/react-ssr';
 import { ApolloProvider } from '@apollo/react-common';
 import { StaticRouter } from 'react-router';
-import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
+import { ChunkExtractor } from '@loadable/server';
 import jwt from 'jsonwebtoken';
 
 import Html from './Html';
@@ -21,7 +21,7 @@ const checkToken = token => {
     try {
         return jwt.verify(token, cert);
     } catch (e) {
-        return null;
+        return;
     }
 };
 
@@ -38,13 +38,11 @@ export default async ctx => {
 
     const routerContext = {};
     const components = (
-        <ChunkExtractorManager extractor={webExtractor}>
-            <ApolloProvider client={client}>
-                <StaticRouter location={location} context={routerContext}>
-                    <App />
-                </StaticRouter>
-            </ApolloProvider>
-        </ChunkExtractorManager>
+        <ApolloProvider client={client}>
+            <StaticRouter location={location} context={routerContext}>
+                <App />
+            </StaticRouter>
+        </ApolloProvider>
     );
 
     // Await GraphQL data coming from the API server
@@ -85,7 +83,7 @@ export default async ctx => {
         // return;
     }
 
-    const html = renderToString(components);
+    const html = renderToString(webExtractor.collectChunks(components));
     const reactRender = renderToString(
         <Html
             html={html}

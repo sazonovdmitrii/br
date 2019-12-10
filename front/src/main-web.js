@@ -26,6 +26,11 @@ import App from './App';
 //     ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
 // }
 
+if (!isProd) {
+    // for debugging GTM
+    window.dataLayer = [];
+}
+
 const history = createBrowserHistory();
 const HotApp = hot(App);
 

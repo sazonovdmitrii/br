@@ -39,10 +39,10 @@
 
 .button {
     height: 34px;
-    border-radius: 100px;
-    background-color: #eff3f5;
-    font-size: 16px;
-    padding: 0 16px;
     margin: 18px auto 0;
+    padding: 0 16px;
     font-weight: 600;
+    font-size: 16px;
+    background-color: #eff3f5;
+    border-radius: 100px;
 }

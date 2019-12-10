@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router';
 
-import { SeoHead } from 'utils';
+import { SeoHead, metrics } from 'utils';
 import { useLangLinks, useApp } from 'hooks';
 import { ADD_TO_BASKET } from 'mutations';
 import { GET_SHORT_BASKET, GET_BASKET } from 'query';
@@ -30,6 +30,8 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars: { edges: 
     const [buyLink] = useLangLinks(['/retail']);
     const { createNotification } = useApp();
     const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
+    const [showChooseLenses, setShowChooseLenses] = useState(false);
+
     const { images } = selectedProduct;
     const colors = items.reduce((array, item) => {
         const [{ image }] = item.node.productItemTagItems;
@@ -44,7 +46,6 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars: { edges: 
             setSelectedProduct(newSelectedProduct.node);
         }
     };
-    const [showChooseLenses, setShowChooseLenses] = useState(false);
     const [addToCard, { loading: loadingAddToCart }] = useMutation(ADD_TO_BASKET, {
         variables: {
             input: {
@@ -53,7 +54,25 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars: { edges: 
         },
         onCompleted({ addBasket: { products } }) {
             if (products) {
-                console.info('product added to basket', products);
+                console.log('product added to basket', products);
+                metrics('gtm', {
+                    event: 'addToCart',
+                    data: {
+                        currencyCode: 'RUB',
+                        add: {
+                            products: [
+                                {
+                                    name: name,
+                                    id: selectedProduct.id,
+                                    price: selectedProduct.price,
+                                    variant: selectedProduct.name,
+                                    quantity: 1,
+                                },
+                            ],
+                        },
+                    },
+                });
+
                 history.push('/cart');
             }
         },

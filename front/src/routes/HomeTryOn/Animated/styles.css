@@ -1,28 +1,28 @@
 .root {
-    margin-bottom: 48px;
-    margin-top: 48px;
-    background-color: #eff3f5;
-    color: #525e69;
-    overflow: hidden;
     position: relative;
+    margin-top: 48px;
+    margin-bottom: 48px;
+    overflow: hidden;
+    color: #525e69;
+    background-color: #eff3f5;
 
     @media (min-width: 900px) {
         height: 720px;
-        margin-bottom: 72px;
         margin-top: 72px;
+        margin-bottom: 72px;
     }
 
     @media (min-width: 600px) {
-        margin-bottom: 60px;
         margin-top: 60px;
+        margin-bottom: 60px;
     }
 }
 
 .row {
     @media (min-width: 900px) {
         display: flex;
-        height: 100%;
         flex-direction: row-reverse;
+        height: 100%;
     }
 }
 
@@ -30,18 +30,18 @@
     position: relative;
 
     @media (min-width: 900px) {
-        height: 100%;
         flex: 0 0 41.66667%;
         max-width: 41.66667%;
+        height: 100%;
     }
 }
 
 .contentContainer {
     width: 464px;
     max-width: 100%;
-    padding-top: 36px;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
+    padding-top: 36px;
     text-align: center;
 
     @media (min-width: 600px) {
@@ -50,20 +50,19 @@
 
     @media (min-width: 900px) {
         position: absolute;
-
-        transform: translate(-50%, -50%);
         top: 50%;
         left: 50%;
-        padding-right: 24px;
         padding-top: 0;
+        padding-right: 24px;
+        transform: translate(-50%, -50%);
     }
 }
 
 .title {
-    font-family: var(--headings-font);
     margin: 0;
-    font-size: 24px;
     font-weight: var(--headings-font-weight);
+    font-size: 24px;
+    font-family: var(--headings-font);
 
     @media (min-width: 600px) {
         font-size: 30px;
@@ -76,23 +75,23 @@
 
 .text {
     margin: 12px 18px 30px;
-    line-height: 24px;
-    font-size: 16px;
     color: #676f78;
+    font-size: 16px;
+    line-height: 24px;
 
     @media (min-width: 900px) {
-        margin-left: 6px;
         margin-right: 6px;
-        line-height: 26px;
+        margin-left: 6px;
         font-size: 18px;
+        line-height: 26px;
     }
 }
 
 .buttonIcon {
-    width: 8px;
-    vertical-align: middle;
     display: inline-block;
+    width: 8px;
     margin-left: 12px;
+    vertical-align: middle;
     fill: #414b56;
 }
 
@@ -107,15 +106,15 @@
 }
 
 .imageContainer {
+    position: relative;
+    top: 0;
+    right: 0;
     width: 280px;
     height: 312px;
-    right: 0;
-    top: 0;
-    overflow: hidden;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: 36px;
-    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    overflow: hidden;
     background-color: #fff;
 
     @media (min-width: 600px) {
@@ -125,19 +124,19 @@
     }
 
     @media (min-width: 900px) {
+        position: absolute;
         width: 1000px;
         height: 575px;
         margin-top: 72px;
-        position: absolute;
     }
 }
 
 .slide {
-    left: 0;
-    bottom: 0;
-    right: 0;
-    top: 0;
     position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     transform: translateY(24px);
     opacity: 0;
     transition: transform 0.5s linear 0.12s, opacity 0.5s linear;
@@ -149,9 +148,9 @@
 }
 
 .device {
-    left: 0;
-    bottom: 0;
-    right: 0;
-    top: 0;
     position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }

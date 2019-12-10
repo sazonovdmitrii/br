@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
+import { metrics } from 'utils';
+
 import Colors from 'components/Colors';
 
 import styles from './styles.css';
 import placeholderImage from './images/placeholder.png';
 
-const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, onClick }) => {
+const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, seo = {}, onClick }) => {
+    if (loading) return null;
+
     const colors = items.reduce((array, item) => {
         const [{ image }] = item.node.productItemTagItems;
 
@@ -30,9 +34,35 @@ const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, 
         setColor(value);
     };
 
-    if (loading) return null;
+    const handleSEOClick = () => {
+        if (!seo.showPlace) return;
 
-    const RootLink = url ? Link : 'div';
+        metrics('gtm', {
+            event: 'productClick',
+            data: {
+                click: {
+                    actionField: {
+                        list: seo.showPlace,
+                    },
+                    products: [
+                        {
+                            id,
+                            name: name || id, // Name or ID is required.
+                            price: items[0].node.price,
+                            position: seo.position,
+                        },
+                    ],
+                },
+            },
+        });
+    };
+
+    const RootLink = props =>
+        url ? (
+            <Link {...props} onClick={handleSEOClick} />
+        ) : (
+            <div className={props.className}>{props.children}</div>
+        );
 
     return (
         <div className={styles.root}>

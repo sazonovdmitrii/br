@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-// import { removeUseless } from 'utils';
-
-import Container from 'components/Container';
 import Title from 'components/Title';
 import BasketProduct from 'components/BasketProduct';
 
@@ -26,11 +23,12 @@ const Order = ({ id, address, products, delivery, payment }) => {
                 </li>
             </ul>
             <div className={styles.products}>
-                {products.map(({ item, price, url }) => (
+                {products.map(({ item, name, price, url }) => (
                     <BasketProduct
                         key={item.id}
                         images={item.images[0]}
-                        name={item.name}
+                        name={name}
+                        subName={item.name}
                         price={<FormattedMessage id="currency" values={{ price }} />}
                         url={url}
                     />
