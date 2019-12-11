@@ -91,6 +91,21 @@ class AdminTagService extends TagService
             $manager->persist($this->getEntity());
             $manager->flush();
         }
+    }
 
+    public function updateLense()
+    {
+        $manager = $this->getDoctrine()->getManager();
+
+        foreach($this->getEntity()->getLenseitemstags() as $lenseItemTag) {
+            $this->getEntity()->removeLenseitemstag($lenseItemTag);
+        }
+
+        foreach($this->getTags() as $tagId => $tagValue) {
+            $lenseItemTag= $this->em->getRepository('App:LenseItemTag')->find($tagValue);
+            $this->getEntity()->addLenseitemstag($lenseItemTag);
+            $manager->persist($this->getEntity());
+            $manager->flush();
+        }
     }
 }

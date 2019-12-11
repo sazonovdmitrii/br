@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
@@ -38,10 +40,16 @@ class LenseItemTag
      */
     private $price;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Lense", mappedBy="lenseitemstags")
+     */
+    private $lenses;
+
     public function __construct()
     {
         $this->created = new \DateTime();
         $this->visible = 1;
+        $this->lenses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +120,34 @@ class LenseItemTag
     public function setPrice($price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lense[]
+     */
+    public function getLenses(): Collection
+    {
+        return $this->lenses;
+    }
+
+    public function addLense(Lense $lense): self
+    {
+        if (!$this->lenses->contains($lense)) {
+            $this->lenses[] = $lense;
+            $lense->addLenseitemstag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLense(Lense $lense): self
+    {
+        if ($this->lenses->contains($lense)) {
+            $this->lenses->removeElement($lense);
+            $lense->removeLenseitemstag($this);
+        }
 
         return $this;
     }

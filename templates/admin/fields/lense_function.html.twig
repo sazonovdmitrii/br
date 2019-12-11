@@ -1,0 +1,5 @@
+{% for key, tag in item.getLenseitemstags() %}
+    {% if tag.getEntity().getId == config.getParam("lense_function_tag") %}
+        {{ tag.name }}
+    {% endif %}
+{% endfor %}

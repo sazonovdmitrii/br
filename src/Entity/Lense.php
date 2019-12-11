@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,23 @@ class Lense
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $price;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\LenseItemTag", inversedBy="lenses")
+     */
+    private $lenseitemstags;
+
+    private $covering;
+
+    private $thickness;
+
+    private $function;
+
+
+    public function __construct()
+    {
+        $this->lenseitemstags = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,6 +104,32 @@ class Lense
     public function setPrice(?string $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LenseItemTag[]
+     */
+    public function getLenseitemstags(): Collection
+    {
+        return $this->lenseitemstags;
+    }
+
+    public function addLenseitemstag(LenseItemTag $lenseitemstag): self
+    {
+        if (!$this->lenseitemstags->contains($lenseitemstag)) {
+            $this->lenseitemstags[] = $lenseitemstag;
+        }
+
+        return $this;
+    }
+
+    public function removeLenseitemstag(LenseItemTag $lenseitemstag): self
+    {
+        if ($this->lenseitemstags->contains($lenseitemstag)) {
+            $this->lenseitemstags->removeElement($lenseitemstag);
+        }
 
         return $this;
     }

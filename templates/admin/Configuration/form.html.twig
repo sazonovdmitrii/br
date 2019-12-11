@@ -64,6 +64,46 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="profit">Линзовый тег бренда</label>
+                            <select class="form-control" name="lense_brand_tag">
+                                {% for tag in lense_tags.getTree() %}
+                                    <option value="{{ tag.id }}" {{ list.lense_brand_tag is defined and list.lense_brand_tag == tag.id ? 'selected' : '' }}>{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="profit">Линзовый тег типа</label>
+                            <select class="form-control" name="lense_type_tag">
+                                {% for tag in lense_tags.getTree() %}
+                                    <option value="{{ tag.id }}" {{ list.lense_type_tag is defined and list.lense_type_tag == tag.id ? 'selected' : '' }}>{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="profit">Линзовый тег назначение</label>
+                            <select class="form-control" name="lense_function_tag">
+                                {% for tag in lense_tags.getTree() %}
+                                    <option value="{{ tag.id }}" {{ list.lense_function_tag is defined and list.lense_function_tag == tag.id ? 'selected' : '' }}>{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="profit">Линзовый тег покрытие</label>
+                            <select class="form-control" name="lense_covering_tag">
+                                {% for tag in lense_tags.getTree() %}
+                                    <option value="{{ tag.id }}" {{ list.lense_covering_tag is defined and list.lense_covering_tag == tag.id ? 'selected' : '' }}>{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="profit">Линзовый тег толщина</label>
+                            <select class="form-control" name="lense_thickness_tag">
+                                {% for tag in lense_tags.getTree() %}
+                                    <option value="{{ tag.id }}" {{ list.lense_thickness_tag is defined and list.lense_thickness_tag == tag.id ? 'selected' : '' }}>{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="profit">Порядок обязательных тегов для похожих продуктов (от более приоритетных к менее приоритетным)</label>
                             <input type="text" class="form-control" name="required_tags_similar_products" id="required_tags_similar_products" value="{{ list.required_tags_similar_products is defined ? list.required_tags_similar_products : '' }}"/>
                         </div>

@@ -1,5 +1,7 @@
 <?php
 namespace App\Service\Twig;
+use App\Entity\LenseItemTag;
+use App\Entity\LenseTag;
 use App\Entity\ProductItemTag;
 use App\Entity\ProductTag;
 use Doctrine\ORM\EntityManager;
@@ -21,5 +23,10 @@ class Tags
     public function getItemTree()
     {
         return $this->em->getRepository(ProductItemTag::class)->findAll();
+    }
+
+    public function getLenseTagsItemsTree()
+    {
+        return $this->em->getRepository(LenseTag::class)->findAll();
     }
 }

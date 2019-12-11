@@ -12,7 +12,8 @@ label[for=product_producttagitem],
 .new-items label[for=items_productItemImages],
 label[for=productitemtagitem_entity],
 label[for=items_productItemTagItems],
-label[for=store_storeUrls]
+label[for=store_storeUrls],
+label[for=lense_lenseitemstags]
 {
     display: none;
 }

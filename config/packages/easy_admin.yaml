@@ -312,16 +312,25 @@ easy_admin:
         Lense:
             label: 'Линзы'
             class: App\Entity\Lense
+            controller: App\Controller\Admin\LenseController
             list:
                 title: 'Линзы'
-                fields: ['id', 'name', 'brand', 'type', 'price']
+                fields:
+                    - { property: 'id' }
+                    - { property: 'name', label: 'Наименование'}
+                    - { property: 'brand', label: 'Бренд', template: 'admin/fields/lense_brand.html.twig'}
+                    - { property: 'type', label: 'Тип', template: 'admin/fields/lense_type.html.twig'}
+                    - { property: 'covering', label: 'Покрытие', template: 'admin/fields/lense_covering.html.twig'}
+                    - { property: 'thickness', label: 'Толщина', template: 'admin/fields/lense_thickness.html.twig'}
+                    - { property: 'function', label: 'Назначение', template: 'admin/fields/lense_function.html.twig'}
+                    - { property: 'price', label: 'Цена'}
             form:
                 fields:
                     - { type: 'tab' , label: 'Основные' }
-                    - {property: 'name', label: 'Наименование'}
-                    - {property: 'brand', label: 'Бренд'}
-                    - {property: 'type', label: 'Тип'}
-                    - {property: 'price', label: 'Цена'}
+                    - { property: 'name', label: 'Наименование'}
+                    - { property: 'price', label: 'Цена'}
+                    - { type: 'tab', label: 'Теги' }
+                    - { property: 'lenseitemstags', type_options: { block_name: 'lense_tags_items' }}
         Page:
             class: App\Entity\Page
             label: 'Страницы'
