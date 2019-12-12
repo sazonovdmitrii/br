@@ -1,5 +1,16 @@
 {
   product(slug: "sun-pilko.htm/"){
+    lenses{
+       name
+       price
+       lenseitemstags {
+         entity {
+           name
+           visible
+         }
+         name
+       }
+    }
     similars(limit: 3, offset:0) {
       edges {
         node {

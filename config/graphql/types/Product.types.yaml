@@ -17,7 +17,7 @@ Product:
         type: ItemConnection
         argsBuilder: PaginatoringBuilder
       lenses:
-        type: "[Steps]"
+        type: "[Lense]"
         description: "Lenses Configuration"
       catalog:
         type: "[Catalog]"
@@ -71,3 +71,51 @@ Step:
       price:
         type: "String"
         description: "Lense Price"
+
+Lense:
+  type: object
+  config:
+    description: "Lense Item"
+    fields:
+      name:
+        type: "String"
+        description: "Lense Item Name"
+      price:
+        type: "String"
+        description: "Lense Item Price"
+      lenseitemstags:
+        type: "[LenseItem]"
+        description: Lenses Tags Items
+
+LenseItem:
+  type: object
+  config:
+    description: "Lenses Tags Items"
+    fields:
+      name:
+        type: "String"
+        description: "Name of Lense Item Tag"
+      visible:
+        type: "String"
+        description: "Lense Name"
+      price:
+        type: "String"
+        description: "Lense Price"
+      entity:
+        type: "LenseItemTag"
+        description: "Lenses Configuation"
+
+LenseItemTag:
+  type: object
+  config:
+    description: "Lense Item"
+    fields:
+      name:
+        type: "String"
+        description: "Lense Item Name"
+      price:
+        type: "String"
+        description: "Lense Item Price"
+      visible:
+        type: "Boolean"
+        description: "Lense Item Visibility"

@@ -193,32 +193,7 @@ class ProductFieldResolver extends LocaleAlias
 
     public function lenses(Product $product)
     {
-        $result = [];
-
-        $lensesIds = json_decode($product->getLenses(), true);
-        for($step = 0; $step < count($lensesIds); $step++) {
-            $result[$step] = [];
-        }
-
-        foreach($lensesIds as $step => $lenseTagsItems) {
-
-            $stepData = [];
-
-            foreach($lenseTagsItems as $lenseTagItemId) {
-
-                $lenseTagItem = $this->em->getRepository(LenseItemTag::class)
-                    ->find($lenseTagItemId);
-
-                $stepData[] = [
-                    'name' => $lenseTagItem->getName(),
-                    'price' => $lenseTagItem->getPrice()
-                ];
-            }
-
-            $result[$step]['steps'] = $stepData;
-        }
-
-        return $result;
+        return $product->getLenses();
     }
 
     /**
