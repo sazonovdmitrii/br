@@ -77,6 +77,9 @@ Lense:
   config:
     description: "Lense Item"
     fields:
+      id:
+        type: "Int!"
+        description: "Lense Id."
       name:
         type: "String"
         description: "Lense Item Name"
@@ -92,6 +95,9 @@ LenseItem:
   config:
     description: "Lenses Tags Items"
     fields:
+      id:
+        type: "Int!"
+        description: "Lense Item Id."
       name:
         type: "String"
         description: "Name of Lense Item Tag"
@@ -110,6 +116,9 @@ LenseItemTag:
   config:
     description: "Lense Item"
     fields:
+      id:
+        type: "Int!"
+        description: "Lense Item Tag Id."
       name:
         type: "String"
         description: "Lense Item Name"
