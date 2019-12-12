@@ -1,229 +1,42 @@
 {% block _product_product_lenses_widget %}
+    {% set entity = form.parent.vars.data %}
 
-    {#{% for i in 0..10 %}#}
-        {#{{ app.session.set('var', i) }}#}
-        {#{{ block('tags') }}#}
-    {#{% endfor %}#}
+    {% set lenses_ids = [] %}
+    {% for lense in entity.lenses %}
+        {% set lenses_ids = lenses_ids|merge([lense.id]) %}
+    {% endfor %}
 
-    <input type="hidden" id="product_lenses" name="product[lenses]" class="form-control">
-    {% set currentProduct = form.parent.vars.data %}
-    {% set lenses_tags = json.json_decode(currentProduct.lenses) %}
-    {% set currentTags = lense_tags.getTags(lenses_tags) %}
-    {#<div class="steps-count">#}
-        {#<label for="steps">Кол-во шагов:</label>&nbsp;#}
-        {#<input type="number" min="1" max="6" id="steps" name="steps" value="{{ currentTags|length }}"/>&nbsp;#}
-        {#<button class="btn btn-primary" id="set-step">#}
-            {#<i class="fa"></i> Задать#}
-        {#</button>#}
-    {#</div><br/><br/>#}
-    <script type="text/javascript">
-        $(document).ready(function(){
-
-            init();
-
-            function init() {
-                $('input[type=checkbox]').click(function(){
-                    var e = $(this);
-                    var ct = e.parent().find('.children_tags');
-                    var current_step = e.parents('.form-group.form-check').find('.maintag').data('value');
-                    ct.html('');
-                    if(e.is(':checked')) {
-                        ct.html(tags(current_step, ct.parents('.children_tags').length + 1));
-                        init();
-                    }
-                });
-            }
-
-            function tags(current_step, step) {
-                return '{% for tag in lense_tags.getTree() %}\
-                                <div class="item">\
-                                    <div class="form-group">\
-                                        <h4>{{ tag.name }}</h4>\
-                                    </div>\
-                                    {% for tagItem in tag.lenseItemTags %}\
-                                        <div class="form-group form-check">\
-                                            <input type="checkbox" name="lense_tag[' + current_step + '][' + step + '][]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">\
-                                            <label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>\
-                                            <div class="children_tags_{{ tagItem.id }} children_tags"></div>\
-                                        </div>\
-                                    {% endfor %}\
-                                </div>\
-                            {% endfor %}\
-                        ';
-            }
-
-
-            $('#set-step').click(function(event){
-                event.preventDefault();
-                var steps = $('#steps').val();
-                var wizard = $('#steps-wizard');
-                wizard.html('');
-                var tags = $('#tags').html();
-                var rules = new Object();
-                for(var i = 0; i < steps; i++) {
-                    wizard.append('<h3></h3><section class="step' + i + '">' + tags + '</section>');
-                    rules[i] = [];
-                }
-                $("#steps-wizard").steps({
-                    headerTag: "h3",
-                    bodyTag: "section",
-                    transitionEffect: "slideLeft",
-                    autoFocus: true,
-                    onStepChanging: function (event, stepCount, currentIndex) {
-                        switchSteps(currentIndex);
-                        return true;
-                    },
-                    onFinished: function (event, currentIndex)
-                    {
-                        for(var i = 0; i < steps; i++) {
-                            $('.step' + i + ' input[type=checkbox]:checked').each(function() {
-                                rules[i].push($(this).val());
-                            });
-                        }
-                        $('#product_lenses').val(JSON.stringify(rules));
-                    }
-                });
-            });
-            $("#steps-wizard").steps({
-                headerTag: "h3",
-                bodyTag: "section",
-                transitionEffect: "slideLeft",
-                autoFocus: true,
-                onFinished: function (event, currentIndex)
-                {
-                    var rules = {};
-                    var steps = $('#steps').val();
-                    for(var i = 0; i < steps; i++) {
-                        rules[i] = [];
-                    }
-                    for(var i = 0; i < steps; i++) {
-                        $('.step' + i + ' input[type=checkbox]:checked').each(function() {
-                            rules[i].push($(this).val());
-                        });
-                    }
-                    $('#product_lenses').val(JSON.stringify(rules));
-                },
-                onStepChanging: function (event, stepCount, currentIndex) {
-                    switchSteps(currentIndex);
-                    return true;
-                }
-            });
-            function switchSteps(index) {
-                var step_rules = [];
-                index--;
-                $('.step' + index + ' input[type=checkbox]:checked').each(function() {
-                    step_rules.push($(this).val());
-                });
-                index++
-
-                $('.step' + index).html($('#tags').html());
-
-                var children_tags = $('#children_tags');
-
-                step_rules.forEach(function(tag_id) {
-                    children_tags.find('#tag' + tag_id).remove();
-                    children_tags.find('label[for=tag' + tag_id + ']').remove();
-                });
-                children_tags.find('.item').each(function(){
-                    if(!$(this).find('input[type=checkbox]').length) {
-                        $(this).hide();
-                    }
-                });
-
-                step_rules.forEach(function(tag_id){
-                    $('#tag' + tag_id).attr('disabled', 'true');
-                    $('.step' + index + ' .children_tags_' + tag_id).html(children_tags.html());
-                    $('.step' + index + ' #tag' + tag_id).attr('checked', true).attr("disabled", true);
-                });
-            }
-        });
-    </script>
-    {% set step = 0 %}
-    {#<div id="steps-wizard">#}
-        {#{% for step, tags in currentTags %}#}
-            {#<h3></h3>#}
-            {#<section class="step{{ step }}">#}
-                {#{% for tag in lense_tags.getTree() %}#}
-                    {#<div class="item">#}
-                        {#<div class="form-group">#}
-                            {#<h4>{{ tag.name }}</h4>#}
-                        {#</div>#}
-                        {#{% for tagItem in tag.lenseItemTags %}#}
-                            {#<div class="form-group form-check">#}
-                                {#<input type="checkbox" name="lense_tag[]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}" {%  if tagItem.id in currentTags[step] %}checked{% endif %}>#}
-                                {#<label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>#}
-                            {#</div>#}
-                        {#{% endfor %}#}
-                    {#</div>#}
-                {#{% endfor %}#}
-            {#</section>#}
-            {#{% set step = step + 1 %}#}
-        {#{% endfor %}#}
-    {#</div>#}
-
-    {#<div id="tags" style="display: none">#}
-        {#{% for tag in lense_tags.getTree() %}#}
-            {#<div class="item">#}
-                {#<div class="form-group">#}
-                    {#<h4>{{ tag.name }}</h4>#}
-                {#</div>#}
-                {#{% for tagItem in tag.lenseItemTags %}#}
-                    {#<div class="form-group form-check">#}
-                        {#<input type="checkbox" name="lense_tag[]" class="form-check-input" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">#}
-                        {#<label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>#}
-                        {#<div class="children_tags_{{ tagItem.id }} children_tags">#}
-
-                        {#</div>#}
-                    {#</div>#}
-                {#{% endfor %}#}
-            {#</div>#}
-        {#{% endfor %}#}
-    {#</div>#}
-
-    <div id="children_tags" style="display: none">
-        {% set count = 0 %}
-        {% for tag in lense_tags.getTree() %}
-            <div class="item">
-                <div class="form-group">
-                    <h4>{{ tag.name }}</h4>
-                </div>
-                {% for tagItem in tag.lenseItemTags %}
-                    <div class="form-group form-check">
-                        <input type="checkbox" name="lense_tag[]" class="form-check-input maintag" data-value="{{ count }}" id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">
-                        <label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>
-                        <div class="children_tags_{{ tagItem.id }} children_tags">
-
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            {% set count = count + 1 %}
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Бренд</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Покрытие</th>
+            <th scope="col">Толщина</th>
+            <th scope="col">Назначение</th>
+            <th scope="col">Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tag in lenses.getAll() %}
+            <tr>
+                <td scope="row">
+                    <input type="checkbox" name="product[lenses][]" value="{{ tag.id }}" {% if tag.id in lenses_ids %} checked {% endif %}/>
+                </td>
+                <td>{{ tag.name }}</td>
+                <td>{{ lenses.filter(tag, config.getParam('lense_brand_tag')).name }}</td>
+                <td>{{ lenses.filter(tag, config.getParam('lense_type_tag')).name }}</td>
+                <td>{{ lenses.filter(tag, config.getParam('lense_covering_tag')).name }}</td>
+                <td>{{ lenses.filter(tag, config.getParam('lense_thickness_tag')).name }}</td>
+                <td>{{ lenses.filter(tag, config.getParam('lense_function_tag')).name }}</td>
+                <td>{{ tag.price }}</td>
+            </tr>
         {% endfor %}
-    </div>
 
-
-    {% block tags %}
-        {% for tag in lense_tags.getTree() %}
-            <div class="item">
-                <div class="form-group">
-                    <h4>
-                        {{ tag.name }}
-                    </h4>
-                </div>
-                {% set counter = 0 %}
-                {% for tagItem in tag.lenseItemTags %}
-                    <div class="form-group form-check">
-                        <input type="checkbox" name="lense_tag[{{ counter }}][][]" class="form-check-input maintag" data-value="{{ counter }}"  id="tag{{ tagItem.id }}" value="{{ tagItem.id }}">
-                        <label class="form-check-label" for="tag{{ tagItem.id }}">{{ tagItem.name }}</label>
-                        <div class="children_tags_{{ tagItem.id }} children_tags">
-
-                        </div>
-                    </div>
-                    {% set counter = counter + 1 %}
-                {% endfor %}
-            </div>
-        {% endfor %}
-    {% endblock %}
+        </tbody>
+    </table>
 
 {% endblock %}
 

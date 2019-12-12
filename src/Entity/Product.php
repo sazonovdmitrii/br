@@ -81,7 +81,7 @@ class Product
     private $sku;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Lense", inversedBy="products")
      */
     private $lenses;
 
@@ -96,6 +96,7 @@ class Product
         $this->created = new \DateTime();
         $this->updated = new \DateTime();
         $this->productItems = new ArrayCollection();
+        $this->lenses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -372,14 +373,28 @@ class Product
         return $this;
     }
 
-    public function getLenses(): ?string
+    /**
+     * @return Collection|Lense[]
+     */
+    public function getLenses(): Collection
     {
         return $this->lenses;
     }
 
-    public function setLenses(?string $lenses): self
+    public function addLense(Lense $lense): self
     {
-        $this->lenses = $lenses;
+        if (!$this->lenses->contains($lense)) {
+            $this->lenses[] = $lense;
+        }
+
+        return $this;
+    }
+
+    public function removeLense(Lense $lense): self
+    {
+        if ($this->lenses->contains($lense)) {
+            $this->lenses->removeElement($lense);
+        }
 
         return $this;
     }

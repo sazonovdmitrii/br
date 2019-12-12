@@ -49,10 +49,16 @@ class Lense
 
     private $function;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="lenses")
+     */
+    private $products;
+
 
     public function __construct()
     {
         $this->lenseitemstags = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,5 +138,38 @@ class Lense
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->addLense($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            $product->removeLense($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return self::getName();
     }
 }

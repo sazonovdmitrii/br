@@ -1,5 +1,4 @@
-{% for key, tag in item.getLenseitemstags() %}
-    {% if tag.getEntity().getId == config.getParam("lense_covering_tag") %}
-        {{ tag.name }}
-    {% endif %}
-{% endfor %}
+{% set filtered_tag = lenses.filter(item, config.getParam('lense_covering_tag')) %}
+{% if filtered_tag %}
+    {{ filtered_tag.name }}
+{% endif %}

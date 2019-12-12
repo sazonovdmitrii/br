@@ -83,32 +83,6 @@ class LenseController extends BaseAdminController
         return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->entity['templates']['edit'], $parameters));
     }
 
-    protected function showAction()
-    {
-        $this->dispatch(EasyAdminEvents::PRE_SHOW);
-
-        $id = $this->request->query->get('id');
-        $easyadmin = $this->request->attributes->get('easyadmin');
-        $entity = $easyadmin['item'];
-
-        $fields = $this->entity['show']['fields'];
-        $deleteForm = $this->createDeleteForm($this->entity['name'], $id);
-
-        $this->dispatch(EasyAdminEvents::POST_SHOW, array(
-            'deleteForm' => $deleteForm,
-            'fields' => $fields,
-            'entity' => $entity,
-        ));
-
-        $parameters = array(
-            'entity' => $entity,
-            'fields' => $fields,
-            'delete_form' => $deleteForm->createView(),
-        );
-
-        return $this->executeDynamicMethod('render<EntityName>Template', array('show', $this->entity['templates']['show'], $parameters));
-    }
-
     protected function newAction()
     {
         $this->dispatch(EasyAdminEvents::PRE_NEW);
@@ -131,6 +105,14 @@ class LenseController extends BaseAdminController
             $this->executeDynamicMethod('persist<EntityName>Entity', array($entity, $newForm));
 
             $this->dispatch(EasyAdminEvents::POST_PERSIST, array('entity' => $entity));
+
+            if($tags = $this->tagService->parseRequest($this->request->request->all())) {
+                $this->tagService
+                    ->setTags($tags)
+                    ->setEntityType(Lense::class)
+                    ->setEntity($entity)
+                    ->update();
+            }
 
             return $this->redirectToReferrer();
         }
