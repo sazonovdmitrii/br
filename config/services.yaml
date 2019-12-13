@@ -16,6 +16,9 @@ parameters:
     app.path.Menu: '%kernel.project_dir%/public/uploads/menu'
     app.url.Menu: '/uploads/menu'
     app.path.locale_dir: '%kernel.project_dir%/front/src/lang/'
+    lense_tags:
+       - { key: 'simple', value: 'Простой' }
+       - { key: 'receipt', value: 'Рецептурный' }
 
 services:
     # default configuration for services in *this* file

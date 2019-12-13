@@ -35,6 +35,11 @@ class LenseTag
      */
     private $lenseItemTags;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $type;
+
     public function __construct()
     {
         $this->lenseItemTags = new ArrayCollection();
@@ -113,5 +118,17 @@ class LenseTag
         $method = 'get'. ucfirst($name);
         $arguments = [];
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
     }
 }

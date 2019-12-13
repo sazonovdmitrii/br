@@ -433,11 +433,17 @@ easy_admin:
             controller: App\Controller\Admin\LenseTagController
             list:
               title: 'Теги линз'
-              fields: ['id', 'name', 'created', 'visible']
+              fields:
+                  - { property: 'id' }
+                  - { property: 'name', label: 'Наименование'}
+                  - { property: 'type', label: 'Тип', template: 'admin/fields/lense_tag_type.html.twig'}
+                  - { property: 'created', label: 'Создан'}
+                  - { property: 'visible', label: 'Видимость'}
             form:
               fields:
                 - { type: 'tab' , label: 'Основные' }
                 - { property: 'visible', label: 'Видимость', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
+                - { property: 'type', label: 'Тип', type: 'App\Form\Filter\LensesTagsFilterType' }
                 - { type: 'tab' , label: 'Мультиязычный контент' }
                 - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
                     type_options: {

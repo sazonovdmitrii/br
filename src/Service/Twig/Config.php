@@ -27,4 +27,18 @@ class Config extends AbstractController
     {
         return $this->configService->get($option);
     }
+
+    public function getServiceConfig($param)
+    {
+        return $this->getParameter($param);
+    }
+
+    public function parseKeyValue($array)
+    {
+        $result = [];
+        foreach($array as $item) {
+            $result[$item['key']] = $item['value'];
+        }
+        return $result;
+    }
 }
