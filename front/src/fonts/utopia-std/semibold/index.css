@@ -1,7 +1,0 @@
-@font-face {
-    font-weight: 600;
-    font-family: utopia-std;
-    font-style: normal;
-    src: url('./UtopiaStd-Semibold.woff2') format('woff2'), url('./UtopiaStd-Semibold.woff') format('woff');
-    font-display: swap;
-}
