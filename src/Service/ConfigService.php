@@ -22,4 +22,9 @@ class ConfigService extends AbstractController
             return $option->getValue();
         }
     }
+
+    public function getServiceConfig($param)
+    {
+        return $this->getParameter($param);
+    }
 }
