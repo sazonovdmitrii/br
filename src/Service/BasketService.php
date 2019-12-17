@@ -50,7 +50,7 @@ class BasketService extends AbstractController
         return $this->authKey;
     }
 
-    public function add(int $itemId)
+    public function add(int $itemId, $lenses = [], $recipe = [])
     {
         if($authKey = $this->getAuthKey()) {
             $key = 'basket::' . $this->getAuthKey();
@@ -63,7 +63,9 @@ class BasketService extends AbstractController
                 if(!isset($basket[$itemId])) {
                     $basket[$itemId] = [
                         'item_id' => $itemId,
-                        'qty' => 1
+                        'qty' => 1,
+                        'lenses' => $lenses,
+                        'recipe' => $recipe
                     ];
                 } else {
                     $basket[$itemId]['qty'] += 1;
@@ -71,7 +73,9 @@ class BasketService extends AbstractController
             } else {
                 $basket[$itemId] = [
                     'item_id' => $itemId,
-                    'qty' => 1
+                    'qty' => 1,
+                    'lenses' => $lenses,
+                    'recipe' => $recipe
                 ];
             }
 
@@ -116,13 +120,19 @@ class BasketService extends AbstractController
         ];
     }
 
-    public function update(int $itemId, int $qty)
+    public function update(int $itemId, int $qty, $lenses = [], $recipe = [])
     {
         if($authKey = $this->getAuthKey()) {
             $key       = 'basket::' . $this->getAuthKey();
             $basket = json_decode($this->redis->get($key), true);
             if(isset($basket[$itemId])) {
                 $basket[$itemId]['qty'] = $qty;
+                if(count($lenses)) {
+                    $basket[$itemId]['lenses'] = $lenses;
+                }
+                if(count($recipe)) {
+                    $basket[$itemId]['recipe'] = $recipe;
+                }
             }
             $this->redis->set($key, json_encode($basket));
             return $this->getAll();
@@ -169,6 +179,8 @@ class BasketService extends AbstractController
                             'item' => $productItem,
                             'qty' => $basketItem['qty'],
                             'price' => $productItem->getPrice(),
+                            'lenses' => @$basketItem['lenses'],
+                            'recipe' => @$basketItem['recipe'],
                         ];
                     }
                 }

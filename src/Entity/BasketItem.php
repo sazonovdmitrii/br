@@ -36,6 +36,16 @@ class BasketItem
      */
     private $created;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $recipe;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $lenses;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,5 +102,29 @@ class BasketItem
     public function __toString()
     {
         return '' . $this->id;
+    }
+
+    public function getRecipe(): ?string
+    {
+        return $this->recipe;
+    }
+
+    public function setRecipe(?string $recipe): self
+    {
+        $this->recipe = $recipe;
+
+        return $this;
+    }
+
+    public function getLenses(): ?string
+    {
+        return $this->lenses;
+    }
+
+    public function setLenses(?string $lenses): self
+    {
+        $this->lenses = $lenses;
+
+        return $this;
     }
 }
