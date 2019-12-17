@@ -6,6 +6,9 @@ use Doctrine\ORM\EntityManager;
 
 class LenseTags
 {
+    const RECEIPT = 'receipt';
+    const SIMPLE = 'simple';
+
     private $em;
 
     public function __construct(EntityManager $entityManager)
@@ -36,5 +39,21 @@ class LenseTags
             }
         }
         return $result;
+    }
+
+    public function isReceipt($entity)
+    {
+        return $entity->getType() == self::RECEIPT;
+    }
+
+    public function isSimple($entity)
+    {
+        return $entity->getType() == self::SIMPLE;
+    }
+
+    public function getLenseTagsItemsTree($type)
+    {
+        return $this->em->getRepository(LenseTag::class)
+            ->findByType($type);
     }
 }

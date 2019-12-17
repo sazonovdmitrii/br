@@ -24,9 +24,4 @@ class Tags
     {
         return $this->em->getRepository(ProductItemTag::class)->findAll();
     }
-
-    public function getLenseTagsItemsTree()
-    {
-        return $this->em->getRepository(LenseTag::class)->findAll();
-    }
 }

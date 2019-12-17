@@ -40,6 +40,21 @@ class LenseTag
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $range_from;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $range_to;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $step;
+
     public function __construct()
     {
         $this->lenseItemTags = new ArrayCollection();
@@ -128,6 +143,42 @@ class LenseTag
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getRangeFrom(): ?string
+    {
+        return $this->range_from;
+    }
+
+    public function setRangeFrom(?string $range_from): self
+    {
+        $this->range_from = $range_from;
+
+        return $this;
+    }
+
+    public function getRangeTo(): ?string
+    {
+        return $this->range_to;
+    }
+
+    public function setRangeTo(?string $range_to): self
+    {
+        $this->range_to = $range_to;
+
+        return $this;
+    }
+
+    public function getStep(): ?string
+    {
+        return $this->step;
+    }
+
+    public function setStep(?string $step): self
+    {
+        $this->step = $step;
 
         return $this;
     }

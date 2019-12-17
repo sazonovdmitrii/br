@@ -43,22 +43,23 @@ class Lense
      */
     private $lenseitemstags;
 
-    private $covering;
-
-    private $thickness;
-
-    private $function;
-
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="lenses")
      */
     private $products;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\LenseItemTag", inversedBy="recipes")
+     * @ORM\JoinTable(name="lense_recipes")
+     */
+    private $recipes;
 
 
     public function __construct()
     {
         $this->lenseitemstags = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,5 +172,31 @@ class Lense
     public function __toString()
     {
         return self::getName();
+    }
+
+    /**
+     * @return Collection|LenseItemTag[]
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(LenseItemTag $recipe): self
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes[] = $recipe;
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(LenseItemTag $recipe): self
+    {
+        if ($this->recipes->contains($recipe)) {
+            $this->recipes->removeElement($recipe);
+        }
+
+        return $this;
     }
 }

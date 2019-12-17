@@ -45,11 +45,23 @@ class LenseItemTag
      */
     private $lenses;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Lense", mappedBy="recipes")
+     */
+    private $lensesByRecipes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Lense", mappedBy="recipes")
+     */
+    private $recipes;
+
     public function __construct()
     {
         $this->created = new \DateTime();
         $this->visible = 1;
         $this->lenses = new ArrayCollection();
+        $this->lensesByRecipes = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,6 +159,62 @@ class LenseItemTag
         if ($this->lenses->contains($lense)) {
             $this->lenses->removeElement($lense);
             $lense->removeLenseitemstag($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lense[]
+     */
+    public function getLensesByRecipes(): Collection
+    {
+        return $this->lensesByRecipes;
+    }
+
+    public function addLensesByRecipe(Lense $lensesByRecipe): self
+    {
+        if (!$this->lensesByRecipes->contains($lensesByRecipe)) {
+            $this->lensesByRecipes[] = $lensesByRecipe;
+            $lensesByRecipe->addRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLensesByRecipe(Lense $lensesByRecipe): self
+    {
+        if ($this->lensesByRecipes->contains($lensesByRecipe)) {
+            $this->lensesByRecipes->removeElement($lensesByRecipe);
+            $lensesByRecipe->removeRecipe($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lense[]
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(Lense $recipe): self
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes[] = $recipe;
+            $recipe->addRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Lense $recipe): self
+    {
+        if ($this->recipes->contains($recipe)) {
+            $this->recipes->removeElement($recipe);
+            $recipe->removeRecipe($this);
         }
 
         return $this;

@@ -76,6 +76,7 @@ Lense:
   type: object
   config:
     description: "Lense Item"
+    resolveField: '@=resolver("App\\GraphQL\\Resolver\\LenseFieldResolver", [info, value, args])'
     fields:
       id:
         type: "Int!"
@@ -88,7 +89,10 @@ Lense:
         description: "Lense Item Price"
       lenseitemstags:
         type: "[LenseItem]"
-        description: Lenses Tags Items
+        description: "Lenses Tags Items"
+      recipes:
+        type: "[Recipe]"
+        description: "Recipes"
 
 LenseItem:
   type: object
@@ -128,3 +132,24 @@ LenseItemTag:
       visible:
         type: "Boolean"
         description: "Lense Item Visibility"
+
+Recipe:
+  type: object
+  config:
+    description: "Recipe"
+    fields:
+      id:
+        type: "Int!"
+        description: "Recipe ID"
+      name:
+        type: "String"
+        description: "Recipe Name"
+      range_from:
+        type: "Float"
+        description: "Recipe Range From"
+      range_to:
+        type: "Float"
+        description: "Recipe Range To"
+      step:
+        type: "Float"
+        description: "Recipe Step"

@@ -19,22 +19,18 @@ class LenseTagRepository extends ServiceEntityRepository
         parent::__construct($registry, LenseTag::class);
     }
 
-    // /**
-    //  * @return LenseTag[] Returns an array of LenseTag objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+    * @return LenseTag[] Returns an array of LenseTag objects
+    */
+    public function findByType($type)
     {
         return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('l.type = :type')
+            ->setParameter('type', $type)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?LenseTag

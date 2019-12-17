@@ -331,6 +331,8 @@ easy_admin:
                     - { property: 'price', label: 'Цена'}
                     - { type: 'tab', label: 'Теги' }
                     - { property: 'lenseitemstags', type_options: { block_name: 'lense_tags_items' }}
+                    - { type: 'tab', label: 'Рецепт' }
+                    - { property: 'recipes', type_options: { block_name: 'lense_recipes' }}
         Page:
             class: App\Entity\Page
             label: 'Страницы'
@@ -455,6 +457,9 @@ easy_admin:
                   }
                 - { type: 'tab' , label: 'Теги' }
                 - { property: 'lenseItemTags', label: 'Добавить тег', type_options: { block_name: 'lense_item_tags' }}
+                - { property: 'range_from', label: 'От' }
+                - { property: 'range_to', label: 'До' }
+                - { property: 'step', label: 'Шаг' }
         LenseTagItem:
             class: App\Entity\LenseItemTag
             label: 'Опции тегов линз'
