@@ -1,5 +1,5 @@
 {
-  product(slug: "sun-pilko.htm/"){
+  product(slug: "sun-k3130.htm/"){
     lenses{
        name
        price
@@ -10,6 +10,13 @@
          }
          name
        }
+      recipes {
+        id
+        range_to
+        range_from
+        step
+        name
+      }
     }
     similars(limit: 3, offset:0) {
       edges {
