@@ -41,6 +41,15 @@ class LenseFieldResolver extends LocaleAlias
      * @param Lense $lense
      * @return mixed
      */
+    public function id(Lense $lense)
+    {
+        return $lense->getId();
+    }
+    
+    /**
+     * @param Lense $lense
+     * @return mixed
+     */
     public function name(Lense $lense)
     {
         return $lense->getName();
