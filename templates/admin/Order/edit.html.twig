@@ -17,30 +17,6 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block main %}
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-    {% set order = form.vars.data %}
-    <h4>Покупатель: {{ order.getUserId().email }}</h4>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Наименование</th>
-            <th scope="col">Количество</th>
-        </tr>
-        </thead>
-        <tbody>
-            {% for item in order.getOrderItems() %}
-                <tr>
-                    <td>{{ item.getItem().id }}</td>
-                    <td>{{ item.getItem().name }}</td>
-                    <td>{{ item.qty }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% endblock %}
-
 {% block body_javascript %}
     {{ parent() }}
 
@@ -63,4 +39,53 @@
     </script>
 
     {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
+{% endblock %}
+
+{% block main %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    {% set order = form.vars.data %}
+    <h4>Покупатель: {{ order.getUserId().email }}</h4>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Линзы</th>
+            <th scope="col">Рецепт</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in order.getOrderItems() %}
+            {% set lenses = lense_tags.parseLenses(item.getLenses()) %}
+            <tr>
+                <td>{{ item.getItem().id }}</td>
+                <td>{{ item.getItem().name }}</td>
+                <td>{{ item.qty }}</td>
+                <td>
+                    <b>{{ lenses.lenses.name }}</b><br/>
+                    {% for lense in lenses.lenses.options %}
+                        {{ lense.name }}
+                        {{ lense.value }}
+                        <br/>
+                    {% endfor %}
+                </td>
+                <td>
+                    <b>Левый</b>:<br/>
+                    {% for item in lenses.recipes.left %}
+                        {{ item.name }}
+                        {{ item.value }}
+                        <br/>
+                    {% endfor %}
+                    <b>Правый</b>:<br/>
+                    {% for item in lenses.recipes.right %}
+                        {{ item.name }}
+                        {{ item.value }}
+                        <br/>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

@@ -3,6 +3,7 @@ namespace App\Service\Twig;
 use App\Entity\LenseItemTag;
 use App\Entity\LenseTag;
 use Doctrine\ORM\EntityManager;
+use App\Service\LenseService;
 
 class LenseTags
 {
@@ -11,9 +12,14 @@ class LenseTags
 
     private $em;
 
-    public function __construct(EntityManager $entityManager)
-    {
+    private $lenseService;
+
+    public function __construct(
+        EntityManager $entityManager,
+        LenseService $lenseService
+    ) {
         $this->em = $entityManager;
+        $this->lenseService = $lenseService;
     }
 
     public function getTree()
@@ -55,5 +61,10 @@ class LenseTags
     {
         return $this->em->getRepository(LenseTag::class)
             ->findByType($type);
+    }
+
+    public function parseLenses($lenses)
+    {
+        return $this->lenseService->parse($lenses);
     }
 }

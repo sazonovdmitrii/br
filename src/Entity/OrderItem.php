@@ -31,6 +31,11 @@ class OrderItem
      */
     private $entity;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $lenses;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,5 +80,17 @@ class OrderItem
     public function __toString()
     {
         return self::class;
+    }
+
+    public function getLenses(): ?string
+    {
+        return $this->lenses;
+    }
+
+    public function setLenses(?string $lenses): self
+    {
+        $this->lenses = $lenses;
+
+        return $this;
     }
 }
