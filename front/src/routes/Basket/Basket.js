@@ -431,18 +431,20 @@ const Basket = ({
                     theme={{ ...theme, body: styles.firstStepBody }}
                 >
                     <div className={styles.products}>
-                        {products.map(({ name, item, lenses: { lenses = {} } = {}, price, url }) => (
+                        {products.map(({ name, item, lenses: { lenses } = {}, price, url }) => (
                             <BasketProduct
                                 key={item.id}
                                 images={item.images[0]}
                                 name={name}
-                                options={lenses.options}
+                                options={lenses ? lenses.options : []}
                                 subName={item.name}
                                 price={
                                     <FormattedMessage
                                         id="currency"
                                         values={{
-                                            price: parseInt(price, 10) + parseInt(lenses.price, 10),
+                                            price:
+                                                parseInt(price, 10) +
+                                                (lenses ? parseInt(lenses.price, 10) : 0),
                                         }}
                                     />
                                 }
