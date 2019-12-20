@@ -14,7 +14,7 @@ export default ({ className, messages = [], actions, pricing = [] }) => {
             {messages.length ? (
                 <ul className={styles.list}>
                     {messages.map(item => (
-                        <li className={styles.listItem}>
+                        <li key={item} className={styles.listItem}>
                             <FormattedMessage id={item} />
                         </li>
                     ))}
@@ -22,7 +22,7 @@ export default ({ className, messages = [], actions, pricing = [] }) => {
             ) : null}
             <div className={styles.pricing}>
                 {pricing.map(({ name, value }) => (
-                    <p className={styles.pricingItem}>
+                    <p key={name} className={styles.pricingItem}>
                         <FormattedMessage id={name} />
                         <span className={styles.pricingValue}>
                             {value ? (

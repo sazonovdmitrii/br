@@ -60,7 +60,12 @@
     grid-gap: 8px;
     margin-top: 24px;
 
+    @media (--viewport-phone) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     @media (--viewport-desktop) {
+        grid-template-columns: 1fr;
         margin: 18px 0 12px;
     }
 }
@@ -78,6 +83,13 @@
     color: #676f78;
     font-size: var(--font-size-base);
     line-height: 1.625;
+}
+
+.price {
+    margin-bottom: 12px;
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-base);
 }
 
 .title {

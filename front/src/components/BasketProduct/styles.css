@@ -91,20 +91,22 @@
 }
 
 .footer {
+    position: relative;
     width: 100%;
+    padding-bottom: 40px;
 
     @media (--viewport-tablet) {
-        position: relative;
+        padding: 0;
     }
 }
 
 .footerRight {
     position: absolute;
-    right: 18px;
-    bottom: 14px;
+    right: 0;
+    bottom: 0;
 
     @media (--viewport-tablet) {
-        right: 0;
+        bottom: 14px;
     }
 }
 
@@ -121,6 +123,7 @@
 .expansionContainer {
     width: 100%;
     max-height: 0;
+    margin: 0;
     overflow: hidden;
     border-bottom: 1px solid transparent;
     transition: max-height 0.3s ease-in-out;
@@ -128,17 +131,16 @@
     pointer-events: none;
 
     &.expanded {
-        max-height: 300px;
-        margin-bottom: 40px;
+        max-height: 350px;
         border-bottom: 1px solid #e4e6e8;
         pointer-events: all;
     }
 
     @media (--viewport-tablet) {
-        max-height: none;
+        max-height: none !important;
         margin-bottom: 52px;
         padding-bottom: 6px;
-        border-color: #f2f2f2;
+        border-color: #f2f2f2 !important;
     }
 }
 

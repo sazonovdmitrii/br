@@ -5,7 +5,7 @@ import { BasketProducts, Address, Addresses } from 'fragments';
 export const ADD_TO_BASKET = gql`
     mutation addBasket($input: AddBasketInput!) {
         addBasket(input: $input) {
-            ...Products
+            ...BasketProducts
         }
     }
     ${BasketProducts}
@@ -14,7 +14,7 @@ export const ADD_TO_BASKET = gql`
 export const UPDATE_PRODUCT_MUTATION = gql`
     mutation updateProduct($input: UpdateBasketInput!) {
         updateBasket(input: $input) {
-            ...Products
+            ...BasketProducts
         }
     }
     ${BasketProducts}
@@ -23,7 +23,7 @@ export const UPDATE_PRODUCT_MUTATION = gql`
 export const REMOVE_PRODUCT_MUTATION = gql`
     mutation removeProduct($input: AddBasketInput!) {
         removeBasket(input: $input) {
-            ...Products
+            ...BasketProducts
         }
     }
     ${BasketProducts}

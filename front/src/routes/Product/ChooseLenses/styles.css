@@ -1,0 +1,375 @@
+@keyframes slowfadein {
+    0% {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slidein {
+    0% {
+        right: -600px;
+    }
+
+    50% {
+        right: -600px;
+    }
+}
+
+@keyframes slideup {
+    0% {
+        margin-top: 500px;
+    }
+}
+
+.root {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1300;
+    background-color: var(--color-background);
+}
+
+.inner {
+    height: 100%;
+    overflow: auto;
+}
+
+.content {
+    height: 100%;
+    animation-name: slowfadein;
+    animation-duration: 1s;
+
+    @media (--viewport-desktop) {
+        animation-duration: 1.7s;
+    }
+}
+
+.stepsContainer {
+    margin: 0 18px;
+
+    @media (--viewport-phone) {
+        margin: 0 12%;
+    }
+
+    @media (--viewport-tablet) {
+        margin: 0 20%;
+    }
+
+    @media (--viewport-desktop) {
+        display: flex;
+        height: 100%;
+        margin: 0;
+        overflow-x: hidden;
+    }
+}
+
+.navigationMobile {
+    position: relative;
+    z-index: 1;
+    height: 48px;
+    box-shadow: 0 4px 48px #eff3f5;
+
+    @media (--viewport-desktop) {
+        display: none;
+    }
+}
+
+.progressBar {
+    background-color: #eff3f5;
+}
+
+.progress {
+    height: 3px;
+    background-color: #00a2e1;
+    transition: width 0.3s ease-in-out;
+}
+
+.navigationContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin-top: -3px;
+}
+
+.title {
+    font-size: var(--font-size-small);
+}
+
+.backButton,
+.closeButton {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+}
+
+.backButton {
+    left: 2px;
+
+    @media (--viewport-phone) {
+        left: 10%;
+    }
+}
+
+.backIcon,
+.closeIcon {
+    width: 24px;
+    height: 24px;
+    stroke: #414b56;
+    stroke-width: 1px;
+}
+
+.closeButton {
+    right: 2px;
+
+    @media (--viewport-phone) {
+        right: 10%;
+    }
+}
+
+.frameDisplay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 0;
+    user-select: none;
+
+    @media (--viewport-desktop) {
+        width: 66.66%;
+        padding: 70px;
+    }
+}
+
+.frameText {
+    display: none;
+
+    @media (--viewport-desktop) {
+        position: absolute;
+        bottom: 50px;
+        display: flex;
+        align-items: flex-end;
+    }
+}
+
+.frameTitle {
+    margin-bottom: 0;
+
+    @media (--viewport-desktop) {
+        font-size: 26px;
+    }
+}
+
+.colorway {
+    margin-bottom: 0;
+    margin-left: 12px;
+    color: #a1a4a6;
+    font-weight: 400;
+    font-size: 16px;
+    font-style: italic;
+    text-transform: capitalize;
+
+    @media (--viewport-desktop) {
+        font-size: 18px;
+    }
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    animation-name: slidein;
+    animation-duration: 1s;
+    user-select: none;
+
+    @media (--viewport-desktop) {
+        position: relative;
+        right: 0;
+        width: 33.33%;
+        box-shadow: 0 4px 48px #eff3f5;
+    }
+}
+
+.panelOptions {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-bottom: 48px;
+
+    @media (--viewport-desktop) {
+        padding: 16px 36px 48px;
+        overflow: hidden;
+    }
+}
+
+.topNavigation {
+    display: none;
+
+    @media (--viewport-desktop) {
+        display: flex;
+        height: 48px;
+    }
+}
+
+.heading {
+    margin: 0 0 10px;
+    text-align: center;
+
+    @media (--viewport-desktop) {
+        margin: 20px 0 10px;
+    }
+}
+
+.stepTitle {
+    font-size: 20px;
+
+    @media (--viewport-desktop) {
+        font-size: 22px;
+    }
+}
+
+.stepSubtitle {
+    color: #676f78;
+    font-size: var(--font-size-small);
+    line-height: 24px;
+    text-align: center;
+
+    @media (min-width: 960px) {
+        padding-top: 4px;
+    }
+}
+
+.recipeTitle {
+    font-size: var(--font-size-large);
+}
+
+.stepInner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.rail {
+    width: 100%;
+    margin-top: 18px;
+    padding: 0 0 3px;
+    font: inherit;
+    background: inherit;
+    border: inherit;
+    outline: inherit;
+    cursor: pointer;
+
+    @media (--viewport-desktop) {
+        margin-top: 24px;
+
+        &:hover .pill {
+            background: #e1e9ee;
+        }
+    }
+
+    &:hover .pill {
+        color: #414b56;
+        outline: none;
+    }
+}
+
+.railHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.railPrice {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-small);
+    white-space: nowrap;
+
+    @media (--viewport-desktop) {
+        font-size: var(--font-size-base);
+    }
+}
+
+.railDescription {
+    margin-top: 10px;
+    margin-left: 14px;
+    color: #676f78;
+    font-size: var(--font-size-small);
+    line-height: 24px;
+    text-align: left;
+
+    @media (--viewport-desktop) {
+        font-size: var(--font-size-base);
+    }
+}
+
+.pill {
+    display: inline-block;
+    padding: 5px 14px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-small);
+    background: #eff3f5;
+    border-radius: 17px;
+    transition: background 0.2s ease-in-out;
+
+    @media (--viewport-desktop) {
+        padding: 6px 16px;
+        font-size: var(--font-size-base);
+    }
+}
+
+.subtotal {
+    display: none;
+    justify-content: space-between;
+    font-weight: 600;
+    animation-name: slideup;
+    animation-duration: 2s;
+
+    @media (--viewport-desktop) {
+        display: flex;
+    }
+}
+
+.reviewsWrapper {
+    flex: 1;
+    margin-top: 12px;
+    margin-bottom: 18px;
+}
+
+.review {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.reviewTitle {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-small);
+    line-height: 20px;
+}
+
+.reviewItem {
+    color: #676f78;
+    font-size: var(--font-size-small);
+    line-height: 24px;
+}
+
+.resetButton {
+    margin-top: 18px;
+}
+
+.reviewActions {
+    text-align: center;
+}

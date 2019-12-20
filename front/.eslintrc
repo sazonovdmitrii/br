@@ -22,7 +22,6 @@
         "camelcase": 1,
         "no-underscore-dangle": 0,
         "import/no-unresolved": 0, //todo fix webpack resolver
-        "import/no-unresolved": 0,
         // hooks
         "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
         "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies

@@ -1,12 +1,32 @@
 import gql from 'graphql-tag';
 
 export const BasketProducts = gql`
-    fragment Products on Basket {
+    fragment BasketProducts on Basket {
         products {
             item {
                 id
                 name
                 images
+            }
+            lenses {
+                lenses {
+                    name
+                    price
+                    options {
+                        name
+                        value
+                    }
+                }
+                recipes {
+                    left {
+                        name
+                        value
+                    }
+                    right {
+                        name
+                        value
+                    }
+                }
             }
             price
             qty

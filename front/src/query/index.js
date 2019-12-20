@@ -73,6 +73,29 @@ export const GET_PRODUCT = gql`
                 name
                 value
             }
+            lenses {
+                id
+                name
+                price
+                recipes {
+                    id
+                    name
+                    range_from
+                    range_to
+                    step
+                }
+                lenseitemstags {
+                    id
+                    name
+                    visible
+                    price
+                    entity {
+                        name
+                        price
+                        visible
+                    }
+                }
+            }
             similars(limit: 3, offset: 0) {
                 edges {
                     node {
@@ -161,16 +184,6 @@ export const GET_ADDRESS = gql`
     ${Address}
 `;
 
-export const GET_SHORT_BASKET = gql`
-    query Basket {
-        basket {
-            products {
-                qty
-            }
-        }
-    }
-`;
-
 export const GET_BANNERS = gql`
     query Banners {
         banner {
@@ -220,11 +233,21 @@ export const GET_ORDERS = gql`
     }
 `;
 
+export const GET_SHORT_BASKET = gql`
+    query Basket {
+        basket {
+            products {
+                qty
+            }
+        }
+    }
+`;
+
 export const GET_BASKET = gql`
     query {
         isLoggedIn @client(always: false)
         basket {
-            ...Products
+            ...BasketProducts
         }
         payments_methods {
             data {

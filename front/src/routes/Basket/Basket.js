@@ -81,8 +81,8 @@ const Basket = ({
         return { id, value: title, ...any };
     });
 
-    const { login } = useApp();
     const [orderId, setOrderId] = useState(false);
+    const { login } = useApp();
     const [products, setProducts] = useState(productsProps);
     const [step, setStep] = useState(0);
     const [values, setValues] = useState({
@@ -431,13 +431,21 @@ const Basket = ({
                     theme={{ ...theme, body: styles.firstStepBody }}
                 >
                     <div className={styles.products}>
-                        {products.map(({ name, item, price, url }) => (
+                        {products.map(({ name, item, lenses: { lenses = {} } = {}, price, url }) => (
                             <BasketProduct
                                 key={item.id}
                                 images={item.images[0]}
                                 name={name}
+                                options={lenses.options}
                                 subName={item.name}
-                                price={<FormattedMessage id="currency" values={{ price }} />}
+                                price={
+                                    <FormattedMessage
+                                        id="currency"
+                                        values={{
+                                            price: parseInt(price, 10) + parseInt(lenses.price, 10),
+                                        }}
+                                    />
+                                }
                                 url={url}
                                 onRemove={() => {
                                     handleRemoveProduct({
@@ -627,33 +635,33 @@ const Basket = ({
                                     </div>
                                 )}
                                 {currentDelivery &&
-                                    currentDelivery.id &&
-                                    paymentsMethods &&
-                                    paymentsMethods.length && (
-                                        <div className={styles.block}>
-                                            <Title className={styles.blockTitle}>
-                                                <FormattedMessage id="p_cart_order_payment_title" />
-                                            </Title>
-                                            {paymentsMethods.map(item => {
-                                                const { id, name } = item;
+                                currentDelivery.id &&
+                                paymentsMethods &&
+                                paymentsMethods.length ? (
+                                    <div className={styles.block}>
+                                        <Title className={styles.blockTitle}>
+                                            <FormattedMessage id="p_cart_order_payment_title" />
+                                        </Title>
+                                        {paymentsMethods.map(item => {
+                                            const { id, name } = item;
 
-                                                return (
-                                                    <ListItem
-                                                        key={id}
-                                                        title={name}
-                                                        active={values.payment.id === id}
-                                                        onClick={() => {
-                                                            handleClickListItem({
-                                                                type: 'payment',
-                                                                data: item,
-                                                            });
-                                                        }}
-                                                        pointer
-                                                    />
-                                                );
-                                            })}
-                                        </div>
-                                    )}
+                                            return (
+                                                <ListItem
+                                                    key={id}
+                                                    title={name}
+                                                    active={values.payment.id === id}
+                                                    onClick={() => {
+                                                        handleClickListItem({
+                                                            type: 'payment',
+                                                            data: item,
+                                                        });
+                                                    }}
+                                                    pointer
+                                                />
+                                            );
+                                        })}
+                                    </div>
+                                ) : null}
                             </>
                         )}
                         <div className={styles.orderBlock}>

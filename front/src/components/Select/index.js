@@ -9,16 +9,22 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Select = ({ items, label, value, onChange }) => {
+const Select = ({ items, label, value, defaultValue, onChange }) => {
+    const isObject = typeof items[0] === 'object';
     const ref = useRef();
     const [openList, setList] = useState(false);
     // TODO remove parseInt
-    const [selectedValue, setValue] = useState(items.find(({ id }) => id === parseInt(value, 10)) || {});
+    const [selectedValue, setValue] = useState(
+        defaultValue ||
+            (isObject
+                ? items.find(({ id }) => id === parseInt(value, 10)) || {}
+                : items.find(item => item === value))
+    );
     const listClassName = cx(styles.list, {
         openList,
     });
     const labelClassName = cx(styles.label, {
-        activeLabel: openList || selectedValue.id,
+        activeLabel: openList || (isObject ? selectedValue.id : selectedValue),
     });
     const handleSelect = item => {
         setValue(item);
@@ -34,17 +40,21 @@ const Select = ({ items, label, value, onChange }) => {
         <div className={styles.wrapper} ref={ref}>
             {label && <div className={labelClassName}>{label}</div>}
             <div className={styles.inner} onClick={() => setList(!openList)}>
-                <div className={styles.value}>{selectedValue.value}</div>
+                <div className={styles.value}>{isObject ? selectedValue.value : selectedValue}</div>
             </div>
             <div className={listClassName}>
                 {items.map(item => {
                     const itemClassName = cx(styles.item, {
-                        activeItem: item.id === selectedValue.id,
+                        activeItem: isObject ? item.id === selectedValue.id : item === selectedValue,
                     });
 
                     return (
-                        <div key={item.id} className={itemClassName} onClick={() => handleSelect(item)}>
-                            {item.value}
+                        <div
+                            key={isObject ? item.id : item}
+                            className={itemClassName}
+                            onClick={() => handleSelect(item)}
+                        >
+                            {isObject ? item.value : item}
                         </div>
                     );
                 })}
@@ -54,14 +64,20 @@ const Select = ({ items, label, value, onChange }) => {
 };
 
 Select.defaultProps = {
-    active: {},
+    value: {},
     items: [],
     label: null,
     onChange: null,
 };
 
 Select.propTypes = {
-    active: PropTypes.object,
+    value: PropTypes.oneOfType([
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            value: PropTypes.string.isRequired,
+        }),
+        PropTypes.string,
+    ]),
     items: PropTypes.arrayOf(PropTypes.object),
     label: PropTypes.string,
     onChange: PropTypes.func,

@@ -7,7 +7,6 @@ import { isBrowser } from 'utils';
 import styles from './styles.css';
 
 const SnackbarOverlay = ({ children }) => {
-    if (!children) return null;
     if (isBrowser) {
         const domNode = document.body;
 

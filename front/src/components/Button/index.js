@@ -37,19 +37,10 @@ const Button = ({
         [size]: !!size,
     });
     const Button = href ? 'a' : to ? Link : 'button';
-    const role = href || to ? null : 'button';
     const type = href || to ? null : typeProps || 'button';
 
     return (
-        <Button
-            role={role}
-            className={buttonClassName}
-            type={type}
-            href={href}
-            to={to}
-            disabled={disabled}
-            {...props}
-        >
+        <Button className={buttonClassName} type={type} href={href} to={to} disabled={disabled} {...props}>
             {loading ? <Loader /> : children}
         </Button>
     );

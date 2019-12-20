@@ -2,13 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
-import { useMutation } from '@apollo/react-hooks';
-import { useHistory } from 'react-router';
 
-import { SeoHead, metrics } from 'utils';
-import { useLangLinks, useApp } from 'hooks';
-import { ADD_TO_BASKET } from 'mutations';
-import { GET_SHORT_BASKET, GET_BASKET } from 'query';
+import { SeoHead } from 'utils';
+import { useLangLinks } from 'hooks';
 
 import Button from 'components/Button';
 import Colors from 'components/Colors';
@@ -17,18 +13,21 @@ import Delivery from 'components/Delivery';
 import ProductTags from 'components/ProductTags';
 import ProductCard from 'components/ProductCard';
 import ProductCarousel from 'components/ProductCarousel';
-import Loader from 'components/Loader';
 
 import styles from './styles.css';
 // import headTurnImage from './headturn.jpg';
-// import ChooseLenses from './ChooseLenses';
+import ChooseLenses from './ChooseLenses';
 
 const cx = classnames.bind(styles);
 
-const Product = ({ name, items: { edges: items = [] }, tags, similars: { edges: similars = [] } }) => {
-    const history = useHistory();
+const Product = ({
+    name,
+    items: { edges: items = [] },
+    tags,
+    similars: { edges: similars = [] },
+    lenses,
+}) => {
     const [buyLink] = useLangLinks(['/retail']);
-    const { createNotification } = useApp();
     const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
     const [showChooseLenses, setShowChooseLenses] = useState(false);
 
@@ -46,62 +45,9 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars: { edges: 
             setSelectedProduct(newSelectedProduct.node);
         }
     };
-    const [addToCard, { loading: loadingAddToCart }] = useMutation(ADD_TO_BASKET, {
-        variables: {
-            input: {
-                item_id: selectedProduct.id,
-            },
-        },
-        onCompleted({ addBasket: { products } }) {
-            if (products) {
-                console.log('product added to basket', products);
-                metrics('gtm', {
-                    event: 'addToCart',
-                    data: {
-                        currencyCode: 'RUB',
-                        add: {
-                            products: [
-                                {
-                                    name: name,
-                                    id: selectedProduct.id,
-                                    price: selectedProduct.price,
-                                    variant: selectedProduct.name,
-                                    quantity: 1,
-                                },
-                            ],
-                        },
-                    },
-                });
-
-                history.push('/cart');
-            }
-        },
-        onError({ graphQLErrors: [{ message }] }) {
-            createNotification({ type: 'error', message });
-        },
-        update(
-            cache,
-            {
-                data: { addBasket },
-            }
-        ) {
-            /* <3 apollo */
-            [GET_SHORT_BASKET, GET_BASKET].forEach(query => {
-                cache.writeQuery({
-                    query,
-                    data: {
-                        basket: {
-                            products: addBasket.products,
-                            __typename: 'Basket',
-                        },
-                    },
-                });
-            });
-        },
-    });
-    // const handleShowCL = () => {
-    //     setShowChooseLenses(!showChooseLenses);
-    // };
+    const handleCloseChooseLenses = () => {
+        setShowChooseLenses(!showChooseLenses);
+    };
 
     const sectionTitleCenterClassName = cx(styles.sectionTitle, styles.center);
     const rootClassName = cx(styles.root, { hide: showChooseLenses });
@@ -109,7 +55,13 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars: { edges: 
     return (
         <Container>
             <SeoHead type="product" name={name} items={items} image={images.length ? images[0].path : null} />
-            {/* showChooseLenses && <ChooseLenses title={name} onClose={handleShowCL} /> */}
+            {showChooseLenses && (
+                <ChooseLenses
+                    product={{ name, item: selectedProduct }}
+                    lenses={lenses}
+                    onClose={handleCloseChooseLenses}
+                />
+            )}
             <div className={rootClassName}>
                 {images.length ? (
                     <div className={styles.carouselWrapper}>
@@ -126,23 +78,24 @@ const Product = ({ name, items: { edges: items = [] }, tags, similars: { edges: 
                             onChange={value => handleChangeColor(value)}
                         />
                     </div>
-                    <div className={styles.info}>
-                        <FormattedMessage id="p_product_text" values={{ br: <br /> }} />
+                    <div className={styles.price}>
+                        <FormattedMessage id="p_product_price" />{' '}
+                        <FormattedMessage id="currency" values={{ price: selectedProduct.price }} />
                     </div>
                     {selectedProduct.price && (
                         <div className={styles.buttons}>
+                            {lenses.length ? (
+                                <Button
+                                    onClick={() => setShowChooseLenses(true)}
+                                    kind="primary"
+                                    size="large"
+                                    bold
+                                >
+                                    <FormattedMessage id="p_product_select_lenses" />
+                                </Button>
+                            ) : null}
                             <Button to={buyLink} kind="primary" size="large" bold>
-                                <FormattedMessage
-                                    id="p_product_buy_at_optics_for"
-                                    values={{ price: selectedProduct.price }}
-                                />
-                            </Button>
-                            <Button onClick={addToCard} kind="primary" size="large" bold>
-                                {loadingAddToCart ? (
-                                    <Loader kind="secondary" />
-                                ) : (
-                                    <FormattedMessage id="p_product_add_to_cart" />
-                                )}
+                                <FormattedMessage id="p_product_buy_at_optics_for" />
                             </Button>
                         </div>
                     )}
@@ -201,11 +154,13 @@ Product.defaultProps = {
     name: 'Без названия',
     tags: [],
     similars: [],
+    lenses: [],
 };
 
 Product.propTypes = {
     name: PropTypes.string,
     // id: PropTypes.number.isRequired,
+    lenses: PropTypes.arrayOf(PropTypes.object),
     items: PropTypes.shape({
         edges: PropTypes.arrayOf(PropTypes.object),
     }),

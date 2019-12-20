@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames/bind';
@@ -11,7 +11,7 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const BasketProduct = ({ url, name, subName, images, price, tags, onRemove }) => {
+const BasketProduct = ({ url, name, subName, images, price, options, onRemove }) => {
     const [expanded, setExpanded] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const rootClassName = cx(styles.root);
@@ -50,23 +50,22 @@ const BasketProduct = ({ url, name, subName, images, price, tags, onRemove }) =>
                 </h4>
                 <div className={styles.footer}>
                     <p className={styles.subhead}>{subName}</p>
-                    {tags.length ? (
+                    {options.length ? (
                         <div className={expansionContainerClassName}>
                             <div className={styles.frameDetails}>
-                                {tags.map(({ name, value, price }) => (
-                                    <>
+                                {options.map(({ name, value, price }) => (
+                                    <Fragment key={name}>
                                         <h5 className={styles.frameDetailsLabel}>{name}</h5>
                                         <p className={styles.frameDetailsValue}>
                                             {value} <span className={styles.frameDetailsPrice}>{price}</span>
                                         </p>
-                                    </>
+                                    </Fragment>
                                 ))}
                             </div>
                         </div>
                     ) : null}
-
                     <div className={styles.footerRight}>
-                        {tags.length ? (
+                        {options.length ? (
                             <button
                                 type="button"
                                 className={styles.expansionButton}
@@ -114,7 +113,7 @@ BasketProduct.defaultProps = {
     name: 'Без названия',
     price: null,
     subName: null,
-    tags: [],
+    options: [],
     onRemove: null,
     url: null,
     images: {},
@@ -127,7 +126,7 @@ BasketProduct.propTypes = {
     onRemove: PropTypes.func,
     name: PropTypes.string,
     price: PropTypes.string,
-    tags: PropTypes.arrayOf(PropTypes.object),
+    options: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default BasketProduct;
