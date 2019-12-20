@@ -33,7 +33,6 @@ class BasketMutation extends AuthMutation
     public function add(Argument $args)
     {
         $input = new AddBasketInput($args);
-
         if($input->item_id) {
             $productItem = $this->em
                 ->getRepository('App:ProductItem')
@@ -41,7 +40,7 @@ class BasketMutation extends AuthMutation
 
             return $this->basketService
                 ->setAuthKey($this->getAuthKey())
-                ->add($productItem->getId());
+                ->add($productItem->getId(), $input->lenses);
         }
     }
 

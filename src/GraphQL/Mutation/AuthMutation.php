@@ -31,6 +31,7 @@ class AuthMutation implements MutationInterface
     ) {
         $this->redis                = $redis;
         $this->userService          = $userService;
+        $this->authenticatorService = $authenticatorService;
         if ($container->has('request_stack')) {
             $this->request = $container->get('request_stack')->getCurrentRequest();
         }
@@ -92,5 +93,10 @@ class AuthMutation implements MutationInterface
     {
         $this->locale = $locale;
         return $this;
+    }
+
+    public function getAuth($type)
+    {
+        return $this->authenticatorService->getAuth($type);
     }
 }

@@ -15,12 +15,16 @@ class AuthAlias implements ResolverInterface, AliasedInterface {
 
     private $request;
 
+    private $authenticatorService;
+
     public function __construct(
         EntityManager $em,
         ContainerInterface $container,
         AuthenticatorService $authenticatorService
     ) {
         $this->em = $em;
+        $this->authenticatorService = $authenticatorService;
+
         if ($container->has('request_stack')) {
             $this->request = $container->get('request_stack')->getCurrentRequest();
 
@@ -31,6 +35,11 @@ class AuthAlias implements ResolverInterface, AliasedInterface {
                 return;
             }
         }
+    }
+
+    public function getAuth($type)
+    {
+        return $this->authenticatorService->getAuth($type);
     }
 
     public function getUser()
