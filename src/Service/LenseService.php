@@ -39,10 +39,10 @@ class LenseService extends AbstractController
 
     public function parse($lenses = '')
     {
-//        if(!$lenses) {
-//            return [];
-//        }
-        $lenses = '{"recipes":{"left":{"7":"4.25","8":"23","9":"90","10":"35.5"},"right":{"7":"-3.25","8":"13","9":"10","10":"25.5"}},"lenses":2}';
+        if(!$lenses) {
+            return [];
+        }
+//        $lenses = '{"recipes":{"left":{"7":"4.25","8":"23","9":"90","10":"35.5"},"right":{"7":"-3.25","8":"13","9":"10","10":"25.5"}},"lenses":2}';
         $cacheItem = $this->cache->getItem('lenses_' . md5($lenses));
         if($cacheItem->isHit()) {
             return $cacheItem->get();
@@ -68,6 +68,7 @@ class LenseService extends AbstractController
         $lense = $this->getLenseById($lenses['lenses']);
 
         $this->formattedResult['lenses']['name'] = $lense->getName();
+        $this->formattedResult['lenses']['price'] = $lense->getPrice();
 
         $options = [];
 

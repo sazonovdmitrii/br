@@ -45,6 +45,9 @@ LenseOptions:
       name:
         type: "String"
         description: "Lense Name"
+      price:
+        type: "String"
+        description: "Lense Price"
       options:
         type: "[LenseOptionTag]"
         description: "Lense Option Tag"
