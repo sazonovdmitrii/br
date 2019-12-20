@@ -39,9 +39,9 @@ class LenseService extends AbstractController
 
     public function parse($lenses = '')
     {
-        if(!$lenses) {
-            return [];
-        }
+//        if(!$lenses) {
+//            return [];
+//        }
         $lenses = '{"recipes":{"left":{"7":"4.25","8":"23","9":"90","10":"35.5"},"right":{"7":"-3.25","8":"13","9":"10","10":"25.5"}},"lenses":2}';
         $cacheItem = $this->cache->getItem('lenses_' . md5($lenses));
         if($cacheItem->isHit()) {
