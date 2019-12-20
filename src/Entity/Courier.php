@@ -557,6 +557,6 @@ class Courier
 
     public function __toString()
     {
-        return $this->getAddress();
+        return (string)$this->getAddress();
     }
 }
