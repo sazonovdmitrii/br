@@ -63,26 +63,30 @@
                 <td>{{ item.getItem().name }}</td>
                 <td>{{ item.qty }}</td>
                 <td>
-                    <b>{{ lenses.lenses.name }}</b><br/>
-                    {% for lense in lenses.lenses.options %}
-                        {{ lense.name }}
-                        {{ lense.value }}
-                        <br/>
-                    {% endfor %}
+                    {% if lenses|length %}
+                        <b>{{ lenses.lenses.name }}</b><br/>
+                        {% for lense in lenses.lenses.options %}
+                            {{ lense.name }}
+                            {{ lense.value }}
+                            <br/>
+                        {% endfor %}
+                    {% endif %}
                 </td>
                 <td>
-                    <b>Левый</b>:<br/>
-                    {% for item in lenses.recipes.left %}
-                        {{ item.name }}
-                        {{ item.value }}
-                        <br/>
-                    {% endfor %}
-                    <b>Правый</b>:<br/>
-                    {% for item in lenses.recipes.right %}
-                        {{ item.name }}
-                        {{ item.value }}
-                        <br/>
-                    {% endfor %}
+                    {% if lenses|length %}
+                        <b>Левый</b>:<br/>
+                        {% for item in lenses.recipes.left %}
+                            {{ item.name }}
+                            {{ item.value }}
+                            <br/>
+                        {% endfor %}
+                        <b>Правый</b>:<br/>
+                        {% for item in lenses.recipes.right %}
+                            {{ item.name }}
+                            {{ item.value }}
+                            <br/>
+                        {% endfor %}
+                     {% endif %}
                 </td>
             </tr>
         {% endfor %}
