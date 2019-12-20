@@ -23,31 +23,14 @@ class AuthAlias implements ResolverInterface, AliasedInterface {
         $this->em = $em;
         if ($container->has('request_stack')) {
             $this->request = $container->get('request_stack')->getCurrentRequest();
-            $token = $this->getAuth('token');
+
+            $token = $authenticatorService->setRequest($this->request)->getAuth('token');
+
             if($token && $user = $authenticatorService->authByToken($token)) {
                 $this->user = $user;
                 return;
             }
         }
-    }
-
-    public function getAuth($param)
-    {
-        $token = '';
-        if ($this->request) {
-            $auth = str_replace('Authorization: ', '', $this->request->headers->get('Authorization'));
-
-            $authData = explode(';', $auth);
-            if (count($authData)) {
-                foreach ($authData as $authItem) {
-                    $authItem = explode('=', $authItem);
-                    if (count($authItem) == 2 && $authItem[0] == $param) {
-                        $token = $authItem[1];
-                    }
-                }
-            }
-        }
-        return $token;
     }
 
     public function getUser()

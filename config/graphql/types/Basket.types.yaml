@@ -6,6 +6,7 @@ Basket:
       products:
         type: "[BasketProduct]"
         description: "Basket Id."
+
 BasketProduct:
   type: object
   config:
@@ -13,10 +14,61 @@ BasketProduct:
     fields:
       item:
         type: "ProductItem"
-        description: "Original Product Item"
+        description: "Basket Product Item"
       qty:
         type: "Int"
         description: "Qty"
       price:
         type: "String"
         description: "Price"
+      lenses:
+        type: "LenseRecipe"
+        description: "Price"
+
+LenseRecipe:
+  type: object
+  config:
+    description: "Basket Lense"
+    fields:
+      lenses:
+        type: "LenseOptions"
+        description: "Lense Options"
+      recipes:
+        type: "Recipes"
+        description: "Recipe"
+
+LenseOptions:
+  type: object
+  config:
+    description: "Lense Options"
+    fields:
+      name:
+        type: "String"
+        description: "Lense Name"
+      options:
+        type: "[LenseOptionTag]"
+        description: "Lense Option Tag"
+
+LenseOptionTag:
+  type: object
+  config:
+    description: "Lense Option Tag"
+    fields:
+      name:
+        type: "String"
+        description: "Lense Option Tag Name"
+      value:
+        type: "String"
+        description: "Lense Option Tag Value"
+
+Recipes:
+  type: object
+  config:
+    description: "Recipe"
+    fields:
+      left:
+        type: "[LenseOptionTag]"
+        description: "Lense Recipes Left Options Tags"
+      right:
+        type: "[LenseOptionTag]"
+        description: "Lense Recipes Right Options Tags"

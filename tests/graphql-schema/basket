@@ -1,12 +1,32 @@
 {
   basket {
     products {
-      qty,
-      item{
-        name
-        id
-      }
-    }
+          item{
+            id
+            name
+          }
+          qty
+          price
+        	lenses {
+            lenses {
+              name
+              options {
+                name
+                value
+              }
+            }
+            recipes {
+              left {
+                name
+                value
+              }
+              right{
+                name
+                value
+              }
+            }
+          }
+        }
   }
 }
   

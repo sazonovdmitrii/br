@@ -7,6 +7,7 @@ use App\Service\UserService;
 use Overblog\GraphQLBundle\Definition\Resolver\MutationInterface;
 use Redis;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 class AuthMutation implements MutationInterface
 {
@@ -29,39 +30,20 @@ class AuthMutation implements MutationInterface
         UserService $userService
     ) {
         $this->redis                = $redis;
-        $this->authenticatorService = $authenticatorService;
         $this->userService          = $userService;
         if ($container->has('request_stack')) {
             $this->request = $container->get('request_stack')->getCurrentRequest();
         }
-        $token = $this->getAuth('token');
+
+        $token = $authenticatorService->setRequest($this->request)->getAuth('token');
 
         $locale = $this->request->headers->get('Locale');
         $this->setLocale($locale);
 
-        if ($token && $user = $this->authenticatorService->authByToken($token)) {
+        if ($token && $user = $authenticatorService->authByToken($token)) {
             $this->user = $user;
             return;
         }
-    }
-
-    public function getAuth($param)
-    {
-        $token = '';
-        if ($this->request) {
-            $auth = str_replace('Authorization: ', '', $this->request->headers->get('Authorization'));
-
-            $authData = explode(';', $auth);
-            if (count($authData)) {
-                foreach ($authData as $authItem) {
-                    $authItem = explode('=', $authItem);
-                    if (count($authItem) == 2 && $authItem[0] == $param) {
-                        $token = $authItem[1];
-                    }
-                }
-            }
-        }
-        return $token;
     }
 
     public function getUser()

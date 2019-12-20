@@ -5,4 +5,6 @@ use AssoConnect\GraphQLMutationValidatorBundle\Input\RequestObject;
 class AddBasketInput extends RequestObject
 {
     public $item_id;
+
+    public $lenses;
 }

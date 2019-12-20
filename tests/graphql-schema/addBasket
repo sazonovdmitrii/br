@@ -7,12 +7,31 @@ mutation ($input: AddBasketInput!) {
       }
       qty
       price
+    	lenses {
+        lenses {
+          name
+          options {
+            name
+            value
+          }
+        }
+        recipes {
+          left {
+            name
+            value
+          }
+          right{
+            name
+            value
+          }
+        }
+      }
     }
   }
 }
 
 {
   "input": {
-    "item_id": 24
+    "item_id": 114
   }
 }

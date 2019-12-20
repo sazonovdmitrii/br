@@ -11,6 +11,8 @@ class BasketService extends AbstractController
 
     private $locale;
 
+    private $lenseService;
+
     /**
      * @return mixed
      */
@@ -32,11 +34,13 @@ class BasketService extends AbstractController
     public function __construct(
         EntityManager $em,
         Redis $redis,
-        GeneratorService $generatorService
+        GeneratorService $generatorService,
+        LenseService $lenseService
     ) {
         $this->em = $em;
         $this->redis = $redis;
         $this->imageGenerator = $generatorService;
+        $this->lenseService = $lenseService;
     }
 
     public function setAuthKey(string $authKey)
@@ -50,11 +54,12 @@ class BasketService extends AbstractController
         return $this->authKey;
     }
 
-    public function add(int $itemId, $lenses = [], $recipe = [])
+    public function add(int $itemId, $lenses)
     {
         if($authKey = $this->getAuthKey()) {
             $key = 'basket::' . $this->getAuthKey();
             $oldBasket = $this->redis->get($key);
+
             if($oldBasket) {
                 $basket = json_decode($oldBasket, true);
                 if(!is_array($basket)) {
@@ -63,9 +68,7 @@ class BasketService extends AbstractController
                 if(!isset($basket[$itemId])) {
                     $basket[$itemId] = [
                         'item_id' => $itemId,
-                        'qty' => 1,
-                        'lenses' => $lenses,
-                        'recipe' => $recipe
+                        'qty' => 1
                     ];
                 } else {
                     $basket[$itemId]['qty'] += 1;
@@ -73,11 +76,11 @@ class BasketService extends AbstractController
             } else {
                 $basket[$itemId] = [
                     'item_id' => $itemId,
-                    'qty' => 1,
-                    'lenses' => $lenses,
-                    'recipe' => $recipe
+                    'qty' => 1
                 ];
             }
+
+            $basket[$itemId]['lenses'] = $lenses;
 
             if($basket) {
                 $this->redis->set($key, json_encode($basket));
@@ -179,8 +182,7 @@ class BasketService extends AbstractController
                             'item' => $productItem,
                             'qty' => $basketItem['qty'],
                             'price' => $productItem->getPrice(),
-                            'lenses' => @$basketItem['lenses'],
-                            'recipe' => @$basketItem['recipe'],
+                            'lenses' => $this->lenseService->parse(@$basketItem['lenses']),
                         ];
                     }
                 }
