@@ -1,6 +1,7 @@
 <?php
 namespace App\GraphQL\Resolver;
 
+use App\Repository\OrdersRepository;
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
 use GraphQL\Error\UserError;
@@ -8,15 +9,23 @@ use GraphQL\Error\UserError;
 class OrderResolver extends LocaleAlias
 {
     private $em;
+    /**
+     * @var OrdersRepository
+     */
+    private $ordersRepository;
 
     /**
-     * ProductResolver constructor.
+     * OrderResolver constructor.
      *
      * @param EntityManager $em
+     * @param OrdersRepository $ordersRepository
      */
-    public function __construct(EntityManager $em)
-    {
+    public function __construct(
+        EntityManager $em,
+        OrdersRepository $ordersRepository
+    ) {
         $this->em = $em;
+        $this->ordersRepository = $ordersRepository;
     }
 
     /**
@@ -28,9 +37,7 @@ class OrderResolver extends LocaleAlias
             throw new UserError('Ошибка! Необходим идентификатор заказа.');
         }
 
-        $order = $this->em
-            ->getRepository('App:Orders')
-            ->findBySecretKey($args['secret_key']);
+        $order = $this->ordersRepository->findBySecretKey($args['secret_key']);
 
         if(!$order) {
             throw new UserError('Ошибка! Заказ не найден.');

@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 use App\GraphQL\Input\RegisterInput;
+use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Users;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
@@ -20,23 +21,32 @@ class UserService
     private $manager;
 
     private $jwtManager;
+    /**
+     * @var UsersRepository
+     */
+    private $usersRepository;
 
     /**
-     * AuthenticatorService constructor.
+     * UserService constructor.
      *
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param EntityManager $em
+     * @param JWTTokenManagerInterface $JWTManager
+     * @param ObjectManager $objectManager
+     * @param UsersRepository $usersRepository
      */
     public function __construct(
         UserPasswordEncoderInterface $passwordEncoder,
         EntityManager $em,
         JWTTokenManagerInterface $JWTManager,
-        ObjectManager $objectManager
+        ObjectManager $objectManager,
+        UsersRepository $usersRepository
     ) {
         $this->passwordEncoder = $passwordEncoder;
         $this->em = $em;
         $this->jwtManager = $JWTManager;
         $this->manager = $objectManager;
+        $this->usersRepository = $usersRepository;
     }
 
     /**
@@ -61,8 +71,6 @@ class UserService
 
     public function byEmail(string $email)
     {
-        return $this->em
-            ->getRepository('App:Users')
-            ->findByEmail($email);
+        return $this->usersRepository->findByEmail($email);
     }
 }

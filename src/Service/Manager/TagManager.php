@@ -2,10 +2,12 @@
 
 namespace App\Service\Manager;
 
-use App\Entity\Catalog;
 use App\Entity\Product;
-use App\Entity\ProductTag;
 use App\Entity\ProductTagItem;
+use App\Repository\CatalogRepository;
+use App\Repository\ProductRepository;
+use App\Repository\ProductTagItemRepository;
+use App\Repository\ProductTagRepository;
 use App\Service\ConfigService;
 use App\Service\DoctrineService;
 use Doctrine\ORM\EntityManager;
@@ -20,25 +22,55 @@ class TagManager extends AbstractController
     private $doctrineService;
 
     /**
+     * @var ProductTagItemRepository
+     */
+    private $productTagItemRepository;
+    /**
+     * @var ProductTagRepository
+     */
+    private $productTagRepository;
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
+    /**
+     * @var CatalogRepository
+     */
+    private $catalogRepository;
+
+    /**
      * TagManager constructor.
      *
      * @param Redis $redis
      * @param EntityManager $em
      * @param DoctrineService $doctrineService
      * @param ConfigService $configService
+     * @param ObjectManager $manager
+     * @param ProductTagItemRepository $productTagItemRepository
+     * @param ProductTagRepository $productTagRepository
+     * @param ProductRepository $productRepository
+     * @param CatalogRepository $catalogRepository
      */
     public function __construct(
         Redis $redis,
         EntityManager $em,
         DoctrineService $doctrineService,
         ConfigService $configService,
-        ObjectManager $manager
+        ObjectManager $manager,
+        ProductTagItemRepository $productTagItemRepository,
+        ProductTagRepository $productTagRepository,
+        ProductRepository $productRepository,
+        CatalogRepository $catalogRepository
     ) {
         $this->em              = $em;
         $this->redis           = $redis;
         $this->doctrineService = $doctrineService;
         $this->configService   = $configService;
         $this->manager         = $manager;
+        $this->productTagItemRepository = $productTagItemRepository;
+        $this->productTagRepository = $productTagRepository;
+        $this->productRepository = $productRepository;
+        $this->catalogRepository = $catalogRepository;
     }
 
     /**
@@ -65,9 +97,7 @@ class TagManager extends AbstractController
      */
     public function getCatalogFilters()
     {
-        $allTags = $this->em
-            ->getRepository(ProductTag::class)
-            ->findAll();
+        $allTags = $this->productTagRepository->findAll();
 
         $tags        = [];
         $productTags = [];
@@ -117,8 +147,7 @@ class TagManager extends AbstractController
             $productTags[] = $productTag->getId();
         }
 
-        $tagsItems = $this->em->getRepository(ProductTagItem::class)
-            ->findBy(['id' => $productTags], ['id' => 'DESC']);
+        $tagsItems = $this->productTagItemRepository->findBy(['id' => $productTags], ['id' => 'DESC']);
 
         $tags = [];
         foreach ($tagsItems as $tag) {
@@ -141,9 +170,9 @@ class TagManager extends AbstractController
     public function all()
     {
         $result = [];
-        $tags   = $this->em
-            ->getRepository(ProductTag::class)
-            ->findAll();
+
+        $tags   = $this->productTagRepository->findAll();
+
         foreach ($tags as $tag) {
             $result[] = [
                 'name' => $tag->getName(),
@@ -180,9 +209,7 @@ class TagManager extends AbstractController
      */
     public function getOneForCatalog()
     {
-        return $this->em
-            ->getRepository(Catalog::class)
-            ->findByTagId($this->getTagId());
+        return $this->catalogRepository->findByTagId($this->getTagId());
     }
 
     /**
@@ -259,8 +286,7 @@ class TagManager extends AbstractController
             return [];
         }
 
-        $productsIds = $this->em->getRepository('App:ProductTagItem')
-            ->getProducts($this->getTagsIds());
+        $productsIds = $this->productTagItemRepository->getProducts($this->getTagsIds());
 
         $categoriesProductsIds = [];
         foreach ($this->getEntity()->getCatalog() as $catalog) {
@@ -271,8 +297,7 @@ class TagManager extends AbstractController
 
         $productsIds = array_intersect($productsIds, $categoriesProductsIds);
 
-        return $this->em->getRepository('App:Product')
-            ->findBy(['id' => $productsIds]);
+        return $this->productRepository->findBy(['id' => $productsIds]);
     }
 
     /**
@@ -280,7 +305,6 @@ class TagManager extends AbstractController
      */
     public function getCatalogs()
     {
-        return $this->em->getRepository('App:Catalog')
-            ->getAllByParentTag($this->getParentTagId());
+        return $this->catalogRepository->getAllByParentTag($this->getParentTagId());
     }
 }

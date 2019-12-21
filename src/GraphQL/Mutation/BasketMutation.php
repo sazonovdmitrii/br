@@ -1,6 +1,7 @@
 <?php
 namespace App\GraphQL\Mutation;
 
+use App\Repository\ProductItemRepository;
 use App\Service\BasketService;
 use App\GraphQL\Input\AddBasketInput;
 use App\GraphQL\Input\UpdateBasketInput;
@@ -14,6 +15,10 @@ use App\Service\UserService;
 class BasketMutation extends AuthMutation
 {
     private $authenticatorService;
+    /**
+     * @var ProductItemRepository
+     */
+    private $productItemRepository;
 
     public function __construct(
         EntityManager $em,
@@ -21,22 +26,23 @@ class BasketMutation extends AuthMutation
         ContainerInterface $container,
         AuthenticatorService $authenticatorService,
         BasketService $basketService,
-        UserService $userService
+        UserService $userService,
+        ProductItemRepository $productItemRepository
     ) {
         $this->redis = $redis;
         $this->em = $em;
         $this->basketService = $basketService;
         $this->authenticatorService = $authenticatorService;
         parent::__construct($redis, $container, $authenticatorService, $userService);
+        $this->productItemRepository = $productItemRepository;
     }
 
     public function add(Argument $args)
     {
         $input = new AddBasketInput($args);
         if($input->item_id) {
-            $productItem = $this->em
-                ->getRepository('App:ProductItem')
-                ->find($input->item_id);
+
+            $productItem = $this->productItemRepository->find($input->item_id);
 
             return $this->basketService
                 ->setAuthKey($this->getAuthKey())

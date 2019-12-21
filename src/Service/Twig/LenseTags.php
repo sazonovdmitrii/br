@@ -2,6 +2,8 @@
 namespace App\Service\Twig;
 use App\Entity\LenseItemTag;
 use App\Entity\LenseTag;
+use App\Repository\LenseItemTagRepository;
+use App\Repository\LenseTagRepository;
 use Doctrine\ORM\EntityManager;
 use App\Service\LenseService;
 
@@ -13,23 +15,35 @@ class LenseTags
     private $em;
 
     private $lenseService;
+    /**
+     * @var LenseTagRepository
+     */
+    private $lenseTagRepository;
+    /**
+     * @var LenseItemTagRepository
+     */
+    private $lenseItemTagRepository;
 
     public function __construct(
         EntityManager $entityManager,
-        LenseService $lenseService
+        LenseService $lenseService,
+        LenseTagRepository $lenseTagRepository,
+        LenseItemTagRepository $lenseItemTagRepository
     ) {
         $this->em = $entityManager;
         $this->lenseService = $lenseService;
+        $this->lenseTagRepository = $lenseTagRepository;
+        $this->lenseItemTagRepository = $lenseItemTagRepository;
     }
 
     public function getTree()
     {
-        return $this->em->getRepository(LenseTag::class)->findAll();
+        return $this->lenseTagRepository->findAll();
     }
 
     public function getItemTree()
     {
-        return $this->em->getRepository(LenseItemTag::class)->findAll();
+        return $this->lenseItemTagRepository->findAll();
     }
 
     public function getTags($tagsIds)
@@ -39,7 +53,7 @@ class LenseTags
             foreach($tagsIds as $step => $tagsItemsIds) {
                 $result[$step] = [];
                 foreach($tagsItemsIds as $tagsItemsId) {
-                    $lenseTagItem = $this->em->getRepository(LenseItemTag::class)->find($tagsItemsId);
+                    $lenseTagItem = $this->lenseItemTagRepository->find($tagsItemsId);
                     $result[$step][] = $lenseTagItem->getId();
                 }
             }
@@ -59,8 +73,7 @@ class LenseTags
 
     public function getLenseTagsItemsTree($type)
     {
-        return $this->em->getRepository(LenseTag::class)
-            ->findByType($type);
+        return $this->lenseTagRepository->findByType($type);
     }
 
     public function parseLenses($lenses)

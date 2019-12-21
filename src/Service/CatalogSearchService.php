@@ -1,29 +1,38 @@
 <?php
 namespace App\Service;
 
+use App\Repository\ProductItemRepository;
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Catalog;
 use Doctrine\ORM\EntityManager;
 
 class CatalogSearchService extends AbstractController
 {
     protected $entityManager;
+    /**
+     * @var ProductItemRepository
+     */
+    private $productItemRepository;
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
 
     public function __construct(
-       EntityManager $entityManager
+        EntityManager $entityManager,
+        ProductItemRepository $productItemRepository,
+        ProductRepository $productRepository
     ) {
         $this->entityManager = $entityManager;
+        $this->productItemRepository = $productItemRepository;
+        $this->productRepository = $productRepository;
     }
 
     public function search($slug)
     {
-        $productsIds = $this->entityManager
-            ->getRepository('App:ProductItem')
-            ->search($slug);
+        $productsIds = $this->productItemRepository->search($slug);
 
-        return $this->entityManager
-            ->getRepository('App:Product')
-            ->findBy(['id' => $productsIds]);
+        return $this->productRepository->findBy(['id' => $productsIds]);
 
     }
 }

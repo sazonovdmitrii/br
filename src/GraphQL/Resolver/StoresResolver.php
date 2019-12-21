@@ -1,21 +1,30 @@
 <?php
 namespace App\GraphQL\Resolver;
 
+use App\Repository\StoreRepository;
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
 
 class StoresResolver extends LocaleAlias
 {
     private $em;
+    /**
+     * @var StoreRepository
+     */
+    private $storeRepository;
 
     /**
-     * ProductResolver constructor.
+     * StoresResolver constructor.
      *
      * @param EntityManager $em
+     * @param StoreRepository $storeRepository
      */
-    public function __construct(EntityManager $em)
-    {
+    public function __construct(
+        EntityManager $em,
+        StoreRepository $storeRepository
+    ) {
         $this->em = $em;
+        $this->storeRepository = $storeRepository;
     }
 
     /**
@@ -23,7 +32,7 @@ class StoresResolver extends LocaleAlias
      */
     public function resolve($args)
     {
-        $stores = $this->em->getRepository('App:Store')
+        $stores = $this->storeRepository
             ->setCheckVision((isset($args['check_vision'])) ? $args['check_vision'] : 0)
             ->findAll();
 

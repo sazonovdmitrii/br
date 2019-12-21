@@ -1,5 +1,6 @@
 <?php
 namespace App\Service;
+use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTFailureException;
@@ -16,6 +17,10 @@ class AuthenticatorService
     private $jwtManager;
 
     private $request;
+    /**
+     * @var UsersRepository
+     */
+    private $usersRepository;
 
     /**
      * @return mixed
@@ -40,15 +45,19 @@ class AuthenticatorService
      *
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param EntityManager $em
+     * @param JWTTokenManagerInterface $JWTManager
+     * @param UsersRepository $usersRepository
      */
     public function __construct(
         UserPasswordEncoderInterface $passwordEncoder,
         EntityManager $em,
-        JWTTokenManagerInterface $JWTManager
+        JWTTokenManagerInterface $JWTManager,
+        UsersRepository $usersRepository
     ) {
         $this->passwordEncoder = $passwordEncoder;
         $this->em = $em;
         $this->jwtManager = $JWTManager;
+        $this->usersRepository = $usersRepository;
     }
 
     /**
@@ -58,7 +67,7 @@ class AuthenticatorService
      */
     public function auth(string $email, string $password)
     {
-        $user = $this->em->getRepository('App:Users')->findByEmail($email);
+        $user = $this->usersRepository->findByEmail($email);
         if($this->passwordEncoder->isPasswordValid($user, $password)) {
             return $user;
         }
@@ -73,9 +82,7 @@ class AuthenticatorService
             $userData = $this->jwtManager->decode($jwtToken);
 
             if(isset($userData['username']) && $email = $userData['username']) {
-                return $this->em
-                    ->getRepository('App:Users')
-                    ->findByEmail($email);
+                return $this->usersRepository->findByEmail($email);
             }
         } Catch(JWTFailureException $e) {
 

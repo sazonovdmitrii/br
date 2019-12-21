@@ -5,6 +5,11 @@ namespace App\GraphQL\Mutation;
 use App\Entity\OrderItem;
 use App\Entity\ProductItem;
 use App\Entity\Orders;
+use App\Repository\AddressRepository;
+use App\Repository\CourierRepository;
+use App\Repository\PaymentMethodRepository;
+use App\Repository\PickupRepository;
+use App\Repository\ProductItemRepository;
 use App\Service\AuthenticatorService;
 use App\Service\BasketService;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -19,6 +24,26 @@ use App\Service\UserService;
 class OrderMutation extends AuthMutation
 {
     private $authenticatorService;
+    /**
+     * @var PickupRepository
+     */
+    private $pickupRepository;
+    /**
+     * @var CourierRepository
+     */
+    private $courierRepository;
+    /**
+     * @var PaymentMethodRepository
+     */
+    private $paymentMethodRepository;
+    /**
+     * @var AddressRepository
+     */
+    private $addressRepository;
+    /**
+     * @var ProductItemRepository
+     */
+    private $productItemRepository;
 
     public function __construct(
         EntityManager $em,
@@ -27,7 +52,12 @@ class OrderMutation extends AuthMutation
         AuthenticatorService $authenticatorService,
         BasketService $basketService,
         ObjectManager $manager,
-        UserService $userService
+        UserService $userService,
+        PickupRepository $pickupRepository,
+        CourierRepository $courierRepository,
+        PaymentMethodRepository $paymentMethodRepository,
+        AddressRepository $addressRepository,
+        ProductItemRepository $productItemRepository
     ) {
         $this->manager              = $manager;
         $this->redis                = $redis;
@@ -35,6 +65,11 @@ class OrderMutation extends AuthMutation
         $this->basketService        = $basketService;
         $this->authenticatorService = $authenticatorService;
         parent::__construct($redis, $container, $authenticatorService, $userService);
+        $this->pickupRepository = $pickupRepository;
+        $this->courierRepository = $courierRepository;
+        $this->paymentMethodRepository = $paymentMethodRepository;
+        $this->addressRepository = $addressRepository;
+        $this->productItemRepository = $productItemRepository;
     }
 
     public function create(Argument $args)
@@ -57,15 +92,13 @@ class OrderMutation extends AuthMutation
 
             if($input->pickup_id) {
                 $order->setPickup(
-                    $this->em->getRepository('App:Pickup')
-                        ->find($input->pickup_id)
+                    $this->pickupRepository->find($input->pickup_id)
                 );
             }
 
             if($input->courier_id) {
                 $order->setCourier(
-                    $this->em->getRepository('App:Courier')
-                        ->find($input->courier_id)
+                    $this->courierRepository->find($input->courier_id)
                 );
             }
 
@@ -75,9 +108,7 @@ class OrderMutation extends AuthMutation
                 throw new UserError('Необходимо указать способ оплаты.');
             }
 
-            $paymentMethod = $this->em
-                ->getRepository('App:PaymentMethod')
-                ->find($input->payment_method_id);
+            $paymentMethod = $this->paymentMethodRepository->find($input->payment_method_id);
 
             $order->setPaymentMethodId($paymentMethod);
 
@@ -86,8 +117,7 @@ class OrderMutation extends AuthMutation
             }
 
             $order->setAddressId(
-                $this->em->getRepository('App:Address')
-                    ->find($input->address_id)
+                $this->addressRepository->find($input->address_id)
             );
 
             $order->setComment($input->comment);
@@ -104,9 +134,7 @@ class OrderMutation extends AuthMutation
             $orderItem = new OrderItem();
             $orderItem->setQty($basketItem['qty']);
 
-            $productItem = $this->em
-                ->getRepository(ProductItem::class)
-                ->find($basketItem['item']->getId());
+            $productItem = $this->productItemRepository->find($basketItem['item']->getId());
             if($productItem) {
                 $orderItem->setItem($productItem);
             }

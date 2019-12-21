@@ -1,5 +1,6 @@
 <?php
 namespace App\GraphQL\Resolver;
+use App\Repository\CatalogUrlRepository;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Catalog;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -14,6 +15,10 @@ use App\Service\UrlParseService;
 class CatalogProductResolver implements ResolverInterface, AliasedInterface {
 
     private $em;
+    /**
+     * @var CatalogUrlRepository
+     */
+    private $catalogUrlRepository;
 
     /**
      * ProductResolver constructor.
@@ -21,9 +26,11 @@ class CatalogProductResolver implements ResolverInterface, AliasedInterface {
      * @param EntityManager $em
      */
     public function __construct(
-        EntityManager $em
+        EntityManager $em,
+        CatalogUrlRepository $catalogUrlRepository
     ) {
         $this->em = $em;
+        $this->catalogUrlRepository = $catalogUrlRepository;
     }
 
     /**
@@ -36,9 +43,7 @@ class CatalogProductResolver implements ResolverInterface, AliasedInterface {
         $products = [];
         if($parsed['path']) {
 
-            $catalogUrl = $this->em
-                ->getRepository('App:CatalogUrl')
-                ->findByUrl($parsed['path'] . '/');
+            $catalogUrl = $this->catalogUrlRepository->findByUrl($parsed['path'] . '/');
             
             if(count($parsed['filters'])) {
                 $productsIds = [];

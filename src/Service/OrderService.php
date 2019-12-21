@@ -1,5 +1,6 @@
 <?php
 namespace App\Service;
+use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManager;
 use App\Service\Order;
@@ -7,11 +8,17 @@ use App\Service\Order;
 class OrderService extends AbstractController
 {
     private $userId;
+    /**
+     * @var UsersRepository
+     */
+    private $usersRepository;
 
     public function __construct(
-        EntityManager $em
+        EntityManager $em,
+        UsersRepository $usersRepository
     ) {
         $this->em = $em;
+        $this->usersRepository = $usersRepository;
     }
 
     public function setUserId(string $userId)
@@ -27,7 +34,7 @@ class OrderService extends AbstractController
 
     public function getOrders()
     {
-        $user = $this->em->getRepository('App:Users')->find($this->getUserId());
+        $user = $this->usersRepository->find($this->getUserId());
         return $user->getOrders();
     }
 }

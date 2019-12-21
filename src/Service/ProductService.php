@@ -1,6 +1,8 @@
 <?php
 namespace App\Service;
 
+use App\Repository\CatalogRepository;
+use App\Repository\ProductUrlRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManager;
@@ -11,13 +13,25 @@ class ProductService extends AbstractController
     protected $product;
     protected $tagOptionService;
     protected $entityManager;
+    /**
+     * @var CatalogRepository
+     */
+    private $catalogRepository;
+    /**
+     * @var ProductUrlRepository
+     */
+    private $productUrlRepository;
 
     public function __construct(
         TagOptionService $tagOptionService,
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        CatalogRepository $catalogRepository,
+        ProductUrlRepository $productUrlRepository
     ) {
         $this->tagOptionService = $tagOptionService;
         $this->entityManager = $entityManager;
+        $this->catalogRepository = $catalogRepository;
+        $this->productUrlRepository = $productUrlRepository;
     }
 
     public function setProduct(Product $product)
@@ -47,15 +61,11 @@ class ProductService extends AbstractController
     {
         $product = $this->getProduct();
 
-        $this->getDoctrine()
-            ->getRepository(Catalog::class)
-            ->flushByProduct($product);
+        $this->catalogRepository->flushByProduct($product);
 
         foreach($catalogsIds as $catalogsId) {
 
-            $catalog = $this->entityManager
-                ->getRepository('App:Catalog')
-                ->find($catalogsId);
+            $catalog = $this->catalogRepository->find($catalogsId);
 
             $product->addCatalog($catalog);
         }
@@ -68,9 +78,7 @@ class ProductService extends AbstractController
     {
         $product = $this->getProduct();
         foreach($urlsIds as $urlsId) {
-            $catalogUrl = $this->entityManager
-                ->getRepository('App:ProductUrl')
-                ->find($urlsId);
+            $catalogUrl = $this->productUrlRepository->find($urlsId);
             $product->addProductUrl($catalogUrl);
         }
         $this->entityManager->persist($product);

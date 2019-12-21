@@ -1,6 +1,8 @@
 <?php
 namespace App\Service;
 use App\Entity\ProductTagItem;
+use App\Repository\ProductTagItemRepository;
+use App\Repository\ProductTagRepository;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManager;
@@ -10,13 +12,25 @@ use App\Service\ConfigService;
 class UrlParseService extends AbstractController
 {
     private $em;
+    /**
+     * @var ProductTagItemRepository
+     */
+    private $productTagItemRepository;
+    /**
+     * @var ProductTagRepository
+     */
+    private $productTagRepository;
 
     public function __construct(
         EntityManager $em,
-        ConfigService $configService
+        ConfigService $configService,
+        ProductTagRepository $productTagRepository,
+        ProductTagItemRepository $productTagItemRepository
     ) {
         $this->em = $em;
         $this->configService = $configService;
+        $this->productTagItemRepository = $productTagItemRepository;
+        $this->productTagRepository = $productTagRepository;
     }
 
     function parse(Argument $args)
@@ -32,13 +46,9 @@ class UrlParseService extends AbstractController
             $tag = $value = false;
 
             if(count($filterComponents) > 1) {
-                $tag = $this->em
-                    ->getRepository(ProductTag::class)
-                    ->findBySlug($filterComponents[0]);
+                $tag = $this->productTagRepository->findBySlug($filterComponents[0]);
                 if($tag) {
-                    $value = $this->em
-                        ->getRepository(ProductTagItem::class)
-                        ->findBySlug($filterComponents[1]);
+                    $value = $this->productTagItemRepository->findBySlug($filterComponents[1]);
                 }
             } else {
                 if($urlComponent) {
@@ -58,9 +68,7 @@ class UrlParseService extends AbstractController
                         if(in_array($urlTagPart, $stopTags)) {
                             continue;
                         }
-                        $value = $this->em
-                            ->getRepository(ProductTagItem::class)
-                            ->findBySlug($urlTagPart);
+                        $value = $this->productTagItemRepository->findBySlug($urlTagPart);
                         if($value) {
                             $pathExists = true;
                             $tagsLib['filters'][] = $this->_getTag($value->getId());
@@ -92,9 +100,7 @@ class UrlParseService extends AbstractController
 
     private function _getTag($tagId)
     {
-        $value = $this->em
-            ->getRepository(ProductTagItem::class)
-            ->find($tagId);
+        $value = $this->productTagItemRepository->find($tagId);
         if($value) {
             $tag = $value->getEntityId();
              return [

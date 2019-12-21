@@ -2,6 +2,7 @@
 namespace App\Service;
 
 use App\Entity\ProductItemImage;
+use App\Repository\ProductItemImageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManager;
 use App\Entity\ProductItem;
@@ -11,11 +12,17 @@ class ProductItemService extends AbstractController
     protected $entityManager;
 
     protected $productItem;
+    /**
+     * @var ProductItemImageRepository
+     */
+    private $productItemImageRepository;
 
     public function __construct(
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        ProductItemImageRepository $productItemImageRepository
     ) {
         $this->entityManager = $entityManager;
+        $this->productItemImageRepository = $productItemImageRepository;
     }
 
     public function setProductItem(ProductItem $productItem)
@@ -35,9 +42,7 @@ class ProductItemService extends AbstractController
 
         foreach($imagesIds as $imagesId) {
 
-            $productItemImage = $this->entityManager
-                ->getRepository('App:ProductItemImage')
-                ->find($imagesId);
+            $productItemImage = $this->productItemImageRepository->find($imagesId);
             if($productItemImage) {
                 $productItem->addProductItemImage($productItemImage);
             }

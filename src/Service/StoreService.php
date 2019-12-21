@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Repository\StoreUrlRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Store;
 use Doctrine\ORM\EntityManager;
@@ -9,11 +10,17 @@ class StoreService extends AbstractController
 {
     protected $store;
     protected $entityManager;
+    /**
+     * @var StoreUrlRepository
+     */
+    private $storeUrlRepository;
 
     public function __construct(
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        StoreUrlRepository $storeUrlRepository
     ) {
         $this->entityManager = $entityManager;
+        $this->storeUrlRepository = $storeUrlRepository;
     }
 
     public function setStore(Store $store)
@@ -31,9 +38,7 @@ class StoreService extends AbstractController
     {
         $store = $this->getStore();
         foreach($urlsIds as $urlsId) {
-            $storeUrl = $this->entityManager
-                ->getRepository('App:StoreUrl')
-                ->find($urlsId);
+            $storeUrl = $this->storeUrlRepository->find($urlsId);
             $store->addStoreUrl($storeUrl);
         }
         $this->entityManager->persist($store);

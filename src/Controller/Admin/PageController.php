@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\PageUrl;
+use App\Repository\PageUrlRepository;
 use App\Service\PageService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Doctrine\ORM\EntityManager;
@@ -14,13 +15,19 @@ class PageController extends BaseAdminController
     private $entityManager;
 
     private $pageService;
+    /**
+     * @var PageUrlRepository
+     */
+    private $pageUrlRepository;
 
     public function __construct(
         EntityManager $entityManager,
-        PageService $pageService
+        PageService $pageService,
+        PageUrlRepository $pageUrlRepository
     ) {
         $this->entityManager = $entityManager;
         $this->pageService = $pageService;
+        $this->pageUrlRepository = $pageUrlRepository;
     }
 
     protected function editAction()
@@ -131,7 +138,7 @@ class PageController extends BaseAdminController
     {
         $url = $this->request->request->get('url');
 
-        $checkUrl = $this->entityManager->getRepository('App:PageUrl')->findOneBy(
+        $checkUrl = $this->pageUrlRepository->findOneBy(
             ['url' => $url]
         );
 
@@ -162,8 +169,7 @@ class PageController extends BaseAdminController
     {
         $urlId = $this->request->request->get('url_id');
 
-        $url = $this->entityManager->getRepository('App:PageUrl')
-            ->find($urlId);
+        $url = $this->pageUrlRepository->find($urlId);
 
         if ($url) {
             $this->entityManager->remove($url);

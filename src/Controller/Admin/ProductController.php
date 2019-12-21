@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\ProductUrlRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use App\Service\AdminTagService;
@@ -20,15 +21,21 @@ class ProductController extends BaseAdminController
     private $productService;
 
     private $entityManager;
+    /**
+     * @var ProductUrlRepository
+     */
+    private $productUrlRepository;
 
     public function __construct(
         AdminTagService $tagService,
         ProductService $productService,
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        ProductUrlRepository $productUrlRepository
     ) {
         $this->tagService = $tagService;
         $this->productService = $productService;
         $this->entityManager = $entityManager;
+        $this->productUrlRepository = $productUrlRepository;
     }
 
     protected function newAction()
@@ -176,9 +183,7 @@ class ProductController extends BaseAdminController
     {
         $url = $this->request->request->get('url');
 
-        $checkUrl = $this->entityManager->getRepository('App:ProductUrl')->findOneBy(
-            ['url' => $url]
-        );
+        $checkUrl = $this->productUrlRepository->findOneBy(['url' => $url]);
 
         if ($checkUrl) {
             $id = $checkUrl->getId();
@@ -207,8 +212,7 @@ class ProductController extends BaseAdminController
     {
         $urlId = $this->request->request->get('url_id');
 
-        $url = $this->entityManager->getRepository('App:ProductUrl')
-            ->find($urlId);
+        $url = $this->productUrlRepository->find($urlId);
 
         if ($url) {
             $this->entityManager->remove($url);

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\ProductItem;
+use App\Repository\ProductRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Doctrine\ORM\EntityManager;
@@ -15,15 +16,21 @@ class ItemsController extends BaseAdminController
     private $entityManager;
 
     private $productItemService;
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
 
     public function __construct(
         EntityManager $entityManager,
         ProductItemService $productItemService,
-        AdminTagService $tagService
+        AdminTagService $tagService,
+        ProductRepository $productRepository
     ) {
         $this->entityManager = $entityManager;
         $this->productItemService = $productItemService;
         $this->tagService = $tagService;
+        $this->productRepository = $productRepository;
     }
 
     public function editItemsAction()
@@ -117,9 +124,8 @@ class ItemsController extends BaseAdminController
             $this->dispatch(EasyAdminEvents::POST_PERSIST, array('entity' => $entity));
 
             if($productId) {
-                $entity->setProduct($this->entityManager
-                    ->getRepository('App:Product')
-                    ->find($productId)
+                $entity->setProduct(
+                    $this->productRepository->find($productId)
                 );
             }
             $this->entityManager->persist($entity);

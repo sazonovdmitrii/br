@@ -1,5 +1,6 @@
 <?php
 namespace App\GraphQL\Resolver;
+use App\Repository\CatalogUrlRepository;
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
 use App\Service\UrlParseService;
@@ -7,18 +8,26 @@ use App\Service\UrlParseService;
 class CatalogsResolver extends LocaleAlias {
 
     private $em;
+    /**
+     * @var CatalogUrlRepository
+     */
+    private $catalogUrlRepository;
 
     /**
-     * ProductResolver constructor.
+     * CatalogsResolver constructor.
      *
      * @param EntityManager $em
+     * @param UrlParseService $urlParseService
+     * @param CatalogUrlRepository $catalogUrlRepository
      */
     public function __construct(
         EntityManager $em,
-        UrlParseService $urlParseService
+        UrlParseService $urlParseService,
+        CatalogUrlRepository $catalogUrlRepository
     ) {
         $this->em = $em;
         $this->urlParseService = $urlParseService;
+        $this->catalogUrlRepository = $catalogUrlRepository;
     }
 
     /**
@@ -30,9 +39,7 @@ class CatalogsResolver extends LocaleAlias {
         $parsed = $this->urlParseService->parse($args);
 
         if($parsed['path']) {
-            $catalogUrl = $this->em
-                ->getRepository('App:CatalogUrl')
-                ->findByUrl($parsed['path'] . '/');
+            $catalogUrl = $this->catalogUrlRepository->findByUrl($parsed['path'] . '/');
         }
 
         if($catalogUrl) {

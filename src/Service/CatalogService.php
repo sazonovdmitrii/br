@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Repository\CatalogUrlRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Catalog;
 use Doctrine\ORM\EntityManager;
@@ -10,11 +11,17 @@ class CatalogService extends AbstractController
     protected $catalog;
 
     protected $entityManager;
+    /**
+     * @var CatalogUrlRepository
+     */
+    private $catalogUrlRepository;
 
     public function __construct(
-       EntityManager $entityManager
+        EntityManager $entityManager,
+        CatalogUrlRepository $catalogUrlRepository
     ) {
         $this->entityManager = $entityManager;
+        $this->catalogUrlRepository = $catalogUrlRepository;
     }
 
     public function setCatalog(Catalog $catalog)
@@ -32,9 +39,7 @@ class CatalogService extends AbstractController
     {
         $catalog = $this->getCatalog();
         foreach($urlsIds as $urlsId) {
-            $catalogUrl = $this->entityManager
-                ->getRepository('App:CatalogUrl')
-                ->find($urlsId);
+            $catalogUrl = $this->catalogUrlRepository->find($urlsId);
             $catalog->addCatalogUrl($catalogUrl);
         }
         $this->entityManager->persist($catalog);

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Menu;
+use App\Repository\MenuRepository;
 use Doctrine\ORM\EntityManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
@@ -13,11 +14,17 @@ class MenuController extends BaseAdminController
     const PAGE_LISTING = 20;
 
     private $entityManager;
+    /**
+     * @var MenuRepository
+     */
+    private $menuRepository;
 
     public function __construct(
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        MenuRepository $menuRepository
     ) {
         $this->entityManager = $entityManager;
+        $this->menuRepository = $menuRepository;
     }
 
     public function editMenuAction()
@@ -27,7 +34,7 @@ class MenuController extends BaseAdminController
         $menuStringify = $this->request->request->get('menu');
         if ($menuStringify) {
             $id   = $this->request->request->get('id');
-            $menu = $this->getDoctrine()->getRepository(Menu::class)->find($id);
+            $menu = $this->menuRepository->find($id);
             $menu->setMenu($menuStringify);
             $this->entityManager->persist($menu);
             $this->entityManager->flush();
@@ -89,7 +96,7 @@ class MenuController extends BaseAdminController
     public function menuMenuAction()
     {
         $id            = $this->request->query->get('id');
-        $menu          = $this->getDoctrine()->getRepository(Menu::class)->find($id);
+        $menu          = $this->menuRepository->find($id);
         $menuStringify = $menu->getMenu();
         if (!$menuStringify) {
             $menuStringify = $this->_defaultMenu();

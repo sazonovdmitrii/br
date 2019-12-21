@@ -6,27 +6,44 @@ use App\Entity\Catalog;
 use App\Entity\CatalogUrl;
 use App\Service\AdminTagService;
 use App\Service\CatalogService;
-use Doctrine\ORM\EntityManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repository\CatalogUrlRepository;
 
 class CatalogController extends BaseAdminController
 {
+    /**
+     * @var AdminTagService
+     */
     private $tagService;
 
-    private $entityManager;
-
+    /**
+     * @var CatalogService
+     */
     private $catalogService;
+
+    /**
+     * @var CatalogUrlRepository
+     */
+    private $catalogUrlRepository;
+
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
 
     public function __construct(
         AdminTagService $tagService,
-        EntityManager $entityManager,
-        CatalogService $catalogService
+        CatalogService $catalogService,
+        CatalogUrlRepository $catalogUrlRepository,
+        EntityManager $entityManager
     ) {
         $this->tagService     = $tagService;
-        $this->entityManager  = $entityManager;
         $this->catalogService = $catalogService;
+        $this->catalogUrlRepository = $catalogUrlRepository;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -158,7 +175,7 @@ class CatalogController extends BaseAdminController
     {
         $url = $this->request->request->get('url');
 
-        $checkUrl = $this->entityManager->getRepository('App:CatalogUrl')->findOneBy(
+        $checkUrl = $this->catalogUrlRepository->findOneBy(
             ['url' => $url]
         );
 
@@ -190,8 +207,7 @@ class CatalogController extends BaseAdminController
     {
         $urlId = $this->request->request->get('url_id');
 
-        $url = $this->entityManager->getRepository('App:CatalogUrl')
-            ->find($urlId);
+        $url = $this->catalogUrlRepository->find($urlId);
 
         if ($url) {
             $this->entityManager->remove($url);

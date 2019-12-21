@@ -3,6 +3,8 @@ namespace App\Service;
 
 use App\Entity\LenseTag;
 use App\Entity\Lense;
+use App\Repository\LenseRepository;
+use App\Repository\LenseTagRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -28,13 +30,25 @@ class LenseService extends AbstractController
             ]
         ]
     ];
+    /**
+     * @var LenseTagRepository
+     */
+    private $lenseTagRepository;
+    /**
+     * @var LenseRepository
+     */
+    private $lenseRepository;
 
     public function __construct(
         EntityManager $entityManager,
-        \Symfony\Component\Cache\Adapter\AdapterInterface $cache
+        \Symfony\Component\Cache\Adapter\AdapterInterface $cache,
+        LenseTagRepository $lenseTagRepository,
+        LenseRepository $lenseRepository
     ) {
         $this->entityManager = $entityManager;
         $this->cache = $cache;
+        $this->lenseTagRepository = $lenseTagRepository;
+        $this->lenseRepository = $lenseRepository;
     }
 
     public function parse($lenses = '')
@@ -95,9 +109,7 @@ class LenseService extends AbstractController
      */
     private function getLenseTagById($lenseTagId)
     {
-        return $this->entityManager
-            ->getRepository(LenseTag::class)
-            ->find($lenseTagId);
+        return $this->lenseTagRepository->find($lenseTagId);
     }
 
     /**
@@ -106,8 +118,6 @@ class LenseService extends AbstractController
      */
     private function getLenseById($lenseId)
     {
-        return $this->entityManager
-            ->getRepository(Lense::class)
-            ->find($lenseId);
+        return $this->lenseRepository->find($lenseId);
     }
 }

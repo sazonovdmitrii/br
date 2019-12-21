@@ -1,6 +1,7 @@
 <?php
 namespace App\GraphQL\Resolver;
 
+use App\Repository\AddressRepository;
 use Doctrine\ORM\EntityManager;
 use App\Service\AuthenticatorService;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -19,6 +20,10 @@ class AddressesResolver extends AuthAlias
     private $request;
 
     private $logger;
+    /**
+     * @var AddressRepository
+     */
+    private $addressRepository;
 
     /**
      * ProductResolver constructor.
@@ -29,7 +34,8 @@ class AddressesResolver extends AuthAlias
         EntityManager $em,
         AuthenticatorService $authenticatorService,
         ContainerInterface $container,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        AddressRepository $addressRepository
     ) {
         $this->em = $em;
         $this->authenticatorService = $authenticatorService;
@@ -38,6 +44,7 @@ class AddressesResolver extends AuthAlias
             $this->request = $container->get('request_stack')->getCurrentRequest();
         }
         parent::__construct($em, $container, $authenticatorService);
+        $this->addressRepository = $addressRepository;
     }
 
     /**
@@ -51,8 +58,7 @@ class AddressesResolver extends AuthAlias
             ];
         } else {
             return [
-                'data' => $this->em->getRepository('App:Address')
-                    ->findBy(['session_key' => $this->getAuthKey()])
+                'data' => $this->addressRepository->findBy(['session_key' => $this->getAuthKey()])
             ];
         }
     }

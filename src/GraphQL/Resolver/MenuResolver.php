@@ -1,6 +1,7 @@
 <?php
 namespace App\GraphQL\Resolver;
 
+use App\Repository\MenuRepository;
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
@@ -11,18 +12,24 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class MenuResolver extends LocaleAlias
 {
     private $em;
+    /**
+     * @var MenuRepository
+     */
+    private $menuRepository;
 
     public function __construct(
         EntityManager $entityManager,
-        ContainerInterface $container
+        ContainerInterface $container,
+        MenuRepository $menuRepository
     ) {
         $this->em = $entityManager;
         parent::__construct($container);
+        $this->menuRepository = $menuRepository;
     }
 
     public function resolve(Argument $args)
     {
-        $topMenu = $this->em->getRepository('App:Menu')
+        $topMenu = $this->menuRepository
             ->findOneBy(
                 ['name' => $args['name'] . '_' . $args['locale']]
             );

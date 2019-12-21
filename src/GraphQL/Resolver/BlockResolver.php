@@ -1,21 +1,30 @@
 <?php
 namespace App\GraphQL\Resolver;
 
+use App\Repository\BlockRepository;
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
 
 class BlockResolver extends LocaleAlias {
 
     private $em;
+    /**
+     * @var BlockRepository
+     */
+    private $blockRepository;
 
     /**
-     * PageResolver constructor.
+     * BlockResolver constructor.
      *
      * @param EntityManager $em
+     * @param BlockRepository $blockRepository
      */
-    public function __construct(EntityManager $em)
-    {
+    public function __construct(
+        EntityManager $em,
+        BlockRepository $blockRepository
+    ) {
         $this->em = $em;
+        $this->blockRepository = $blockRepository;
     }
 
     /**
@@ -24,12 +33,12 @@ class BlockResolver extends LocaleAlias {
      */
     public function resolve(Argument $args)
     {
-        $block = $this->em
-            ->getRepository('App:Block')
-            ->findByName($args['id']);
+        $block = $this->blockRepository->findByName($args['id']);
+
         if(!$block) {
             return [];
         }
+
         $block->setCurrentLocale($this->getLocale());
         return $block;
     }

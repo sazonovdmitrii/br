@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Translation;
+use App\Repository\TranslationRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,13 +16,19 @@ class TranslationController extends BaseAdminController
     private $entityManager;
 
     private $jsonService;
+    /**
+     * @var TranslationRepository
+     */
+    private $translationRepository;
 
     public function __construct(
         EntityManager $entityManager,
-        JsonService $jsonService
+        JsonService $jsonService,
+        TranslationRepository $translationRepository
     ) {
         $this->entityManager = $entityManager;
         $this->jsonService = $jsonService;
+        $this->translationRepository = $translationRepository;
     }
 
     public function listTranslationAction()
@@ -31,7 +38,7 @@ class TranslationController extends BaseAdminController
         $fields = $this->entity['list']['fields'];
         $paginator = $this->findAll($this->entity['class'], $this->request->query->get('page', 1), $this->entity['list']['max_results'], $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
 
-        $data = $this->getDoctrine()->getRepository(Translation::class)->findAll();
+        $data = $this->translationRepository->findAll();
 
         $this->dispatch(EasyAdminEvents::POST_LIST, array('paginator' => $paginator));
 
@@ -93,9 +100,7 @@ class TranslationController extends BaseAdminController
         $locales = $this->getParameter('a2lix_translation_form.locales');
         foreach($locales as $locale) {
 
-            $languages = $this->getDoctrine()
-                ->getRepository(Translation::class)
-                ->findBy(['language' => $locale]);
+            $languages = $this->translationRepository->findBy(['language' => $locale]);
 
             $this->jsonService
                 ->setData($languages)

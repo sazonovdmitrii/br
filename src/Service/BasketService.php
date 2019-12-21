@@ -1,5 +1,7 @@
 <?php
 namespace App\Service;
+use App\Repository\ImageTypeRepository;
+use App\Repository\ProductItemRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Redis;
 use Doctrine\ORM\EntityManager;
@@ -12,6 +14,14 @@ class BasketService extends AbstractController
     private $locale;
 
     private $lenseService;
+    /**
+     * @var ProductItemRepository
+     */
+    private $productItemRepository;
+    /**
+     * @var ImageTypeRepository
+     */
+    private $imageTypeRepository;
 
     /**
      * @return mixed
@@ -35,12 +45,16 @@ class BasketService extends AbstractController
         EntityManager $em,
         Redis $redis,
         GeneratorService $generatorService,
-        LenseService $lenseService
+        LenseService $lenseService,
+        ProductItemRepository $productItemRepository,
+        ImageTypeRepository $imageTypeRepository
     ) {
         $this->em = $em;
         $this->redis = $redis;
         $this->imageGenerator = $generatorService;
         $this->lenseService = $lenseService;
+        $this->productItemRepository = $productItemRepository;
+        $this->imageTypeRepository = $imageTypeRepository;
     }
 
     public function setAuthKey(string $authKey)
@@ -102,9 +116,9 @@ class BasketService extends AbstractController
             }
             $this->redis->set($key, json_encode($basket));
             foreach($basket as $basketItem) {
-                $productItem = $this->em
-                    ->getRepository('App:ProductItem')
-                    ->find($basketItem['item_id']);
+
+                $productItem = $this->productItemRepository->find($basketItem['item_id']);
+
                 if($productItem && $productItem->getEntity()) {
                     $basket[$basketItem['item_id']] = array_merge(
                         $basketItem,
@@ -153,9 +167,7 @@ class BasketService extends AbstractController
             $result = [];
             if($basket) {
                 foreach($basket as $basketItem) {
-                    $productItem = $this->em
-                        ->getRepository('App:ProductItem')
-                        ->find($basketItem['item_id']);
+                    $productItem = $this->productItemRepository->find($basketItem['item_id']);
 
                     if($productItem) {
 
@@ -163,8 +175,7 @@ class BasketService extends AbstractController
 
                         $images = [];
 
-                        $config = $this->em->getRepository('App:ImageType')
-                            ->findAll();
+                        $config = $this->imageTypeRepository->findAll();
 
                         foreach($productItem->getProductItemImages() as $image) {
 

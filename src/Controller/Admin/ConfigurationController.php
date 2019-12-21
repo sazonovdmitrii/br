@@ -8,29 +8,49 @@ use App\Service\RequestFilterService;
 use App\Service\DoctrineService;
 use App\Entity\Configuration;
 use App\Service\TagService;
+use App\Repository\ConfigurationRepository;
 
 class ConfigurationController extends BaseAdminController
 {
     private $_template = 'admin/Configuration/form.html.twig';
 
+    /**
+     * @var RequestFilterService
+     */
     private $filterService;
 
+    /**
+     * @var DoctrineService
+     */
     private $doctrineService;
 
+    /**
+     * @var EntityManager
+     */
     private $entityManager;
 
+    /**
+     * @var TagService
+     */
     private $tagService;
+
+    /**
+     * @var ConfigurationRepository
+     */
+    private $configurationRepository;
 
     public function __construct(
         RequestFilterService $filterService,
         DoctrineService $doctrineService,
         EntityManager $entityManager,
-        TagService $tagService
+        TagService $tagService,
+        ConfigurationRepository $configurationRepository
     ) {
         $this->filterService = $filterService;
         $this->doctrineService = $doctrineService;
         $this->entityManager = $entityManager;
         $this->tagService = $tagService;
+        $this->configurationRepository = $configurationRepository;
     }
 
     protected function renderTemplate($actionName, $templatePath, array $parameters = array())
@@ -46,8 +66,7 @@ class ConfigurationController extends BaseAdminController
     public function saveAction()
     {
         $parameters = $this->filterService->filterQuery($this->request->query);
-        $configurationRepository = $this->getDoctrine()->getRepository(Configuration::class);
-        $configurationRepository->flush();
+        $this->configurationRepository->flush();
 
         foreach($parameters as $option => $value) {
             $configuration = new Configuration();

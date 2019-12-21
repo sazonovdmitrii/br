@@ -2,6 +2,8 @@
 
 namespace App\GraphQL\Resolver;
 
+use App\Repository\ImageTypeRepository;
+use App\Repository\ProductUrlRepository;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Product;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -21,6 +23,14 @@ class ProductFieldResolver extends LocaleAlias
     private $em;
 
     private $configService;
+    /**
+     * @var ProductUrlRepository
+     */
+    private $productUrlRepository;
+    /**
+     * @var ImageTypeRepository
+     */
+    private $imageTypeRepository;
 
     /**
      * ProductResolver constructor.
@@ -31,12 +41,16 @@ class ProductFieldResolver extends LocaleAlias
         EntityManager $em,
         TagService $tagService,
         ConfigService $configService,
-        GeneratorService $generatorService
+        GeneratorService $generatorService,
+        ProductUrlRepository $productUrlRepository,
+        ImageTypeRepository $imageTypeRepository
     ) {
         $this->em = $em;
         $this->tagService = $tagService;
         $this->configService = $configService;
         $this->imageGenerator = $generatorService;
+        $this->productUrlRepository = $productUrlRepository;
+        $this->imageTypeRepository = $imageTypeRepository;
     }
 
     /**
@@ -57,9 +71,7 @@ class ProductFieldResolver extends LocaleAlias
      */
     public function resolve(Argument $args)
     {
-        $productUrl = $this->em
-            ->getRepository('App:ProductUrl')
-            ->findByUrl($args['slug']);
+        $productUrl = $this->productUrlRepository->findByUrl($args['slug']);
 
         if ($productUrl) {
             return $productUrl->getEntity();
@@ -88,9 +100,7 @@ class ProductFieldResolver extends LocaleAlias
      */
     public function url(Product $product)
     {
-        if($productUrl = $this->em
-            ->getRepository('App:ProductUrl')
-            ->findByEntity($product->getId())) {
+        if($productUrl = $this->productUrlRepository->findByEntity($product->getId())) {
             return str_replace('//', '/', '/' . $productUrl);
         }
         return '';
@@ -127,7 +137,7 @@ class ProductFieldResolver extends LocaleAlias
     {
         $items = $product->getProductItems()->toArray();
 
-        $imageConfiguration = $this->em->getRepository('App:ImageType')->findAll();
+        $imageConfiguration = $this->imageTypeRepository->findAll();
 
         foreach($items as $item) {
 

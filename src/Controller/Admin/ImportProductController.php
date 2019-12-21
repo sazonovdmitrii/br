@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\ImportQueueRelation;
+use App\Repository\ImportQueueRelationRepository;
+use App\Repository\ImportQueueRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use App\Entity\ImportQueue;
@@ -10,6 +12,22 @@ use App\Entity\ImportQueue;
 class ImportProductController extends BaseAdminController
 {
     const PAGE_LISTING = 20;
+    /**
+     * @var ImportQueueRepository
+     */
+    private $importQueueRepository;
+    /**
+     * @var ImportQueueRelationRepository
+     */
+    private $importQueueRelationRepository;
+
+    public function __construct(
+        ImportQueueRepository $importQueueRepository,
+        ImportQueueRelationRepository $importQueueRelationRepository
+    ) {
+        $this->importQueueRepository = $importQueueRepository;
+        $this->importQueueRelationRepository = $importQueueRelationRepository;
+    }
 
     public function listImportProductAction()
     {
@@ -20,10 +38,10 @@ class ImportProductController extends BaseAdminController
         $paginator = $this->findAll($this->entity['class'], $this->request->query->get('page', 1), $this->entity['list']['max_results'], $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
 
         $this->dispatch(EasyAdminEvents::POST_LIST, array('paginator' => $paginator));
-        $data = $this->getDoctrine()->getRepository(ImportQueue::class)->findAll();
-        $queue = $this->getDoctrine()
-            ->getRepository(ImportQueueRelation::class)
-            ->findLimit(self::PAGE_LISTING);
+
+        $data = $this->importQueueRepository->findAll();
+
+        $queue = $this->importQueueRelationRepository->findLimit(self::PAGE_LISTING);
 
         $parameters = array(
             'paginator' => $paginator,
@@ -41,9 +59,7 @@ class ImportProductController extends BaseAdminController
     {
         $priceType = $this->request->get('type');
 
-        $this->getDoctrine()
-            ->getRepository(ImportQueue::class)
-            ->flushAll($priceType);
+        $this->importQueueRepository->flushAll($priceType);
 
         $manager = $this->getDoctrine()->getManager();
         $uploads = $this->getParameter('kernel.project_dir') .

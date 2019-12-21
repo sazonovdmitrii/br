@@ -1,6 +1,7 @@
 <?php
 namespace App\GraphQL\Resolver;
 
+use App\Repository\MenuRepository;
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
@@ -10,15 +11,22 @@ use GraphQL\Error\UserError;
 class TopMenuResolver extends LocaleAlias
 {
     private $em;
+    /**
+     * @var MenuRepository
+     */
+    private $menuRepository;
 
-    public function __construct(EntityManager $entityManager)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        MenuRepository $menuRepository
+    ) {
         $this->em = $entityManager;
+        $this->menuRepository = $menuRepository;
     }
 
     public function resolve(Argument $args)
     {
-        $topMenu = $this->em->getRepository('App:Menu')
+        $topMenu = $this->menuRepository
             ->findOneBy(
                 ['name' => 'top_menu_' . $this->getLocale()]
             );

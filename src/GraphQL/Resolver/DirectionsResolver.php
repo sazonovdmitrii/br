@@ -1,6 +1,7 @@
 <?php
 namespace App\GraphQL\Resolver;
 
+use App\Repository\DirectionRepository;
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
@@ -8,15 +9,22 @@ use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 class DirectionsResolver implements ResolverInterface, AliasedInterface
 {
     private $em;
+    /**
+     * @var DirectionRepository
+     */
+    private $directionRepository;
 
-    public function __construct(EntityManager $entityManager)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        DirectionRepository $directionRepository
+    ) {
         $this->em = $entityManager;
+        $this->directionRepository = $directionRepository;
     }
 
     public function resolve()
     {
-        $regions = $this->em->getRepository('App:Direction')->findAll();
+        $regions = $this->directionRepository->findAll();
         return [
             'data' => $regions
         ];
