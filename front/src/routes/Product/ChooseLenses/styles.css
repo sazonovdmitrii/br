@@ -84,10 +84,10 @@
 }
 
 .progressBar {
-    background-color: #eff3f5;
     position: absolute;
     top: 0;
     width: 100%;
+    background-color: #eff3f5;
 }
 
 .progress {
@@ -220,9 +220,9 @@
     display: none;
 
     @media (--viewport-desktop) {
+        position: relative;
         display: flex;
         height: 48px;
-        position: relative;
     }
 }
 

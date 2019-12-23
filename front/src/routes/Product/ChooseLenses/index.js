@@ -20,14 +20,17 @@ import InputGroup from 'components/InputGroup';
 
 import styles from './styles.css';
 
+const RECIPE_STEP = 'Recipe';
+const FINAL_STEP = 'Review';
+
 const _steps = [
     'Prescription Type',
     'Refractive index',
     'Lens type',
     'Covering',
     'Brand',
-    'Recipe',
-    'Review',
+    RECIPE_STEP,
+    FINAL_STEP,
 ];
 const _stepWidth = 100 / _steps.length;
 const _sides = ['left', 'right'];
@@ -53,31 +56,45 @@ const getLensesByValues = ({ lenses = [], values = [] }) => {
     return filteredLenses;
 };
 
-const getOptionsByStep = ({ lenses = [], step }) => {
-    const options = [];
+const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
+    const options = lenses.reduce((obj, { lenseitemstags, price }) => {
+        const option = lenseitemstags.find(({ entity }) => entity.name === step);
 
-    if (step === 'Recipe') {
-        // /
-    }
+        if (!option) return obj;
 
-    lenses.forEach(({ lenseitemstags }) => {
-        const allIdsOptions = options.map(({ id }) => id);
+        const { id, name } = option;
+        const currentOption = obj[id];
+        const prices = currentOption ? currentOption.prices : [];
 
-        lenseitemstags.forEach(({ id, name, price, entity }) => {
-            if (entity.name === step) {
-                if (allIdsOptions.indexOf(id) >= 0) {
-                    return;
-                }
+        return {
+            ...obj,
+            [id]: {
+                name,
+                prices: [...prices, parseInt(price, 10)],
+            },
+        };
+    }, {});
+    const optionsWithMinPrice = Object.entries(options).map(([id, { name, prices }]) => {
+        const [minPrice] = prices.sort((a, b) => a - b);
 
-                options.push({ id, name, price });
-            }
-        });
+        return {
+            name,
+            id: parseInt(id, 10),
+            price: minPrice - stepPrice,
+        };
     });
 
-    return options;
+    return optionsWithMinPrice;
 };
 
-const ChooseLenses = ({ product, lenses, onClose }) => {
+const ChooseLenses = ({
+    product: {
+        name: productName,
+        item: { images, id: itemId, name: itemName, price: itemPrice },
+    },
+    lenses,
+    onClose,
+}) => {
     const { createNotification } = useApp();
     const history = useHistory();
     const overlayNode = useRef(null);
@@ -96,10 +113,10 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                         add: {
                             products: [
                                 {
-                                    name: product.name,
-                                    id: product.item.id,
-                                    price: product.item.price,
-                                    variant: product.item.name,
+                                    name: productName,
+                                    id: itemId,
+                                    price: itemPrice,
+                                    variant: itemName,
                                     quantity: 1,
                                 },
                             ],
@@ -149,7 +166,9 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
         };
     }, [domNode.style]);
 
+    const stepPrice = values.reduce((acc, { price }) => acc + price, 0);
     const currentOptions = getOptionsByStep({
+        stepPrice,
         lenses: getLensesByValues({ lenses, values }),
         step: currentStep,
     });
@@ -162,16 +181,16 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
         const nextStepIndex = _steps.indexOf(currentStep) + 1;
         const nextStep = _steps[nextStepIndex];
 
-        if (nextStep === 'review') {
-            // todo final step
+        if (nextStep === FINAL_STEP) {
             setImageIndex(0);
         } else {
-            const nextImage = product.item.images[imageIndex + 1];
+            const newImageIndex = (imageIndex + 1) % images.length;
+            const nextImage = images[newImageIndex];
 
-            setImageIndex(nextImage ? imageIndex + 1 : 0);
+            setImageIndex(nextImage ? newImageIndex : 0);
+            setValues(prevState => [...prevState, { step: currentStep, ...item }]);
         }
 
-        setValues(prevState => [...prevState, { step: currentStep, ...item }]);
         setCurrentStep(nextStep);
     };
 
@@ -183,7 +202,14 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
         const prevStepIndex = _steps.indexOf(currentStep) - 1;
 
         if (prevStepIndex >= 0) {
-            setValues(prevState => prevState.slice(0, prevState.length - 1));
+            if (currentStep !== FINAL_STEP) {
+                setValues(prevState => prevState.slice(0, prevState.length - 1));
+            }
+
+            const newImageIndex = (imageIndex - 1 + images.length) % images.length;
+            const nextImage = images[newImageIndex];
+
+            setImageIndex(nextImage ? newImageIndex : 0);
             setCurrentStep(_steps[prevStepIndex]);
         }
     };
@@ -202,7 +228,7 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
             addToCart({
                 variables: {
                     input: {
-                        item_id: product.item.id,
+                        item_id: itemId,
                         lenses: JSON.stringify({
                             recipes: recipe,
                             lenses: choosenLenses.id,
@@ -215,15 +241,15 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
 
     const totalPrice = values.reduce(
         (acc, { price }) => (price ? acc + parseInt(price, 10) : acc),
-        parseInt(product.item.price, 10) + parseInt(choosenLenses.price, 10)
+        parseInt(itemPrice, 10)
     );
     const firstStep = currentStep === _steps[0];
     const stepIndex = _steps.indexOf(currentStep);
     const progressWidth = `${_stepWidth * stepIndex}%`;
 
-    const stepView = () => {
+    const StepView = () => {
         switch (currentStep) {
-            case 'Recipe': {
+            case RECIPE_STEP: {
                 const { recipes } = choosenLenses;
                 const recipeItems = recipes.map(
                     ({ id, name, range_from: rangeFrom, range_to: rangeTo, step }) => {
@@ -268,18 +294,7 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                                 </div>
                             ))}
                             <div className={styles.reviewActions}>
-                                <Button
-                                    kind="primary"
-                                    size="large"
-                                    onClick={() => {
-                                        const nextStepIndex = _steps.indexOf(currentStep) + 1;
-                                        const nextStep = _steps[nextStepIndex];
-
-                                        setCurrentStep(nextStep);
-                                    }}
-                                    bold
-                                    fullWidth
-                                >
+                                <Button kind="primary" size="large" onClick={handleClick} bold fullWidth>
                                     <FormattedMessage id="p_product_select_lenses_next_button" />
                                 </Button>
                             </div>
@@ -287,7 +302,7 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                     </>
                 );
             }
-            case 'Review': {
+            case FINAL_STEP: {
                 return (
                     <>
                         <div className={styles.heading}>
@@ -305,12 +320,19 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                                         <div className={styles.reviewTitle}>{step}</div>
                                         <div className={styles.reviewItem}>{name}</div>
                                     </div>
-                                    {price && (
+                                    {price > 0 ? (
                                         <div className={styles.reviewItem}>
+                                            +{' '}
                                             <FormattedMessage
                                                 id="currency"
-                                                values={{ price: parseInt(price, 10) }}
+                                                values={{
+                                                    price,
+                                                }}
                                             />
+                                        </div>
+                                    ) : (
+                                        <div className={styles.reviewItem}>
+                                            <FormattedMessage id="free" />
                                         </div>
                                     )}
                                 </div>
@@ -356,12 +378,13 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                                     >
                                         <div className={styles.railHead}>
                                             <div className={styles.pill}>{name}</div>
-                                            {parseInt(price, 10) > 0 ? (
+                                            {price > 0 ? (
                                                 <p className={styles.railPrice}>
+                                                    +{' '}
                                                     <FormattedMessage
                                                         id="currency"
                                                         values={{
-                                                            price: parseInt(price, 10),
+                                                            price,
                                                         }}
                                                     />
                                                 </p>
@@ -385,7 +408,7 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                                     <FormattedMessage
                                         id="currency"
                                         values={{
-                                            price: parseInt(totalPrice, 10),
+                                            price: totalPrice,
                                         }}
                                     />
                                 </span>
@@ -406,7 +429,7 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                             <div className={styles.progress} style={{ width: progressWidth }} />
                         </div>
                         <div className={styles.navigationContainer}>
-                            <h1 className={styles.title}>{product.name}</h1>
+                            <h1 className={styles.title}>{productName}</h1>
                             {!firstStep && (
                                 <button type="button" className={styles.backButton} onClick={handlePrevStep}>
                                     <ArrowLeft className={styles.backIcon} />
@@ -421,18 +444,18 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                         <div className={styles.frameDisplay}>
                             <picture>
                                 <source
-                                    srcSet={`${product.item.images[imageIndex].middle.webp} 1x, ${product.item.images[imageIndex].big.webp} 2x`}
+                                    srcSet={`${images[imageIndex].middle.webp} 1x, ${images[imageIndex].big.webp} 2x`}
                                     type="image/webp"
                                 />
                                 <img
-                                    src={product.item.images[imageIndex].middle.original}
-                                    srcSet={`${product.item.images[imageIndex].big.original} 2x`}
+                                    src={images[imageIndex].middle.original}
+                                    srcSet={`${images[imageIndex].big.original} 2x`}
                                     alt=""
                                 />
                             </picture>
                             <div className={styles.frameText}>
-                                <Title className={styles.frameTitle}>{product.name}</Title>
-                                <Title className={styles.colorway}>{product.item.name}</Title>
+                                <Title className={styles.frameTitle}>{productName}</Title>
+                                <Title className={styles.colorway}>{itemName}</Title>
                             </div>
                         </div>
                         <div className={styles.panel}>
@@ -459,7 +482,9 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                                     </button>
                                 </div>
                             </div>
-                            <div className={styles.panelOptions}>{stepView()}</div>
+                            <div className={styles.panelOptions}>
+                                <StepView />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -478,10 +503,13 @@ ChooseLenses.defaultProps = {
 
 ChooseLenses.propTypes = {
     product: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        images: PropTypes.arrayOf(PropTypes.object),
         name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
+        item: PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            images: PropTypes.arrayOf(PropTypes.object),
+            name: PropTypes.string.isRequired,
+            price: PropTypes.number.isRequired,
+        }),
     }).isRequired,
     onClose: PropTypes.func,
     lenses: PropTypes.arrayOf(

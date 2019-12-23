@@ -3,6 +3,8 @@ import classnames from 'classnames/bind';
 import { Filter as FilterIcon, X as CloseIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 
+import { isBrowser } from 'utils';
+
 import { Tabs, Tab, TabsView } from 'components/Tabs';
 import Checkbox from 'components/Checkbox';
 import Button from 'components/Button';
@@ -18,11 +20,18 @@ const Filters = ({ list, count, onChange }) => {
     });
     const [tagsIds, setTagsIds] = useState([]);
     const overlayNode = useRef(null);
+    const [tablet, setTablet] = useState(isBrowser ? window.innerWidth < 768 : false);
+
+    if (isBrowser) {
+        window.matchMedia('(max-width: 768px)').addListener(() => {
+            setTablet(window.innerWidth < 768);
+        });
+    }
 
     useEffect(() => {
         const domNode = document.body;
 
-        if (tab.active) {
+        if (tablet && tab.active) {
             if (window.innerWidth !== overlayNode.current.clientWidth) {
                 domNode.style.paddingRight = '15px';
             }
@@ -32,7 +41,7 @@ const Filters = ({ list, count, onChange }) => {
         return () => {
             domNode.style = null;
         };
-    }, [tab.active]);
+    }, [tab.active, tablet]);
     const handleChangeTab = newValue => {
         setTab(prevState => ({
             ...prevState,
@@ -133,15 +142,15 @@ const Filters = ({ list, count, onChange }) => {
                 ) : null}
             </div>
             <div className={modalFooterClassName}>
+                <Button className={styles.modalButton} kind="simple">
+                    <FormattedMessage id="p_catalog_filters_modal_button" values={{ count }} />
+                </Button>
                 <button type="button" className={styles.resetButton} onClick={resetFilters}>
                     <FormattedMessage
                         id="p_catalog_filters_modal_reset_button"
                         values={{ count: tagsIds.length }}
                     />
                 </button>
-                <Button className={styles.modalButton} kind="simple">
-                    <FormattedMessage id="p_catalog_filters_modal_button" values={{ count }} />
-                </Button>
             </div>
             <div className={buttonsClassName}>
                 <Button

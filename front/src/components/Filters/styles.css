@@ -231,7 +231,6 @@
 
     &.expanded {
         display: flex;
-        justify-content: flex-end;
 
         @media (--viewport-tablet) {
             display: none;

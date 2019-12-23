@@ -38,6 +38,7 @@ const UserMenu = () => {
 
     const handleLogOut = () => {
         logout();
+        setOpenSubMenu(false);
     };
 
     const handleOpenSubMenu = () => {

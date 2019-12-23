@@ -88,11 +88,8 @@ export const GET_PRODUCT = gql`
                     id
                     name
                     visible
-                    price
                     entity {
                         name
-                        price
-                        visible
                     }
                 }
             }
