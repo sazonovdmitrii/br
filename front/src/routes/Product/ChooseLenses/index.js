@@ -356,8 +356,9 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                                     >
                                         <div className={styles.railHead}>
                                             <div className={styles.pill}>{name}</div>
-                                            {price && (
+                                            {parseInt(price, 10) > 0 && (
                                                 <p className={styles.railPrice}>
+                                                    +{' '}
                                                     <FormattedMessage
                                                         id="currency"
                                                         values={{
