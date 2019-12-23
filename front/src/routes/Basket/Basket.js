@@ -104,7 +104,10 @@ const Basket = ({
 
     const isDelivery = values.deliveryType === 'delivery';
     const currentDelivery = values[values.deliveryType];
-    const totalSum = products.reduce((acc, item) => acc + item.price * item.qty, 0);
+    const totalSum = products.reduce(
+        (acc, item) => acc + item.price + (item.lenses ? parseInt(item.lenses.lenses.price, 10) : 0),
+        0
+    );
     const totalSumWithDelivery =
         parseInt(totalSum, 10) + (currentDelivery ? parseInt(currentDelivery.price, 10) : 0);
 
