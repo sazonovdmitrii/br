@@ -356,15 +356,18 @@ const ChooseLenses = ({ product, lenses, onClose }) => {
                                     >
                                         <div className={styles.railHead}>
                                             <div className={styles.pill}>{name}</div>
-                                            {parseInt(price, 10) > 0 && (
+                                            {parseInt(price, 10) > 0 ? (
                                                 <p className={styles.railPrice}>
-                                                    +{' '}
                                                     <FormattedMessage
                                                         id="currency"
                                                         values={{
                                                             price: parseInt(price, 10),
                                                         }}
                                                     />
+                                                </p>
+                                            ) : (
+                                                <p className={styles.railPrice}>
+                                                    <FormattedMessage id="free" />
                                                 </p>
                                             )}
                                         </div>
