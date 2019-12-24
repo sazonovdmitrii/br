@@ -381,6 +381,21 @@ easy_admin:
                             }
                         }
                       }
+        LandingBlock:
+            class: App\Entity\LandingBlock
+            label: 'Блоки'
+            list:
+                title: 'Блоки'
+                fields: ['id', 'name', 'visible']
+            form:
+                fields:
+                    - { type: 'tab' , label: 'Основные' }
+                    - {property: visibility, label: 'Видимость'}
+                    - {property: name, label: 'Наименование'}
+                    - { type: 'tab' , label: 'Содержимое' }
+                    - { property: content, label: 'Контент', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
+                    - { property: prefix, label: 'Перед блоком', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
+                    - { property: suffix, label: 'После блока', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
         Direction:
             class: App\Entity\Direction
         District:
@@ -513,6 +528,8 @@ easy_admin:
             children: ['Menu', 'MenuItem']
           - label: 'Контент'
             children: ['Page', 'Block', 'Store', 'Region', 'Courier', 'Pickup', 'City', 'PaymentMethod']
+          - label: 'Лэндинги'
+            children: ['LandingBlock']
           - Order
           - Banner
           - Sale
