@@ -286,7 +286,6 @@ const ChooseLenses = ({
                                                 name={id}
                                                 items={items}
                                                 value={recipe[side][id]}
-                                                defaultValue={id === 8 || id === 9 ? '0' : null}
                                                 onChange={value => handleChangeSelect({ id, value, side })}
                                             />
                                         </InputGroup>
