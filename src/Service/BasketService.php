@@ -2,6 +2,7 @@
 namespace App\Service;
 use App\Repository\ImageTypeRepository;
 use App\Repository\ProductItemRepository;
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Redis;
 use Doctrine\ORM\EntityManager;
@@ -22,6 +23,10 @@ class BasketService extends AbstractController
      * @var ImageTypeRepository
      */
     private $imageTypeRepository;
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
 
     /**
      * @return mixed
@@ -47,6 +52,7 @@ class BasketService extends AbstractController
         GeneratorService $generatorService,
         LenseService $lenseService,
         ProductItemRepository $productItemRepository,
+        ProductRepository $productRepository,
         ImageTypeRepository $imageTypeRepository
     ) {
         $this->em = $em;
@@ -55,6 +61,7 @@ class BasketService extends AbstractController
         $this->lenseService = $lenseService;
         $this->productItemRepository = $productItemRepository;
         $this->imageTypeRepository = $imageTypeRepository;
+        $this->productRepository = $productRepository;
     }
 
     public function setAuthKey(string $authKey)
@@ -173,6 +180,11 @@ class BasketService extends AbstractController
 
                         $productItem->setCurrentLocale($this->getLocale());
 
+                        $product = $this->productRepository
+                            ->find($productItem->getProduct()->getId());
+
+                        $product->setCurrentLocale($this->getLocale());
+
                         $images = [];
 
                         $config = $this->imageTypeRepository->findAll();
@@ -188,12 +200,14 @@ class BasketService extends AbstractController
                         }
 
                         $productItem->setImages($images);
-
+                        $lenses = (isset($basketItem['lenses'])) ? $basketItem['lenses'] : [];
                         $result[] = [
                             'item' => $productItem,
                             'qty' => $basketItem['qty'],
+                            'name' => $product->getName(),
+                            'url' => $product->getProductUrls()[0]->getUrl(),
                             'price' => $productItem->getPrice(),
-                            'lenses' => $this->lenseService->parse(@$basketItem['lenses']),
+                            'lenses' => $this->lenseService->parse($lenses)
                         ];
                     }
                 }

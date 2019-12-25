@@ -63,6 +63,7 @@ class UserService
         $user->setRoles([Users::ROLE_USER]);
         $user->setFirstname($input->firstname);
         $user->setLastname($input->lastname);
+        $user->setPhone($input->phone);
         $user->setGender($input->gender);
         $this->manager->persist($user);
         $this->manager->flush();

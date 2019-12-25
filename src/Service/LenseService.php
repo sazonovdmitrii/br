@@ -61,8 +61,7 @@ class LenseService extends AbstractController
         if($cacheItem->isHit()) {
             return $cacheItem->get();
         }
-
-        $lenses = json_decode($lenses, true);
+        $lenses = json_decode(str_replace('\'', '"', $lenses), true);
 
         foreach(['left', 'right'] as $side) {
 

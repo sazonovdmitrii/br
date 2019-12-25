@@ -45,6 +45,16 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     {% set order = form.vars.data %}
     <h4>Покупатель: {{ order.getUserId().email }}</h4>
+    <h4>Платежный метод: {{ order.getPaymentMethodId().name }}</h4>
+    {% set address = order.getAddressId() %}
+    <h4>Адрес: {{ address.city }} {{ address.street }} {{ address.house }}</h4>
+    {% if order.courier %}
+        <h4>Курьерская доставка: {{ courier.address }} {{ courier.price }}</h4>
+    {% endif %}
+    {% if order.pickup %}
+        <h4>Курьерская доставка: {{ pickup.address }} {{ pickup.price }}</h4>
+    {% endif %}
+    {{ dump(order) }}
     <table class="table">
         <thead>
         <tr>

@@ -396,6 +396,8 @@ easy_admin:
                     - { property: content, label: 'Контент', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
                     - { property: prefix, label: 'Перед блоком', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
                     - { property: suffix, label: 'После блока', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
+                    - { type: 'tab', label: 'Вложенные блоки' }
+                    - { property: 'landingBlocks', type_options: { block_name: 'landing_blocks' }}
         Direction:
             class: App\Entity\Direction
         District:
@@ -518,6 +520,7 @@ easy_admin:
             - 'admin/form/catalog_banner.html.twig'
             - 'admin/form/lense_item_tags.html.twig'
             - 'admin/form/product_lenses.html.twig'
+            - 'admin/form/landing_blocks.html.twig'
         menu:
           - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']

@@ -18,6 +18,12 @@ BasketProduct:
       qty:
         type: "Int"
         description: "Qty"
+      name:
+        type: "String"
+        description: "Product Name"
+      url:
+        type: "String"
+        description: "Product Url"
       price:
         type: "String"
         description: "Price"

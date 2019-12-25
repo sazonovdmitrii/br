@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,22 @@ class LandingBlock
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $visibility;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\LandingBlock", inversedBy="landingBlocks")
+     */
+    private $childrens;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\LandingBlock", mappedBy="childrens")
+     */
+    private $landingBlocks;
+
+    public function __construct()
+    {
+        $this->childrens = new ArrayCollection();
+        $this->landingBlocks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +137,60 @@ class LandingBlock
     public function setVisibility(?bool $visibility): self
     {
         $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getChildrens(): Collection
+    {
+        return $this->childrens;
+    }
+
+    public function addChildren(self $children): self
+    {
+        if (!$this->childrens->contains($children)) {
+            $this->childrens[] = $children;
+        }
+
+        return $this;
+    }
+
+    public function removeChildren(self $children): self
+    {
+        if ($this->childrens->contains($children)) {
+            $this->childrens->removeElement($children);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getLandingBlocks(): Collection
+    {
+        return $this->landingBlocks;
+    }
+
+    public function addLandingBlock(self $landingBlock): self
+    {
+        if (!$this->landingBlocks->contains($landingBlock)) {
+            $this->landingBlocks[] = $landingBlock;
+            $landingBlock->addChildren($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLandingBlock(self $landingBlock): self
+    {
+        if ($this->landingBlocks->contains($landingBlock)) {
+            $this->landingBlocks->removeElement($landingBlock);
+            $landingBlock->removeChildren($this);
+        }
 
         return $this;
     }
