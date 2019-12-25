@@ -67,30 +67,31 @@ class LenseService extends AbstractController
 
             foreach($lenses['recipes'][$side] as $recipeId => $recipeValue) {
 
-                $recipe = $this->getLenseTagById($recipeId);
-
-                $this->formattedResult['recipes'][$side][] = [
-                    'name' => $recipe->getName(),
-                    'value' => $recipeValue
-                ];
+                if($recipe = $this->getLenseTagById($recipeId)) {
+                    $this->formattedResult['recipes'][$side][] = [
+                        'name' => $recipe->getName(),
+                        'value' => $recipeValue
+                    ];
+                }
 
             }
 
         }
 
-        $lense = $this->getLenseById($lenses['lenses']);
-
-        $this->formattedResult['lenses']['name'] = $lense->getName();
-        $this->formattedResult['lenses']['price'] = $lense->getPrice();
-
         $options = [];
+        if($lense = $this->getLenseById($lenses['lenses'])) {
 
-        foreach($lense->getLenseitemstags() as $lenseItemTag) {
+            $this->formattedResult['lenses']['name'] = $lense->getName();
+            $this->formattedResult['lenses']['price'] = $lense->getPrice();
 
-            $options[] = [
-                'name' => $lenseItemTag->getEntity()->getName(),
-                'value' => $lenseItemTag->getName()
-            ];
+            foreach($lense->getLenseitemstags() as $lenseItemTag) {
+
+                $options[] = [
+                    'name' => $lenseItemTag->getEntity()->getName(),
+                    'value' => $lenseItemTag->getName()
+                ];
+
+            }
 
         }
 
