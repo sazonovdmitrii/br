@@ -208,6 +208,7 @@
     "usa": "США",
     "russia": "Россия",
     "c_search_placeholder": "Поиск",
+    "c_search_empty_text": "Хм. Не похоже, что у нас есть очки с таким именем. Как насчет того, чтобы увидеть <men-eyeglasses>мужские оправы</men-eyeglasses> или <women-eyeglasses>женские оправы</women-eyeglasses>, <men-sunglasses>мужские солнцезащитные очки</men-sunglasses> или <women-sunglasses>женские солнцезащитные очки</women-sunglasses>?",
 
     "c_help_title": "Нужна помощь",
     "c_help_subtitle": "Колл-центр:{br}<phone>8 (495) 587 98 99</phone>{br} каждый день с 8 до 21.",

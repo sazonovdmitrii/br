@@ -115,8 +115,30 @@ export const GET_PRODUCT = gql`
 
 export const SEARCH_PRODUCTS = gql`
     query Search($query: String!) {
-        productsByQuery(query: $query) {
-            count
+        catalog_search(name: $query) {
+            products(limit: 100500, offset: 0) {
+                edges {
+                    node {
+                        id
+                        name
+                        url
+                        items(limit: 40, offset: 0) {
+                            edges {
+                                node {
+                                    id
+                                    images
+                                    name
+                                    productItemTagItems {
+                                        id
+                                        name
+                                        image
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 `;
