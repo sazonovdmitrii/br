@@ -209,7 +209,7 @@ const ChooseLenses = ({
     const handleReset = () => {
         setValues([]);
         setCurrentStep(_steps[0]);
-        setRecipe({ left: {}, right: {} });
+        setRecipe(_initialRecipe);
         setImageIndex(0);
     };
 
