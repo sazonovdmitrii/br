@@ -49,10 +49,10 @@
     {% set address = order.getAddressId() %}
     <h4>Адрес: {{ address.city }} {{ address.street }} {{ address.house }}</h4>
     {% if order.courier %}
-        <h4>Курьерская доставка: {{ courier.address }} {{ courier.price }}</h4>
+        <h4>Курьерская доставка: {{ order.courier.address }} {{ order.courier.price }}</h4>
     {% endif %}
     {% if order.pickup %}
-        <h4>Курьерская доставка: {{ pickup.address }} {{ pickup.price }}</h4>
+        <h4>Курьерская доставка: {{ order.pickup.address }} {{ order.pickup.price }}</h4>
     {% endif %}
     {% if order.getUserId().phone %}
         <h4>{{ order.getUserId().phone }}</h4>
