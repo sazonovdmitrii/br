@@ -23,15 +23,7 @@ import styles from './styles.css';
 const RECIPE_STEP = 'Recipe';
 const FINAL_STEP = 'Review';
 
-const _steps = [
-    'Prescription Type',
-    'Refractive index',
-    'Lens type',
-    'Covering',
-    'Brand',
-    RECIPE_STEP,
-    FINAL_STEP,
-];
+const _steps = ['Prescription Type', 'Refractive index', 'Covering', 'Brand', RECIPE_STEP, FINAL_STEP];
 const _stepWidth = 100 / _steps.length;
 const _sides = ['left', 'right'];
 const _initialRecipe = _sides.reduce(
@@ -217,7 +209,7 @@ const ChooseLenses = ({
     const handleReset = () => {
         setValues([]);
         setCurrentStep(_steps[0]);
-        setRecipe({ left: {}, right: {} });
+        setRecipe(_initialRecipe);
         setImageIndex(0);
     };
 
