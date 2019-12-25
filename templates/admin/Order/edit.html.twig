@@ -54,6 +54,11 @@
     {% if order.pickup %}
         <h4>Курьерская доставка: {{ pickup.address }} {{ pickup.price }}</h4>
     {% endif %}
+    {% if order.getUserId().phone %}
+        <h4>{{ order.getUserId().phone }}</h4>
+    {% endif %}
+
+
     {{ dump(order) }}
     <table class="table">
         <thead>

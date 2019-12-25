@@ -69,6 +69,11 @@ class Users implements UserInterface
      */
     private $created;
 
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $phone;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -277,6 +282,18 @@ class Users implements UserInterface
     public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }
