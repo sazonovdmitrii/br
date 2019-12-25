@@ -35,6 +35,8 @@ const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, 
     };
 
     const handleSEOClick = () => {
+        onClick();
+
         if (!seo.showPlace) return;
 
         metrics('gtm', {

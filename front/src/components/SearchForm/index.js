@@ -82,8 +82,16 @@ const SearchForm = ({ show, onClose, title, placeholder }) => {
                         <Loader fullHeight />
                     ) : products.length ? (
                         <div className={styles.products}>
-                            {products.map(({ node: { id, name, url, items } }) => (
-                                <ProductCard key={id} name={name} url={url} items={items.edges} />
+                            {products.map(({ node: { id, name, url, items } }, index) => (
+                                <ProductCard
+                                    key={id}
+                                    id={id}
+                                    seo={{ position: index + 1, showPlace: 'Search' }} // for SEO
+                                    name={name}
+                                    url={url}
+                                    items={items.edges}
+                                    onClick={onClose}
+                                />
                             ))}
                         </div>
                     ) : (

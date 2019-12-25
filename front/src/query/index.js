@@ -128,6 +128,7 @@ export const SEARCH_PRODUCTS = gql`
                                     id
                                     images
                                     name
+                                    price
                                     productItemTagItems {
                                         id
                                         name
