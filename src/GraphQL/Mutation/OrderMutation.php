@@ -138,7 +138,7 @@ class OrderMutation extends AuthMutation
             if($productItem) {
                 $orderItem->setItem($productItem);
             }
-            $orderItem->setLenses($basketItem['lenses']);
+            $orderItem->setLenses(json_encode($basketItem['lenses']));
 
             $this->manager->persist($orderItem);
             $this->manager->flush();
