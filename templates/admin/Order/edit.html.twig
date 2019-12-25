@@ -72,9 +72,7 @@
         </thead>
         <tbody>
         {% for item in order.getOrderItems() %}
-            {% if item.getLenses() %}
-                {% set lenses = lense_tags.parseLenses(item.getLenses()) %}
-            {% endif %}
+            {% set lenses = lense_tags.parseLenses(json.json_decode(item.getLenses())) %}
             <tr>
                 <td>{{ item.getItem().id }}</td>
                 <td>{{ item.getItem().name }}</td>
