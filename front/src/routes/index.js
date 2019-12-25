@@ -9,6 +9,10 @@ import Catalog from 'routes/Catalog';
 import Product from 'routes/Product';
 import RetailPage from 'routes/RetailPage';
 import Content from 'routes/Content';
+import Basket from 'routes/Basket';
+import Login from 'routes/Login';
+import Register from 'routes/Register';
+import RemindPassword from 'routes/RemindPassword';
 
 import NotFound from './NotFound';
 
@@ -39,20 +43,11 @@ export default ({ lang, defaultLang }) => {
                   ],
               ]
             : [
-                  [
-                      loadable(() => import('./RemindPassword'), loadableOpts),
-                      routerOptions({ path: '/account/remind-password' }),
-                  ],
-                  [
-                      loadable(() => import('./Register'), loadableOpts),
-                      routerOptions({ path: '/account/register' }),
-                  ],
-                  [
-                      loadable(() => import('./Login'), loadableOpts),
-                      routerOptions({ path: '/account/login' }),
-                  ],
+                  [RemindPassword, routerOptions({ path: '/account/remind-password' })],
+                  [Register, routerOptions({ path: '/account/register' })],
+                  [Login, routerOptions({ path: '/account/login' })],
               ]),
-        [loadable(() => import('./Basket'), loadableOpts), routerOptions({ path: '/cart' })],
+        [Basket, routerOptions({ path: '/cart' })],
         [loadable(() => import('./Accessories'), loadableOpts), routerOptions({ path: '/accessories' })],
         [loadable(() => import('./Certificates'), loadableOpts), routerOptions({ path: '/certificates' })],
         [loadable(() => import('./HomeTryOn'), loadableOpts), routerOptions({ path: '/home-try-on' })],

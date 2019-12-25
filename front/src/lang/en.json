@@ -218,5 +218,9 @@
     "c_help_search": "Search",
     "c_help_text": "Text",
 
-    "p_500_title": "Something went wrong."
+    "p_500_title": "Something went wrong.",
+
+    "p_login_meta_title": "Sign in",
+    "p_register_meta_title": "Create account",
+    "p_remind_password_meta_title": "Forgot password"
 }
