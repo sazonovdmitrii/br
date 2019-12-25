@@ -26,9 +26,9 @@ class CouriersResolver implements ResolverInterface, AliasedInterface
     public function resolve(Argument $args)
     {
         if(isset($args['city_id'])) {
-            $pickups = $this->couerierRepository->findByCityId($args['city_id']);
+            $pickups = $this->courierRepository->findByCityId($args['city_id']);
         } else {
-            $pickups = $this->couerierRepository->findAll();
+            $pickups = $this->courierRepository->findAll();
         }
         return [
             'data' => $pickups
