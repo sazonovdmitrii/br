@@ -58,8 +58,6 @@
         <h4>{{ order.getUserId().phone }}</h4>
     {% endif %}
 
-
-    {{ dump(order) }}
     <table class="table">
         <thead>
         <tr>
@@ -72,7 +70,7 @@
         </thead>
         <tbody>
         {% for item in order.getOrderItems() %}
-            {% set lenses = lense_tags.parseLenses(json.json_decode(item.getLenses())) %}
+            {% set lenses = json.json_decode(item.getLenses()) %}
             <tr>
                 <td>{{ item.getItem().id }}</td>
                 <td>{{ item.getItem().name }}</td>
@@ -101,7 +99,7 @@
                             {{ item.value }}
                             <br/>
                         {% endfor %}
-                     {% endif %}
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
