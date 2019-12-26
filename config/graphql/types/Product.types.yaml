@@ -126,6 +126,9 @@ LenseItemTag:
       name:
         type: "String"
         description: "Lense Item Name"
+      description:
+        type: "String"
+        description: "Lense Item Description"
       price:
         type: "String"
         description: "Lense Item Price"

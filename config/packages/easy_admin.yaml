@@ -468,7 +468,8 @@ easy_admin:
                     type_options: {
                         default_locale: '%locale%',
                         fields: {
-                            name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                            name: { field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                            description: { field_type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
                         }
                     }
                   }

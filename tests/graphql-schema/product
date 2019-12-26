@@ -1,5 +1,5 @@
 {
-  product(slug: "sun-k3130.htm/"){
+  product(slug: "sun-k3013.htm/"){
     lenses{
        name
        price
@@ -7,6 +7,7 @@
          entity {
            name
            visible
+          description
          }
          name
        }
