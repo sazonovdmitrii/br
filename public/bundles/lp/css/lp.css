@@ -15,7 +15,8 @@ label[for=items_productItemTagItems],
 label[for=store_storeUrls],
 label[for=lense_lenseitemstags],
 label[for=lensetag_lenseItemTags],
-label[for=lense_recipes]
+label[for=lense_recipes],
+label[for=landingblock_childrens]
 {
     display: none;
 }

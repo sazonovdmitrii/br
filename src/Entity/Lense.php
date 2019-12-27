@@ -54,12 +54,18 @@ class Lense
      */
     private $recipes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\LandingBlock", mappedBy="tests")
+     */
+    private $landingBlocks;
+
 
     public function __construct()
     {
         $this->lenseitemstags = new ArrayCollection();
         $this->products = new ArrayCollection();
         $this->recipes = new ArrayCollection();
+        $this->landingBlocks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -195,6 +201,34 @@ class Lense
     {
         if ($this->recipes->contains($recipe)) {
             $this->recipes->removeElement($recipe);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LandingBlock[]
+     */
+    public function getLandingBlocks(): Collection
+    {
+        return $this->landingBlocks;
+    }
+
+    public function addLandingBlock(LandingBlock $landingBlock): self
+    {
+        if (!$this->landingBlocks->contains($landingBlock)) {
+            $this->landingBlocks[] = $landingBlock;
+            $landingBlock->addTest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLandingBlock(LandingBlock $landingBlock): self
+    {
+        if ($this->landingBlocks->contains($landingBlock)) {
+            $this->landingBlocks->removeElement($landingBlock);
+            $landingBlock->removeTest($this);
         }
 
         return $this;

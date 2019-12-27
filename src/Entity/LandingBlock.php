@@ -58,10 +58,22 @@ class LandingBlock
      */
     private $landingBlocks;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Lense", inversedBy="landingBlocks")
+     */
+    private $tests;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\LandingPage", mappedBy="blocks")
+     */
+    private $landingPages;
+
     public function __construct()
     {
         $this->childrens = new ArrayCollection();
         $this->landingBlocks = new ArrayCollection();
+        $this->tests = new ArrayCollection();
+        $this->landingPages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,6 +153,11 @@ class LandingBlock
         return $this;
     }
 
+    public function __toString()
+    {
+        return self::class;
+    }
+
     /**
      * @return Collection|self[]
      */
@@ -190,6 +207,60 @@ class LandingBlock
         if ($this->landingBlocks->contains($landingBlock)) {
             $this->landingBlocks->removeElement($landingBlock);
             $landingBlock->removeChildren($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lense[]
+     */
+    public function getTests(): Collection
+    {
+        return $this->tests;
+    }
+
+    public function addTest(Lense $test): self
+    {
+        if (!$this->tests->contains($test)) {
+            $this->tests[] = $test;
+        }
+
+        return $this;
+    }
+
+    public function removeTest(Lense $test): self
+    {
+        if ($this->tests->contains($test)) {
+            $this->tests->removeElement($test);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LandingPage[]
+     */
+    public function getLandingPages(): Collection
+    {
+        return $this->landingPages;
+    }
+
+    public function addLandingPage(LandingPage $landingPage): self
+    {
+        if (!$this->landingPages->contains($landingPage)) {
+            $this->landingPages[] = $landingPage;
+            $landingPage->addBlock($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLandingPage(LandingPage $landingPage): self
+    {
+        if ($this->landingPages->contains($landingPage)) {
+            $this->landingPages->removeElement($landingPage);
+            $landingPage->removeBlock($this);
         }
 
         return $this;

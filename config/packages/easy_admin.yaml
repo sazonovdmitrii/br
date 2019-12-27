@@ -386,7 +386,10 @@ easy_admin:
             label: 'Блоки'
             list:
                 title: 'Блоки'
-                fields: ['id', 'name', 'visible']
+                fields:
+                    - {property: id, label: ''}
+                    - {property: name, label: 'Наименование'}
+                    - {property: visibility, label: 'Видимость'}
             form:
                 fields:
                     - { type: 'tab' , label: 'Основные' }
@@ -397,7 +400,21 @@ easy_admin:
                     - { property: prefix, label: 'Перед блоком', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
                     - { property: suffix, label: 'После блока', type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
                     - { type: 'tab', label: 'Вложенные блоки' }
-                    - { property: 'landingBlocks', type_options: { block_name: 'landing_blocks' }}
+                    - { property: 'childrens', type_options: { block_name: 'landing_blocks', by_reference: false }}
+        LandingPage:
+            class: App\Entity\LandingPage
+            label: 'Страницы'
+            list:
+                title: 'Страницы'
+                fields:
+                    - {property: id, label: ''}
+                    - {property: name, label: 'Наименование'}
+            form:
+                fields:
+                    - { type: 'tab' , label: 'Основные' }
+                    - {property: name, label: 'Наименование'}
+                    - { type: 'tab' , label: 'Содержимое' }
+                    - { property: 'blocks', type_options: { block_name: 'page_blocks', by_reference: false }}
         Direction:
             class: App\Entity\Direction
         District:
@@ -521,6 +538,7 @@ easy_admin:
             - 'admin/form/catalog_banner.html.twig'
             - 'admin/form/lense_item_tags.html.twig'
             - 'admin/form/product_lenses.html.twig'
+            - 'admin/form/page_blocks.html.twig'
             - 'admin/form/landing_blocks.html.twig'
         menu:
           - label: 'Адреса'
@@ -533,7 +551,7 @@ easy_admin:
           - label: 'Контент'
             children: ['Page', 'Block', 'Store', 'Region', 'Courier', 'Pickup', 'City', 'PaymentMethod']
           - label: 'Лэндинги'
-            children: ['LandingBlock']
+            children: ['LandingBlock', 'LandingPage']
           - Order
           - Banner
           - Sale

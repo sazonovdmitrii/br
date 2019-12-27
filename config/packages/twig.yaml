@@ -13,3 +13,4 @@ twig:
         lense_tags: '@App\Service\Twig\LenseTags'
         json: '@App\Service\Twig\Json'
         lenses: '@App\Service\Twig\Lenses'
+        landings: '@App\Service\Twig\Landings'
