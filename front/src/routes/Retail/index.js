@@ -39,20 +39,24 @@ const Retail = () => {
                     <h2 className={styles.title}>
                         <FormattedMessage id="p_retail_title" />
                     </h2>
-                    {loadingStores ? (
-                        <Loader />
-                    ) : (
-                        <>
-                            <Title className={styles.subTitle}>Оптики</Title>
-                            <Shops items={stores.data} />
-                        </>
-                    )}
                     {loadingStoresWithVision ? (
                         <Loader />
                     ) : (
                         <>
-                            <Title className={styles.subTitle}>Витрины</Title>
+                            <Title className={styles.subTitle}>
+                                <FormattedMessage id="p_retail_store_vision_title" />
+                            </Title>
                             <Shops items={storesWithVision.data} />
+                        </>
+                    )}
+                    {loadingStores ? (
+                        <Loader />
+                    ) : (
+                        <>
+                            <Title className={styles.subTitle}>
+                                <FormattedMessage id="p_retail_store_title" />
+                            </Title>
+                            <Shops items={stores.data} />
                         </>
                     )}
                     {!loading && stores && storesWithVision ? (
