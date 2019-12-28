@@ -41,8 +41,18 @@ class StoresResolver extends LocaleAlias
         }
 
         return [
-            'data' => $stores
+            'data' => $this->_retailAddresses($stores)
         ];
+    }
+
+    private function _retailAddresses(&$stores)
+    {
+        foreach($stores as &$store) {
+            foreach($store->getStoreUrls() as $storeUrl) {
+                $storeUrl->setUrl('retail/' . $storeUrl->getUrl());
+            }
+        }
+        return $stores;
     }
 
     /**
