@@ -109,7 +109,7 @@ LenseItem:
         type: "String"
         description: "Lense Item Description"
       visible:
-        type: "String"
+        type: "Boolean"
         description: "Lense Name"
       price:
         type: "String"
