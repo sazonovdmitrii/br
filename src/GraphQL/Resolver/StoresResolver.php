@@ -13,6 +13,8 @@ class StoresResolver extends LocaleAlias
      */
     private $storeRepository;
 
+    const URL_SUFFIX = 'retail';
+
     /**
      * StoresResolver constructor.
      *
@@ -49,7 +51,7 @@ class StoresResolver extends LocaleAlias
     {
         foreach($stores as &$store) {
             foreach($store->getStoreUrls() as $storeUrl) {
-                $storeUrl->setUrl('retail/' . $storeUrl->getUrl());
+                $storeUrl->setUrl(self::URL_SUFFIX . '/' . $storeUrl->getUrl());
             }
         }
         return $stores;
