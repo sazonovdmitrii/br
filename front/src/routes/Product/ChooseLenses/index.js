@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { useHistory } from 'react-router';
 import { useMutation } from '@apollo/react-hooks';
 
-import { metrics } from 'utils';
+import { metrics, createMarkup } from 'utils';
 import { ADD_TO_BASKET } from 'mutations';
 import { GET_SHORT_BASKET, GET_BASKET } from 'query';
 import { useApp } from 'hooks';
@@ -48,8 +48,7 @@ const getLensesByValues = ({ lenses = [], values = [] }) => {
 
 const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
     const options = lenses.reduce((obj, { lenseitemstags, price }) => {
-        const { id, name, description, visible } =
-            lenseitemstags.find(({ entity }) => entity.name === step) || {};
+        const { id, visible, ...rest } = lenseitemstags.find(({ entity }) => entity.name === step) || {};
 
         if (!visible) return obj;
 
@@ -59,17 +58,17 @@ const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
         return {
             ...obj,
             [id]: {
-                name,
-                description,
+                ...rest,
                 prices: [...prices, parseInt(price, 10)],
             },
         };
     }, {});
-    const optionsWithMinPrice = Object.entries(options).map(([id, { name, prices }]) => {
+    const optionsWithMinPrice = Object.entries(options).map(([id, { name, prices, description }]) => {
         const minPrice = Math.min(...prices);
 
         return {
             name,
+            description,
             id: parseInt(id, 10),
             price: minPrice - stepPrice,
         };
@@ -391,7 +390,10 @@ const ChooseLenses = ({
                                             )}
                                         </div>
                                         {description && (
-                                            <div className={styles.railDescription}>{description}</div>
+                                            <div
+                                                className={styles.railDescription}
+                                                dangerouslySetInnerHTML={createMarkup(description)}
+                                            />
                                         )}
                                     </button>
                                 ))}
