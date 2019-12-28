@@ -1,4 +1,5 @@
 {
+    "p_order_title": "Спасибо за заказ №{id}",
     "p_cart_sidebar_message": "Включая линзы",
     "p_cart_order_receiving_title": "Способ получения",
     "p_cart_order_delivery_title": "Способ доставки",

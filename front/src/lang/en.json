@@ -1,4 +1,5 @@
 {
+    "p_order_title": "Thanks for order №{id}",
     "p_cart_sidebar_message": "Includes frame case and lens cloth",
     "p_cart_order_receiving_title": "Production method",
     "p_cart_order_delivery_title": "Delivery methods",

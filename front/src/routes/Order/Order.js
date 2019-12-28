@@ -8,7 +8,7 @@ import BasketProduct from 'components/BasketProduct';
 import styles from './styles.css';
 
 const Order = ({ id, address, products, delivery, payment }) => {
-    const totalSum = orderItems.reduce(
+    const totalSum = products.reduce(
         (acc, { price, lenses }) =>
             acc + parseInt(price, 10) + (lenses ? parseInt(lenses.lenses.price, 10) : 0),
         0
