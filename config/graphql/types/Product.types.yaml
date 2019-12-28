@@ -105,6 +105,9 @@ LenseItem:
       name:
         type: "String"
         description: "Name of Lense Item Tag"
+      description:
+        type: "String"
+        description: "Lense Item Description"
       visible:
         type: "String"
         description: "Lense Name"

@@ -506,6 +506,7 @@ easy_admin:
                         default_locale: '%locale%',
                         fields: {
                             name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                            description: { field_type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
                         }
                     }
                   }
@@ -515,6 +516,13 @@ easy_admin:
                 - { property: price, label: 'Цена'}
             list:
               title: 'Опции тегов линз'
+              fields:
+                - { property: id, label: 'ID'}
+                - { property: name, label: 'Наименование'}
+                - { property: entity.name, label: 'Тег'}
+                - { property: visible, label: 'Видимость'}
+                - { property: price, label: 'Цена'}
+                - { property: created, label: 'Создан'}
     design:
         brand_color: 'black'
         form_theme:

@@ -7,8 +7,9 @@
          entity {
            name
            visible
-          description
+           description
          }
+         description
          name
        }
       recipes {
