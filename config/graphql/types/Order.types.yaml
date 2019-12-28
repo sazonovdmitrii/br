@@ -21,3 +21,6 @@ Order:
       courier:
         type: "CourierItem"
         description: "Courier Item"
+      address_id:
+        type: "Address"
+        description: "Address Item"
