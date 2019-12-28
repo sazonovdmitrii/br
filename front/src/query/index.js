@@ -88,8 +88,11 @@ export const GET_PRODUCT = gql`
                     id
                     name
                     visible
+                    description
                     entity {
+                        id
                         name
+                        visible
                     }
                 }
             }
