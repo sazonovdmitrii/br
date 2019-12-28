@@ -8,12 +8,18 @@ import BasketProduct from 'components/BasketProduct';
 import styles from './styles.css';
 
 const Order = ({ id, address, products, delivery, payment }) => {
-    const totalSum = products.reduce((acc, item) => acc + item.price * item.qty, 0);
-    const totalSumWithDelivery = totalSum + parseInt(delivery.price, 10);
+    const totalSum = orderItems.reduce(
+        (acc, { price, lenses }) =>
+            acc + parseInt(price, 10) + (lenses ? parseInt(lenses.lenses.price, 10) : 0),
+        0
+    );
+    const totalSumWithDelivery = totalSum + (delivery ? parseInt(delivery.price, 10) : 0);
 
     return (
         <div className={styles.container}>
-            <Title>Спасибо за заказ №{id}</Title>
+            <Title className={styles.title}>
+                <FormattedMessage id="p_order_title" values={{ id }} />
+            </Title>
             <ul className={styles.info}>
                 <li className={styles.infoItem}>Способ доставки: {delivery.direction_title}</li>
                 <li className={styles.infoItem}>Способ оплаты: {payment.name}</li>
@@ -23,14 +29,24 @@ const Order = ({ id, address, products, delivery, payment }) => {
                 </li>
             </ul>
             <div className={styles.products}>
-                {products.map(({ item, name, price, url }) => (
+                {products.map(({ name, item, lenses, price, url }) => (
                     <BasketProduct
                         key={item.id}
-                        images={item.images[0]}
                         name={name}
                         subName={item.name}
-                        price={<FormattedMessage id="currency" values={{ price }} />}
                         url={url}
+                        options={lenses ? lenses.lenses.options : []}
+                        images={item.images ? item.images[0] : null}
+                        price={
+                            <FormattedMessage
+                                id="currency"
+                                values={{
+                                    price:
+                                        parseInt(price, 10) +
+                                        (lenses ? parseInt(lenses.lenses.price, 10) : 0),
+                                }}
+                            />
+                        }
                     />
                 ))}
             </div>
