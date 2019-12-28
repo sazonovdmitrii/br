@@ -23,7 +23,7 @@ import styles from './styles.css';
 const RECIPE_STEP = 'Recipe';
 const FINAL_STEP = 'Review';
 
-const _steps = ['Prescription Type', 'Refractive index', 'Covering', 'Brand', RECIPE_STEP, FINAL_STEP];
+const _steps = ['prescription type', 'refractive index', 'covering', 'lens brand', RECIPE_STEP, FINAL_STEP];
 const _stepWidth = 100 / _steps.length;
 const _sides = ['left', 'right'];
 const _initialRecipe = _sides.reduce(
@@ -50,7 +50,7 @@ const getLensesByValues = ({ lenses = [], values = [] }) => {
 
 const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
     const options = lenses.reduce((obj, { lenseitemstags, price }) => {
-        const option = lenseitemstags.find(({ entity }) => entity.name === step);
+        const option = lenseitemstags.find(({ entity }) => entity.name.toLowerCase() === step);
 
         if (!option) return obj;
 
@@ -67,7 +67,7 @@ const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
         };
     }, {});
     const optionsWithMinPrice = Object.entries(options).map(([id, { name, prices }]) => {
-        const [minPrice] = prices.sort((a, b) => a - b);
+        const minPrice = Math.min(...prices);
 
         return {
             name,

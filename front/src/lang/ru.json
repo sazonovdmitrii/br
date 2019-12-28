@@ -144,12 +144,14 @@
     "i_have_an_account": "У вас есть учетная запись?",
     "im_new_here": "Я здесь новенький",
     "nice_to_meet_you": "Приятно с Вами познакомиться",
-    "p_retail_title": "Торговые точки в России",
+    "p_retail_title": "Где купить в России",
+    "p_retail_store_vision_title": "Оптики",
+    "p_retail_store_title": "Магазины-корнеры",
     "c_login_title": "Войти",
     "c_register_title": "Зарегистрироваться",
     "sign_in": "Войти",
     "sign_up": "Зарегистрироваться",
-    "p_product_price": "Цена от",
+    "p_product_price": "Цена {price} руб. включая линзы",
     "p_product_buy_at_optics_for": "Купить в оптике",
     "p_product_add_to_cart": "Добавить в корзину",
     "p_product_select_lenses": "Выбрать линзы",
@@ -218,5 +220,9 @@
     "c_help_search": "Поиск",
     "c_help_text": "Смс",
 
-    "p_500_title": "Что-то пошло не так."
+    "p_500_title": "Что-то пошло не так.",
+
+    "p_login_meta_title": "Вход",
+    "p_register_meta_title": "Регистрация",
+    "p_remind_password_meta_title": "Забыл пароль"
 }

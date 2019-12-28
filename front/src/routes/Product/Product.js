@@ -79,8 +79,7 @@ const Product = ({
                         />
                     </div>
                     <div className={styles.price}>
-                        <FormattedMessage id="p_product_price" />{' '}
-                        <FormattedMessage id="currency" values={{ price: selectedProduct.price }} />
+                        <FormattedMessage id="p_product_price" values={{ price: selectedProduct.price }} />
                     </div>
                     {selectedProduct.price && (
                         <div className={styles.buttons}>
