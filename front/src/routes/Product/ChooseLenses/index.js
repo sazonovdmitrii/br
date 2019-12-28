@@ -23,10 +23,8 @@ import styles from './styles.css';
 const RECIPE_STEP = 'Recipe';
 const FINAL_STEP = 'Review';
 
-const _steps = ['prescription type', 'refractive index', 'covering', 'lens brand', RECIPE_STEP, FINAL_STEP];
-const _stepWidth = 100 / _steps.length;
-const _sides = ['left', 'right'];
-const _initialRecipe = _sides.reduce(
+const SIDES = ['left', 'right'];
+const INITIAL_RECIPE = SIDES.reduce(
     (acc, side) => ({
         ...acc,
         [side]: {
@@ -50,11 +48,11 @@ const getLensesByValues = ({ lenses = [], values = [] }) => {
 
 const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
     const options = lenses.reduce((obj, { lenseitemstags, price }) => {
-        const option = lenseitemstags.find(({ entity }) => entity.name.toLowerCase() === step);
+        const { id, name, description, visible } =
+            lenseitemstags.find(({ entity }) => entity.name === step) || {};
 
-        if (!option) return obj;
+        if (!visible) return obj;
 
-        const { id, name } = option;
         const currentOption = obj[id];
         const prices = currentOption ? currentOption.prices : [];
 
@@ -62,6 +60,7 @@ const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
             ...obj,
             [id]: {
                 name,
+                description,
                 prices: [...prices, parseInt(price, 10)],
             },
         };
@@ -87,13 +86,19 @@ const ChooseLenses = ({
     lenses,
     onClose,
 }) => {
+    const _steps = lenses[0].lenseitemstags
+        .map(({ entity }) => (entity.visible ? entity.name : null))
+        .filter(Boolean);
+    const steps = [..._steps, RECIPE_STEP, FINAL_STEP];
+    const [firstStep] = steps;
+
     const { createNotification } = useApp();
     const history = useHistory();
     const overlayNode = useRef(null);
-    const [imageIndex, setImageIndex] = useState(0);
-    const [currentStep, setCurrentStep] = useState(_steps[0]);
+    const [currentStep, setCurrentStep] = useState(firstStep);
     const [values, setValues] = useState([]);
-    const [recipe, setRecipe] = useState(_initialRecipe);
+    const [recipe, setRecipe] = useState(INITIAL_RECIPE);
+    const [imageIndex, setImageIndex] = useState(0);
     const [addToCart, { loading: loadingAddToCart }] = useMutation(ADD_TO_BASKET, {
         onCompleted({ addBasket: { products } }) {
             if (products) {
@@ -169,9 +174,9 @@ const ChooseLenses = ({
         onClose();
     };
 
+    const stepIndex = steps.indexOf(currentStep);
     const handleClick = item => {
-        const nextStepIndex = _steps.indexOf(currentStep) + 1;
-        const nextStep = _steps[nextStepIndex];
+        const nextStep = steps[stepIndex + 1];
 
         if (nextStep === FINAL_STEP) {
             setImageIndex(0);
@@ -191,7 +196,7 @@ const ChooseLenses = ({
     };
 
     const handlePrevStep = () => {
-        const prevStepIndex = _steps.indexOf(currentStep) - 1;
+        const prevStepIndex = stepIndex - 1;
 
         if (prevStepIndex >= 0) {
             if (currentStep !== FINAL_STEP) {
@@ -202,14 +207,14 @@ const ChooseLenses = ({
             const nextImage = images[newImageIndex];
 
             setImageIndex(nextImage ? newImageIndex : 0);
-            setCurrentStep(_steps[prevStepIndex]);
+            setCurrentStep(steps[prevStepIndex]);
         }
     };
 
     const handleReset = () => {
         setValues([]);
-        setCurrentStep(_steps[0]);
-        setRecipe(_initialRecipe);
+        setCurrentStep(firstStep);
+        setRecipe(INITIAL_RECIPE);
         setImageIndex(0);
     };
 
@@ -235,9 +240,9 @@ const ChooseLenses = ({
         (acc, { price }) => (price ? acc + parseInt(price, 10) : acc),
         parseInt(itemPrice, 10)
     );
-    const firstStep = currentStep === _steps[0];
-    const stepIndex = _steps.indexOf(currentStep);
-    const progressWidth = `${_stepWidth * stepIndex}%`;
+    const stepWidthStyle = 100 / steps.length;
+    const progressWidth = `${stepWidthStyle * stepIndex}%`;
+    const isFirstStep = currentStep === firstStep;
 
     const StepView = () => {
         switch (currentStep) {
@@ -266,7 +271,7 @@ const ChooseLenses = ({
                             </Title>
                         </div>
                         <div className={styles.stepInner}>
-                            {_sides.map(side => (
+                            {SIDES.map(side => (
                                 <div key={side}>
                                     <Title className={styles.recipeTitle}>
                                         <FormattedMessage id={`p_product_select_lenses_${side}`} />
@@ -421,7 +426,7 @@ const ChooseLenses = ({
                         </div>
                         <div className={styles.navigationContainer}>
                             <h1 className={styles.title}>{productName}</h1>
-                            {!firstStep && (
+                            {!isFirstStep && (
                                 <button type="button" className={styles.backButton} onClick={handlePrevStep}>
                                     <ArrowLeft className={styles.backIcon} />
                                 </button>
