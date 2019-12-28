@@ -203,7 +203,16 @@ class ProductFieldResolver extends LocaleAlias
 
     public function lenses(Product $product)
     {
-        return $product->getLenses();
+        $lenses = $product->getLenses();
+
+        foreach($lenses as &$lense) {
+            foreach($lense->getLenseitemstags() as &$lenseitemstag) {
+                $lenseitemstag->setCurrentLocale($this->getLocale());
+                $lenseitemstag->getEntity()->setCurrentLocale($this->getLocale());
+            }
+        }
+
+        return $lenses;
     }
 
     /**
