@@ -1,9 +1,0 @@
-# TEST
-# the color_scheme option is deprecated
-
-# CONFIGURATION
-easy_admin:
-    design:
-        color_scheme: 'light'
-    entities:
-        - AppTestBundle\Entity\UnitTests\Category
