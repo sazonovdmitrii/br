@@ -63,16 +63,18 @@ const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
             },
         };
     }, {});
-    const optionsWithMinPrice = Object.entries(options).map(([id, { name, prices, description }]) => {
-        const minPrice = Math.min(...prices);
+    const optionsWithMinPrice = Object.entries(options)
+        .map(([id, { name, prices, description }]) => {
+            const minPrice = Math.min(...prices);
 
-        return {
-            name,
-            description,
-            id: parseInt(id, 10),
-            price: minPrice - stepPrice,
-        };
-    });
+            return {
+                name,
+                description,
+                id: parseInt(id, 10),
+                price: minPrice - stepPrice,
+            };
+        })
+        .sort((a, b) => a.price - b.price);
 
     return optionsWithMinPrice;
 };
@@ -462,7 +464,7 @@ const ChooseLenses = ({
                                     <div className={styles.progress} style={{ width: progressWidth }} />
                                 </div>
                                 <div className={styles.navigationContainer}>
-                                    {!firstStep && (
+                                    {!isFirstStep && (
                                         <button
                                             type="button"
                                             className={styles.backButton}
