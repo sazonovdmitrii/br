@@ -12,10 +12,6 @@ RUN apt-get install -y zlib1g-dev libpq-dev git libicu-dev libxml2-dev libxpm-de
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install gd
 
-RUN apt-get update && apt-get install -y libmagickwand-dev --no-install-recommends
-RUN printf "\n" | pecl install imagick
-RUN docker-php-ext-enable imagick
-
 RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer
 
 #RUN apt-get update
@@ -24,7 +20,6 @@ RUN apt-get install -y libmemcachedutil2
 RUN apt-get install -y build-essential
 RUN apt-get install -y libmemcached-dev
 RUN apt-get install -y libz-dev
-RUN apt-get install -y webp
 RUN pecl install memcached
 RUN echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini
 

@@ -27,41 +27,21 @@ class Deprecation
     const TYPE_INDIRECT = 'type_indirect';
     const TYPE_UNDETERMINED = 'type_undetermined';
 
-    /**
-     * @var array
-     */
-    private $trace;
-
-    /**
-     * @var string
-     */
+    private $trace = [];
     private $message;
-
-    /**
-     * @var ?string
-     */
     private $originClass;
-
-    /**
-     * @var ?string
-     */
     private $originMethod;
+    private $triggeringFile;
 
-    /**
-     * @var string one of the PATH_TYPE_* constants
-     */
-    private $triggeringFilePathType;
-
-    /** @var string[] absolute paths to vendor directories */
+    /** @var string[] Absolute paths to vendor directories */
     private static $vendors;
 
     /**
-     * @var string[] absolute paths to source or tests of the project. This
-     *               excludes cache directories, because it is based on
-     *               autoloading rules and cache systems typically do not use
-     *               those.
+     * @var string[] Absolute paths to source or tests of the project, cache
+     *               directories exlcuded because it is based on autoloading
+     *               rules and cache systems typically do not use those
      */
-    private static $internalPaths;
+    private static $internalPaths = [];
 
     /**
      * @param string $message
@@ -76,7 +56,7 @@ class Deprecation
             // No-op
         }
         $line = $trace[$i];
-        $this->trigerringFilePathType = $this->getPathType($file);
+        $this->triggeringFile = $file;
         if (isset($line['object']) || isset($line['class'])) {
             if (isset($line['class']) && 0 === strpos($line['class'], SymfonyTestsListenerFor::class)) {
                 $parsedMsg = unserialize($this->message);
@@ -88,7 +68,7 @@ class Deprecation
                 // then we need to use the serialized information to determine
                 // if the error has been triggered from vendor code.
                 if (isset($parsedMsg['triggering_file'])) {
-                    $this->trigerringFilePathType = $this->getPathType($parsedMsg['triggering_file']);
+                    $this->triggeringFile = $parsedMsg['triggering_file'];
                 }
 
                 return;
@@ -170,6 +150,21 @@ class Deprecation
     }
 
     /**
+     * @return bool
+     */
+    public function isMuted()
+    {
+        if ('Function ReflectionType::__toString() is deprecated' !== $this->message) {
+            return false;
+        }
+        if (isset($this->trace[1]['class'])) {
+            return 0 === strpos($this->trace[1]['class'], 'PHPUnit\\');
+        }
+
+        return false !== strpos($this->triggeringFile, \DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR.'phpunit'.\DIRECTORY_SEPARATOR);
+    }
+
+    /**
      * Tells whether both the calling package and the called package are vendor
      * packages.
      *
@@ -177,10 +172,11 @@ class Deprecation
      */
     public function getType()
     {
-        if (self::PATH_TYPE_SELF === $this->trigerringFilePathType) {
+        $triggeringFilePathType = $this->getPathType($this->triggeringFile);
+        if (self::PATH_TYPE_SELF === $triggeringFilePathType) {
             return self::TYPE_SELF;
         }
-        if (self::PATH_TYPE_UNDETERMINED === $this->trigerringFilePathType) {
+        if (self::PATH_TYPE_UNDETERMINED === $triggeringFilePathType) {
             return self::TYPE_UNDETERMINED;
         }
         $erroringFile = $erroringPackage = null;
@@ -249,7 +245,7 @@ class Deprecation
     private static function getVendors()
     {
         if (null === self::$vendors) {
-            self::$vendors = [];
+            self::$vendors = $paths = [];
             foreach (get_declared_classes() as $class) {
                 if ('C' === $class[0] && 0 === strpos($class, 'ComposerAutoloaderInit')) {
                     $r = new \ReflectionClass($class);

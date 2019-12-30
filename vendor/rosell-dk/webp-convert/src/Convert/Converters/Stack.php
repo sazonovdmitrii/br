@@ -199,8 +199,6 @@ class Stack extends AbstractConverter
                 //throw new ConverterNotOperationalException('...');
                 return;
             } catch (ConverterNotOperationalException $e) {
-                var_dump($e->getMessage());
-                die();
                 $this->logLn($e->getMessage());
             } catch (ConversionFailedException $e) {
                 $this->logLn($e->getMessage(), 'italic');

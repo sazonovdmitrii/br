@@ -100,7 +100,6 @@ use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Mapping\ClassDiscriminatorFromClassMetadata;
 use Symfony\Component\Serializer\Normalizer\ConstraintViolationListNormalizer;
-use Symfony\Component\Serializer\Normalizer\DateIntervalNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -225,6 +224,10 @@ class FrameworkExtension extends Extension
         }
 
         if ($this->isConfigEnabled($container, $config['session'])) {
+            if (!\extension_loaded('session')) {
+                throw new LogicException('Session support cannot be enabled as the session extension is not installed. See https://php.net/session.installation for instructions.');
+            }
+
             $this->sessionConfigEnabled = true;
             $this->registerSessionConfiguration($config['session'], $container, $loader);
             if (!empty($config['test'])) {
@@ -702,13 +705,10 @@ class FrameworkExtension extends Extension
             }
 
             if ($validator) {
-                $realDefinition = (new Workflow\DefinitionBuilder($places))
-                    ->addTransitions(array_map(function (Reference $ref) use ($container): Workflow\Transition {
-                        return $container->get((string) $ref);
-                    }, $transitions))
-                    ->setInitialPlace($initialMarking)
-                    ->build()
-                ;
+                $trs = array_map(function (Reference $ref) use ($container): Workflow\Transition {
+                    return $container->get((string) $ref);
+                }, $transitions);
+                $realDefinition = new Workflow\Definition($places, $trs, $initialMarking);
                 $validator->validate($realDefinition, $name);
             }
 
@@ -874,7 +874,7 @@ class FrameworkExtension extends Extension
         // session storage
         $container->setAlias('session.storage', $config['storage_id'])->setPrivate(true);
         $options = ['cache_limiter' => '0'];
-        foreach (['name', 'cookie_lifetime', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'cookie_samesite', 'use_cookies', 'gc_maxlifetime', 'gc_probability', 'gc_divisor'] as $key) {
+        foreach (['name', 'cookie_lifetime', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'cookie_samesite', 'use_cookies', 'gc_maxlifetime', 'gc_probability', 'gc_divisor', 'sid_length', 'sid_bits_per_character'] as $key) {
             if (isset($config[$key])) {
                 $options[$key] = $config[$key];
             }
@@ -1114,17 +1114,17 @@ class FrameworkExtension extends Extension
         if (class_exists('Symfony\Component\Security\Core\Exception\AuthenticationException')) {
             $r = new \ReflectionClass('Symfony\Component\Security\Core\Exception\AuthenticationException');
 
-            $dirs[] = $transPaths[] = \dirname(\dirname($r->getFileName())).'/Resources/translations';
+            $dirs[] = $transPaths[] = \dirname($r->getFileName(), 2).'/Resources/translations';
         }
         $defaultDir = $container->getParameterBag()->resolveValue($config['default_path']);
         $rootDir = $container->getParameter('kernel.root_dir');
         foreach ($container->getParameter('kernel.bundles_metadata') as $name => $bundle) {
-            if (is_dir($dir = $bundle['path'].'/Resources/translations')) {
+            if ($container->fileExists($dir = $bundle['path'].'/Resources/translations')) {
                 $dirs[] = $dir;
             } else {
                 $nonExistingDirs[] = $dir;
             }
-            if (is_dir($dir = $rootDir.sprintf('/Resources/%s/translations', $name))) {
+            if ($container->fileExists($dir = $rootDir.sprintf('/Resources/%s/translations', $name))) {
                 @trigger_error(sprintf('Translations directory "%s" is deprecated since Symfony 4.2, use "%s" instead.', $dir, $defaultDir), E_USER_DEPRECATED);
                 $dirs[] = $dir;
             } else {
@@ -1133,7 +1133,7 @@ class FrameworkExtension extends Extension
         }
 
         foreach ($config['paths'] as $dir) {
-            if (is_dir($dir)) {
+            if ($container->fileExists($dir)) {
                 $dirs[] = $transPaths[] = $dir;
             } else {
                 throw new \UnexpectedValueException(sprintf('%s defined in translator.paths does not exist or is not a directory', $dir));
@@ -1148,13 +1148,13 @@ class FrameworkExtension extends Extension
             $container->getDefinition('console.command.translation_update')->replaceArgument(6, $transPaths);
         }
 
-        if (is_dir($defaultDir)) {
+        if ($container->fileExists($defaultDir)) {
             $dirs[] = $defaultDir;
         } else {
             $nonExistingDirs[] = $defaultDir;
         }
 
-        if (is_dir($dir = $rootDir.'/Resources/translations')) {
+        if ($container->fileExists($dir = $rootDir.'/Resources/translations')) {
             if ($dir !== $defaultDir) {
                 @trigger_error(sprintf('Translations directory "%s" is deprecated since Symfony 4.2, use "%s" instead.', $dir, $defaultDir), E_USER_DEPRECATED);
             }
@@ -1218,7 +1218,7 @@ class FrameworkExtension extends Extension
 
         if (interface_exists(TranslatorInterface::class) && class_exists(LegacyTranslatorProxy::class)) {
             $calls = $validatorBuilder->getMethodCalls();
-            $calls[1] = ['setTranslator', [new Definition(LegacyTranslatorProxy::class, [new Reference('translator')])]];
+            $calls[1] = ['setTranslator', [new Definition(LegacyTranslatorProxy::class, [new Reference('translator', ContainerInterface::IGNORE_ON_INVALID_REFERENCE)])]];
             $validatorBuilder->setMethodCalls($calls);
         }
 
@@ -1431,10 +1431,6 @@ class FrameworkExtension extends Extension
     private function registerSerializerConfiguration(array $config, ContainerBuilder $container, XmlFileLoader $loader)
     {
         $loader->load('serializer.xml');
-
-        if (!class_exists(DateIntervalNormalizer::class)) {
-            $container->removeDefinition('serializer.normalizer.dateinterval');
-        }
 
         if (!class_exists(ConstraintViolationListNormalizer::class)) {
             $container->removeDefinition('serializer.normalizer.constraint_violation_list');
@@ -1717,7 +1713,7 @@ class FrameworkExtension extends Extension
 
             $transportDefinition = (new Definition(TransportInterface::class))
                 ->setFactory([new Reference('messenger.transport_factory'), 'createTransport'])
-                ->setArguments([$transport['dsn'], $transport['options'], new Reference($serializerId)])
+                ->setArguments([$transport['dsn'], $transport['options'] + ['transport_name' => $name], new Reference($serializerId)])
                 ->addTag('messenger.receiver', ['alias' => $name])
             ;
             $container->setDefinition($transportId = 'messenger.transport.'.$name, $transportDefinition);
@@ -1863,7 +1859,7 @@ class FrameworkExtension extends Extension
 
             if (!$container->getParameter('kernel.debug')) {
                 $propertyAccessDefinition->setFactory([PropertyAccessor::class, 'createCache']);
-                $propertyAccessDefinition->setArguments([null, null, $version, new Reference('logger', ContainerInterface::IGNORE_ON_INVALID_REFERENCE)]);
+                $propertyAccessDefinition->setArguments([null, 0, $version, new Reference('logger', ContainerInterface::IGNORE_ON_INVALID_REFERENCE)]);
                 $propertyAccessDefinition->addTag('cache.pool', ['clearer' => 'cache.system_clearer']);
                 $propertyAccessDefinition->addTag('monolog.logger', ['channel' => 'cache']);
             } else {
@@ -1924,9 +1920,7 @@ class FrameworkExtension extends Extension
     }
 
     /**
-     * Returns the base path for the XSD files.
-     *
-     * @return string The XSD base path
+     * {@inheritdoc}
      */
     public function getXsdValidationBasePath()
     {

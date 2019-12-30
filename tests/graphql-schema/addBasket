@@ -1,37 +1,18 @@
 mutation ($input: AddBasketInput!) {
   addBasket(input: $input) {
     products {
-      item{
-        id
-        name
-      }
+      item_id
       qty
       price
-    	lenses {
-        lenses {
-          name
-          options {
-            name
-            value
-          }
-        }
-        recipes {
-          left {
-            name
-            value
-          }
-          right{
-            name
-            value
-          }
-        }
-      }
+      name
+      product_name
+      url
     }
   }
 }
 
 {
   "input": {
-    "item_id": 114
+    "item_id": 24
   }
 }

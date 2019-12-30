@@ -72,10 +72,13 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
             curl_multi_setopt($this->multi->handle, CURLMOPT_PIPELINING, CURLPIPE_MULTIPLEX);
         }
         if (\defined('CURLMOPT_MAX_HOST_CONNECTIONS')) {
-            curl_multi_setopt($this->multi->handle, CURLMOPT_MAX_HOST_CONNECTIONS, 0 < $maxHostConnections ? $maxHostConnections : PHP_INT_MAX);
+            $maxHostConnections = curl_multi_setopt($this->multi->handle, CURLMOPT_MAX_HOST_CONNECTIONS, 0 < $maxHostConnections ? $maxHostConnections : PHP_INT_MAX) ? 0 : $maxHostConnections;
+        }
+        if (\defined('CURLMOPT_MAXCONNECTS') && 0 < $maxHostConnections) {
+            curl_multi_setopt($this->multi->handle, CURLMOPT_MAXCONNECTS, $maxHostConnections);
         }
 
-        // Skip configuring HTTP/2 push when it's unsupported or buggy, see https://bugs.php.net/bug.php?id=77535
+        // Skip configuring HTTP/2 push when it's unsupported or buggy, see https://bugs.php.net/77535
         if (0 >= $maxPendingPushes || \PHP_VERSION_ID < 70217 || (\PHP_VERSION_ID >= 70300 && \PHP_VERSION_ID < 70304)) {
             return;
         }
@@ -105,18 +108,15 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
         $host = parse_url($authority, PHP_URL_HOST);
         $url = implode('', $url);
 
+        if (!isset($options['normalized_headers']['user-agent'])) {
+            $options['normalized_headers']['user-agent'][] = $options['headers'][] = 'User-Agent: Symfony HttpClient/Curl';
+        }
+
         if ($pushedResponse = $this->multi->pushedResponses[$url] ?? null) {
             unset($this->multi->pushedResponses[$url]);
-            // Accept pushed responses only if their headers related to authentication match the request
-            $expectedHeaders = [
-                $options['headers']['authorization'] ?? null,
-                $options['headers']['cookie'] ?? null,
-                $options['headers']['x-requested-with'] ?? null,
-                $options['headers']['range'] ?? null,
-            ];
 
-            if ('GET' === $method && $expectedHeaders === $pushedResponse->headers && !$options['body']) {
-                $this->logger && $this->logger->debug(sprintf('Connecting request to pushed response: "%s %s"', $method, $url));
+            if (self::acceptPushForRequest($method, $options, $pushedResponse)) {
+                $this->logger && $this->logger->debug(sprintf('Accepting pushed response: "%s %s"', $method, $url));
 
                 // Reinitialize the pushed response with request's options
                 $pushedResponse->response->__construct($this->multi, $url, $options, $this->logger);
@@ -124,21 +124,20 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
                 return $pushedResponse->response;
             }
 
-            $this->logger && $this->logger->debug(sprintf('Rejecting pushed response for "%s": authorization headers don\'t match the request', $url));
+            $this->logger && $this->logger->debug(sprintf('Rejecting pushed response: "%s".', $url));
         }
 
         $this->logger && $this->logger->info(sprintf('Request: "%s %s"', $method, $url));
 
         $curlopts = [
             CURLOPT_URL => $url,
-            CURLOPT_USERAGENT => 'Symfony HttpClient/Curl',
             CURLOPT_TCP_NODELAY => true,
             CURLOPT_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
             CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_MAXREDIRS => 0 < $options['max_redirects'] ? $options['max_redirects'] : 0,
             CURLOPT_COOKIEFILE => '', // Keep track of cookies during redirects
-            CURLOPT_CONNECTTIMEOUT_MS => 1000 * $options['timeout'],
+            CURLOPT_TIMEOUT => 0,
             CURLOPT_PROXY => $options['proxy'],
             CURLOPT_NOPROXY => $options['no_proxy'] ?? $_SERVER['no_proxy'] ?? $_SERVER['NO_PROXY'] ?? '',
             CURLOPT_SSL_VERIFYPEER => $options['verify_peer'],
@@ -206,11 +205,11 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
             $curlopts[CURLOPT_NOSIGNAL] = true;
         }
 
-        if (!isset($options['headers']['accept-encoding'])) {
+        if (!isset($options['normalized_headers']['accept-encoding'])) {
             $curlopts[CURLOPT_ENCODING] = ''; // Enable HTTP compression
         }
 
-        foreach ($options['request_headers'] as $header) {
+        foreach ($options['headers'] as $header) {
             if (':' === $header[-2] && \strlen($header) - 2 === strpos($header, ': ')) {
                 // curl requires a special syntax to send empty headers
                 $curlopts[CURLOPT_HTTPHEADER][] = substr_replace($header, ';', -2);
@@ -221,7 +220,7 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
 
         // Prevent curl from sending its default Accept and Expect headers
         foreach (['accept', 'expect'] as $header) {
-            if (!isset($options['headers'][$header])) {
+            if (!isset($options['normalized_headers'][$header])) {
                 $curlopts[CURLOPT_HTTPHEADER][] = $header.':';
             }
         }
@@ -237,16 +236,16 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
                 };
             }
 
-            if (isset($options['headers']['content-length'][0])) {
-                $curlopts[CURLOPT_INFILESIZE] = $options['headers']['content-length'][0];
-            } elseif (!isset($options['headers']['transfer-encoding'])) {
+            if (isset($options['normalized_headers']['content-length'][0])) {
+                $curlopts[CURLOPT_INFILESIZE] = substr($options['normalized_headers']['content-length'][0], \strlen('Content-Length: '));
+            } elseif (!isset($options['normalized_headers']['transfer-encoding'])) {
                 $curlopts[CURLOPT_HTTPHEADER][] = 'Transfer-Encoding: chunked'; // Enable chunked request bodies
             }
 
             if ('POST' !== $method) {
                 $curlopts[CURLOPT_UPLOAD] = true;
             }
-        } elseif ('' !== $body) {
+        } elseif ('' !== $body || 'POST' === $method) {
             $curlopts[CURLOPT_POSTFIELDS] = $body;
         }
 
@@ -288,6 +287,7 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
             throw new \TypeError(sprintf('%s() expects parameter 1 to be an iterable of CurlResponse objects, %s given.', __METHOD__, \is_object($responses) ? \get_class($responses) : \gettype($responses)));
         }
 
+        $active = 0;
         while (CURLM_CALL_MULTI_PERFORM === curl_multi_exec($this->multi->handle, $active));
 
         return new ResponseStream(CurlResponse::stream($responses, $timeout));
@@ -299,6 +299,13 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
         if (\defined('CURLMOPT_PUSHFUNCTION')) {
             curl_multi_setopt($this->multi->handle, CURLMOPT_PUSHFUNCTION, null);
         }
+
+        $active = 0;
+        while (CURLM_CALL_MULTI_PERFORM === curl_multi_exec($this->multi->handle, $active));
+
+        foreach ($this->multi->openHandles as [$ch]) {
+            curl_setopt($ch, CURLOPT_VERBOSE, false);
+        }
     }
 
     private static function handlePush($parent, $pushed, array $requestHeaders, CurlClientState $multi, int $maxPendingPushes, ?LoggerInterface $logger): int
@@ -308,17 +315,17 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
 
         foreach ($requestHeaders as $h) {
             if (false !== $i = strpos($h, ':', 1)) {
-                $headers[substr($h, 0, $i)] = substr($h, 1 + $i);
+                $headers[substr($h, 0, $i)][] = substr($h, 1 + $i);
             }
         }
 
-        if (!isset($headers[':method']) || !isset($headers[':scheme']) || !isset($headers[':authority']) || !isset($headers[':path']) || 'GET' !== $headers[':method'] || isset($headers['range'])) {
+        if (!isset($headers[':method']) || !isset($headers[':scheme']) || !isset($headers[':authority']) || !isset($headers[':path'])) {
             $logger && $logger->debug(sprintf('Rejecting pushed response from "%s": pushed headers are invalid', $origin));
 
             return CURL_PUSH_DENY;
         }
 
-        $url = $headers[':scheme'].'://'.$headers[':authority'];
+        $url = $headers[':scheme'][0].'://'.$headers[':authority'][0];
 
         if ($maxPendingPushes <= \count($multi->pushedResponses)) {
             $logger && $logger->debug(sprintf('Rejecting pushed response from "%s" for "%s": the queue is full', $origin, $url));
@@ -335,20 +342,41 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
             return CURL_PUSH_DENY;
         }
 
-        $url .= $headers[':path'];
+        $url .= $headers[':path'][0];
         $logger && $logger->debug(sprintf('Queueing pushed response: "%s"', $url));
 
-        $multi->pushedResponses[$url] = new PushedResponse(
-            new CurlResponse($multi, $pushed),
-            [
-                $headers['authorization'] ?? null,
-                $headers['cookie'] ?? null,
-                $headers['x-requested-with'] ?? null,
-                null,
-            ]
-        );
+        $multi->pushedResponses[$url] = new PushedResponse(new CurlResponse($multi, $pushed), $headers, $multi->openHandles[(int) $parent][1] ?? []);
 
         return CURL_PUSH_OK;
+    }
+
+    /**
+     * Accepts pushed responses only if their headers related to authentication match the request.
+     */
+    private static function acceptPushForRequest(string $method, array $options, PushedResponse $pushedResponse): bool
+    {
+        if ('' !== $options['body'] || $method !== $pushedResponse->requestHeaders[':method'][0]) {
+            return false;
+        }
+
+        foreach (['proxy', 'no_proxy', 'bindto'] as $k) {
+            if ($options[$k] !== $pushedResponse->parentOptions[$k]) {
+                return false;
+            }
+        }
+
+        foreach (['authorization', 'cookie', 'range', 'proxy-authorization'] as $k) {
+            $normalizedHeaders = $options['normalized_headers'][$k] ?? [];
+            foreach ($normalizedHeaders as $i => $v) {
+                $normalizedHeaders[$i] = substr($v, \strlen($k) + 2);
+            }
+
+            if (($pushedResponse->requestHeaders[$k] ?? []) !== $normalizedHeaders) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -381,12 +409,12 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface
         $redirectHeaders = [];
         if (0 < $options['max_redirects']) {
             $redirectHeaders['host'] = $host;
-            $redirectHeaders['with_auth'] = $redirectHeaders['no_auth'] = array_filter($options['request_headers'], static function ($h) {
+            $redirectHeaders['with_auth'] = $redirectHeaders['no_auth'] = array_filter($options['headers'], static function ($h) {
                 return 0 !== stripos($h, 'Host:');
             });
 
-            if (isset($options['headers']['authorization']) || isset($options['headers']['cookie'])) {
-                $redirectHeaders['no_auth'] = array_filter($options['request_headers'], static function ($h) {
+            if (isset($options['normalized_headers']['authorization']) || isset($options['normalized_headers']['cookie'])) {
+                $redirectHeaders['no_auth'] = array_filter($options['headers'], static function ($h) {
                     return 0 !== stripos($h, 'Authorization:') && 0 !== stripos($h, 'Cookie:');
                 });
             }

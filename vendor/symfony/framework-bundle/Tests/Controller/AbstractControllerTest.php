@@ -66,12 +66,10 @@ class AbstractControllerTest extends ControllerTraitTest
         $this->assertSame('bar', $controller->getParameter('foo'));
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
-     * @expectedExceptionMessage TestAbstractController::getParameter()" method is missing a parameter bag
-     */
     public function testMissingParameterBag()
     {
+        $this->expectException('Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException');
+        $this->expectExceptionMessage('TestAbstractController::getParameter()" method is missing a parameter bag');
         $container = new Container();
 
         $controller = $this->createController();
@@ -83,13 +81,16 @@ class AbstractControllerTest extends ControllerTraitTest
 
 class TestAbstractController extends AbstractController
 {
-    use TestControllerTrait;
-
     private $throwOnUnexpectedService;
 
     public function __construct($throwOnUnexpectedService = true)
     {
         $this->throwOnUnexpectedService = $throwOnUnexpectedService;
+    }
+
+    public function __call(string $method, array $arguments)
+    {
+        return $this->$method(...$arguments);
     }
 
     public function setContainer(ContainerInterface $container)
@@ -114,11 +115,6 @@ class TestAbstractController extends AbstractController
         }
 
         return parent::setContainer($container);
-    }
-
-    public function getParameter(string $name)
-    {
-        return parent::getParameter($name);
     }
 
     public function fooAction()

@@ -12,9 +12,9 @@ class LpController extends Controller
 
     public function __construct()
     {
-        $this->_cacheAdapter = MemcachedAdapter::createConnection(
-            'memcached://memcached:11211'
-        );
+//        $this->_cacheAdapter = MemcachedAdapter::createConnection(
+//            'memcached://memcached:11211'
+//        );
     }
 
     /**

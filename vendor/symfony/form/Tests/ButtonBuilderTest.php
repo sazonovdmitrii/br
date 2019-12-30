@@ -47,6 +47,14 @@ class ButtonBuilderTest extends TestCase
         $this->assertInstanceOf('\Symfony\Component\Form\ButtonBuilder', new ButtonBuilder('button[]'));
     }
 
+    /**
+     * @group legacy
+     */
+    public function testNameStartingWithIllegalCharacters()
+    {
+        $this->assertInstanceOf('\Symfony\Component\Form\ButtonBuilder', new ButtonBuilder('Button'));
+    }
+
     public function getInvalidNames()
     {
         return [
@@ -61,12 +69,8 @@ class ButtonBuilderTest extends TestCase
      */
     public function testInvalidNames($name)
     {
-        if (method_exists($this, 'expectException')) {
-            $this->expectException(InvalidArgumentException::class);
-            $this->expectExceptionMessage('Buttons cannot have empty names.');
-        } else {
-            $this->setExpectedException(InvalidArgumentException::class, 'Buttons cannot have empty names.');
-        }
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Buttons cannot have empty names.');
         new ButtonBuilder($name);
     }
 }

@@ -38,7 +38,7 @@
         "symfony/twig-bundle": "~2.3|~3.0|^4.0",
         "symfony/validator": "~2.3|~3.0|^4.0",
         "twig/extensions": "~1.0",
-        "twig/twig": "~1.40|~2.9"
+        "twig/twig": "~1.42|~2.11"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "~2.2",
@@ -50,6 +50,9 @@
         "symfony/phpunit-bridge": "^3.2|^4.0",
         "symfony/var-dumper": "~2.3|~3.0|^4.0",
         "symfony/yaml": "~2.3|~3.0|^4.0"
+    },
+    "conflict": {
+        "symfony/http-kernel": ">=5.0"
     },
     "config": {
         "sort-packages": true

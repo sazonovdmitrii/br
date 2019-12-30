@@ -3,7 +3,7 @@ services:
     br_php:
         build: php-fpm
         ports:
-            - '9005:9000'
+            - '9008:9000'
         volumes:
             - ${PWD}:/var/www/symfony
             - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
@@ -26,6 +26,8 @@ services:
         - POSTGRES_USER=symfony
         - POSTGRES_PASSWORD=symfony
         - PGDATA=/var/lib/postgresql/data/db-files/
+        volumes:
+        - ./db/db.dump:/tmp/db.dump
         ports:
         - "5432:5432"
         networks:

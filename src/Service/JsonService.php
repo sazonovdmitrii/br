@@ -57,8 +57,8 @@ class JsonService extends AbstractController
         if(!file_exists($this->localeDir)) {
             $this->_createDir($this->localeDir);
         }
-
-        file_put_contents($this->localeDir . $this->getLocale() . '.json', json_encode($data));
+	$filePath = $this->localeDir . $this->getLocale() . '.json';
+        file_put_contents($filePath, json_encode($data));
     }
 
     private function _createDir($path)

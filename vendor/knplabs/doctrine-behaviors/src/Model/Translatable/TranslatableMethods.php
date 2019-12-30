@@ -179,11 +179,10 @@ trait TranslatableMethods
      */
     protected function proxyCurrentLocaleTranslation($method, array $arguments = [])
     {
-        $translatableClass = $this->translate($this->getCurrentLocale());
-
-        if(method_exists($translatableClass,$method)) {
-            return call_user_func_array([$translatableClass, $method], $arguments);
-        }
+        return call_user_func_array(
+            [$this->translate($this->getCurrentLocale()), $method],
+            $arguments
+        );
     }
 
     /**

@@ -1,0 +1,4342 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.6 (Ubuntu 10.6-0ubuntu0.18.04.1)
+-- Dumped by pg_dump version 10.6 (Ubuntu 10.6-0ubuntu0.18.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: account; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.account (
+    id integer NOT NULL,
+    name character varying(255) DEFAULT NULL::character varying,
+    email character varying(15) DEFAULT NULL::character varying,
+    increment_by integer
+);
+
+
+ALTER TABLE public.account OWNER TO symfony;
+
+--
+-- Name: account_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.account_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.account_id_seq OWNER TO symfony;
+
+--
+-- Name: address; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.address (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created timestamp(0) without time zone NOT NULL,
+    user_id_id integer,
+    person character varying(255) DEFAULT NULL::character varying,
+    zip character varying(255) DEFAULT NULL::character varying,
+    region_id integer,
+    city character varying(255) DEFAULT NULL::character varying,
+    street character varying(255) DEFAULT NULL::character varying,
+    house character varying(45) DEFAULT NULL::character varying,
+    corp character varying(45) DEFAULT NULL::character varying,
+    level character varying(45) DEFAULT NULL::character varying,
+    flat character varying(255) DEFAULT NULL::character varying,
+    code character varying(45) DEFAULT NULL::character varying,
+    comment character varying(255) DEFAULT NULL::character varying,
+    active boolean
+);
+
+
+ALTER TABLE public.address OWNER TO symfony;
+
+--
+-- Name: address_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.address_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.address_id_seq OWNER TO symfony;
+
+--
+-- Name: banner; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.banner (
+    id integer NOT NULL,
+    path character varying(255) DEFAULT NULL::character varying,
+    link character varying(255) DEFAULT NULL::character varying,
+    active boolean
+);
+
+
+ALTER TABLE public.banner OWNER TO symfony;
+
+--
+-- Name: banner_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.banner_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.banner_id_seq OWNER TO symfony;
+
+--
+-- Name: basket; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.basket (
+    id integer NOT NULL,
+    user_id integer,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    updated timestamp(0) without time zone DEFAULT NULL::timestamp without time zone
+);
+
+
+ALTER TABLE public.basket OWNER TO symfony;
+
+--
+-- Name: basket_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.basket_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.basket_id_seq OWNER TO symfony;
+
+--
+-- Name: basketitem; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.basketitem (
+    id integer NOT NULL,
+    basket_id_id integer,
+    product_item_id_id integer,
+    qty integer,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone
+);
+
+
+ALTER TABLE public.basketitem OWNER TO symfony;
+
+--
+-- Name: basketitem_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.basketitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.basketitem_id_seq OWNER TO symfony;
+
+--
+-- Name: catalog; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.catalog (
+    id integer NOT NULL,
+    pid integer,
+    visible boolean NOT NULL,
+    created timestamp(0) without time zone NOT NULL,
+    updated timestamp(0) without time zone NOT NULL,
+    brand boolean,
+    name character varying(255) DEFAULT NULL::character varying,
+    banner character varying(255) DEFAULT NULL::character varying,
+    description text
+);
+
+
+ALTER TABLE public.catalog OWNER TO symfony;
+
+--
+-- Name: catalog_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.catalog_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.catalog_id_seq OWNER TO symfony;
+
+--
+-- Name: catalogtag; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.catalogtag (
+    id integer NOT NULL,
+    name character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    type character varying(10) DEFAULT NULL::character varying,
+    visible character varying(3) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.catalogtag OWNER TO symfony;
+
+--
+-- Name: catalogtag_catalog; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.catalogtag_catalog (
+    catalogtag_id integer NOT NULL,
+    catalog_id integer NOT NULL
+);
+
+
+ALTER TABLE public.catalogtag_catalog OWNER TO symfony;
+
+--
+-- Name: catalogtag_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.catalogtag_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.catalogtag_id_seq OWNER TO symfony;
+
+--
+-- Name: catalogtagitem; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.catalogtagitem (
+    id integer NOT NULL,
+    entity_id integer,
+    name character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone
+);
+
+
+ALTER TABLE public.catalogtagitem OWNER TO symfony;
+
+--
+-- Name: catalogtagitem_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.catalogtagitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.catalogtagitem_id_seq OWNER TO symfony;
+
+--
+-- Name: catalogtagitemvalue; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.catalogtagitemvalue (
+    id integer NOT NULL,
+    tag_item_id integer,
+    catalog_item_id integer
+);
+
+
+ALTER TABLE public.catalogtagitemvalue OWNER TO symfony;
+
+--
+-- Name: catalogtagitemvalue_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.catalogtagitemvalue_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.catalogtagitemvalue_id_seq OWNER TO symfony;
+
+--
+-- Name: catalogurl; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.catalogurl (
+    id integer NOT NULL,
+    url character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    entity_id integer
+);
+
+
+ALTER TABLE public.catalogurl OWNER TO symfony;
+
+--
+-- Name: catalogurl_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.catalogurl_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.catalogurl_id_seq OWNER TO symfony;
+
+--
+-- Name: city; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.city (
+    id integer NOT NULL,
+    latitude double precision,
+    longitude double precision,
+    description character varying(255) DEFAULT NULL::character varying,
+    visible boolean,
+    short_title character varying(255) DEFAULT NULL::character varying,
+    fias_id character varying(255) DEFAULT NULL::character varying,
+    kladr_id character varying(255),
+    region_id integer,
+    district_id integer
+);
+
+
+ALTER TABLE public.city OWNER TO symfony;
+
+--
+-- Name: city_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.city_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.city_id_seq OWNER TO symfony;
+
+--
+-- Name: citytranslation; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.citytranslation (
+    id integer NOT NULL,
+    translatable_id integer,
+    title character varying(255) DEFAULT NULL::character varying,
+    locale character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.citytranslation OWNER TO symfony;
+
+--
+-- Name: citytranslation_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.citytranslation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.citytranslation_id_seq OWNER TO symfony;
+
+--
+-- Name: configuration; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.configuration (
+    id integer NOT NULL,
+    option character varying(255) DEFAULT NULL::character varying,
+    value character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.configuration OWNER TO symfony;
+
+--
+-- Name: configuration_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.configuration_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.configuration_id_seq OWNER TO symfony;
+
+--
+-- Name: courier; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.courier (
+    id integer NOT NULL,
+    direction_id integer,
+    city_id integer,
+    avarda_id character varying(255) DEFAULT NULL::character varying,
+    direction_title character varying(255) DEFAULT NULL::character varying,
+    city_title character varying(255) DEFAULT NULL::character varying,
+    city_short_title character varying(255) DEFAULT NULL::character varying,
+    city_latitude character varying(255) DEFAULT NULL::character varying,
+    city_longitude character varying(255) DEFAULT NULL::character varying,
+    city_kladr character varying(255) DEFAULT NULL::character varying,
+    city_fias character varying(255) DEFAULT NULL::character varying,
+    post_code character varying(255) DEFAULT NULL::character varying,
+    address character varying(255) DEFAULT NULL::character varying,
+    comment text,
+    price double precision,
+    price_source character varying(255) DEFAULT NULL::character varying,
+    latitude character varying(255) DEFAULT NULL::character varying,
+    longitude character varying(255) DEFAULT NULL::character varying,
+    phones character varying(255) DEFAULT NULL::character varying,
+    schedule character varying(255) DEFAULT NULL::character varying,
+    delivery_days character varying(255) DEFAULT NULL::character varying,
+    delivery_days_source character varying(255) DEFAULT NULL::character varying,
+    min_order_sum double precision,
+    wholesale boolean,
+    retail boolean,
+    pvz_id integer,
+    pvz_title character varying(255) DEFAULT NULL::character varying,
+    visible boolean
+);
+
+
+ALTER TABLE public.courier OWNER TO symfony;
+
+--
+-- Name: courier_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.courier_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.courier_id_seq OWNER TO symfony;
+
+--
+-- Name: courier_paymentmethod; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.courier_paymentmethod (
+    courier_id integer NOT NULL,
+    paymentmethod_id integer NOT NULL
+);
+
+
+ALTER TABLE public.courier_paymentmethod OWNER TO symfony;
+
+--
+-- Name: delivery; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.delivery (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    visible boolean NOT NULL
+);
+
+
+ALTER TABLE public.delivery OWNER TO symfony;
+
+--
+-- Name: delivery_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.delivery_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.delivery_id_seq OWNER TO symfony;
+
+--
+-- Name: direction; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.direction (
+    id integer NOT NULL,
+    avarda_id integer,
+    title character varying(255) DEFAULT NULL::character varying,
+    price double precision,
+    delivery_days integer,
+    visible boolean,
+    comment character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.direction OWNER TO symfony;
+
+--
+-- Name: direction_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.direction_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.direction_id_seq OWNER TO symfony;
+
+--
+-- Name: district; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.district (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.district OWNER TO symfony;
+
+--
+-- Name: district_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.district_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.district_id_seq OWNER TO symfony;
+
+--
+-- Name: images; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.images (
+    id integer NOT NULL,
+    entity_id integer,
+    url character varying(255) NOT NULL,
+    type character varying(255) DEFAULT NULL::character varying,
+    title character varying(255) NOT NULL,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone
+);
+
+
+ALTER TABLE public.images OWNER TO symfony;
+
+--
+-- Name: images_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.images_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.images_id_seq OWNER TO symfony;
+
+--
+-- Name: importproduct; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.importproduct (
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.importproduct OWNER TO symfony;
+
+--
+-- Name: importproduct_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.importproduct_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.importproduct_id_seq OWNER TO symfony;
+
+--
+-- Name: importqueue; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.importqueue (
+    id integer NOT NULL,
+    path character varying(255) DEFAULT NULL::character varying,
+    status text,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    type integer,
+    updated timestamp(0) without time zone DEFAULT NULL::timestamp without time zone
+);
+
+
+ALTER TABLE public.importqueue OWNER TO symfony;
+
+--
+-- Name: COLUMN importqueue.status; Type: COMMENT; Schema: public; Owner: symfony
+--
+
+COMMENT ON COLUMN public.importqueue.status IS '(DC2Type:array)';
+
+
+--
+-- Name: importqueue_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.importqueue_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.importqueue_id_seq OWNER TO symfony;
+
+--
+-- Name: importqueuerelation; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.importqueuerelation (
+    id integer NOT NULL,
+    sku character varying(255) DEFAULT NULL::character varying,
+    name character varying(255) DEFAULT NULL::character varying,
+    price character varying(255),
+    type integer
+);
+
+
+ALTER TABLE public.importqueuerelation OWNER TO symfony;
+
+--
+-- Name: importqueuerelation_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.importqueuerelation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.importqueuerelation_id_seq OWNER TO symfony;
+
+--
+-- Name: importrelation; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.importrelation (
+    id integer NOT NULL,
+    entity_id integer,
+    sku character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.importrelation OWNER TO symfony;
+
+--
+-- Name: importrelation_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.importrelation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.importrelation_id_seq OWNER TO symfony;
+
+--
+-- Name: menu; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.menu (
+    id integer NOT NULL,
+    name character varying(255) DEFAULT NULL::character varying,
+    title character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    menu text,
+    path character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.menu OWNER TO symfony;
+
+--
+-- Name: menu_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.menu_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.menu_id_seq OWNER TO symfony;
+
+--
+-- Name: menuitem; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.menuitem (
+    id integer NOT NULL,
+    entity_id_id integer,
+    pid integer NOT NULL,
+    title character varying(255) DEFAULT NULL::character varying,
+    url character varying(255) DEFAULT NULL::character varying,
+    priority integer,
+    visible boolean NOT NULL,
+    created timestamp(0) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.menuitem OWNER TO symfony;
+
+--
+-- Name: menuitem_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.menuitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.menuitem_id_seq OWNER TO symfony;
+
+--
+-- Name: migration_versions; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.migration_versions (
+    version character varying(14) NOT NULL,
+    executed_at timestamp(0) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.migration_versions OWNER TO symfony;
+
+--
+-- Name: COLUMN migration_versions.executed_at; Type: COMMENT; Schema: public; Owner: symfony
+--
+
+COMMENT ON COLUMN public.migration_versions.executed_at IS '(DC2Type:datetime_immutable)';
+
+
+--
+-- Name: orderitem; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.orderitem (
+    id integer NOT NULL,
+    item_id integer,
+    entity_id integer,
+    qty integer
+);
+
+
+ALTER TABLE public.orderitem OWNER TO symfony;
+
+--
+-- Name: orderitem_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.orderitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.orderitem_id_seq OWNER TO symfony;
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.orders (
+    id integer NOT NULL,
+    payment_method_id_id integer,
+    delivery_id_id integer,
+    user_id_id integer,
+    address_id_id integer,
+    created timestamp(0) without time zone NOT NULL,
+    comment text
+);
+
+
+ALTER TABLE public.orders OWNER TO symfony;
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.orders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.orders_id_seq OWNER TO symfony;
+
+--
+-- Name: page; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.page (
+    id integer NOT NULL,
+    title character varying(255) DEFAULT NULL::character varying,
+    meta_keywords text,
+    meta_description text,
+    content text,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    updated timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    visible boolean,
+    name character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.page OWNER TO root;
+
+--
+-- Name: page_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.page_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.page_id_seq OWNER TO root;
+
+--
+-- Name: pageurl; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.pageurl (
+    id integer NOT NULL,
+    entity_id integer,
+    url character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone
+);
+
+
+ALTER TABLE public.pageurl OWNER TO root;
+
+--
+-- Name: pageurl_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.pageurl_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pageurl_id_seq OWNER TO root;
+
+--
+-- Name: paymentmethod; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.paymentmethod (
+    id integer NOT NULL,
+    name character varying(255) DEFAULT NULL::character varying,
+    code character varying(25) DEFAULT NULL::character varying,
+    visible boolean
+);
+
+
+ALTER TABLE public.paymentmethod OWNER TO symfony;
+
+--
+-- Name: paymentmethod_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.paymentmethod_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.paymentmethod_id_seq OWNER TO symfony;
+
+--
+-- Name: pickup; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.pickup (
+    id integer NOT NULL,
+    direction_id integer,
+    city_id integer,
+    avarda_id integer,
+    direction_title character varying(255) DEFAULT NULL::character varying,
+    city_title character varying(255) DEFAULT NULL::character varying,
+    city_short_title character varying(255) DEFAULT NULL::character varying,
+    city_latitude character varying(255) DEFAULT NULL::character varying,
+    city_longitude character varying(255) DEFAULT NULL::character varying,
+    city_kladr character varying(255) DEFAULT NULL::character varying,
+    city_fias character varying(255) DEFAULT NULL::character varying,
+    post_code integer,
+    address character varying(255) DEFAULT NULL::character varying,
+    comment text,
+    price double precision,
+    price_source character varying(255) DEFAULT NULL::character varying,
+    latitude double precision NOT NULL,
+    longitude character varying(255) DEFAULT NULL::character varying,
+    phones character varying(255) DEFAULT NULL::character varying,
+    schedule character varying(255) DEFAULT NULL::character varying,
+    delivery_days integer,
+    delivery_days_source character varying(255) DEFAULT NULL::character varying,
+    min_order_sum double precision,
+    retail boolean,
+    pvz_id character varying(255) NOT NULL,
+    pvz_title character varying(255) DEFAULT NULL::character varying,
+    visible boolean
+);
+
+
+ALTER TABLE public.pickup OWNER TO symfony;
+
+--
+-- Name: pickup_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.pickup_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pickup_id_seq OWNER TO symfony;
+
+--
+-- Name: pickup_paymentmethod; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.pickup_paymentmethod (
+    pickup_id integer NOT NULL,
+    paymentmethod_id integer NOT NULL
+);
+
+
+ALTER TABLE public.pickup_paymentmethod OWNER TO symfony;
+
+--
+-- Name: product; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.product (
+    id integer NOT NULL,
+    visible boolean,
+    created timestamp(0) without time zone NOT NULL,
+    updated timestamp(0) without time zone NOT NULL,
+    price numeric(10,2) DEFAULT NULL::numeric,
+    name character varying(255) DEFAULT NULL::character varying,
+    description text
+);
+
+
+ALTER TABLE public.product OWNER TO symfony;
+
+--
+-- Name: product_catalog; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.product_catalog (
+    product_id integer NOT NULL,
+    catalog_id integer NOT NULL
+);
+
+
+ALTER TABLE public.product_catalog OWNER TO symfony;
+
+--
+-- Name: product_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.product_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_id_seq OWNER TO symfony;
+
+--
+-- Name: product_producttagitem; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.product_producttagitem (
+    product_id integer NOT NULL,
+    producttagitem_id integer NOT NULL
+);
+
+
+ALTER TABLE public.product_producttagitem OWNER TO symfony;
+
+--
+-- Name: productitem; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.productitem (
+    id integer NOT NULL,
+    created timestamp(0) without time zone NOT NULL,
+    name character varying(255) DEFAULT NULL::character varying,
+    entity_id integer,
+    updated timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    status boolean,
+    avarda_id integer,
+    price double precision,
+    product_id integer
+);
+
+
+ALTER TABLE public.productitem OWNER TO symfony;
+
+--
+-- Name: productitem_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.productitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.productitem_id_seq OWNER TO symfony;
+
+--
+-- Name: productitem_product; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.productitem_product (
+    productitem_id integer NOT NULL,
+    product_id integer NOT NULL
+);
+
+
+ALTER TABLE public.productitem_product OWNER TO symfony;
+
+--
+-- Name: productitemimage; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.productitemimage (
+    id integer NOT NULL,
+    path character varying(255) NOT NULL,
+    title character varying(255),
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    product_item_id integer
+);
+
+
+ALTER TABLE public.productitemimage OWNER TO symfony;
+
+--
+-- Name: productitemimage_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.productitemimage_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.productitemimage_id_seq OWNER TO symfony;
+
+--
+-- Name: productitemtag; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.productitemtag (
+    id integer NOT NULL,
+    name character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    image character varying(255) DEFAULT NULL::character varying,
+    slug character varying(255) DEFAULT NULL::character varying,
+    visible boolean,
+    is_on_product_page boolean
+);
+
+
+ALTER TABLE public.productitemtag OWNER TO root;
+
+--
+-- Name: productitemtag_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.productitemtag_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.productitemtag_id_seq OWNER TO root;
+
+--
+-- Name: productitemtag_productitem; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.productitemtag_productitem (
+    productitemtag_id integer NOT NULL,
+    productitem_id integer NOT NULL
+);
+
+
+ALTER TABLE public.productitemtag_productitem OWNER TO root;
+
+--
+-- Name: productitemtagitem; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.productitemtagitem (
+    id integer NOT NULL,
+    entity_id integer,
+    name character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    image character varying(255) DEFAULT NULL::character varying,
+    path character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.productitemtagitem OWNER TO root;
+
+--
+-- Name: productitemtagitem_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.productitemtagitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.productitemtagitem_id_seq OWNER TO root;
+
+--
+-- Name: productitemtagitem_productitem; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.productitemtagitem_productitem (
+    productitemtagitem_id integer NOT NULL,
+    productitem_id integer NOT NULL
+);
+
+
+ALTER TABLE public.productitemtagitem_productitem OWNER TO root;
+
+--
+-- Name: producttag; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.producttag (
+    id integer NOT NULL,
+    name character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone NOT NULL,
+    type character varying(10) DEFAULT NULL::character varying,
+    visible character varying(3) DEFAULT NULL::character varying,
+    slug character varying(255) DEFAULT NULL::character varying,
+    input_type character varying(20) DEFAULT NULL::character varying,
+    is_on_product_page boolean
+);
+
+
+ALTER TABLE public.producttag OWNER TO symfony;
+
+--
+-- Name: producttag_catalog; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.producttag_catalog (
+    producttag_id integer NOT NULL,
+    catalog_id integer NOT NULL
+);
+
+
+ALTER TABLE public.producttag_catalog OWNER TO symfony;
+
+--
+-- Name: producttag_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.producttag_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.producttag_id_seq OWNER TO symfony;
+
+--
+-- Name: producttag_product; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.producttag_product (
+    producttag_id integer NOT NULL,
+    product_id integer NOT NULL
+);
+
+
+ALTER TABLE public.producttag_product OWNER TO symfony;
+
+--
+-- Name: producttagitem; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.producttagitem (
+    id integer NOT NULL,
+    entity_id_id integer,
+    name character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    slug character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.producttagitem OWNER TO symfony;
+
+--
+-- Name: producttagitem_catalog; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.producttagitem_catalog (
+    producttagitem_id integer NOT NULL,
+    catalog_id integer NOT NULL
+);
+
+
+ALTER TABLE public.producttagitem_catalog OWNER TO symfony;
+
+--
+-- Name: producttagitem_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.producttagitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.producttagitem_id_seq OWNER TO symfony;
+
+--
+-- Name: producttagitemvalue; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.producttagitemvalue (
+    id integer NOT NULL,
+    tag_item_id_id integer,
+    product_item_id_id integer
+);
+
+
+ALTER TABLE public.producttagitemvalue OWNER TO symfony;
+
+--
+-- Name: producttagitemvalue_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.producttagitemvalue_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.producttagitemvalue_id_seq OWNER TO symfony;
+
+--
+-- Name: producttagvalue; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.producttagvalue (
+    id integer NOT NULL,
+    tag_id integer NOT NULL
+);
+
+
+ALTER TABLE public.producttagvalue OWNER TO symfony;
+
+--
+-- Name: producttagvalue_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.producttagvalue_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.producttagvalue_id_seq OWNER TO symfony;
+
+--
+-- Name: producturl; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.producturl (
+    id integer NOT NULL,
+    entity_id integer,
+    url character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone
+);
+
+
+ALTER TABLE public.producturl OWNER TO symfony;
+
+--
+-- Name: producturl_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.producturl_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.producturl_id_seq OWNER TO symfony;
+
+--
+-- Name: region; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.region (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    fias_id character varying(255),
+    kladr_id character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.region OWNER TO symfony;
+
+--
+-- Name: region_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.region_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.region_id_seq OWNER TO symfony;
+
+--
+-- Name: sale; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.sale (
+    id integer NOT NULL,
+    category_id integer,
+    start timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    finish timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    discount integer,
+    enabled boolean,
+    featured boolean,
+    type character varying(255) DEFAULT NULL::character varying,
+    prior integer,
+    created timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    image character varying(255) DEFAULT NULL::character varying,
+    canonical character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.sale OWNER TO symfony;
+
+--
+-- Name: sale_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.sale_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sale_id_seq OWNER TO symfony;
+
+--
+-- Name: sale_product; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.sale_product (
+    sale_id integer NOT NULL,
+    product_id integer NOT NULL
+);
+
+
+ALTER TABLE public.sale_product OWNER TO symfony;
+
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.tags (
+    id integer NOT NULL,
+    test text,
+    test1 text,
+    guid uuid,
+    test2 text,
+    test3 text
+);
+
+
+ALTER TABLE public.tags OWNER TO symfony;
+
+--
+-- Name: COLUMN tags.test; Type: COMMENT; Schema: public; Owner: symfony
+--
+
+COMMENT ON COLUMN public.tags.test IS '(DC2Type:array)';
+
+
+--
+-- Name: COLUMN tags.test1; Type: COMMENT; Schema: public; Owner: symfony
+--
+
+COMMENT ON COLUMN public.tags.test1 IS '(DC2Type:json_array)';
+
+
+--
+-- Name: COLUMN tags.test2; Type: COMMENT; Schema: public; Owner: symfony
+--
+
+COMMENT ON COLUMN public.tags.test2 IS '(DC2Type:json)';
+
+
+--
+-- Name: COLUMN tags.test3; Type: COMMENT; Schema: public; Owner: symfony
+--
+
+COMMENT ON COLUMN public.tags.test3 IS '(DC2Type:object)';
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tags_id_seq OWNER TO symfony;
+
+--
+-- Name: urls; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.urls (
+    id integer NOT NULL,
+    type text NOT NULL,
+    url text NOT NULL,
+    eid integer NOT NULL,
+    created timestamp(0) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.urls OWNER TO symfony;
+
+--
+-- Name: urls_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.urls_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.urls_id_seq OWNER TO symfony;
+
+--
+-- Name: useraddress; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.useraddress (
+    id integer NOT NULL,
+    entity_id integer,
+    region_id integer,
+    person character varying(255) DEFAULT NULL::character varying,
+    postcode character varying(255) DEFAULT NULL::character varying,
+    city character varying(255) DEFAULT NULL::character varying,
+    street character varying(255) DEFAULT NULL::character varying,
+    address text,
+    kladr_id character varying(255) DEFAULT NULL::character varying,
+    fias_id character varying(255) DEFAULT NULL::character varying,
+    options character varying(255) DEFAULT NULL::character varying
+);
+
+
+ALTER TABLE public.useraddress OWNER TO symfony;
+
+--
+-- Name: useraddress_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.useraddress_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.useraddress_id_seq OWNER TO symfony;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: symfony
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    email character varying(180) NOT NULL,
+    roles text NOT NULL,
+    password character varying(255) NOT NULL,
+    gender character varying(255) DEFAULT NULL::character varying,
+    firstname character varying(255) DEFAULT NULL::character varying,
+    lastname character varying(255) DEFAULT NULL::character varying,
+    created timestamp(0) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO symfony;
+
+--
+-- Name: COLUMN users.roles; Type: COMMENT; Schema: public; Owner: symfony
+--
+
+COMMENT ON COLUMN public.users.roles IS '(DC2Type:json)';
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: symfony
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO symfony;
+
+--
+-- Data for Name: account; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.account (id, name, email, increment_by) FROM stdin;
+\.
+
+
+--
+-- Data for Name: address; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.address (id, name, created, user_id_id, person, zip, region_id, city, street, house, corp, level, flat, code, comment, active) FROM stdin;
+\.
+
+
+--
+-- Data for Name: banner; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.banner (id, path, link, active) FROM stdin;
+\.
+
+
+--
+-- Data for Name: basket; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.basket (id, user_id, created, updated) FROM stdin;
+\.
+
+
+--
+-- Data for Name: basketitem; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.basketitem (id, basket_id_id, product_item_id_id, qty, created) FROM stdin;
+\.
+
+
+--
+-- Data for Name: catalog; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.catalog (id, pid, visible, created, updated, brand, name, banner, description) FROM stdin;
+14	\N	t	2019-08-30 09:37:31	2019-08-30 09:37:31	\N	asdfasdf	\N	\N
+15	\N	t	2019-08-30 10:17:56	2019-08-30 10:17:56	\N	Ochkov Test Catalog	\N	\N
+19	\N	t	2019-09-03 14:33:51	2019-09-03 14:33:51	\N	Женские солнцезащитные очки	/uploads/catalog/sunwomancat-5d7bc44503485.webp	<p>Приобретите все оправы ниже или пройдите тест, чтобы найти идеальную пару</p>
+18	\N	t	2019-09-03 14:32:30	2019-09-03 14:32:30	\N	Женские оправы	/uploads/catalog/eyewomancat-5d7bc4a944a9f.webp	<p>Выберите пять пар, чтобы попробовать бесплатно</p>
+17	\N	t	2019-09-03 12:53:47	2019-09-03 12:53:47	\N	Мужские оправы	/uploads/catalog/eyemancat-5d7bc48ebb826.webp	<p>Выберите пять пар, чтобы попробовать бесплатно</p>
+16	\N	t	2019-09-03 12:24:00	2019-09-03 12:24:00	\N	Мужские солнцезащитные очки	/uploads/catalog/sunmancat-5d7bc473be6ae.webp	<p>Выберите пять пар, чтобы попробовать бесплатно</p>
+\.
+
+
+--
+-- Data for Name: catalogtag; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.catalogtag (id, name, created, type, visible) FROM stdin;
+2	Бренд	2019-08-30 10:10:01	enum	Yes
+\.
+
+
+--
+-- Data for Name: catalogtag_catalog; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.catalogtag_catalog (catalogtag_id, catalog_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: catalogtagitem; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.catalogtagitem (id, entity_id, name, created) FROM stdin;
+\.
+
+
+--
+-- Data for Name: catalogtagitemvalue; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.catalogtagitemvalue (id, tag_item_id, catalog_item_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: catalogurl; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.catalogurl (id, url, created, entity_id) FROM stdin;
+2	eyeglasses	2019-08-29 14:45:57	\N
+4	asdfasdfasdf/	2019-08-29 16:12:25	\N
+5	asdfasdf123123/	2019-08-29 16:31:17	\N
+6	asdfasdf123123/asdf/asdf/	2019-08-29 16:31:21	\N
+8	afdasdfasdf/	2019-08-30 09:13:36	\N
+9	afdasdfasdf123/	2019-08-30 09:13:54	\N
+10	urls_hey/	2019-08-30 09:14:04	\N
+11	test/	2019-08-30 09:17:36	\N
+12	rewt/	2019-08-30 09:22:19	14
+7	adsfasdf/	2019-08-30 09:05:10	14
+13	testasdf/	2019-08-30 09:52:10	\N
+14	asdfasdftest/	2019-08-30 10:14:34	14
+3	asdfasdf/	2019-08-29 16:05:49	15
+17	Женские солнцезащитные очки/	2019-09-03 14:33:00	\N
+18	zhenskie-solncezashhitnye-ochki/	2019-09-03 14:33:26	19
+19	zhenskie-opravy/	2019-09-03 14:34:12	18
+20	muzhskie-opravy/	2019-09-03 14:34:31	17
+21	muzhskie-solncezashhitnye-ochki/	2019-09-03 14:34:50	16
+\.
+
+
+--
+-- Data for Name: city; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.city (id, latitude, longitude, description, visible, short_title, fias_id, kladr_id, region_id, district_id) FROM stdin;
+1	\N	\N	\N	f	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: citytranslation; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.citytranslation (id, translatable_id, title, locale) FROM stdin;
+\.
+
+
+--
+-- Data for Name: configuration; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.configuration (id, option, value) FROM stdin;
+\.
+
+
+--
+-- Data for Name: courier; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.courier (id, direction_id, city_id, avarda_id, direction_title, city_title, city_short_title, city_latitude, city_longitude, city_kladr, city_fias, post_code, address, comment, price, price_source, latitude, longitude, phones, schedule, delivery_days, delivery_days_source, min_order_sum, wholesale, retail, pvz_id, pvz_title, visible) FROM stdin;
+\.
+
+
+--
+-- Data for Name: courier_paymentmethod; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.courier_paymentmethod (courier_id, paymentmethod_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: delivery; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.delivery (id, name, visible) FROM stdin;
+\.
+
+
+--
+-- Data for Name: direction; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.direction (id, avarda_id, title, price, delivery_days, visible, comment) FROM stdin;
+\.
+
+
+--
+-- Data for Name: district; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.district (id, title) FROM stdin;
+\.
+
+
+--
+-- Data for Name: images; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.images (id, entity_id, url, type, title, created) FROM stdin;
+\.
+
+
+--
+-- Data for Name: importproduct; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.importproduct (id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: importqueue; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.importqueue (id, path, status, created, type, updated) FROM stdin;
+\.
+
+
+--
+-- Data for Name: importqueuerelation; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.importqueuerelation (id, sku, name, price, type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: importrelation; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.importrelation (id, entity_id, sku) FROM stdin;
+\.
+
+
+--
+-- Data for Name: menu; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.menu (id, name, title, created, menu, path) FROM stdin;
+9	copyright_menu_en	Copyright menu en	\N	[{"id":"root","text":"Root","icon":"/static/3.3.8/assets/images/tree_icon.png","li_attr":{"id":"demo_root_1"},"a_attr":{"href":"#","id":"demo_root_1_anchor"},"state":{"loaded":true,"opened":true,"selected":true,"disabled":false,"failed":false,"loading":false},"data":["","undefined"],"children":[{"id":"j1_2","text":"Privacy Policy","icon":true,"li_attr":{"id":"j1_2"},"a_attr":{"href":"#","id":"j1_2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_3","text":"Notice of Privacy Practices","icon":true,"li_attr":{"id":"j1_3"},"a_attr":{"href":"#","id":"j1_3_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_4","text":"Terms of Use","icon":true,"li_attr":{"id":"j1_4"},"a_attr":{"href":"#","id":"j1_4_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_5","text":"Accessibility","icon":true,"li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_6","text":"CA Transparency Act","icon":true,"li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"}],"type":"default"}]	\N
+10	copyright_menu_ru	Copyright menu ru	\N	[{"id":"root","text":"Root","icon":"/static/3.3.8/assets/images/tree_icon.png","li_attr":{"id":"demo_root_1"},"a_attr":{"href":"#","id":"demo_root_1_anchor"},"state":{"loaded":true,"opened":true,"selected":true,"disabled":false,"failed":false,"loading":false},"data":["","undefined"],"children":[{"id":"j1_2","text":"Политика конфиденциальности","icon":true,"li_attr":{"id":"j1_2"},"a_attr":{"href":"#","id":"j1_2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_3","text":"Уведомление о соблюдении конфиденциальности","icon":true,"li_attr":{"id":"j1_3"},"a_attr":{"href":"#","id":"j1_3_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_4","text":"Условия использования","icon":true,"li_attr":{"id":"j1_4"},"a_attr":{"href":"#","id":"j1_4_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_5","text":"Противопоказания","icon":true,"li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_6","text":"Оферта","icon":true,"li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"}],"type":"default"}]	\N
+11	\N	\N	\N	\N	eyeman-5d7bc6f546189.jpeg
+7	footer_menu_en	Footer menu en	\N	[{"id":"root","text":"Root","icon":"/static/3.3.8/assets/images/tree_icon.png","li_attr":{"id":"demo_root_1"},"a_attr":{"href":"#","id":"demo_root_1_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false,"failed":false,"loading":false},"data":["#","undefined"],"children":[{"id":"j1_2","text":"PRODUCTS","icon":true,"li_attr":{"id":"j1_2"},"a_attr":{"href":"#","id":"j1_2_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["#","undefined"],"children":[{"id":"j1_7","text":"Eyeglasses","icon":true,"li_attr":{"id":"j1_7"},"a_attr":{"href":"#","id":"j1_7_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/en/eyeglasses/","undefined"],"children":[],"type":"default"},{"id":"j1_8","text":"Sunglasses","icon":true,"li_attr":{"id":"j1_8"},"a_attr":{"href":"#","id":"j1_8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/en/sunglasses/","undefined"],"children":[],"type":"default"},{"id":"j1_9","text":"Accessories","icon":true,"li_attr":{"id":"j1_9"},"a_attr":{"href":"#","id":"j1_9_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_13","text":"Gift cards","icon":true,"li_attr":{"id":"j1_13"},"a_attr":{"href":"#","id":"j1_13_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"}],"type":"default"},{"id":"j1_3","text":"SHOP ONLINE","icon":true,"li_attr":{"id":"j1_3"},"a_attr":{"href":"#","id":"j1_3_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["#","undefined"],"children":[{"id":"j1_14","text":"Try 5 for free","icon":true,"li_attr":{"id":"j1_14"},"a_attr":{"href":"#","id":"j1_14_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_15","text":"Download our app","icon":true,"li_attr":{"id":"j1_15"},"a_attr":{"href":"#","id":"j1_15_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"}],"type":"default"},{"id":"j1_4","text":"VISIT A STORE","icon":true,"li_attr":{"id":"j1_4"},"a_attr":{"href":"#","id":"j1_4_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["#","undefined"],"children":[{"id":"j1_16","text":"Find a location","icon":true,"li_attr":{"id":"j1_16"},"a_attr":{"href":"#","id":"j1_16_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_17","text":"Book an eye exam","icon":true,"li_attr":{"id":"j1_17"},"a_attr":{"href":"#","id":"j1_17_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"}],"type":"default"},{"id":"j1_5","text":"EDUCATION","icon":true,"li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["#","undefined"],"children":[{"id":"j1_18","text":"Eyewear A to Z","icon":true,"li_attr":{"id":"j1_18"},"a_attr":{"href":"#","id":"j1_18_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_19","text":"How our glasses are made","icon":true,"li_attr":{"id":"j1_19"},"a_attr":{"href":"#","id":"j1_19_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_20","text":"How to get a prescription","icon":true,"li_attr":{"id":"j1_20"},"a_attr":{"href":"#","id":"j1_20_anchor"},"state":{"loaded":true,"opened":false,"selected":true,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_21","text":"Measure your PD","icon":true,"li_attr":{"id":"j1_21"},"a_attr":{"href":"#","id":"j1_21_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_22","text":"Our lenses","icon":true,"li_attr":{"id":"j1_22"},"a_attr":{"href":"#","id":"j1_22_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_23","text":"Flexible spending","icon":true,"li_attr":{"id":"j1_23"},"a_attr":{"href":"#","id":"j1_23_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_24","text":"Insurance","icon":true,"li_attr":{"id":"j1_24"},"a_attr":{"href":"#","id":"j1_24_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"}],"type":"default"},{"id":"j1_6","text":"ABOUT US","icon":true,"li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["#","undefined"],"children":[{"id":"j1_25","text":"Our story","icon":true,"li_attr":{"id":"j1_25"},"a_attr":{"href":"#","id":"j1_25_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_26","text":"Buy a Pair, Give a Pair","icon":true,"li_attr":{"id":"j1_26"},"a_attr":{"href":"#","id":"j1_26_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_28","text":"Customer reviews","icon":true,"li_attr":{"id":"j1_28"},"a_attr":{"href":"#","id":"j1_28_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_29","text":"Jobs","icon":true,"li_attr":{"id":"j1_29"},"a_attr":{"href":"#","id":"j1_29_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_30","text":"Wearing Warby","icon":true,"li_attr":{"id":"j1_30"},"a_attr":{"href":"#","id":"j1_30_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"},{"id":"j1_31","text":"Impact Report","icon":true,"li_attr":{"id":"j1_31"},"a_attr":{"href":"#","id":"j1_31_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["#","undefined"],"children":[],"type":"default"}],"type":"default"}],"type":"default"}]	\N
+12	\N	\N	\N	\N	eyewoman-5d7bc710493c9.jpeg
+13	\N	\N	\N	\N	sunman-5d7bc72b483b3.jpeg
+14	\N	\N	\N	\N	sunwoman-5d7bc76d9925b.jpeg
+1	top_menu_ru	Top Menu	\N	[{"id":"root","text":"Root","icon":"/static/3.3.8/assets/images/tree_icon.png","li_attr":{"id":"demo_root_1"},"a_attr":{"href":"#","id":"demo_root_1_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false,"failed":false,"loading":false},"data":[],"children":[{"id":"j1_2","text":"Оправы","icon":true,"li_attr":{"id":"j1_2"},"a_attr":{"href":"#","id":"j1_2_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["/eyeglasses/","/uploads/menu/c60jpga235be3c984f6835990e1f9902280b7b-5d7bc47435a3a.jpeg"],"children":[{"id":"j1_6","text":"Мужские","icon":true,"li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/muzhskie-opravy/","/uploads/menu/eyeman-5d7bc6f546189.jpeg"],"children":[],"type":"default"},{"id":"j1_7","text":"Женские","icon":true,"li_attr":{"id":"j1_7"},"a_attr":{"href":"#","id":"j1_7_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/zhenskie-opravy/","/uploads/menu/eyewoman-5d7bc710493c9.jpeg"],"children":[],"type":"default"}],"type":"default"},{"id":"j1_3","text":"Солнцезащитные","icon":true,"li_attr":{"id":"j1_3"},"a_attr":{"href":"#","id":"j1_3_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["/sunglasses/","undefined"],"children":[{"id":"j1_8","text":"Мужские","icon":true,"li_attr":{"id":"j1_8"},"a_attr":{"href":"#","id":"j1_8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/muzhskie-solncezashhitnye-ochki/","/uploads/menu/sunman-5d7bc72b483b3.jpeg"],"children":[],"type":"default"},{"id":"j1_9","text":"Женские","icon":true,"li_attr":{"id":"j1_9"},"a_attr":{"href":"#","id":"j1_9_anchor"},"state":{"loaded":true,"opened":false,"selected":true,"disabled":false},"data":["/zhenskie-solncezashhitnye-ochki/","/uploads/menu/sunwoman-5d7bc76d9925b.jpeg"],"children":[],"type":"default"}],"type":"default"},{"id":"j1_5","text":"Проверка зрения","icon":true,"li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["https://www.ochkov.net/ckkz/","undefined"],"children":[],"type":"default"}],"type":"default"}]	\N
+15	\N	\N	\N	\N	eyeman-5d7bc8d51dc0a.jpeg
+16	\N	\N	\N	\N	eyewoman-5d7bc8ff5b32a.jpeg
+2	top_menu_en	Top Menu	\N	[{"id":"root","text":"Root","icon":"/static/3.3.8/assets/images/tree_icon.png","li_attr":{"id":"demo_root_1"},"a_attr":{"href":"#","id":"demo_root_1_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false,"failed":false,"loading":false},"data":[],"children":[{"id":"j1_2","text":"Eyeglasses","icon":true,"li_attr":{"id":"j1_2"},"a_attr":{"href":"#","id":"j1_2_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["/en/eyeglasses/","undefined"],"children":[{"id":"j1_4","text":"Man","icon":true,"li_attr":{"id":"j1_4"},"a_attr":{"href":"#","id":"j1_4_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/en/muzhskie-opravy/","/uploads/menu/eyeman-5d7bc8d51dc0a.jpeg"],"children":[],"type":"default"},{"id":"j1_5","text":"Woman","icon":true,"li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/en/zhenskie-opravy/","/uploads/menu/eyewoman-5d7bc8ff5b32a.jpeg"],"children":[],"type":"default"}],"type":"default"},{"id":"j1_3","text":"Sunglesses","icon":true,"li_attr":{"id":"j1_3"},"a_attr":{"href":"#","id":"j1_3_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["/en/sunglasses/","undefined"],"children":[{"id":"j1_6","text":"Man","icon":true,"li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/en/muzhskie-solncezashhitnye-ochki/","/uploads/menu/sunman-5d7bc90d3f4fb.jpeg"],"children":[],"type":"default"},{"id":"j1_7","text":"Woman","icon":true,"li_attr":{"id":"j1_7"},"a_attr":{"href":"#","id":"j1_7_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/en/zhenskie-solncezashhitnye-ochki/","/uploads/menu/sunwoman-5d7bc91843a5a.jpeg"],"children":[],"type":"default"}],"type":"default"},{"id":"j1_9","text":"Eye exam","icon":true,"li_attr":{"id":"j1_9"},"a_attr":{"href":"#","id":"j1_9_anchor"},"state":{"loaded":true,"opened":false,"selected":true,"disabled":false},"data":["https://www.ochkov.net/ckkz/","undefined"],"children":[],"type":"default"}],"type":"default"}]	\N
+17	\N	\N	\N	\N	sunman-5d7bc90d3f4fb.jpeg
+8	footer_menu_ru	Footer menu ru	\N	[{"id":"root","text":"Root","icon":"/static/3.3.8/assets/images/tree_icon.png","li_attr":{"id":"demo_root_1"},"a_attr":{"href":"#","id":"demo_root_1_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false,"failed":false,"loading":false},"data":["","undefined"],"children":[{"id":"j1_2","text":"Каталог","icon":true,"li_attr":{"id":"j1_2"},"a_attr":{"href":"#","id":"j1_2_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["","undefined"],"children":[{"id":"j1_5","text":"Оправы","icon":true,"li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/eyeglasses/","undefined"],"children":[],"type":"default"},{"id":"j1_6","text":"Солнцезащитные","icon":true,"li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":["/sunglasses/","undefined"],"children":[],"type":"default"},{"id":"j1_7","text":"Аксессуары","icon":true,"li_attr":{"id":"j1_7"},"a_attr":{"href":"#","id":"j1_7_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_8","text":"Подарочные карты","icon":true,"li_attr":{"id":"j1_8"},"a_attr":{"href":"#","id":"j1_8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"}],"type":"default"},{"id":"j1_11","text":"ONLINE","icon":true,"li_attr":{"id":"j1_11"},"a_attr":{"href":"#","id":"j1_11_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":["","undefined"],"children":[{"id":"j1_12","text":"Попробуй 5 бесплатно","icon":true,"li_attr":{"id":"j1_12"},"a_attr":{"href":"#","id":"j1_12_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_13","text":"Скачай приложение","icon":true,"li_attr":{"id":"j1_13"},"a_attr":{"href":"#","id":"j1_13_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"}],"type":"default"},{"id":"j1_16","text":"МАГАЗИНЫ","icon":true,"li_attr":{"id":"j1_16"},"a_attr":{"href":"#","id":"j1_16_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"children":[{"id":"j1_17","text":"Найти на карте","icon":true,"li_attr":{"id":"j1_17"},"a_attr":{"href":"#","id":"j1_17_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_18","text":"Проверить зрение","icon":true,"li_attr":{"id":"j1_18"},"a_attr":{"href":"#","id":"j1_18_anchor"},"state":{"loaded":true,"opened":false,"selected":true,"disabled":false},"data":["https://www.ochkov.net/ckkz/","undefined"],"children":[],"type":"default"}],"type":"default"},{"id":"j1_14","text":"СПРАВКА","icon":true,"li_attr":{"id":"j1_14"},"a_attr":{"href":"#","id":"j1_14_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"children":[{"id":"j1_19","text":"Очки от А до Я","icon":true,"li_attr":{"id":"j1_19"},"a_attr":{"href":"#","id":"j1_19_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_20","text":"Как сделаны наши очки","icon":true,"li_attr":{"id":"j1_20"},"a_attr":{"href":"#","id":"j1_20_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_21","text":"Как получить рецепт","icon":true,"li_attr":{"id":"j1_21"},"a_attr":{"href":"#","id":"j1_21_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_22","text":"Измерьте свой PD","icon":true,"li_attr":{"id":"j1_22"},"a_attr":{"href":"#","id":"j1_22_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_23","text":"Наши линзы","icon":true,"li_attr":{"id":"j1_23"},"a_attr":{"href":"#","id":"j1_23_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_24","text":"Кешбек","icon":true,"li_attr":{"id":"j1_24"},"a_attr":{"href":"#","id":"j1_24_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"}],"type":"default"},{"id":"j1_15","text":"О НАС","icon":true,"li_attr":{"id":"j1_15"},"a_attr":{"href":"#","id":"j1_15_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"children":[{"id":"j1_25","text":"Наша история","icon":true,"li_attr":{"id":"j1_25"},"a_attr":{"href":"#","id":"j1_25_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_26","text":"Благотворительность","icon":true,"li_attr":{"id":"j1_26"},"a_attr":{"href":"#","id":"j1_26_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_27","text":"Отзывы","icon":true,"li_attr":{"id":"j1_27"},"a_attr":{"href":"#","id":"j1_27_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_28","text":"Работа","icon":true,"li_attr":{"id":"j1_28"},"a_attr":{"href":"#","id":"j1_28_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"},{"id":"j1_29","text":"Отчет","icon":true,"li_attr":{"id":"j1_29"},"a_attr":{"href":"#","id":"j1_29_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"children":[],"type":"default"}],"type":"default"}],"type":"default"}]	\N
+\.
+
+
+--
+-- Data for Name: menuitem; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.menuitem (id, entity_id_id, pid, title, url, priority, visible, created) FROM stdin;
+\.
+
+
+--
+-- Data for Name: migration_versions; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.migration_versions (version, executed_at) FROM stdin;
+20181127100826	2019-08-27 14:47:00
+20181127115338	2019-08-27 14:47:00
+20181127115359	2019-08-27 14:47:00
+20181127115415	2019-08-27 14:47:00
+20181127123558	2019-08-27 14:47:00
+20181128110619	2019-08-27 14:47:00
+20181128110859	2019-08-27 14:47:00
+20181129202422	2019-08-27 14:47:00
+20181129203222	2019-08-27 14:47:00
+20181217054555	2019-08-27 14:47:00
+20181217054705	2019-08-27 14:47:00
+20181217162425	2019-08-27 14:47:00
+20190130180754	2019-08-27 14:47:01
+20190130181229	2019-08-27 14:47:01
+20190130181644	2019-08-27 14:47:01
+20190130182641	2019-08-27 14:47:01
+20190130183908	2019-08-27 14:47:01
+20190201053751	2019-08-27 14:47:01
+20190201063348	2019-08-27 14:47:01
+20190201091201	2019-08-27 14:47:01
+20190201091538	2019-08-27 14:47:01
+20190201092230	2019-08-27 14:47:01
+20190201092624	2019-08-27 14:47:01
+20190205211154	2019-08-27 14:47:01
+20190205211653	2019-08-27 14:47:01
+20190205212401	2019-08-27 14:47:01
+20190208082951	2019-08-27 14:47:01
+20190212051318	2019-08-27 14:47:01
+20190212083427	2019-08-27 14:47:01
+20190212141047	2019-08-27 14:47:01
+20190226090351	2019-08-27 14:47:01
+20190226092937	2019-08-27 14:47:01
+20190226093218	2019-08-27 14:47:01
+20190306203105	2019-08-27 14:47:01
+20190307155343	2019-08-27 14:47:01
+20190313174047	2019-08-27 14:47:01
+20190318081955	2019-08-27 14:47:01
+20190318110157	2019-08-27 14:47:01
+20190318130704	2019-08-27 14:47:01
+20190318161204	2019-08-27 14:47:01
+20190318162342	2019-08-27 14:47:01
+20190319094316	2019-08-27 14:47:01
+20190319094741	2019-08-27 14:47:01
+20190320131835	2019-08-27 14:47:01
+20190320132021	2019-08-27 14:47:01
+20190320132949	2019-08-27 14:47:01
+20190321173037	2019-08-27 14:47:01
+20190326125735	2019-08-27 14:47:01
+20190326154603	2019-08-27 14:47:01
+20190326161334	2019-08-27 14:47:01
+20190328191016	2019-08-27 14:47:01
+20190408073650	2019-08-27 14:47:01
+20190408145444	2019-08-27 14:47:01
+20190408160419	2019-08-27 14:47:01
+20190410051227	2019-08-27 14:47:01
+20190410062558	2019-08-27 14:47:01
+20190507171138	2019-08-27 14:48:13
+20190509143502	2019-08-27 14:48:13
+20190523125604	2019-08-27 14:48:13
+20190527202632	2019-08-27 14:48:13
+20190605182708	2019-08-27 14:48:13
+20190610145239	2019-08-27 14:48:13
+20190610154316	2019-08-27 14:48:13
+20190613204204	2019-08-27 14:48:13
+20190618083847	2019-08-27 14:56:20
+20190622160413	2019-08-27 14:56:20
+20190625143242	2019-08-27 14:56:20
+20190625144104	2019-08-27 14:56:20
+20190625151831	2019-08-27 14:56:20
+20190628081254	2019-08-27 14:56:20
+20190628081618	2019-08-27 14:56:20
+20190702143311	2019-08-27 14:56:20
+20190709055244	2019-08-27 14:56:20
+20190709060202	2019-08-27 14:56:20
+20190709063830	2019-08-27 14:56:20
+20190709064552	2019-08-27 14:56:20
+20190709064903	2019-08-27 14:56:20
+20190709073945	2019-08-27 14:56:20
+20190709075816	2019-08-27 14:56:20
+20190709162718	2019-08-27 14:56:20
+20190709170146	2019-08-27 15:08:58
+20190711071511	2019-08-27 15:10:19
+20190711085235	2019-08-27 15:10:19
+20190711102347	2019-08-27 15:10:19
+20190716062950	2019-08-27 15:10:19
+20190729125255	2019-08-27 15:10:56
+20190801140224	2019-08-27 15:10:56
+20190802134340	2019-08-27 15:10:56
+20190809161100	2019-08-27 15:10:56
+20190809162856	2019-08-27 15:10:56
+20190814174604	2019-08-27 15:10:56
+20190821151519	2019-08-27 15:10:56
+20190830131739	2019-08-30 13:18:31
+20190830145805	2019-08-30 14:58:40
+20190902115854	2019-09-02 12:00:22
+20190902120712	2019-09-02 12:08:23
+20190904141430	2019-09-05 10:37:24
+20190905144353	2019-09-05 15:53:27
+20190906132157	2019-09-09 14:55:08
+20190906140248	2019-09-09 14:55:08
+20190906141240	2019-09-09 14:55:08
+20190906161938	2019-09-09 14:55:08
+20190906165134	2019-09-09 14:55:08
+20190910074951	2019-09-10 17:29:34
+20190910110733	2019-09-10 17:29:34
+20190910174311	2019-09-10 17:44:30
+20190912142446	2019-09-13 14:52:42
+\.
+
+
+--
+-- Data for Name: orderitem; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.orderitem (id, item_id, entity_id, qty) FROM stdin;
+\.
+
+
+--
+-- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.orders (id, payment_method_id_id, delivery_id_id, user_id_id, address_id_id, created, comment) FROM stdin;
+\.
+
+
+--
+-- Data for Name: page; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.page (id, title, meta_keywords, meta_description, content, created, updated, visible, name) FROM stdin;
+1	New title	new meta keywords	new meta description	<p>New content</p>	\N	\N	t	New name
+\.
+
+
+--
+-- Data for Name: pageurl; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.pageurl (id, entity_id, url, created) FROM stdin;
+2	1	newtest2url/	2019-09-05 17:54:32
+1	1	newtest1url/	2019-09-05 17:54:29
+\.
+
+
+--
+-- Data for Name: paymentmethod; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.paymentmethod (id, name, code, visible) FROM stdin;
+\.
+
+
+--
+-- Data for Name: pickup; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.pickup (id, direction_id, city_id, avarda_id, direction_title, city_title, city_short_title, city_latitude, city_longitude, city_kladr, city_fias, post_code, address, comment, price, price_source, latitude, longitude, phones, schedule, delivery_days, delivery_days_source, min_order_sum, retail, pvz_id, pvz_title, visible) FROM stdin;
+\.
+
+
+--
+-- Data for Name: pickup_paymentmethod; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.pickup_paymentmethod (pickup_id, paymentmethod_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.product (id, visible, created, updated, price, name, description) FROM stdin;
+4	t	2019-08-30 10:22:03	2019-08-30 10:22:03	\N	asdfasdf	\N
+5	t	2019-09-02 10:09:55	2019-09-02 10:09:55	\N	asdfasdf	\N
+6	t	2019-09-03 14:42:12	2019-09-03 14:42:12	\N	Farris Narrow	\N
+7	t	2019-09-06 13:19:32	2019-09-06 13:19:32	\N	Barkley Narrow	\N
+8	t	2019-09-06 13:54:50	2019-09-06 13:54:50	\N	Aubrey Narrow	\N
+9	t	2019-09-06 14:01:53	2019-09-06 14:01:53	\N	Farris Narrow	\N
+10	t	2019-09-06 14:39:25	2019-09-06 14:39:25	\N	Durand Wide	\N
+11	t	2019-09-06 14:56:12	2019-09-06 14:56:12	\N	Downing Wide	\N
+12	t	2019-09-09 08:44:54	2019-09-09 08:44:54	\N	Daisy Narrow	\N
+13	t	2019-09-09 10:00:13	2019-09-09 10:00:13	\N	Fletcher Wide	\N
+14	t	2019-09-09 10:12:00	2019-09-09 10:12:00	\N	Percey	\N
+15	t	2019-09-09 10:18:41	2019-09-09 10:18:41	\N	Laurel	\N
+16	t	2019-09-09 10:24:21	2019-09-09 10:24:21	\N	Haskell	\N
+\.
+
+
+--
+-- Data for Name: product_catalog; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.product_catalog (product_id, catalog_id) FROM stdin;
+4	14
+4	15
+5	14
+5	15
+6	17
+16	19
+15	19
+14	19
+13	19
+12	18
+11	19
+10	18
+9	18
+8	19
+7	16
+\.
+
+
+--
+-- Data for Name: product_producttagitem; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.product_producttagitem (product_id, producttagitem_id) FROM stdin;
+4	2
+4	1
+16	56
+16	41
+16	38
+16	31
+16	30
+16	36
+16	45
+16	58
+5	1
+5	2
+15	56
+15	41
+15	38
+15	31
+15	34
+15	45
+15	58
+15	64
+14	56
+14	41
+7	49
+7	41
+7	54
+7	34
+7	57
+7	65
+14	38
+14	31
+14	30
+14	54
+14	36
+14	58
+14	65
+13	49
+13	41
+13	38
+13	31
+13	30
+13	37
+13	57
+13	64
+12	49
+12	41
+12	38
+12	31
+12	29
+12	54
+12	35
+12	45
+12	57
+12	58
+12	63
+11	49
+11	41
+11	55
+11	36
+11	57
+11	58
+11	65
+10	49
+10	41
+10	55
+10	36
+10	45
+10	57
+10	61
+10	65
+10	68
+9	49
+9	41
+9	54
+9	36
+9	45
+9	58
+8	49
+8	41
+8	54
+8	34
+8	57
+6	49
+6	41
+6	38
+6	32
+6	29
+6	4
+6	54
+6	36
+6	45
+6	58
+\.
+
+
+--
+-- Data for Name: productitem; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.productitem (id, created, name, entity_id, updated, status, avarda_id, price, product_id) FROM stdin;
+3	2019-08-30 14:41:23	Test Item	\N	\N	\N	\N	123	\N
+4	2019-08-30 14:42:16	Test Item	\N	\N	\N	\N	123	\N
+5	2019-08-30 15:00:56	Test Item	\N	\N	\N	\N	123	\N
+6	2019-08-30 15:06:15	Test Item 1	\N	\N	\N	\N	123	4
+7	2019-09-02 10:10:11	asdfasdf	\N	\N	\N	\N	123	5
+10	2019-09-04 09:22:16	oiio	\N	\N	\N	\N	123	\N
+11	2019-09-05 12:37:44	Crystal	\N	\N	\N	\N	95	6
+12	2019-09-06 13:11:51	Mesquite Tortoise	\N	\N	\N	\N	95	6
+13	2019-09-06 13:21:14	Antique Shale Fade	\N	\N	\N	\N	195	7
+14	2019-09-06 13:56:08	Jet Black	\N	\N	\N	\N	95	8
+15	2019-09-06 14:06:10	Crystal	\N	\N	\N	\N	95	9
+16	2019-09-06 14:06:58	Mesquite Tortoise	\N	\N	\N	\N	95	9
+17	2019-09-06 14:48:19	Whiskey Tortoise	\N	\N	\N	\N	95	10
+18	2019-09-06 14:49:20	Sugar Maple Fade	\N	\N	\N	\N	95	10
+19	2019-09-06 14:50:20	Crystal and Blue Jay	\N	\N	\N	\N	95	10
+20	2019-09-06 14:51:03	Rose Water	\N	\N	\N	\N	95	10
+21	2019-09-06 14:51:41	Crystal with Oak Barrel	\N	\N	\N	\N	95	10
+22	2019-09-06 14:52:27	Woodland Tortoise	\N	\N	\N	\N	95	10
+23	2019-09-06 15:04:19	English Oak Matte with Bottle Green lenses	\N	\N	\N	\N	95	11
+24	2019-09-06 15:05:08	Antique Shale Fade with Green-Grey lenses	\N	\N	\N	\N	95	11
+25	2019-09-09 09:43:49	Oak Barrel	\N	\N	\N	\N	95	12
+26	2019-09-09 09:46:58	Tea Rose Fade	\N	\N	\N	\N	95	12
+27	2019-09-09 09:50:43	Cardinal Crystal	\N	\N	\N	\N	95	12
+28	2019-09-09 09:53:29	Jet Black	\N	\N	\N	\N	95	12
+29	2019-09-09 10:05:20	English Oak with Classic Grey lenses	\N	\N	\N	\N	95	13
+30	2019-09-09 10:06:20	Black Matte Eclipse with Bottle Green lenses	\N	\N	\N	\N	95	13
+31	2019-09-09 10:16:19	Petal Tortoise	\N	\N	\N	\N	95	14
+32	2019-09-09 10:17:13	Striped Sassafras with Classic Brown lenses	\N	\N	\N	\N	95	14
+33	2019-09-09 10:20:42	Tea Rose Fade with Green-Grey lenses	\N	\N	\N	\N	95	15
+34	2019-09-09 10:29:17	Whiskey Tortoise	\N	\N	\N	\N	95	16
+35	2019-09-09 10:30:03	Crystal with Green-Grey lenses	\N	\N	\N	\N	95	16
+\.
+
+
+--
+-- Data for Name: productitem_product; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.productitem_product (productitem_id, product_id) FROM stdin;
+4	4
+5	4
+\.
+
+
+--
+-- Data for Name: productitemimage; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.productitemimage (id, path, title, created, product_item_id) FROM stdin;
+71	bezimeni1-5d7255fb1ac64.jpeg	\N	2019-09-06 14:50:03	19
+72	bezimeni2-5d72560177680.jpeg	\N	2019-09-06 14:50:09	19
+73	bezimeni3-5d72560681ef9.jpeg	\N	2019-09-06 14:50:14	19
+74	2000x10002-5d725628c9d4c.jpeg	\N	2019-09-06 14:50:48	20
+75	2000x1000-5d72562d4e09a.jpeg	\N	2019-09-06 14:50:53	20
+76	2000x10001-5d725632de18f.jpeg	\N	2019-09-06 14:50:58	20
+77	2000x10001-5d72565589707.jpeg	\N	2019-09-06 14:51:33	21
+78	2000x1000-5d7256593a739.jpeg	\N	2019-09-06 14:51:37	21
+79	2000x10003-5d72565bd86f2.jpeg	\N	2019-09-06 14:51:39	21
+80	2000x10001-5d72567e44f57.jpeg	\N	2019-09-06 14:52:14	22
+81	2000x1000-5d7256831e57b.jpeg	\N	2019-09-06 14:52:19	22
+82	2000x10002-5d7256897b0eb.jpeg	\N	2019-09-06 14:52:25	22
+43	5a2f77984bc2691777080915130602483103-5d6d2a5e25ba6.png	\N	2019-09-02 16:42:38	7
+83	2000x10003-5d72594814fe7.jpeg	\N	2019-09-06 15:04:08	23
+84	bezimeni2-5d72594ceb989.jpeg	\N	2019-09-06 15:04:12	23
+85	bezimeni3-5d725951bc3a7.jpeg	\N	2019-09-06 15:04:17	23
+47	2000x10001-5d723ed061d41.jpeg	\N	2019-09-06 13:11:12	11
+48	2000x10003-5d723ed3c3ccd.jpeg	\N	2019-09-06 13:11:15	11
+49	2000x10002-5d723ed3d8261.jpeg	\N	2019-09-06 13:11:15	11
+86	2000x1000-5d725975ecec6.jpeg	\N	2019-09-06 15:04:53	24
+50	2000x10001-5d723ef044a52.jpeg	\N	2019-09-06 13:11:44	12
+51	2000x10002-5d723ef359b27.jpeg	\N	2019-09-06 13:11:47	12
+52	2000x10003-5d723ef5b9149.jpeg	\N	2019-09-06 13:11:49	12
+87	bezimeni2-5d72597e1a3f9.jpeg	\N	2019-09-06 15:05:02	24
+88	bezimeni3-5d725982a55d4.jpeg	\N	2019-09-06 15:05:06	24
+89	12-5d7602c609ee8.jpeg	\N	2019-09-09 09:44:06	25
+56	2000x10003-5d72499112f33.jpeg	\N	2019-09-06 13:57:05	14
+57	2000x1000-5d72499470516.jpeg	\N	2019-09-06 13:57:08	14
+58	2000x10001-5d72499809e47.jpeg	\N	2019-09-06 13:57:12	14
+90	13-5d7602ca60341.jpeg	\N	2019-09-09 09:44:10	25
+91	14-5d7602ce1d1d4.jpeg	\N	2019-09-09 09:44:14	25
+59	2000x1000-5d724b9e26c63.jpeg	\N	2019-09-06 14:05:50	15
+60	200010002-5d724ba4b1890.jpeg	\N	2019-09-06 14:05:56	15
+61	2000x10003-5d724ba87b80d.jpeg	\N	2019-09-06 14:06:00	15
+92	11-5d760424f2a2a.jpeg	\N	2019-09-09 09:49:56	26
+62	2000x10002-5d724bd8ad007.jpeg	\N	2019-09-06 14:06:48	16
+63	2000x1000-5d724bdc1098c.jpeg	\N	2019-09-06 14:06:52	16
+64	2000x10001-5d724bdedfd3e.jpeg	\N	2019-09-06 14:06:54	16
+93	12-5d7604284680e.jpeg	\N	2019-09-09 09:50:00	26
+94	13-5d76042b78487.jpeg	\N	2019-09-09 09:50:03	26
+65	2000x10002-5d725586a637a.jpeg	\N	2019-09-06 14:48:06	17
+66	2000x1000-5d72558dc617f.jpeg	\N	2019-09-06 14:48:13	17
+67	2000x10001-5d72559148da6.jpeg	\N	2019-09-06 14:48:17	17
+95	11-5d76049a13ad5.jpeg	\N	2019-09-09 09:51:54	27
+68	2000x10001-5d7255b6f0a4f.jpeg	\N	2019-09-06 14:48:54	18
+69	2000x1000-5d7255bd23a17.jpeg	\N	2019-09-06 14:49:01	18
+70	2000x10003-5d7255c98a8b3.jpeg	\N	2019-09-06 14:49:13	18
+96	12-5d76049d20137.jpeg	\N	2019-09-09 09:51:57	27
+97	13-5d76049fcabb9.jpeg	\N	2019-09-09 09:51:59	27
+98	11-5d76053d3736b.jpeg	\N	2019-09-09 09:54:37	28
+99	12-5d760540e4a8b.jpeg	\N	2019-09-09 09:54:40	28
+100	13-5d76054399c2e.jpeg	\N	2019-09-09 09:54:43	28
+101	11-5d7607cf07c0a.jpeg	\N	2019-09-09 10:05:35	29
+102	12-5d7607d2e6ded.jpeg	\N	2019-09-09 10:05:38	29
+103	13-5d7607d75864b.jpeg	\N	2019-09-09 10:05:43	29
+104	11-5d760818e4946.jpeg	\N	2019-09-09 10:06:48	30
+105	12-5d76081befed5.jpeg	\N	2019-09-09 10:06:51	30
+106	13-5d76081e9e3bc.jpeg	\N	2019-09-09 10:06:54	30
+107	11-5d760a61b23b6.jpeg	\N	2019-09-09 10:16:33	31
+108	12-5d760a64d03c3.jpeg	\N	2019-09-09 10:16:36	31
+109	13-5d760a6857a0a.jpeg	\N	2019-09-09 10:16:40	31
+110	11-5d760a93b6257.jpeg	\N	2019-09-09 10:17:23	32
+111	12-5d760a99bb036.jpeg	\N	2019-09-09 10:17:29	32
+112	13-5d760a9d7e31d.jpeg	\N	2019-09-09 10:17:33	32
+113	11-5d760b6ebceff.jpeg	\N	2019-09-09 10:21:02	33
+114	12-5d760b72dcca2.jpeg	\N	2019-09-09 10:21:06	33
+115	13-5d760b7624a0e.jpeg	\N	2019-09-09 10:21:10	33
+116	11-5d760d6892846.jpeg	\N	2019-09-09 10:29:28	34
+117	12-5d760d6ba0576.jpeg	\N	2019-09-09 10:29:31	34
+118	13-5d760d6ed4b22.jpeg	\N	2019-09-09 10:29:34	34
+119	11-5d760d952c743.jpeg	\N	2019-09-09 10:30:13	35
+120	12-5d760d98689d6.jpeg	\N	2019-09-09 10:30:16	35
+121	13-5d760d9b86d8d.jpeg	\N	2019-09-09 10:30:19	35
+122	2000x1000-5d78c1385fc70.jpeg	\N	2019-09-11 11:41:12	13
+123	2000x10001-5d78c13c99209.jpeg	\N	2019-09-11 11:41:16	13
+124	2000x10002-5d78c14035bd5.jpeg	\N	2019-09-11 11:41:20	13
+\.
+
+
+--
+-- Data for Name: productitemtag; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.productitemtag (id, name, created, image, slug, visible, is_on_product_page) FROM stdin;
+1	Цвет	2019-09-09 17:01:40	\N	\N	t	f
+\.
+
+
+--
+-- Data for Name: productitemtag_productitem; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.productitemtag_productitem (productitemtag_id, productitem_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: productitemtagitem; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.productitemtagitem (id, entity_id, name, created, image, path) FROM stdin;
+1	1	Голубой	2019-09-09 17:02:33	/uploads/tag_items/d674eb1e9046cc84bc8ca39847e7f1e9dedf2442-5d7669886806a.webp	\N
+16	1	Pink	2019-09-11 10:10:59	/uploads/tag_items/13-5d78ae08445b1.jpeg	\N
+15	1	Gold	2019-09-11 10:10:51	/uploads/tag_items/6-5d78ae12f15d7.jpeg	\N
+14	1	Brown	2019-09-11 10:10:45	/uploads/tag_items/4-5d78ae20c4104.jpeg	\N
+13	1	Two-tone	2019-09-11 10:10:37	/uploads/tag_items/2-5d78ae29e9f6f.jpeg	\N
+12	1	Red	2019-09-11 10:10:30	/uploads/tag_items/11-5d78ae34a40d0.jpeg	\N
+11	1	Purple	2019-09-11 10:10:23	/uploads/tag_items/12-5d78ae44ea478.jpeg	\N
+10	1	Blue	2019-09-11 10:10:11	/uploads/tag_items/9-5d78ae5b7e0ef.jpeg	\N
+9	1	Grey	2019-09-11 10:10:02	/uploads/tag_items/7-5d78ae6e94a4e.jpeg	\N
+8	1	Silver	2019-09-11 10:09:54	/uploads/tag_items/5-5d78ae7a77828.jpeg	\N
+7	1	Tortoise	2019-09-11 10:09:47	/uploads/tag_items/3-5d78ae891535b.jpeg	\N
+6	1	Black	2019-09-11 10:09:39	/uploads/tag_items/1-5d78ae9ac0300.jpeg	\N
+5	1	Crystal	2019-09-11 10:09:32	/uploads/tag_items/8-5d78aea3cfd3d.jpeg	\N
+4	1	Green	2019-09-11 10:09:25	/uploads/tag_items/10-5d78aeafe33ab.jpeg	\N
+17	1	Glue	2019-09-11 10:27:39	\N	\N
+18	1	по русски	2019-09-11 10:28:54	\N	\N
+\.
+
+
+--
+-- Data for Name: productitemtagitem_productitem; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.productitemtagitem_productitem (productitemtagitem_id, productitem_id) FROM stdin;
+1	35
+5	11
+7	12
+14	13
+6	13
+6	14
+5	15
+7	16
+7	17
+14	18
+6	18
+14	17
+6	17
+10	19
+5	19
+16	20
+5	20
+14	21
+5	21
+7	22
+7	23
+14	24
+13	24
+6	24
+13	17
+13	18
+13	13
+7	25
+16	26
+13	26
+7	26
+12	27
+5	27
+6	28
+6	30
+7	29
+16	31
+13	31
+7	31
+14	32
+13	32
+7	32
+16	33
+14	33
+13	33
+5	33
+7	34
+6	34
+5	35
+\.
+
+
+--
+-- Data for Name: producttag; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.producttag (id, name, created, type, visible, slug, input_type, is_on_product_page) FROM stdin;
+10	Нос	2019-09-03 14:54:02	enum	No	\N	once	\N
+8	Материал	2019-09-03 13:29:55	enum	No	\N	once	\N
+7	Тип оправы	2019-09-03 13:27:59	enum	No	\N	once	\N
+5	Для кого	2019-09-03 13:22:33	enum	No	\N	once	\N
+4	Тип	2019-09-03 13:17:36	enum	No	\N	once	\N
+2	Модель	2019-09-03 13:14:34	enum	No	\N	multiple	\N
+1	Бренд	2019-08-30 10:10:59	enum	No	\N	multiple	\N
+9	Размер	2019-09-03 14:47:30	enum	Yes	\N	once	\N
+6	Форма	2019-09-03 13:23:18	enum	Yes	\N	multiple	\N
+3	Цвет	2019-09-03 13:16:41	enum	Yes	\N	multiple	\N
+\.
+
+
+--
+-- Data for Name: producttag_catalog; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.producttag_catalog (producttag_id, catalog_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: producttag_product; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.producttag_product (producttag_id, product_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: producttagitem; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.producttagitem (id, entity_id_id, name, created, slug) FROM stdin;
+1	1	Saylor	\N	\N
+2	1	Ochkov	\N	\N
+4	2	Farris	\N	\N
+5	2	Percey	\N	\N
+6	2	Oliver	\N	\N
+7	2	Caldwell	\N	\N
+8	2	Lyle	\N	\N
+9	2	Coley	\N	\N
+10	2	Colby	\N	\N
+11	2	Wilkie	\N	\N
+12	2	Haskell	\N	\N
+13	2	Carey	\N	\N
+14	2	Devon	\N	\N
+15	2	Felix	\N	\N
+16	2	Greer	\N	\N
+17	2	Hawkins	\N	\N
+18	2	Jane	\N	\N
+19	2	Larsen	\N	\N
+20	2	Lewis	\N	\N
+21	2	Logan	\N	\N
+22	2	Patterson	\N	\N
+23	2	Seymour	\N	\N
+24	2	Tate	\N	\N
+25	2	Waldman	\N	\N
+26	2	Wallis	\N	\N
+27	2	Walsh	\N	\N
+28	2	Welty	\N	\N
+29	4	Оправы	\N	\N
+30	4	Солнцезащитные очки	\N	\N
+31	5	Для женщин	\N	\N
+32	5	Для мужчин	\N	\N
+33	6	Авиатор	\N	\N
+34	6	Квадратные	\N	\N
+35	6	Кошачий глаз	\N	\N
+36	6	Круглые	\N	\N
+37	6	Прямоугольные	\N	\N
+38	7	Ободковые	\N	\N
+39	7	Полуободковые	\N	\N
+40	7	Без ободковые	\N	\N
+41	8	Ацетат	\N	\N
+42	8	Металл	\N	\N
+45	3	Crystal	\N	\N
+49	10	Стандартный	\N	\N
+53	9	Нормальные	\N	\N
+54	9	Узкие	\N	\N
+55	9	Широкие	\N	\N
+56	10	low bridge	\N	\N
+57	3	Black	\N	\N
+58	3	Tortoise	\N	\N
+59	3	Silver	\N	\N
+60	3	Grey	\N	\N
+61	3	Blue	\N	\N
+62	3	Purple	\N	\N
+63	3	Red	\N	\N
+64	3	Two-tone	\N	\N
+65	3	Brown	\N	\N
+66	3	Gold	\N	\N
+67	3	Green	\N	\N
+68	3	Pink	\N	\N
+\.
+
+
+--
+-- Data for Name: producttagitem_catalog; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.producttagitem_catalog (producttagitem_id, catalog_id) FROM stdin;
+2	14
+2	15
+\.
+
+
+--
+-- Data for Name: producttagitemvalue; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.producttagitemvalue (id, tag_item_id_id, product_item_id_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: producttagvalue; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.producttagvalue (id, tag_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: producturl; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.producturl (id, entity_id, url, created) FROM stdin;
+2	5	asdfasdfasdf/	\N
+1	5	asdfasdf/	\N
+3	5	r2red/	\N
+4	5	test1/	\N
+5	5	testurl/	\N
+6	\N	Farris Narrow Crystal/	\N
+8	\N	/farris-narrow-crystal.htm/	\N
+9	6	farris-narrow-crystal.htm/	\N
+11	\N	corwin/	\N
+21	12	daisy-narrow.htm/	\N
+22	16	haskell.htm/	\N
+23	15	laurel.htm/	\N
+24	14	percey.htm/	\N
+25	13	fletcher-wide.htm/	\N
+26	11	downing-wide.htm/	\N
+27	10	durand-wide.htm/	\N
+28	9	farris-narrow.htm/	\N
+29	8	aubrey-narrow.htm/	\N
+30	7	barkley-narrow.htm/	\N
+\.
+
+
+--
+-- Data for Name: region; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.region (id, title, fias_id, kladr_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: sale; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.sale (id, category_id, start, finish, discount, enabled, featured, type, prior, created, image, canonical) FROM stdin;
+\.
+
+
+--
+-- Data for Name: sale_product; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.sale_product (sale_id, product_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.tags (id, test, test1, guid, test2, test3) FROM stdin;
+\.
+
+
+--
+-- Data for Name: urls; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.urls (id, type, url, eid, created) FROM stdin;
+1	catalog	parfumeriya-dlja-zhenshhin	23	2019-08-27 16:33:16
+2	product	cosmetics-sredstva-dlja-volos-dopolnitelnyi-uhod-maski/-green-pharma-maska-dlya-dolgogo-sohraneniya-cveta-okrashennyh-volos-3568.htm	43360	2019-08-27 16:33:16
+\.
+
+
+--
+-- Data for Name: useraddress; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.useraddress (id, entity_id, region_id, person, postcode, city, street, address, kladr_id, fias_id, options) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: symfony
+--
+
+COPY public.users (id, email, roles, password, gender, firstname, lastname, created) FROM stdin;
+1	sazon@nxt.ru	["ROLE_ADMIN"]	$argon2i$v=19$m=1024,t=2,p=2$MFowTjhkRVN4VThEdzJqcQ$95S0wSQgRXI49Js2f8LYv6u25zLQLd1KQMa3h09Z+X8	\N	\N	\N	2019-01-01 00:00:00
+2	ai@robo.ru	["ROLE_USER"]	$argon2i$v=19$m=1024,t=2,p=2$TGNqcFJ3bm90S2dxS2RNUg$3Bx0BAk0aF+mka99HM1EdaYNGXltqUSKG2Xc7SQlOAk	\N	\N	\N	2019-01-01 00:00:00
+\.
+
+
+--
+-- Name: account_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.account_id_seq', 1, false);
+
+
+--
+-- Name: address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.address_id_seq', 1, false);
+
+
+--
+-- Name: banner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.banner_id_seq', 1, false);
+
+
+--
+-- Name: basket_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.basket_id_seq', 1, false);
+
+
+--
+-- Name: basketitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.basketitem_id_seq', 1, false);
+
+
+--
+-- Name: catalog_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.catalog_id_seq', 19, true);
+
+
+--
+-- Name: catalogtag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.catalogtag_id_seq', 2, true);
+
+
+--
+-- Name: catalogtagitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.catalogtagitem_id_seq', 1, false);
+
+
+--
+-- Name: catalogtagitemvalue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.catalogtagitemvalue_id_seq', 1, false);
+
+
+--
+-- Name: catalogurl_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.catalogurl_id_seq', 21, true);
+
+
+--
+-- Name: city_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.city_id_seq', 1, true);
+
+
+--
+-- Name: citytranslation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.citytranslation_id_seq', 1, false);
+
+
+--
+-- Name: configuration_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.configuration_id_seq', 1, false);
+
+
+--
+-- Name: courier_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.courier_id_seq', 1, false);
+
+
+--
+-- Name: delivery_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.delivery_id_seq', 1, false);
+
+
+--
+-- Name: direction_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.direction_id_seq', 1, false);
+
+
+--
+-- Name: district_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.district_id_seq', 1, false);
+
+
+--
+-- Name: images_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.images_id_seq', 1, false);
+
+
+--
+-- Name: importproduct_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.importproduct_id_seq', 1, false);
+
+
+--
+-- Name: importqueue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.importqueue_id_seq', 1, false);
+
+
+--
+-- Name: importqueuerelation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.importqueuerelation_id_seq', 1, false);
+
+
+--
+-- Name: importrelation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.importrelation_id_seq', 1, false);
+
+
+--
+-- Name: menu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.menu_id_seq', 18, true);
+
+
+--
+-- Name: menuitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.menuitem_id_seq', 1, false);
+
+
+--
+-- Name: orderitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.orderitem_id_seq', 1, false);
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.orders_id_seq', 1, false);
+
+
+--
+-- Name: page_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.page_id_seq', 1, true);
+
+
+--
+-- Name: pageurl_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.pageurl_id_seq', 2, true);
+
+
+--
+-- Name: paymentmethod_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.paymentmethod_id_seq', 1, false);
+
+
+--
+-- Name: pickup_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.pickup_id_seq', 1, false);
+
+
+--
+-- Name: product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.product_id_seq', 16, true);
+
+
+--
+-- Name: productitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.productitem_id_seq', 35, true);
+
+
+--
+-- Name: productitemimage_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.productitemimage_id_seq', 124, true);
+
+
+--
+-- Name: productitemtag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.productitemtag_id_seq', 2, true);
+
+
+--
+-- Name: productitemtagitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.productitemtagitem_id_seq', 18, true);
+
+
+--
+-- Name: producttag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.producttag_id_seq', 10, true);
+
+
+--
+-- Name: producttagitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.producttagitem_id_seq', 68, true);
+
+
+--
+-- Name: producttagitemvalue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.producttagitemvalue_id_seq', 1, false);
+
+
+--
+-- Name: producttagvalue_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.producttagvalue_id_seq', 1, false);
+
+
+--
+-- Name: producturl_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.producturl_id_seq', 30, true);
+
+
+--
+-- Name: region_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.region_id_seq', 1, false);
+
+
+--
+-- Name: sale_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.sale_id_seq', 1, false);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.tags_id_seq', 1, false);
+
+
+--
+-- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.urls_id_seq', 2, true);
+
+
+--
+-- Name: useraddress_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.useraddress_id_seq', 1, false);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: symfony
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 2, true);
+
+
+--
+-- Name: account account_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.account
+    ADD CONSTRAINT account_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: address address_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.address
+    ADD CONSTRAINT address_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: banner banner_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.banner
+    ADD CONSTRAINT banner_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: basket basket_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.basket
+    ADD CONSTRAINT basket_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: basketitem basketitem_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.basketitem
+    ADD CONSTRAINT basketitem_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: catalog catalog_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalog
+    ADD CONSTRAINT catalog_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: catalogtag_catalog catalogtag_catalog_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogtag_catalog
+    ADD CONSTRAINT catalogtag_catalog_pkey PRIMARY KEY (catalogtag_id, catalog_id);
+
+
+--
+-- Name: catalogtag catalogtag_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogtag
+    ADD CONSTRAINT catalogtag_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: catalogtagitem catalogtagitem_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogtagitem
+    ADD CONSTRAINT catalogtagitem_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: catalogtagitemvalue catalogtagitemvalue_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogtagitemvalue
+    ADD CONSTRAINT catalogtagitemvalue_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: catalogurl catalogurl_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogurl
+    ADD CONSTRAINT catalogurl_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: city city_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.city
+    ADD CONSTRAINT city_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: citytranslation citytranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.citytranslation
+    ADD CONSTRAINT citytranslation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: configuration configuration_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.configuration
+    ADD CONSTRAINT configuration_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: courier_paymentmethod courier_paymentmethod_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.courier_paymentmethod
+    ADD CONSTRAINT courier_paymentmethod_pkey PRIMARY KEY (courier_id, paymentmethod_id);
+
+
+--
+-- Name: courier courier_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.courier
+    ADD CONSTRAINT courier_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: delivery delivery_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.delivery
+    ADD CONSTRAINT delivery_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: direction direction_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.direction
+    ADD CONSTRAINT direction_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: district district_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.district
+    ADD CONSTRAINT district_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: images images_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.images
+    ADD CONSTRAINT images_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: importproduct importproduct_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.importproduct
+    ADD CONSTRAINT importproduct_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: importqueue importqueue_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.importqueue
+    ADD CONSTRAINT importqueue_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: importqueuerelation importqueuerelation_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.importqueuerelation
+    ADD CONSTRAINT importqueuerelation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: importrelation importrelation_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.importrelation
+    ADD CONSTRAINT importrelation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: menu menu_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.menu
+    ADD CONSTRAINT menu_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: menuitem menuitem_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.menuitem
+    ADD CONSTRAINT menuitem_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: migration_versions migration_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.migration_versions
+    ADD CONSTRAINT migration_versions_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: orderitem orderitem_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.orderitem
+    ADD CONSTRAINT orderitem_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: page page_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.page
+    ADD CONSTRAINT page_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pageurl pageurl_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pageurl
+    ADD CONSTRAINT pageurl_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: paymentmethod paymentmethod_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.paymentmethod
+    ADD CONSTRAINT paymentmethod_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pickup_paymentmethod pickup_paymentmethod_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.pickup_paymentmethod
+    ADD CONSTRAINT pickup_paymentmethod_pkey PRIMARY KEY (pickup_id, paymentmethod_id);
+
+
+--
+-- Name: pickup pickup_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.pickup
+    ADD CONSTRAINT pickup_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product_catalog product_catalog_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.product_catalog
+    ADD CONSTRAINT product_catalog_pkey PRIMARY KEY (product_id, catalog_id);
+
+
+--
+-- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT product_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product_producttagitem product_producttagitem_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.product_producttagitem
+    ADD CONSTRAINT product_producttagitem_pkey PRIMARY KEY (product_id, producttagitem_id);
+
+
+--
+-- Name: productitem productitem_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.productitem
+    ADD CONSTRAINT productitem_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: productitem_product productitem_product_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.productitem_product
+    ADD CONSTRAINT productitem_product_pkey PRIMARY KEY (productitem_id, product_id);
+
+
+--
+-- Name: productitemimage productitemimage_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.productitemimage
+    ADD CONSTRAINT productitemimage_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: productitemtag productitemtag_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.productitemtag
+    ADD CONSTRAINT productitemtag_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: productitemtag_productitem productitemtag_productitem_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.productitemtag_productitem
+    ADD CONSTRAINT productitemtag_productitem_pkey PRIMARY KEY (productitemtag_id, productitem_id);
+
+
+--
+-- Name: productitemtagitem productitemtagitem_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.productitemtagitem
+    ADD CONSTRAINT productitemtagitem_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: productitemtagitem_productitem productitemtagitem_productitem_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.productitemtagitem_productitem
+    ADD CONSTRAINT productitemtagitem_productitem_pkey PRIMARY KEY (productitemtagitem_id, productitem_id);
+
+
+--
+-- Name: producttag_catalog producttag_catalog_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttag_catalog
+    ADD CONSTRAINT producttag_catalog_pkey PRIMARY KEY (producttag_id, catalog_id);
+
+
+--
+-- Name: producttag producttag_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttag
+    ADD CONSTRAINT producttag_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: producttag_product producttag_product_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttag_product
+    ADD CONSTRAINT producttag_product_pkey PRIMARY KEY (producttag_id, product_id);
+
+
+--
+-- Name: producttagitem_catalog producttagitem_catalog_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttagitem_catalog
+    ADD CONSTRAINT producttagitem_catalog_pkey PRIMARY KEY (producttagitem_id, catalog_id);
+
+
+--
+-- Name: producttagitem producttagitem_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttagitem
+    ADD CONSTRAINT producttagitem_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: producttagitemvalue producttagitemvalue_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttagitemvalue
+    ADD CONSTRAINT producttagitemvalue_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: producttagvalue producttagvalue_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttagvalue
+    ADD CONSTRAINT producttagvalue_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: producturl producturl_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producturl
+    ADD CONSTRAINT producturl_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: region region_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.region
+    ADD CONSTRAINT region_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sale sale_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.sale
+    ADD CONSTRAINT sale_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sale_product sale_product_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.sale_product
+    ADD CONSTRAINT sale_product_pkey PRIMARY KEY (sale_id, product_id);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: urls urls_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.urls
+    ADD CONSTRAINT urls_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: useraddress useraddress_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.useraddress
+    ADD CONSTRAINT useraddress_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: citytranslation_unique_translation; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE UNIQUE INDEX citytranslation_unique_translation ON public.citytranslation USING btree (translatable_id, locale);
+
+
+--
+-- Name: idx_115786544584665a; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_115786544584665a ON public.producttag_product USING btree (product_id);
+
+
+--
+-- Name: idx_1157865491b6f4d1; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_1157865491b6f4d1 ON public.producttag_product USING btree (producttag_id);
+
+
+--
+-- Name: idx_291ba35281257d5d; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_291ba35281257d5d ON public.catalogurl USING btree (entity_id);
+
+
+--
+-- Name: idx_2a850e184584665a; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_2a850e184584665a ON public.productitem_product USING btree (product_id);
+
+
+--
+-- Name: idx_2a850e188920f479; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_2a850e188920f479 ON public.productitem_product USING btree (productitem_id);
+
+
+--
+-- Name: idx_31122ad2397183cd; Type: INDEX; Schema: public; Owner: root
+--
+
+CREATE INDEX idx_31122ad2397183cd ON public.productitemtag_productitem USING btree (productitemtag_id);
+
+
+--
+-- Name: idx_31122ad28920f479; Type: INDEX; Schema: public; Owner: root
+--
+
+CREATE INDEX idx_31122ad28920f479 ON public.productitemtag_productitem USING btree (productitem_id);
+
+
+--
+-- Name: idx_31c3155681257d5d; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_31c3155681257d5d ON public.importrelation USING btree (entity_id);
+
+
+--
+-- Name: idx_33e85e19126f525e; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_33e85e19126f525e ON public.orderitem USING btree (item_id);
+
+
+--
+-- Name: idx_33e85e1981257d5d; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_33e85e1981257d5d ON public.orderitem USING btree (entity_id);
+
+
+--
+-- Name: idx_45796f3b12469de2; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_45796f3b12469de2 ON public.sale USING btree (category_id);
+
+
+--
+-- Name: idx_46323ccb8bac62af; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_46323ccb8bac62af ON public.pickup USING btree (city_id);
+
+
+--
+-- Name: idx_46323ccbaf73d997; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_46323ccbaf73d997 ON public.pickup USING btree (direction_id);
+
+
+--
+-- Name: idx_53b529ba293cd56d; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_53b529ba293cd56d ON public.basketitem USING btree (basket_id_id);
+
+
+--
+-- Name: idx_53b529bac684daac; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_53b529bac684daac ON public.basketitem USING btree (product_item_id_id);
+
+
+--
+-- Name: idx_681d3abc81257d5d; Type: INDEX; Schema: public; Owner: root
+--
+
+CREATE INDEX idx_681d3abc81257d5d ON public.productitemtagitem USING btree (entity_id);
+
+
+--
+-- Name: idx_69819c0681257d5d; Type: INDEX; Schema: public; Owner: root
+--
+
+CREATE INDEX idx_69819c0681257d5d ON public.pageurl USING btree (entity_id);
+
+
+--
+-- Name: idx_6a0aeebbd3b0abae; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_6a0aeebbd3b0abae ON public.producttagitem USING btree (entity_id_id);
+
+
+--
+-- Name: idx_82024de2778e3e6f; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_82024de2778e3e6f ON public.courier_paymentmethod USING btree (paymentmethod_id);
+
+
+--
+-- Name: idx_82024de2e3d8151c; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_82024de2e3d8151c ON public.courier_paymentmethod USING btree (courier_id);
+
+
+--
+-- Name: idx_8d69ad0a98260155; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_8d69ad0a98260155 ON public.city USING btree (region_id);
+
+
+--
+-- Name: idx_8d69ad0ab08fa272; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_8d69ad0ab08fa272 ON public.city USING btree (district_id);
+
+
+--
+-- Name: idx_93953fbed3b0abae; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_93953fbed3b0abae ON public.menuitem USING btree (entity_id_id);
+
+
+--
+-- Name: idx_94f148124584665a; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_94f148124584665a ON public.productitem USING btree (product_id);
+
+
+--
+-- Name: idx_94f1481281257d5d; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_94f1481281257d5d ON public.productitem USING btree (entity_id);
+
+
+--
+-- Name: idx_9b887eed2121eb61; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_9b887eed2121eb61 ON public.product_producttagitem USING btree (producttagitem_id);
+
+
+--
+-- Name: idx_9b887eed4584665a; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_9b887eed4584665a ON public.product_producttagitem USING btree (product_id);
+
+
+--
+-- Name: idx_a0a3a3f481257d5d; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_a0a3a3f481257d5d ON public.producturl USING btree (entity_id);
+
+
+--
+-- Name: idx_a654c63f4584665a; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_a654c63f4584665a ON public.sale_product USING btree (product_id);
+
+
+--
+-- Name: idx_a654c63f4a7e4868; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_a654c63f4a7e4868 ON public.sale_product USING btree (sale_id);
+
+
+--
+-- Name: idx_ae75e08bac62af; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_ae75e08bac62af ON public.courier USING btree (city_id);
+
+
+--
+-- Name: idx_ae75e0af73d997; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_ae75e0af73d997 ON public.courier USING btree (direction_id);
+
+
+--
+-- Name: idx_b0ae8de936e617c0; Type: INDEX; Schema: public; Owner: root
+--
+
+CREATE INDEX idx_b0ae8de936e617c0 ON public.productitemtagitem_productitem USING btree (productitemtagitem_id);
+
+
+--
+-- Name: idx_b0ae8de98920f479; Type: INDEX; Schema: public; Owner: root
+--
+
+CREATE INDEX idx_b0ae8de98920f479 ON public.productitemtagitem_productitem USING btree (productitem_id);
+
+
+--
+-- Name: idx_b402b4a92c2ac5d3; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_b402b4a92c2ac5d3 ON public.citytranslation USING btree (translatable_id);
+
+
+--
+-- Name: idx_ba72b75681257d5d; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_ba72b75681257d5d ON public.catalogtagitem USING btree (entity_id);
+
+
+--
+-- Name: idx_c2f3561d9d86650f; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_c2f3561d9d86650f ON public.address USING btree (user_id_id);
+
+
+--
+-- Name: idx_caf529f74584665a; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_caf529f74584665a ON public.product_catalog USING btree (product_id);
+
+
+--
+-- Name: idx_caf529f7cc3c66fc; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_caf529f7cc3c66fc ON public.product_catalog USING btree (catalog_id);
+
+
+--
+-- Name: idx_d80e257481257d5d; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_d80e257481257d5d ON public.useraddress USING btree (entity_id);
+
+
+--
+-- Name: idx_d80e257498260155; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_d80e257498260155 ON public.useraddress USING btree (region_id);
+
+
+--
+-- Name: idx_d931b0be91b6f4d1; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_d931b0be91b6f4d1 ON public.producttag_catalog USING btree (producttag_id);
+
+
+--
+-- Name: idx_d931b0becc3c66fc; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_d931b0becc3c66fc ON public.producttag_catalog USING btree (catalog_id);
+
+
+--
+-- Name: idx_dd15ffae2121eb61; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_dd15ffae2121eb61 ON public.producttagitem_catalog USING btree (producttagitem_id);
+
+
+--
+-- Name: idx_dd15ffaecc3c66fc; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_dd15ffaecc3c66fc ON public.producttagitem_catalog USING btree (catalog_id);
+
+
+--
+-- Name: idx_e05afc76778e3e6f; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_e05afc76778e3e6f ON public.pickup_paymentmethod USING btree (paymentmethod_id);
+
+
+--
+-- Name: idx_e05afc76c26e160b; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_e05afc76c26e160b ON public.pickup_paymentmethod USING btree (pickup_id);
+
+
+--
+-- Name: idx_e157c992c3b649ee; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_e157c992c3b649ee ON public.productitemimage USING btree (product_item_id);
+
+
+--
+-- Name: idx_e283f8d848e1e977; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_e283f8d848e1e977 ON public.orders USING btree (address_id_id);
+
+
+--
+-- Name: idx_e283f8d86f4f78c5; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_e283f8d86f4f78c5 ON public.orders USING btree (delivery_id_id);
+
+
+--
+-- Name: idx_e283f8d89d86650f; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_e283f8d89d86650f ON public.orders USING btree (user_id_id);
+
+
+--
+-- Name: idx_e283f8d8a0ce293e; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_e283f8d8a0ce293e ON public.orders USING btree (payment_method_id_id);
+
+
+--
+-- Name: idx_ff7c1d4e89f9ee34; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_ff7c1d4e89f9ee34 ON public.catalogtag_catalog USING btree (catalogtag_id);
+
+
+--
+-- Name: idx_ff7c1d4ecc3c66fc; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE INDEX idx_ff7c1d4ecc3c66fc ON public.catalogtag_catalog USING btree (catalog_id);
+
+
+--
+-- Name: uniq_1f847ec5c684daac; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE UNIQUE INDEX uniq_1f847ec5c684daac ON public.producttagitemvalue USING btree (product_item_id_id);
+
+
+--
+-- Name: uniq_1f847ec5f0f807d6; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE UNIQUE INDEX uniq_1f847ec5f0f807d6 ON public.producttagitemvalue USING btree (tag_item_id_id);
+
+
+--
+-- Name: uniq_a21fc1741dddaf72; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE UNIQUE INDEX uniq_a21fc1741dddaf72 ON public.catalogtagitemvalue USING btree (catalog_item_id);
+
+
+--
+-- Name: uniq_a21fc174205e7ff4; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE UNIQUE INDEX uniq_a21fc174205e7ff4 ON public.catalogtagitemvalue USING btree (tag_item_id);
+
+
+--
+-- Name: uniq_d5428aede7927c74; Type: INDEX; Schema: public; Owner: symfony
+--
+
+CREATE UNIQUE INDEX uniq_d5428aede7927c74 ON public.users USING btree (email);
+
+
+--
+-- Name: producttag_product fk_115786544584665a; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttag_product
+    ADD CONSTRAINT fk_115786544584665a FOREIGN KEY (product_id) REFERENCES public.product(id) ON DELETE CASCADE;
+
+
+--
+-- Name: producttag_product fk_1157865491b6f4d1; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttag_product
+    ADD CONSTRAINT fk_1157865491b6f4d1 FOREIGN KEY (producttag_id) REFERENCES public.producttag(id) ON DELETE CASCADE;
+
+
+--
+-- Name: producttagitemvalue fk_1f847ec5c684daac; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttagitemvalue
+    ADD CONSTRAINT fk_1f847ec5c684daac FOREIGN KEY (product_item_id_id) REFERENCES public.productitem(id);
+
+
+--
+-- Name: producttagitemvalue fk_1f847ec5f0f807d6; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttagitemvalue
+    ADD CONSTRAINT fk_1f847ec5f0f807d6 FOREIGN KEY (tag_item_id_id) REFERENCES public.producttagitem(id);
+
+
+--
+-- Name: catalogurl fk_291ba35281257d5d; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogurl
+    ADD CONSTRAINT fk_291ba35281257d5d FOREIGN KEY (entity_id) REFERENCES public.catalog(id);
+
+
+--
+-- Name: productitem_product fk_2a850e184584665a; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.productitem_product
+    ADD CONSTRAINT fk_2a850e184584665a FOREIGN KEY (product_id) REFERENCES public.product(id) ON DELETE CASCADE;
+
+
+--
+-- Name: productitem_product fk_2a850e188920f479; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.productitem_product
+    ADD CONSTRAINT fk_2a850e188920f479 FOREIGN KEY (productitem_id) REFERENCES public.productitem(id) ON DELETE CASCADE;
+
+
+--
+-- Name: productitemtag_productitem fk_31122ad2397183cd; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.productitemtag_productitem
+    ADD CONSTRAINT fk_31122ad2397183cd FOREIGN KEY (productitemtag_id) REFERENCES public.productitemtag(id) ON DELETE CASCADE;
+
+
+--
+-- Name: productitemtag_productitem fk_31122ad28920f479; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.productitemtag_productitem
+    ADD CONSTRAINT fk_31122ad28920f479 FOREIGN KEY (productitem_id) REFERENCES public.productitem(id) ON DELETE CASCADE;
+
+
+--
+-- Name: importrelation fk_31c3155681257d5d; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.importrelation
+    ADD CONSTRAINT fk_31c3155681257d5d FOREIGN KEY (entity_id) REFERENCES public.productitem(id);
+
+
+--
+-- Name: orderitem fk_33e85e19126f525e; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.orderitem
+    ADD CONSTRAINT fk_33e85e19126f525e FOREIGN KEY (item_id) REFERENCES public.productitem(id);
+
+
+--
+-- Name: orderitem fk_33e85e1981257d5d; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.orderitem
+    ADD CONSTRAINT fk_33e85e1981257d5d FOREIGN KEY (entity_id) REFERENCES public.orders(id);
+
+
+--
+-- Name: sale fk_45796f3b12469de2; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.sale
+    ADD CONSTRAINT fk_45796f3b12469de2 FOREIGN KEY (category_id) REFERENCES public.catalog(id);
+
+
+--
+-- Name: pickup fk_46323ccb8bac62af; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.pickup
+    ADD CONSTRAINT fk_46323ccb8bac62af FOREIGN KEY (city_id) REFERENCES public.city(id);
+
+
+--
+-- Name: pickup fk_46323ccbaf73d997; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.pickup
+    ADD CONSTRAINT fk_46323ccbaf73d997 FOREIGN KEY (direction_id) REFERENCES public.direction(id);
+
+
+--
+-- Name: basketitem fk_53b529ba293cd56d; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.basketitem
+    ADD CONSTRAINT fk_53b529ba293cd56d FOREIGN KEY (basket_id_id) REFERENCES public.basket(id);
+
+
+--
+-- Name: basketitem fk_53b529bac684daac; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.basketitem
+    ADD CONSTRAINT fk_53b529bac684daac FOREIGN KEY (product_item_id_id) REFERENCES public.productitem(id);
+
+
+--
+-- Name: productitemtagitem fk_681d3abc81257d5d; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.productitemtagitem
+    ADD CONSTRAINT fk_681d3abc81257d5d FOREIGN KEY (entity_id) REFERENCES public.productitemtag(id);
+
+
+--
+-- Name: pageurl fk_69819c0681257d5d; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pageurl
+    ADD CONSTRAINT fk_69819c0681257d5d FOREIGN KEY (entity_id) REFERENCES public.page(id);
+
+
+--
+-- Name: producttagitem fk_6a0aeebbd3b0abae; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttagitem
+    ADD CONSTRAINT fk_6a0aeebbd3b0abae FOREIGN KEY (entity_id_id) REFERENCES public.producttag(id);
+
+
+--
+-- Name: courier_paymentmethod fk_82024de2778e3e6f; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.courier_paymentmethod
+    ADD CONSTRAINT fk_82024de2778e3e6f FOREIGN KEY (paymentmethod_id) REFERENCES public.paymentmethod(id) ON DELETE CASCADE;
+
+
+--
+-- Name: courier_paymentmethod fk_82024de2e3d8151c; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.courier_paymentmethod
+    ADD CONSTRAINT fk_82024de2e3d8151c FOREIGN KEY (courier_id) REFERENCES public.courier(id) ON DELETE CASCADE;
+
+
+--
+-- Name: city fk_8d69ad0a98260155; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.city
+    ADD CONSTRAINT fk_8d69ad0a98260155 FOREIGN KEY (region_id) REFERENCES public.region(id);
+
+
+--
+-- Name: city fk_8d69ad0ab08fa272; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.city
+    ADD CONSTRAINT fk_8d69ad0ab08fa272 FOREIGN KEY (district_id) REFERENCES public.district(id);
+
+
+--
+-- Name: menuitem fk_93953fbed3b0abae; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.menuitem
+    ADD CONSTRAINT fk_93953fbed3b0abae FOREIGN KEY (entity_id_id) REFERENCES public.menu(id);
+
+
+--
+-- Name: productitem fk_94f148124584665a; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.productitem
+    ADD CONSTRAINT fk_94f148124584665a FOREIGN KEY (product_id) REFERENCES public.product(id);
+
+
+--
+-- Name: productitem fk_94f1481281257d5d; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.productitem
+    ADD CONSTRAINT fk_94f1481281257d5d FOREIGN KEY (entity_id) REFERENCES public.product(id);
+
+
+--
+-- Name: product_producttagitem fk_9b887eed2121eb61; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.product_producttagitem
+    ADD CONSTRAINT fk_9b887eed2121eb61 FOREIGN KEY (producttagitem_id) REFERENCES public.producttagitem(id) ON DELETE CASCADE;
+
+
+--
+-- Name: product_producttagitem fk_9b887eed4584665a; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.product_producttagitem
+    ADD CONSTRAINT fk_9b887eed4584665a FOREIGN KEY (product_id) REFERENCES public.product(id) ON DELETE CASCADE;
+
+
+--
+-- Name: producturl fk_a0a3a3f481257d5d; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producturl
+    ADD CONSTRAINT fk_a0a3a3f481257d5d FOREIGN KEY (entity_id) REFERENCES public.product(id);
+
+
+--
+-- Name: catalogtagitemvalue fk_a21fc1741dddaf72; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogtagitemvalue
+    ADD CONSTRAINT fk_a21fc1741dddaf72 FOREIGN KEY (catalog_item_id) REFERENCES public.catalog(id);
+
+
+--
+-- Name: catalogtagitemvalue fk_a21fc174205e7ff4; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogtagitemvalue
+    ADD CONSTRAINT fk_a21fc174205e7ff4 FOREIGN KEY (tag_item_id) REFERENCES public.catalogtagitem(id);
+
+
+--
+-- Name: sale_product fk_a654c63f4584665a; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.sale_product
+    ADD CONSTRAINT fk_a654c63f4584665a FOREIGN KEY (product_id) REFERENCES public.product(id) ON DELETE CASCADE;
+
+
+--
+-- Name: sale_product fk_a654c63f4a7e4868; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.sale_product
+    ADD CONSTRAINT fk_a654c63f4a7e4868 FOREIGN KEY (sale_id) REFERENCES public.sale(id) ON DELETE CASCADE;
+
+
+--
+-- Name: courier fk_ae75e08bac62af; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.courier
+    ADD CONSTRAINT fk_ae75e08bac62af FOREIGN KEY (city_id) REFERENCES public.city(id);
+
+
+--
+-- Name: courier fk_ae75e0af73d997; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.courier
+    ADD CONSTRAINT fk_ae75e0af73d997 FOREIGN KEY (direction_id) REFERENCES public.direction(id);
+
+
+--
+-- Name: productitemtagitem_productitem fk_b0ae8de936e617c0; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.productitemtagitem_productitem
+    ADD CONSTRAINT fk_b0ae8de936e617c0 FOREIGN KEY (productitemtagitem_id) REFERENCES public.productitemtagitem(id) ON DELETE CASCADE;
+
+
+--
+-- Name: productitemtagitem_productitem fk_b0ae8de98920f479; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.productitemtagitem_productitem
+    ADD CONSTRAINT fk_b0ae8de98920f479 FOREIGN KEY (productitem_id) REFERENCES public.productitem(id) ON DELETE CASCADE;
+
+
+--
+-- Name: citytranslation fk_b402b4a92c2ac5d3; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.citytranslation
+    ADD CONSTRAINT fk_b402b4a92c2ac5d3 FOREIGN KEY (translatable_id) REFERENCES public.city(id) ON DELETE CASCADE;
+
+
+--
+-- Name: catalogtagitem fk_ba72b75681257d5d; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogtagitem
+    ADD CONSTRAINT fk_ba72b75681257d5d FOREIGN KEY (entity_id) REFERENCES public.catalogtag(id);
+
+
+--
+-- Name: address fk_c2f3561d9d86650f; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.address
+    ADD CONSTRAINT fk_c2f3561d9d86650f FOREIGN KEY (user_id_id) REFERENCES public.users(id);
+
+
+--
+-- Name: product_catalog fk_caf529f74584665a; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.product_catalog
+    ADD CONSTRAINT fk_caf529f74584665a FOREIGN KEY (product_id) REFERENCES public.product(id) ON DELETE CASCADE;
+
+
+--
+-- Name: product_catalog fk_caf529f7cc3c66fc; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.product_catalog
+    ADD CONSTRAINT fk_caf529f7cc3c66fc FOREIGN KEY (catalog_id) REFERENCES public.catalog(id) ON DELETE CASCADE;
+
+
+--
+-- Name: useraddress fk_d80e257481257d5d; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.useraddress
+    ADD CONSTRAINT fk_d80e257481257d5d FOREIGN KEY (entity_id) REFERENCES public.users(id);
+
+
+--
+-- Name: useraddress fk_d80e257498260155; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.useraddress
+    ADD CONSTRAINT fk_d80e257498260155 FOREIGN KEY (region_id) REFERENCES public.region(id);
+
+
+--
+-- Name: producttag_catalog fk_d931b0be91b6f4d1; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttag_catalog
+    ADD CONSTRAINT fk_d931b0be91b6f4d1 FOREIGN KEY (producttag_id) REFERENCES public.producttag(id) ON DELETE CASCADE;
+
+
+--
+-- Name: producttag_catalog fk_d931b0becc3c66fc; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttag_catalog
+    ADD CONSTRAINT fk_d931b0becc3c66fc FOREIGN KEY (catalog_id) REFERENCES public.catalog(id) ON DELETE CASCADE;
+
+
+--
+-- Name: producttagitem_catalog fk_dd15ffae2121eb61; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttagitem_catalog
+    ADD CONSTRAINT fk_dd15ffae2121eb61 FOREIGN KEY (producttagitem_id) REFERENCES public.producttagitem(id) ON DELETE CASCADE;
+
+
+--
+-- Name: producttagitem_catalog fk_dd15ffaecc3c66fc; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.producttagitem_catalog
+    ADD CONSTRAINT fk_dd15ffaecc3c66fc FOREIGN KEY (catalog_id) REFERENCES public.catalog(id) ON DELETE CASCADE;
+
+
+--
+-- Name: pickup_paymentmethod fk_e05afc76778e3e6f; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.pickup_paymentmethod
+    ADD CONSTRAINT fk_e05afc76778e3e6f FOREIGN KEY (paymentmethod_id) REFERENCES public.paymentmethod(id) ON DELETE CASCADE;
+
+
+--
+-- Name: pickup_paymentmethod fk_e05afc76c26e160b; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.pickup_paymentmethod
+    ADD CONSTRAINT fk_e05afc76c26e160b FOREIGN KEY (pickup_id) REFERENCES public.pickup(id) ON DELETE CASCADE;
+
+
+--
+-- Name: productitemimage fk_e157c992c3b649ee; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.productitemimage
+    ADD CONSTRAINT fk_e157c992c3b649ee FOREIGN KEY (product_item_id) REFERENCES public.productitem(id);
+
+
+--
+-- Name: orders fk_e283f8d848e1e977; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_e283f8d848e1e977 FOREIGN KEY (address_id_id) REFERENCES public.address(id);
+
+
+--
+-- Name: orders fk_e283f8d86f4f78c5; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_e283f8d86f4f78c5 FOREIGN KEY (delivery_id_id) REFERENCES public.delivery(id);
+
+
+--
+-- Name: orders fk_e283f8d89d86650f; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_e283f8d89d86650f FOREIGN KEY (user_id_id) REFERENCES public.users(id);
+
+
+--
+-- Name: orders fk_e283f8d8a0ce293e; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_e283f8d8a0ce293e FOREIGN KEY (payment_method_id_id) REFERENCES public.paymentmethod(id);
+
+
+--
+-- Name: catalogtag_catalog fk_ff7c1d4e89f9ee34; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogtag_catalog
+    ADD CONSTRAINT fk_ff7c1d4e89f9ee34 FOREIGN KEY (catalogtag_id) REFERENCES public.catalogtag(id) ON DELETE CASCADE;
+
+
+--
+-- Name: catalogtag_catalog fk_ff7c1d4ecc3c66fc; Type: FK CONSTRAINT; Schema: public; Owner: symfony
+--
+
+ALTER TABLE ONLY public.catalogtag_catalog
+    ADD CONSTRAINT fk_ff7c1d4ecc3c66fc FOREIGN KEY (catalog_id) REFERENCES public.catalog(id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

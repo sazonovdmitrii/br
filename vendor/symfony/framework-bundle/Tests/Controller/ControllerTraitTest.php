@@ -12,7 +12,6 @@
 namespace Symfony\Bundle\FrameworkBundle\Tests\Controller;
 
 use Fig\Link\Link;
-use Symfony\Bundle\FrameworkBundle\Controller\ControllerTrait;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\Form;
@@ -88,12 +87,10 @@ abstract class ControllerTraitTest extends TestCase
         $this->assertNull($controller->getUser());
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The SecurityBundle is not registered in your application.
-     */
     public function testGetUserWithEmptyContainer()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('The SecurityBundle is not registered in your application.');
         $controller = $this->createController();
         $controller->setContainer(new Container());
 
@@ -189,8 +186,8 @@ abstract class ControllerTraitTest extends TestCase
         if ($response->headers->get('content-type')) {
             $this->assertSame('text/x-php', $response->headers->get('content-type'));
         }
-        $this->assertContains(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $response->headers->get('content-disposition'));
-        $this->assertContains(basename(__FILE__), $response->headers->get('content-disposition'));
+        $this->assertStringContainsString(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $response->headers->get('content-disposition'));
+        $this->assertStringContainsString(basename(__FILE__), $response->headers->get('content-disposition'));
     }
 
     public function testFileAsInline()
@@ -205,8 +202,8 @@ abstract class ControllerTraitTest extends TestCase
         if ($response->headers->get('content-type')) {
             $this->assertSame('text/x-php', $response->headers->get('content-type'));
         }
-        $this->assertContains(ResponseHeaderBag::DISPOSITION_INLINE, $response->headers->get('content-disposition'));
-        $this->assertContains(basename(__FILE__), $response->headers->get('content-disposition'));
+        $this->assertStringContainsString(ResponseHeaderBag::DISPOSITION_INLINE, $response->headers->get('content-disposition'));
+        $this->assertStringContainsString(basename(__FILE__), $response->headers->get('content-disposition'));
     }
 
     public function testFileWithOwnFileName()
@@ -222,8 +219,8 @@ abstract class ControllerTraitTest extends TestCase
         if ($response->headers->get('content-type')) {
             $this->assertSame('text/x-php', $response->headers->get('content-type'));
         }
-        $this->assertContains(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $response->headers->get('content-disposition'));
-        $this->assertContains($fileName, $response->headers->get('content-disposition'));
+        $this->assertStringContainsString(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $response->headers->get('content-disposition'));
+        $this->assertStringContainsString($fileName, $response->headers->get('content-disposition'));
     }
 
     public function testFileWithOwnFileNameAsInline()
@@ -239,8 +236,8 @@ abstract class ControllerTraitTest extends TestCase
         if ($response->headers->get('content-type')) {
             $this->assertSame('text/x-php', $response->headers->get('content-type'));
         }
-        $this->assertContains(ResponseHeaderBag::DISPOSITION_INLINE, $response->headers->get('content-disposition'));
-        $this->assertContains($fileName, $response->headers->get('content-disposition'));
+        $this->assertStringContainsString(ResponseHeaderBag::DISPOSITION_INLINE, $response->headers->get('content-disposition'));
+        $this->assertStringContainsString($fileName, $response->headers->get('content-disposition'));
     }
 
     public function testFileFromPath()
@@ -255,8 +252,8 @@ abstract class ControllerTraitTest extends TestCase
         if ($response->headers->get('content-type')) {
             $this->assertSame('text/x-php', $response->headers->get('content-type'));
         }
-        $this->assertContains(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $response->headers->get('content-disposition'));
-        $this->assertContains(basename(__FILE__), $response->headers->get('content-disposition'));
+        $this->assertStringContainsString(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $response->headers->get('content-disposition'));
+        $this->assertStringContainsString(basename(__FILE__), $response->headers->get('content-disposition'));
     }
 
     public function testFileFromPathWithCustomizedFileName()
@@ -271,15 +268,13 @@ abstract class ControllerTraitTest extends TestCase
         if ($response->headers->get('content-type')) {
             $this->assertSame('text/x-php', $response->headers->get('content-type'));
         }
-        $this->assertContains(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $response->headers->get('content-disposition'));
-        $this->assertContains('test.php', $response->headers->get('content-disposition'));
+        $this->assertStringContainsString(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $response->headers->get('content-disposition'));
+        $this->assertStringContainsString('test.php', $response->headers->get('content-disposition'));
     }
 
-    /**
-     * @expectedException \Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException
-     */
     public function testFileWhichDoesNotExist()
     {
+        $this->expectException('Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException');
         $controller = $this->createController();
 
         /* @var BinaryFileResponse $response */
@@ -300,11 +295,9 @@ abstract class ControllerTraitTest extends TestCase
         $this->assertTrue($controller->isGranted('foo'));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\AccessDeniedException
-     */
     public function testdenyAccessUnlessGranted()
     {
+        $this->expectException('Symfony\Component\Security\Core\Exception\AccessDeniedException');
         $authorizationChecker = $this->getMockBuilder('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface')->getMock();
         $authorizationChecker->expects($this->once())->method('isGranted')->willReturn(false);
 
@@ -432,10 +425,10 @@ abstract class ControllerTraitTest extends TestCase
     public function testRedirect()
     {
         $controller = $this->createController();
-        $response = $controller->redirect('http://dunglas.fr', 301);
+        $response = $controller->redirect('https://dunglas.fr', 301);
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
-        $this->assertSame('http://dunglas.fr', $response->getTargetUrl());
+        $this->assertSame('https://dunglas.fr', $response->getTargetUrl());
         $this->assertSame(301, $response->getStatusCode());
     }
 
@@ -554,31 +547,5 @@ abstract class ControllerTraitTest extends TestCase
         $links = $request->attributes->get('_links')->getLinks();
         $this->assertContains($link1, $links);
         $this->assertContains($link2, $links);
-    }
-}
-
-trait TestControllerTrait
-{
-    use ControllerTrait {
-        generateUrl as public;
-        redirect as public;
-        forward as public;
-        getUser as public;
-        json as public;
-        file as public;
-        isGranted as public;
-        denyAccessUnlessGranted as public;
-        redirectToRoute as public;
-        addFlash as public;
-        isCsrfTokenValid as public;
-        renderView as public;
-        render as public;
-        stream as public;
-        createNotFoundException as public;
-        createAccessDeniedException as public;
-        createForm as public;
-        createFormBuilder as public;
-        getDoctrine as public;
-        addLink as public;
     }
 }

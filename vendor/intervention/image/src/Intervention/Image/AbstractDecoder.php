@@ -308,6 +308,7 @@ abstract class AbstractDecoder
     public function init($data)
     {
         $this->data = $data;
+
         switch (true) {
 
             case $this->isGdResource():

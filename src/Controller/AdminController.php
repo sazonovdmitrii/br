@@ -9,10 +9,12 @@ use App\Entity\Product;
 
 class AdminController extends BaseAdminController
 {
-//    public function __construct(
+    public function __construct(
 //        TagService $tagService,
 //        EntityManager $em
-//    ) {
+    ) {
+//phpinfo();
+}
 //        $this->em = $em;
 //        $product = $this->em->getRepository('App:Product')->find(16);
 ////var_dump($product->getId());

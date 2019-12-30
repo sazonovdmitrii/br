@@ -1,44 +1,7 @@
 {
-  product(slug: "sun-k3013.htm/"){
-    lenses{
-       name
-       price
-       lenseitemstags {
-         entity {
-           name
-           visible
-           description
-         }
-         description
-         name
-       }
-      recipes {
-        id
-        range_to
-        range_from
-        step
-        name
-      }
-    }
-    similars(limit: 3, offset:0) {
-      edges {
-        node {
-          id
-          items(limit: 40, offset:0){
-            edges {
-              node{
-                id
-                name
-                price
-              }
-            }
-          }
-        }
-      }
-    }
+  product(slug: "asdfasdf"){
     id,
     name,
-    url,
     items(limit: 40, offset:0) {
       edges {
         node {
@@ -54,7 +17,6 @@
             name
             image
           }
-          images
         }
       }
     }

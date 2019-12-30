@@ -6,7 +6,7 @@ services:
     br_php:
         build: php-fpm
         ports:
-            - '9005:9000'
+            - '9008:9000'
         volumes:
             - br-sync:/var/www/symfony
             - ./docker/mysql/my.cnf:/etc/mysql/my.cnf

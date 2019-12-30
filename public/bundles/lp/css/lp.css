@@ -12,11 +12,7 @@ label[for=product_producttagitem],
 .new-items label[for=items_productItemImages],
 label[for=productitemtagitem_entity],
 label[for=items_productItemTagItems],
-label[for=store_storeUrls],
-label[for=lense_lenseitemstags],
-label[for=lensetag_lenseItemTags],
-label[for=lense_recipes],
-label[for=landingblock_childrens]
+label[for=store_storeUrls]
 {
     display: none;
 }
@@ -31,28 +27,4 @@ label[for=landingblock_childrens]
     .a2lix_translationsFields.tab-content .field-ckeditor .col-sm-10{
         width: 100% !important;
     }
-}
-#easyadmin-new-LenseTag #_easyadmin_form_design_element_4-tab {
-    display: none;
-}
-label[for=product_lenses] {
-    display: none;
-}
-label.form-check-label {
-    font-weight: 500 !important;
-    padding-left: 5px;
-}
-#steps-wizard .form-group {
-    margin-bottom: 0px !important;
-}
-.children_tags {
-    margin-left: 50px;
-}
-.edit.edit-product #_easyadmin_form_design_element_13 h4,
-.edit.edit-product #_easyadmin_form_design_element_13 .form-group{
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-}
-.col-sm-10 {
-    margin-left: 22px;
 }

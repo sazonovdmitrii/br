@@ -225,7 +225,7 @@ class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                     ->beforeNormalization()
                         ->always(function ($v) {
-                            if (true === $v['enabled']) {
+                            if (\is_array($v) && true === $v['enabled']) {
                                 $workflows = $v;
                                 unset($workflows['enabled']);
 
@@ -339,10 +339,7 @@ class Configuration implements ConfigurationInterface
                                         ->defaultNull()
                                     ->end()
                                     ->arrayNode('initial_marking')
-                                        ->beforeNormalization()
-                                            ->ifTrue(function ($v) { return !\is_array($v); })
-                                            ->then(function ($v) { return [$v]; })
-                                        ->end()
+                                        ->beforeNormalization()->castToArray()->end()
                                         ->defaultValue([])
                                         ->prototype('scalar')->end()
                                     ->end()
@@ -605,6 +602,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('templating')
                     ->info('templating configuration')
                     ->canBeEnabled()
+                    ->setDeprecated('The "%path%.%node%" configuration is deprecated since Symfony 4.3. Configure the "twig" section provided by the Twig Bundle instead.')
                     ->beforeNormalization()
                         ->ifTrue(function ($v) { return false === $v || \is_array($v) && false === $v['enabled']; })
                         ->then(function () { return ['enabled' => false, 'engines' => false]; })
@@ -1057,7 +1055,11 @@ class Configuration implements ConfigurationInterface
                         ->ifString()->then(function ($v) { return ['enabled' => true, 'resources' => $v]; })
                     ->end()
                     ->beforeNormalization()
-                        ->ifTrue(function ($v) { return \is_array($v) && !isset($v['resources']); })
+                        ->ifTrue(function ($v) { return \is_array($v) && !isset($v['enabled']); })
+                        ->then(function ($v) { return $v + ['enabled' => true]; })
+                    ->end()
+                    ->beforeNormalization()
+                        ->ifTrue(function ($v) { return \is_array($v) && !isset($v['resources']) && !isset($v['resource']); })
                         ->then(function ($v) {
                             $e = $v['enabled'];
                             unset($v['enabled']);
@@ -1076,7 +1078,19 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->beforeNormalization()
                                 ->ifTrue(function ($v) { return \is_array($v) && array_keys($v) === range(0, \count($v) - 1); })
-                                ->then(function ($v) { return ['default' => $v]; })
+                                ->then(function ($v) {
+                                    $resources = [];
+                                    foreach ($v as $resource) {
+                                        $resources = array_merge_recursive(
+                                            $resources,
+                                            \is_array($resource) && isset($resource['name'])
+                                                ? [$resource['name'] => $resource['value']]
+                                                : ['default' => $resource]
+                                        );
+                                    }
+
+                                    return $resources;
+                                })
                             ->end()
                             ->prototype('array')
                                 ->beforeNormalization()->ifString()->then(function ($v) { return [$v]; })->end()
@@ -1116,6 +1130,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->children()
                         ->arrayNode('routing')
+                            ->normalizeKeys(false)
                             ->useAttributeAsKey('message_class')
                             ->beforeNormalization()
                                 ->always()
@@ -1175,6 +1190,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                         ->arrayNode('transports')
+                            ->normalizeKeys(false)
                             ->useAttributeAsKey('name')
                             ->arrayPrototype()
                                 ->beforeNormalization()
@@ -1195,9 +1211,14 @@ class Configuration implements ConfigurationInterface
                                     ->end()
                                     ->arrayNode('retry_strategy')
                                         ->addDefaultsIfNotSet()
-                                        ->validate()
-                                            ->ifTrue(function ($v) { return null !== $v['service'] && (isset($v['max_retries']) || isset($v['delay']) || isset($v['multiplier']) || isset($v['max_delay'])); })
-                                            ->thenInvalid('"service" cannot be used along with the other retry_strategy options.')
+                                        ->beforeNormalization()
+                                            ->always(function ($v) {
+                                                if (isset($v['service']) && (isset($v['max_retries']) || isset($v['delay']) || isset($v['multiplier']) || isset($v['max_delay']))) {
+                                                    throw new \InvalidArgumentException('The "service" cannot be used along with the other "retry_strategy" options.');
+                                                }
+
+                                                return $v;
+                                            })
                                         ->end()
                                         ->children()
                                             ->scalarNode('service')->defaultNull()->info('Service id to override the retry strategy entirely')->end()
@@ -1217,6 +1238,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('default_bus')->defaultNull()->end()
                         ->arrayNode('buses')
                             ->defaultValue(['messenger.bus.default' => ['default_middleware' => true, 'middleware' => []]])
+                            ->normalizeKeys(false)
                             ->useAttributeAsKey('name')
                             ->arrayPrototype()
                                 ->addDefaultsIfNotSet()
@@ -1336,7 +1358,7 @@ class Configuration implements ConfigurationInterface
                                     ->info('A comma separated list of hosts that do not require a proxy to be reached.')
                                 ->end()
                                 ->floatNode('timeout')
-                                    ->info('Defaults to "default_socket_timeout" ini parameter.')
+                                    ->info('The idle timeout, defaults to the "default_socket_timeout" ini parameter.')
                                 ->end()
                                 ->scalarNode('bindto')
                                     ->info('A network interface name, IP address, a host name or a UNIX socket to bind to.')
@@ -1469,7 +1491,7 @@ class Configuration implements ConfigurationInterface
                                         ->info('A comma separated list of hosts that do not require a proxy to be reached.')
                                     ->end()
                                     ->floatNode('timeout')
-                                        ->info('Defaults to "default_socket_timeout" ini parameter.')
+                                        ->info('The idle timeout, defaults to the "default_socket_timeout" ini parameter.')
                                     ->end()
                                     ->scalarNode('bindto')
                                         ->info('A network interface name, IP address, a host name or a UNIX socket to bind to.')

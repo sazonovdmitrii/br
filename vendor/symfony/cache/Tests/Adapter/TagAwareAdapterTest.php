@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Cache\Tests\Adapter;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Cache\CacheItemInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
@@ -28,7 +30,7 @@ class TagAwareAdapterTest extends AdapterTestCase
         return new TagAwareAdapter(new FilesystemAdapter('', $defaultLifetime));
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         FilesystemAdapterTest::rmdir(sys_get_temp_dir().'/symfony-cache');
     }
@@ -64,8 +66,41 @@ class TagAwareAdapterTest extends AdapterTestCase
         $this->assertFalse($cache->prune());
     }
 
+    public function testKnownTagVersionsTtl()
+    {
+        $itemsPool = new FilesystemAdapter('', 10);
+        $tagsPool = $this
+            ->getMockBuilder(AdapterInterface::class)
+            ->getMock();
+
+        $pool = new TagAwareAdapter($itemsPool, $tagsPool, 10);
+
+        $item = $pool->getItem('foo');
+        $item->tag(['baz']);
+        $item->expiresAfter(100);
+
+        $tag = $this->getMockBuilder(CacheItemInterface::class)->getMock();
+        $tag->expects(self::exactly(2))->method('get')->willReturn(10);
+
+        $tagsPool->expects(self::exactly(2))->method('getItems')->willReturn([
+            'baz'.TagAwareAdapter::TAGS_PREFIX => $tag,
+        ]);
+
+        $pool->save($item);
+        $this->assertTrue($pool->getItem('foo')->isHit());
+        $this->assertTrue($pool->getItem('foo')->isHit());
+
+        sleep(20);
+
+        $this->assertTrue($pool->getItem('foo')->isHit());
+
+        sleep(5);
+
+        $this->assertTrue($pool->getItem('foo')->isHit());
+    }
+
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|PruneableCacheInterface
+     * @return MockObject|PruneableCacheInterface
      */
     private function getPruneableMock()
     {
@@ -82,7 +117,7 @@ class TagAwareAdapterTest extends AdapterTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|PruneableCacheInterface
+     * @return MockObject|PruneableCacheInterface
      */
     private function getFailingPruneableMock()
     {
@@ -99,7 +134,7 @@ class TagAwareAdapterTest extends AdapterTestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|AdapterInterface
+     * @return MockObject|AdapterInterface
      */
     private function getNonPruneableMock()
     {
