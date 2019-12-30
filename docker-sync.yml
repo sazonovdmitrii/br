@@ -10,6 +10,7 @@ syncs:
     sync_host_port: 10871
     sync_excludes:
       - '.git'
+      - 'db'
       - 'composer.lock'
       - 'vendor/bin/doctrine'
       - 'vendor/bin/doctrine-dbal'
