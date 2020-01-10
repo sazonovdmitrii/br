@@ -14,3 +14,4 @@ twig:
         json: '@App\Service\Twig\Json'
         lenses: '@App\Service\Twig\Lenses'
         landings: '@App\Service\Twig\Landings'
+        blocks: '@App\Service\Twig\Blocks'

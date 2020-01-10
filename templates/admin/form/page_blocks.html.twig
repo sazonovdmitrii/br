@@ -1,4 +1,29 @@
 {% block _landingpage_page_blocks_widget %}
     {% set entity = form.parent.vars.data %}
 
+    {% set blocks_ids = [] %}
+    {% for block in entity.blocks %}
+        {% set blocks_ids = blocks_ids|merge([block.id]) %}
+    {% endfor %}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Наименование</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for block in blocks.getAll() %}
+            <tr>
+                <td scope="row">
+                    <input type="checkbox" name="product[blocks][]" value="{{ block.id }}" {% if block.id in blocks_ids %} checked {% endif %}/>
+                </td>
+                <td>{{ block.name }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
 {% endblock %}
