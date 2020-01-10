@@ -40,7 +40,7 @@ const getConfig = target => {
             path: PATHS[target],
             filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
             chunkFilename: isProd ? '[name].[contenthash:8].chunk.js' : '[name].chunk.js',
-            publicPath: `/static/`,
+            publicPath: '/static/',
             libraryTarget: target === 'node' ? 'commonjs2' : undefined,
         },
         optimization: !isNode

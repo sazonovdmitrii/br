@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
 
-import { SeoHead } from 'utils';
 import { useLangLinks } from 'hooks';
 
+import SeoHead from 'components/SeoHead';
 import Button from 'components/Button';
 import Colors from 'components/Colors';
 import Container from 'components/Container';

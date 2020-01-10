@@ -25,10 +25,10 @@ const _benefits = [
 
 const Benefits = () => {
     return (
-        <div class="u-grid">
-            <div class={styles.row}>
+        <div>
+            <div className={styles.row}>
                 {_benefits.map(({ title, text, image, imageRetina }, index) => (
-                    <div key={index} class={styles.col}>
+                    <div key={index} className={styles.col}>
                         <Benefit title={title} text={text} image={image} imageRetina={imageRetina} />
                     </div>
                 ))}

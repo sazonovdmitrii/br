@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
-import { SeoHead } from 'utils';
-
+import SeoHead from 'components/SeoHead';
 import Container from 'components/Container';
 import Hero from 'components/Hero';
 import Link from 'components/Link';

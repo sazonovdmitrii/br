@@ -59,12 +59,10 @@ const App = ({ lang }) => {
             <Header lang={lang} />
             <Switch>
                 {routes({ lang, defaultLang }).map(([Component, props], index) => {
-                    const ComponentWithError = withErrorBoundary(Component);
-
                     return (
                         // eslint-disable-next-line react/jsx-props-no-spreading
                         <Route key={index} {...props}>
-                            <ComponentWithError lang={lang} />
+                            <Component lang={lang} />
                         </Route>
                     );
                 })}

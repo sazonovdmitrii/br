@@ -5,8 +5,8 @@
 @custom-media --viewport-wide (width >= 1200px);
 
 :root {
-    --font-sans-serif: proxima-nova, helvetica, verdana, sans-serif;
-    --font-serif: literata, charter, georgia, serif;
+    --font-sans-serif: proxima-nova, Helvetica, Verdana, sans-serif;
+    --font-serif: Literata, Charter, Georgia, serif;
     --font-size-base: 16px;
 
     --font-weight-bold: 600;

@@ -37,31 +37,28 @@ const INITIAL_RECIPE = SIDES.reduce(
 
 const getLensesByValues = ({ lenses = [], values = [] }) => {
     const allIdsOfValues = values.map(({ id }) => id);
-    const filteredLenses = lenses.filter(({ lenseitemstags }) => {
+    return lenses.filter(({ lenseitemstags }) => {
         const filteredTags = lenseitemstags.filter(({ id }) => allIdsOfValues.indexOf(id) >= 0);
 
         return filteredTags.length === values.length;
     });
-
-    return filteredLenses;
 };
 
 const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
     const options = lenses.reduce((obj, { lenseitemstags, price }) => {
         const { id, visible, ...rest } = lenseitemstags.find(({ entity }) => entity.name === step) || {};
 
-        if (!visible) return obj;
+        if (visible) {
+            const currentOption = obj[id];
+            const prices = currentOption ? currentOption.prices : [];
 
-        const currentOption = obj[id];
-        const prices = currentOption ? currentOption.prices : [];
-
-        return {
-            ...obj,
-            [id]: {
+            obj[id] = {
                 ...rest,
                 prices: [...prices, parseInt(price, 10)],
-            },
-        };
+            };
+        }
+
+        return obj;
     }, {});
     const optionsWithMinPrice = Object.entries(options)
         .map(([id, { name, prices, description }]) => {

@@ -118,7 +118,6 @@
         "react-content-loader": "^4.3.3",
         "react-dom": "^16.12.0",
         "react-feather": "^2.0.3",
-        "react-ga": "^2.7.0",
         "react-helmet": "^5.2.1",
         "react-hot-loader": "^4.12.18",
         "react-imask": "^5.2.1",
