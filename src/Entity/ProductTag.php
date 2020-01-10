@@ -12,6 +12,10 @@ use Knp\DoctrineBehaviors\Model as ORMBehaviors;
  */
 class ProductTag
 {
+    const VISIBLE_YES = 'Yes';
+
+    const VISIBLE_NO = 'No';
+
     use ORMBehaviors\Translatable\Translatable;
 
     /**
