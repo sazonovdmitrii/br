@@ -17,11 +17,19 @@ class EnvService extends AbstractController
         return '';
     }
 
-    public function getBasePath()
+    public function getBasePath($dir = '')
     {
         if ($projectDir = $this->getParameter('kernel.project_dir')) {
+            if($dir)
+                $projectDir .= '/' . $dir;
             return $projectDir;
         }
     }
 
+    public function getDomain()
+    {
+        if (isset($_ENV) && isset($_ENV['DOMAIN'])) {
+            return $_ENV['DOMAIN'];
+        }
+    }
 }

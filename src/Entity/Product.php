@@ -85,6 +85,11 @@ class Product
      */
     private $lenses;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $gtin;
+
     public function __construct()
     {
         $this->catalog = new ArrayCollection();
@@ -395,6 +400,55 @@ class Product
         if ($this->lenses->contains($lense)) {
             $this->lenses->removeElement($lense);
         }
+
+        return $this;
+    }
+
+    public function getTag(int $id)
+    {
+        return $this->getProducttagitem()->filter(function (ProductTagItem $productTagItem) use ($id) {
+            return $productTagItem->getEntityId()->getId() == $id;
+        }
+        )->first();
+    }
+
+    public function getTagValue(int $id)
+    {
+        if($tag = $this->getTag($id)) {
+            return $tag->getName();
+        }
+        return '';
+    }
+
+    public function getMainImage()
+    {
+        if($items = $this->getProductItems())
+            if($items->count() && $images = $items->first()->getProductItemImages())
+                return $images->first()->getPath();
+    }
+
+    public function getMainPrice()
+    {
+        if($items = $this->getProductItems())
+            if($items->count())
+                return $items->first()->getPrice();
+    }
+
+    public function getMainLink()
+    {
+        if($urls = $this->getProductUrls())
+            if($urls->count())
+                return $urls->first()->getUrl();
+    }
+
+    public function getGtin(): ?string
+    {
+        return $this->gtin;
+    }
+
+    public function setGtin(?string $gtin): self
+    {
+        $this->gtin = $gtin;
 
         return $this;
     }

@@ -114,6 +114,38 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+                                aria-expanded="true"
+                                aria-controls="collapseOne">
+                            Google Merchant
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="tag_gm">Тег Google Merchant Category</label>
+                            <select class="form-control" name="tag_gm">
+                                {% for tag in tags %}
+                                    <option value="{{ tag.id }}" {{ list.tag_gm is defined and list.tag_gm == tag.id ? 'selected' : '' }}>{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="profit">Описание фида</label>
+                            <input type="text" class="form-control" name="gm_description" id="gm_description" value="{{ list.gm_description is defined ? list.gm_description : '' }}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="profit">Наименование фида</label>
+                            <input type="text" class="form-control" name="gm_name" id="gm_name" value="{{ list.gm_name is defined ? list.gm_name : '' }}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Сохранить</button>
         </div>
     </form>
