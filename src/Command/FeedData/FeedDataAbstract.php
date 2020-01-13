@@ -64,7 +64,7 @@ class FeedDataAbstract
         $this->data = [
             'id' => $this->getProduct()->getId(),
             'title' => $this->getProduct()->getName(),
-            'description' => $this->getProduct()->getDescription(),
+            'description' => strip_tags($this->getProduct()->getDescription()),
             'image' => $this->getProduct()->getMainImage(),
             'availability' => Availability::IN_STOCK,
             'price' => $this->getProduct()->getMainPrice(),
