@@ -437,11 +437,12 @@ const Basket = ({
                     theme={{ ...theme, body: styles.firstStepBody }}
                 >
                     <div className={styles.products}>
-                        {products.map(({ name, item, lenses: { lenses } = {}, price, url }) => (
+                        {products.map(({ name, item, lenses: { lenses, recipes } = {}, price, url }) => (
                             <BasketProduct
                                 key={item.id}
                                 images={item.images[0]}
                                 name={name}
+                                recipes={recipes}
                                 options={lenses ? lenses.options : []}
                                 subName={item.name}
                                 price={

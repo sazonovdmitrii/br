@@ -11,9 +11,8 @@ import { ApolloProvider } from '@apollo/react-common';
 import { createBrowserHistory } from 'history';
 import { loadableReady } from '@loadable/component';
 import hardtack from 'hardtack';
-import nanoid from 'nanoid';
 
-import { isProd } from 'utils';
+import { isProd, createSession } from 'utils';
 import { useApp } from 'hooks';
 import { AppProvider } from 'AppContext';
 
@@ -45,22 +44,11 @@ const RootApp = () => {
         </ApolloProvider>
     );
 };
+
 const init = () => {
     const root = document.querySelector('#root');
     const token = hardtack.get('token');
-    let session = hardtack.get('session_key');
-
-    if (!session) {
-        const date = new Date();
-        const currentYear = date.getFullYear();
-        session = nanoid();
-
-        date.setFullYear(currentYear + 1);
-        hardtack.set('session_key', session, {
-            path: '/',
-            expires: date.toUTCString(),
-        });
-    }
+    const session = createSession();
     const client = createClient({ session, token });
 
     const app = (

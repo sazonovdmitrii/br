@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { SeoHead } from 'utils';
 import { useFormatMessage } from 'hooks';
 
+import SeoHead from 'components/SeoHead';
 import Products from 'components/Products';
 import Hero from 'components/Hero';
 import Container from 'components/Container';

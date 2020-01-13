@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { SeoHead, createMarkup } from 'utils';
+import { createMarkup } from 'utils';
 
+import SeoHead from 'components/SeoHead';
 import Title from 'components/Title';
 
 import styles from './styles.css';
