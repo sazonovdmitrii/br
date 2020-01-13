@@ -6,12 +6,13 @@ import { X as RemoveIcon, ChevronDown as ChevronDownIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
 
 import Button from 'components/Button';
+import RecipeTable from 'components/RecipeTable';
 
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const BasketProduct = ({ url, name, subName, images, price, options, onRemove }) => {
+const BasketProduct = ({ url, name, subName, images, price, options, recipes, onRemove }) => {
     const [expanded, setExpanded] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const rootClassName = cx(styles.root);
@@ -41,6 +42,7 @@ const BasketProduct = ({ url, name, subName, images, price, options, onRemove })
                         />
                     </picture>
                 </Link>
+                {recipes && <RecipeTable recipe={recipes} />}
             </div>
             <div className={styles.info}>
                 <h4 className={styles.name}>
@@ -117,9 +119,11 @@ BasketProduct.defaultProps = {
     onRemove: null,
     url: null,
     images: {},
+    recipes: null,
 };
 
 BasketProduct.propTypes = {
+    recipes: PropTypes.objectOf(PropTypes.array),
     images: PropTypes.objectOf(PropTypes.string),
     url: PropTypes.string,
     subName: PropTypes.string,

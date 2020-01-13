@@ -17,6 +17,7 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import Select from 'components/Select';
 import InputGroup from 'components/InputGroup';
+import RecipeTable from 'components/RecipeTable';
 
 import styles from './styles.css';
 
@@ -266,9 +267,10 @@ const ChooseLenses = ({
     const isFirstStep = currentStep === firstStep;
 
     const StepView = () => {
+        const { recipes } = choosenLenses;
+
         switch (currentStep) {
             case RECIPE_STEP: {
-                const { recipes } = choosenLenses;
                 const recipeItems = recipes
                     .map(({ id, name, range_from: rangeFrom, range_to: rangeTo, step }) => {
                         if (id === PUPIL_DISTANCE_ID) return null;
@@ -340,6 +342,25 @@ const ChooseLenses = ({
                 );
             }
             case FINAL_STEP: {
+                const recipeList = Object.entries(recipe).reduce((obj, [key, value]) => {
+                    if (/(left|right)/.test(key)) {
+                        const bar = Object.entries(value).map(([id, value]) => {
+                            const { name } = recipes.find(recipe => recipe.id === parseInt(id, 10)) || {};
+
+                            return { name, id: parseInt(id, 10), value };
+                        });
+
+                        return {
+                            ...obj,
+                            [key]: bar,
+                        };
+                    }
+
+                    const { name } = recipes.find(recipe => recipe.id === parseInt(key, 10)) || {};
+
+                    return { ...obj, [key]: { name, value } };
+                }, {});
+
                 return (
                     <>
                         <div className={styles.heading}>
@@ -374,6 +395,7 @@ const ChooseLenses = ({
                                     )}
                                 </div>
                             ))}
+                            <RecipeTable recipe={recipeList} />
                         </div>
                         <div className={styles.reviewActions}>
                             <Button kind="primary" size="large" onClick={handleAddToCart} bold fullWidth>
