@@ -20,6 +20,7 @@ import InputGroup from 'components/InputGroup';
 
 import styles from './styles.css';
 
+const PUPIL_DISTANCE_ID = 11;
 const RECIPE_STEP = 'Recipe';
 const FINAL_STEP = 'Review';
 
@@ -34,6 +35,16 @@ const INITIAL_RECIPE = SIDES.reduce(
     }),
     {}
 );
+
+const getRecipeItems = ({ rangeFrom, rangeTo, step }) => {
+    const items = [];
+
+    for (let i = rangeFrom; i <= rangeTo; i += step) {
+        items.push(i.toString());
+    }
+
+    return items;
+};
 
 const getLensesByValues = ({ lenses = [], values = [] }) => {
     const allIdsOfValues = values.map(({ id }) => id);
@@ -190,7 +201,19 @@ const ChooseLenses = ({
     };
 
     const handleChangeSelect = ({ id, value, side }) => {
-        setRecipe(prevRecipe => ({ ...prevRecipe, [side]: { ...prevRecipe[side], [id]: value } }));
+        setRecipe(prevRecipe => ({
+            ...prevRecipe,
+            ...(side
+                ? {
+                      [side]: {
+                          ...prevRecipe[side],
+                          [id]: value,
+                      },
+                  }
+                : {
+                      [id]: value,
+                  }),
+        }));
     };
 
     const handlePrevStep = () => {
@@ -246,17 +269,23 @@ const ChooseLenses = ({
         switch (currentStep) {
             case RECIPE_STEP: {
                 const { recipes } = choosenLenses;
-                const recipeItems = recipes.map(
-                    ({ id, name, range_from: rangeFrom, range_to: rangeTo, step }) => {
-                        const items = [];
+                const recipeItems = recipes
+                    .map(({ id, name, range_from: rangeFrom, range_to: rangeTo, step }) => {
+                        if (id === PUPIL_DISTANCE_ID) return null;
 
-                        for (let i = rangeFrom; i <= rangeTo; i += step) {
-                            items.push(i.toString());
-                        }
+                        const items = getRecipeItems({ rangeFrom, rangeTo, step });
 
                         return { id, name, items };
-                    }
-                );
+                    })
+                    .filter(Boolean);
+                const getRecipeById = searchId => {
+                    const { id, name, range_from: rangeFrom, range_to: rangeTo, step } =
+                        recipes.find(({ id }) => id === searchId) || {};
+                    const items = getRecipeItems({ rangeFrom, rangeTo, step });
+
+                    return { id, name, items };
+                };
+                const pupilDistance = getRecipeById(PUPIL_DISTANCE_ID);
 
                 return (
                     <>
@@ -269,6 +298,20 @@ const ChooseLenses = ({
                             </Title>
                         </div>
                         <div className={styles.stepInner}>
+                            <InputGroup>
+                                <Select
+                                    label={pupilDistance.name}
+                                    name={pupilDistance.id}
+                                    items={pupilDistance.items}
+                                    value={recipe[pupilDistance.id]}
+                                    onChange={value =>
+                                        handleChangeSelect({
+                                            value,
+                                            id: pupilDistance.id,
+                                        })
+                                    }
+                                />
+                            </InputGroup>
                             {SIDES.map(side => (
                                 <div key={side}>
                                     <Title className={styles.recipeTitle}>
