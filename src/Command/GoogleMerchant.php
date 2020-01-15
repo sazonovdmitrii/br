@@ -80,7 +80,7 @@ class GoogleMerchant extends Command
         if($this->productData) {
             return $this->productData;
         }
-        $feedFactory = new FeedFactory($this->getType(), $this->configService);
+        $feedFactory = new FeedFactory($this->getType(), $this->configService, $this->envService);
 
         $this->setProductData($feedFactory->getDataProvider()
             ->setProduct($this->product)
