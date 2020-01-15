@@ -1,11 +1,9 @@
 .root {
     margin: 0 18px;
-    padding: 0 6px 60px;
+    padding-bottom: 60px;
 
     @media (--viewport-tablet) {
         margin: 0 32px;
-        padding-right: 76px;
-        padding-left: 76px;
     }
 
     @media (--viewport-desktop) {

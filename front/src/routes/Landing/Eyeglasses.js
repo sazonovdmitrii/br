@@ -11,6 +11,7 @@ import Button from 'components/Button';
 // import VideoSection from 'components/VideoSection';
 import HomeTry from 'components/HomeTry';
 import Lenses from 'components/Lenses';
+import HeroLanding from 'components/HeroLanding';
 
 import styles from './styles.css';
 import heroImage from './images/eyeglasses-hero.jpg';
@@ -23,29 +24,21 @@ const Landing = () => {
 
     return (
         <Container>
-            <div className={styles.hero}>
-                <div className={styles.heroImageWrapper}>
-                    <picture className={styles.heroImage}>
-                        <img src={heroImage} alt="" />
-                    </picture>
-                </div>
-                <div className={styles.heroBody}>
-                    <h1 className={styles.heroTitle}>
-                        <FormattedMessage id="p_eyeglasses_hero_title" />
-                    </h1>
-                    <p className={styles.heroText}>
-                        <FormattedMessage id="p_eyeglasses_hero_text" />
-                    </p>
-                    <div className={styles.heroActions} role="group" aria-label="Button Group">
+            <HeroLanding
+                title={<FormattedMessage id="p_eyeglasses_hero_title" />}
+                text={<FormattedMessage id="p_eyeglasses_hero_text" />}
+                image={{ source: heroImage }}
+                actions={
+                    <>
                         <Button to={manUrl} kind="simple" bold>
                             <FormattedMessage id="p_eyeglasses_button_men" />
                         </Button>
                         <Button to={womanUrl} kind="simple" bold>
                             <FormattedMessage id="p_eyeglasses_button_women" />
                         </Button>
-                    </div>
-                </div>
-            </div>
+                    </>
+                }
+            />
             <section>
                 <HomeTry
                     image={<img src={homeTryImage} alt="" />}

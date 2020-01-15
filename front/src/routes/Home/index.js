@@ -3,13 +3,14 @@ import { FormattedMessage } from 'react-intl';
 
 import { useLangLinks } from 'hooks';
 
-import HeroHome from 'components/HeroHome';
 import Button from 'components/Button';
 import CollectionSection from 'components/CollectionSection';
 import Container from 'components/Container';
+import HeroLanding from 'components/HeroLanding';
 
 import styles from './styles.css';
 import bgImage from './images/bg.jpg';
+import bgImageRetina from './images/bg@2x.jpg';
 
 import menSunglassesImg from './images/men-sunglasses.jpg';
 import womenSunglassesImg from './images/women-sunglasses.jpg';
@@ -26,25 +27,30 @@ export default () => {
 
     return (
         <>
-            <HeroHome
-                title={<FormattedMessage id="p_home_hero_title" values={{ br: <br /> }} />}
-                image={bgImage}
-                actions={
-                    <>
-                        <Button to={menEyeglassesUrl} kind="primary" size="small" bold outlined rounded>
-                            <FormattedMessage id="p_home_hero_button_men" />
-                        </Button>
-                        <Button to={womenEyeglassesUrl} kind="primary" size="small" bold outlined rounded>
-                            <FormattedMessage id="p_home_hero_button_women" />
-                        </Button>
-                    </>
-                }
-            />
+            <Container>
+                <HeroLanding
+                    title={<FormattedMessage id="p_home_hero_title" values={{ br: <br /> }} />}
+                    text={<FormattedMessage id="p_eyeglasses_hero_text" />}
+                    image={{ source: bgImage, retina: bgImageRetina }}
+                    actions={
+                        <>
+                            <Button to={menEyeglassesUrl} kind="primary" size="small" bold outlined rounded>
+                                <FormattedMessage id="shop_men" />
+                            </Button>
+                            <Button to={womenEyeglassesUrl} kind="primary" size="small" bold outlined rounded>
+                                <FormattedMessage id="shop_women" />
+                            </Button>
+                        </>
+                    }
+                />
+            </Container>
             <div className={styles.main}>
-                <div className={styles.mainText}>
-                    <FormattedMessage id="p_home_text" values={{ space: <>&nbsp;</> }} />
-                </div>
-                <CollectionSection />
+                <Container>
+                    <div className={styles.mainText}>
+                        <FormattedMessage id="p_home_text" values={{ space: <>&nbsp;</> }} />
+                    </div>
+                    <CollectionSection />
+                </Container>
             </div>
             <Container>
                 <div className={styles.section}>

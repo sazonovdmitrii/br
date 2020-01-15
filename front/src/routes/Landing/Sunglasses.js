@@ -10,6 +10,7 @@ import Button from 'components/Button';
 // import VideoSection from 'components/VideoSection';
 import HomeTry from 'components/HomeTry';
 import Lenses from 'components/Lenses';
+import HeroLanding from 'components/HeroLanding';
 
 import styles from './styles.css';
 import heroImage from './images/sunglasses-hero.jpg';
@@ -26,29 +27,21 @@ const Landing = () => {
 
     return (
         <Container>
-            <div className={styles.hero}>
-                <div className={styles.heroImageWrapper}>
-                    <picture className={styles.heroImage}>
-                        <img src={heroImage} alt="" />
-                    </picture>
-                </div>
-                <div className={styles.heroBody}>
-                    <h1 className={styles.heroTitle}>
-                        <FormattedMessage id="sunglasses" />
-                    </h1>
-                    <p className={styles.heroText}>
-                        <FormattedMessage id="p_sunglasses_text" />
-                    </p>
-                    <div className={styles.heroActions}>
+            <HeroLanding
+                title={<FormattedMessage id="sunglasses" />}
+                text={<FormattedMessage id="p_sunglasses_text" />}
+                image={{ source: heroImage }}
+                actions={
+                    <>
                         <Button to={manUrl} kind="simple" bold>
                             <FormattedMessage id="shop_men" />
                         </Button>
                         <Button to={womanUrl} kind="simple" bold>
                             <FormattedMessage id="shop_women" />
                         </Button>
-                    </div>
-                </div>
-            </div>
+                    </>
+                }
+            />
             <section>
                 <HomeTry
                     image={<img src={homeTryImage} alt="" />}
