@@ -30,7 +30,6 @@ export default () => {
             <Container>
                 <HeroLanding
                     title={<FormattedMessage id="p_home_hero_title" values={{ br: <br /> }} />}
-                    text={<FormattedMessage id="p_eyeglasses_hero_text" />}
                     image={{ source: bgImage, retina: bgImageRetina }}
                     actions={
                         <>
