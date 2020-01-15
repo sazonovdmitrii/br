@@ -26,10 +26,10 @@ class EnvService extends AbstractController
         }
     }
 
-    public function getDomain()
+    public function getDomain($suffix = '')
     {
         if (isset($_ENV) && isset($_ENV['DOMAIN'])) {
-            return $_ENV['DOMAIN'];
+            return $_ENV['DOMAIN'] . $suffix;
         }
     }
 }
