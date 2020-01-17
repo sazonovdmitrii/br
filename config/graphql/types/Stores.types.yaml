@@ -34,6 +34,9 @@ Store:
       storeUrls:
         type: "[StoreUrl]"
         description: "Store Url"
+      check_vision:
+        type: "Boolean"
+        description: "Check Vision param"
 StoreUrl:
   type: object
   config:
