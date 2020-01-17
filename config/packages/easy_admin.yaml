@@ -78,6 +78,28 @@ easy_admin:
                   - { property: 'catalogUrls', type_options: { block_name: 'catalog_urls' }}
                   - { type: 'tab', label: 'Теги' }
                   - { property: 'productTagItems', type_options: { block_name: 'catalogs_tags' }}
+        ProductCollection:
+            class: App\Entity\ProductCollection
+            label: 'Коллекции'
+            list:
+                title: 'Коллекции'
+                fields: ['id', 'name']
+            form:
+              fields:
+                  - { type: 'tab' , label: 'Мультиязычный контент' }
+                  - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                      type_options: {
+                          default_locale: '%locale%',
+                          fields: {
+                              name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                              description: {field_type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
+                          }
+                      }
+                    }
+                  - { type: 'tab', label: 'Urls' }
+                  - { property: 'urls' }
+                  - { type: 'tab', label: 'Продукты' }
+                  - { property: 'products'}
         Items:
             class: App\Entity\ProductItem
             label: 'Товары'
@@ -553,7 +575,7 @@ easy_admin:
           - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']
           - label: 'Каталоги'
-            children: ['Catalog', 'Product', 'Items', 'ProductTag','ProductItemTag','Lense','LenseTag','LenseTagItem']
+            children: ['Catalog', 'Product', 'Items', 'ProductTag', 'ProductItemTag', 'Lense', 'LenseTag', 'LenseTagItem', 'ProductCollection']
           - Users
           - label: 'Меню'
             children: ['Menu', 'MenuItem']

@@ -90,6 +90,11 @@ class Product
      */
     private $gtin;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ProductCollection", mappedBy="products")
+     */
+    private $productCollections;
+
     public function __construct()
     {
         $this->catalog = new ArrayCollection();
@@ -102,6 +107,7 @@ class Product
         $this->updated = new \DateTime();
         $this->productItems = new ArrayCollection();
         $this->lenses = new ArrayCollection();
+        $this->productCollections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -449,6 +455,34 @@ class Product
     public function setGtin(?string $gtin): self
     {
         $this->gtin = $gtin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductCollection[]
+     */
+    public function getProductCollections(): Collection
+    {
+        return $this->productCollections;
+    }
+
+    public function addProductCollection(ProductCollection $productCollection): self
+    {
+        if (!$this->productCollections->contains($productCollection)) {
+            $this->productCollections[] = $productCollection;
+            $productCollection->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductCollection(ProductCollection $productCollection): self
+    {
+        if ($this->productCollections->contains($productCollection)) {
+            $this->productCollections->removeElement($productCollection);
+            $productCollection->removeProduct($this);
+        }
 
         return $this;
     }

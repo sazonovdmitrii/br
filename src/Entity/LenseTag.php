@@ -55,6 +55,8 @@ class LenseTag
      */
     private $step;
 
+    private $input_type;
+
     public function __construct()
     {
         $this->lenseItemTags = new ArrayCollection();
@@ -180,6 +182,24 @@ class LenseTag
     {
         $this->step = $step;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInputType()
+    {
+        return $this->input_type;
+    }
+
+    /**
+     * @param $input_type
+     * @return $this
+     */
+    public function setInputType($input_type)
+    {
+        $this->input_type = $input_type;
         return $this;
     }
 }
