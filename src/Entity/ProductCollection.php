@@ -5,28 +5,20 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductCollectionRepository")
  */
 class ProductCollection
 {
+    use ORMBehaviors\Translatable\Translatable;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -39,14 +31,14 @@ class ProductCollection
     private $updated;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductCollectionUrl", mappedBy="productCollection")
-     */
-    private $urls;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Product", inversedBy="productCollections")
      */
     private $products;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ProductCollectionUrl", inversedBy="productCollections")
+     */
+    private $urls;
 
     public function __construct()
     {
@@ -57,30 +49,6 @@ class ProductCollection
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     public function getCreated(): ?\DateTimeInterface
@@ -106,25 +74,7 @@ class ProductCollection
 
         return $this;
     }
-
-    /**
-     * @return Collection|ProductCollectionUrl[]
-     */
-    public function getUrls(): Collection
-    {
-        return $this->urls;
-    }
-
-    public function addUrl(ProductCollectionUrl $url): self
-    {
-        if (!$this->urls->contains($url)) {
-            $this->urls[] = $url;
-            $url->setProductCollection($this);
-        }
-
-        return $this;
-    }
-
+    
     public function removeUrl(ProductCollectionUrl $url): self
     {
         if ($this->urls->contains($url)) {
@@ -159,6 +109,37 @@ class ProductCollection
     {
         if ($this->products->contains($product)) {
             $this->products->removeElement($product);
+        }
+
+        return $this;
+    }
+
+    public function __call($method, $arguments)
+    {
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function __get($name)
+    {
+        $method = 'get'. ucfirst($name);
+        $arguments = [];
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    /**
+     * @return Collection|ProductCollectionUrl[]
+     */
+    public function getUrls(): Collection
+    {
+        return $this->urls;
+    }
+
+    public function addUrl(ProductCollectionUrl $url): self
+    {
+        if (!$this->urls->contains($url)) {
+            $this->urls[] = $url;
         }
 
         return $this;

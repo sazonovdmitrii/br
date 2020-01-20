@@ -73,15 +73,4 @@ class ProductService extends AbstractController
         $this->entityManager->persist($product);
         $this->entityManager->flush();
     }
-
-    public function updateProductUrls(array $urlsIds)
-    {
-        $product = $this->getProduct();
-        foreach($urlsIds as $urlsId) {
-            $catalogUrl = $this->productUrlRepository->find($urlsId);
-            $product->addProductUrl($catalogUrl);
-        }
-        $this->entityManager->persist($product);
-        $this->entityManager->flush();
-    }
 }

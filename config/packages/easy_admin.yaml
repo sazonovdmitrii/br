@@ -96,8 +96,8 @@ easy_admin:
                           }
                       }
                     }
-                  - { type: 'tab', label: 'Urls' }
-                  - { property: 'urls' }
+                  - { type: 'tab', label: 'Адреса' }
+                  - { property: 'urls', type_options: {block_name: 'productcollection_urls'}}
                   - { type: 'tab', label: 'Продукты' }
                   - { property: 'products'}
         Items:
@@ -571,6 +571,7 @@ easy_admin:
             - 'admin/form/product_lenses.html.twig'
             - 'admin/form/page_blocks.html.twig'
             - 'admin/form/landing_blocks.html.twig'
+            - 'admin/form/productcollection_urls.html.twig'
         menu:
           - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']

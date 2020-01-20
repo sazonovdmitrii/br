@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,9 +29,14 @@ class ProductCollectionUrl
     private $created;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ProductCollection", inversedBy="urls")
+     * @ORM\ManyToMany(targetEntity="App\Entity\ProductCollection", mappedBy="urls")
      */
-    private $productCollection;
+    private $productCollections;
+
+    public function __construct()
+    {
+        $this->productCollections = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,14 +67,35 @@ class ProductCollectionUrl
         return $this;
     }
 
-    public function getProductCollection(): ?ProductCollection
+    public function __toString()
     {
-        return $this->productCollection;
+        return self::getUrl();
     }
 
-    public function setProductCollection(?ProductCollection $productCollection): self
+    /**
+     * @return Collection|ProductCollection[]
+     */
+    public function getProductCollections(): Collection
     {
-        $this->productCollection = $productCollection;
+        return $this->productCollections;
+    }
+
+    public function addProductCollection(ProductCollection $productCollection): self
+    {
+        if (!$this->productCollections->contains($productCollection)) {
+            $this->productCollections[] = $productCollection;
+            $productCollection->addUrl($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductCollection(ProductCollection $productCollection): self
+    {
+        if ($this->productCollections->contains($productCollection)) {
+            $this->productCollections->removeElement($productCollection);
+            $productCollection->removeUrl($this);
+        }
 
         return $this;
     }

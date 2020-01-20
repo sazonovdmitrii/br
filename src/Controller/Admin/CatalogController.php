@@ -66,11 +66,6 @@ class CatalogController extends BaseAdminController
                 ->setEntity($entity)
                 ->update();
         }
-        if ($urlsIds = $this->request->request->get('url')) {
-            $this->catalogService
-                ->setCatalog($entity)
-                ->updateCatalogUrls($urlsIds);
-        }
 
         if ($this->request->isXmlHttpRequest() && $property = $this->request->query->get('property')) {
             $newValue       = 'true' === mb_strtolower($this->request->query->get('newValue'));
@@ -144,14 +139,6 @@ class CatalogController extends BaseAdminController
                     ->update();
             }
 
-            if ($urlsIds = $this->request->request->get('url')) {
-                $this->catalogService
-                    ->setCatalog($entity)
-                    ->updateCatalogUrls(
-                        $this->request->request->get('url')
-                    );
-            }
-
             return $this->redirectToReferrer();
         }
 
@@ -169,58 +156,5 @@ class CatalogController extends BaseAdminController
         );
 
         return $this->executeDynamicMethod('render<EntityName>Template', array('new', $this->entity['templates']['new'], $parameters));
-    }
-
-    protected function addUrlAction()
-    {
-        $url = $this->request->request->get('url');
-
-        $checkUrl = $this->catalogUrlRepository->findOneBy(
-            ['url' => $url]
-        );
-
-        if ($checkUrl) {
-            $id = $checkUrl->getId();
-        } else {
-            $catalogUrl = new CatalogUrl();
-            $catalogUrl->setUrl($url);
-
-            $this->entityManager->persist($catalogUrl);
-            $this->entityManager->flush();
-
-            $id = $catalogUrl->getId();
-        }
-
-
-        $response = new Response();
-        $response->setContent(json_encode([
-            'id' => $id
-        ]
-        )
-        );
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-
-    protected function deleteUrlAction()
-    {
-        $urlId = $this->request->request->get('url_id');
-
-        $url = $this->catalogUrlRepository->find($urlId);
-
-        if ($url) {
-            $this->entityManager->remove($url);
-            $this->entityManager->flush();
-        }
-
-        $response = new Response();
-        $response->setContent(json_encode([
-                    'id' => $urlId
-                ]
-            )
-        );
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
     }
 }

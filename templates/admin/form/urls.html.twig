@@ -1,0 +1,75 @@
+<div id="urls">
+    <div class="form-group">
+        <label for="description" class="col-sm-2 control-label">Новый url</label>
+        <div class="col-sm-8">
+            <input type="text" name="" class="form-control" id="new_url" placeholder="" value="">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="add_url()">Добавить</button>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Путь</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="url_list">
+            {% for row in urls %}
+                <tr id="row_url_{{ row.id }}">
+                    <td>
+                        <a href="{{ row.url }}">/{{ row.url }}</a>
+                    </td>
+                    <td eid="{{ row.id }}">
+                        <button type="button" class="btn btn-default" onclick="delete_url(this)">
+                            <span class="glyphicon glyphicon-trash">Удалить</span>
+                        </button>
+                    </td>
+                </tr>
+                <input type="hidden" name="url[]" id="url-{{ row.id }}" value="{{ row.id }}"/>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    function add_url() {
+        var url = $('#new_url').val();
+        if (url && !/\/$/.test(url)) {
+            url = url + '/';
+        }
+        $.post("/admin/urls/add", {
+            'url': url,
+            'entity': '{{ entity }}'
+        }, function (response) {
+            $('#urls').prepend('<input type="hidden" name="{{ field }}[]" id="url-' + response.id + '" value="' + response.id + '"/>');
+            $('#url_row').tmpl({
+                id: response.id,
+                url: url
+            }).appendTo('#url_list');
+        }, 'json');
+    }
+
+    function delete_url(btn){
+        if(confirm('Удалить url?')) {
+            var url_id = $(btn).parent().attr('eid');
+            $('#url-' + url_id).remove();
+            $('#row_url_'+ url_id +'').remove();
+            $.post("/admin/urls/delete", {
+                'url': url,
+                'entity': '{{ entity }}'
+            }, function (response) {
+
+            }, 'json');
+        }
+    }
+</script>
+<script id="url_row" type="text/x-jquery-tmpl">
+        <tr id="row_url_${id}">
+            <td><a href="${url}">/${url}</a></td>
+            <td eid="${id}">
+                <button type="button" class="btn btn-default" onclick="delete_url(this)"><span
+                            class="glyphicon glyphicon-trash">Удалить</span></button>
+            </td>
+        </tr>
+    </script>

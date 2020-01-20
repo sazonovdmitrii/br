@@ -1,0 +1,8 @@
+{% block _productcollection_productcollection_urls_widget %}
+    {% set entity = form.parent.vars.data %}
+    {% include 'admin/form/urls.html.twig' with {
+        'urls': entity.urls,
+        'entity': 'ProductCollectionUrl',
+        'field': 'productcollection[urls]'
+    } %}
+{% endblock %}

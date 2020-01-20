@@ -72,11 +72,6 @@ class ProductController extends BaseAdminController
                     ->setProduct($entity)
                     ->updateCatalogs($catalogsIds);
             }
-            if ($urlsIds = $this->request->request->get('url')) {
-                $this->productService
-                    ->setProduct($entity)
-                    ->updateProductUrls($urlsIds);
-            }
 
             return $this->redirectToReferrer();
         }
@@ -158,11 +153,6 @@ class ProductController extends BaseAdminController
                     ->setProduct($entity)
                     ->updateCatalogs($catalogsIds);
             }
-            if ($urlsIds = $this->request->request->get('url')) {
-                $this->productService
-                    ->setProduct($entity)
-                    ->updateProductUrls($urlsIds);
-            }
             return $this->redirectToReferrer();
         }
 
@@ -177,55 +167,5 @@ class ProductController extends BaseAdminController
         );
 
         return $this->executeDynamicMethod('render<EntityName>Template', array('edit', $this->_template, $parameters));
-    }
-
-    protected function addUrlAction()
-    {
-        $url = $this->request->request->get('url');
-
-        $checkUrl = $this->productUrlRepository->findOneBy(['url' => $url]);
-
-        if ($checkUrl) {
-            $id = $checkUrl->getId();
-        } else {
-            $productUrl = new ProductUrl();
-            $productUrl->setUrl($url);
-
-            $this->entityManager->persist($productUrl);
-            $this->entityManager->flush();
-
-            $id = $productUrl->getId();
-        }
-
-
-        $response = new Response();
-        $response->setContent(json_encode([
-                    'id' => $id
-                ]
-            )
-        );
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    protected function deleteUrlAction()
-    {
-        $urlId = $this->request->request->get('url_id');
-
-        $url = $this->productUrlRepository->find($urlId);
-
-        if ($url) {
-            $this->entityManager->remove($url);
-            $this->entityManager->flush();
-        }
-
-        $response = new Response();
-        $response->setContent(json_encode([
-                    'id' => $urlId
-                ]
-            )
-        );
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
     }
 }
