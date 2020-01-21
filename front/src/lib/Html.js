@@ -1,7 +1,7 @@
 import React from 'react';
 
 const isProd = process.env.NODE_ENV === 'production';
-const GTM = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PV7HJ4Z');`;
+const GTM = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NLL4WS');`;
 const LIVETEX = `window['l'+'i'+'ve'+'Te'+'x']=!0,window['liv'+'e'+'Tex'+'ID']=163611,window['li'+'veTex_'+'obje'+'ct']=!0,(function(d,s){var t=d['create'+'El'+'em'+'ent'](s);t.type='text/javascript';t.async=!0;t.src='//cs15.'+'livet'+'ex.ru/js/c'+'l'+'ient.js';var c=d['getE'+'le'+'ment'+'sByTag'+'Name'](s)[0];c?c['p'+'aren'+'t'+'Node']['inser'+'t'+'Befo'+'re'](t,c):d['doc'+'u'+'me'+'n'+'tEleme'+'nt']['first'+'Ch'+'i'+'ld']['app'+'en'+'dCh'+'i'+'ld'](t);
 })(document,'script');`;
 // Anti-Flicker Snippet Google Optimize
