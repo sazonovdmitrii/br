@@ -109,12 +109,12 @@ const HomeTryOn = ({ intl }) => {
                         </div>
                     </div>
                 </div>
-                <div className={styles.sectionFooter}>
+                {/*<div className={styles.sectionFooter}>
                     <Hr className={styles.hr} />
                     <Link to="/help">
                         <FormattedMessage id="p_hometry_shop_section_help_link" />
                     </Link>
-                </div>
+                </div>*/}
             </div>
         </div>
     );
