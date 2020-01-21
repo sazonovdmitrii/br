@@ -9,3 +9,15 @@ User:
       email:
         type: "String"
         description: "Email"
+      gender:
+        type: "String"
+        description: "Gender"
+      firstname:
+        type: "String"
+        description: "First Name"
+      lastname:
+        type: "String"
+        description: "Last Name"
+      phone:
+        type: "String"
+        description: "Phone"
