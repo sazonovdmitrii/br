@@ -1,0 +1,14 @@
+UpdateUserInput:
+  type: input-object
+  config:
+    fields:
+      id:
+        type: "String"
+      firstname:
+        type: "String"
+      lastname:
+        type: "String"
+      phone:
+        type: "String"
+      gender:
+        type: "String"

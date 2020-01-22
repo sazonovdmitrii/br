@@ -1,0 +1,16 @@
+mutation ($input: UpdateUserInput!) {
+  updateUser(input:$input){
+    id
+    email
+  }
+}
+
+{
+  "input": {
+    "id": "2",
+    "firstname": "Alex",
+    "lastname":"Gnezdilov",
+    "gender": "female"
+  }
+}
+

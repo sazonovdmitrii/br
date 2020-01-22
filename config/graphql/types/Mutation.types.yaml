@@ -56,3 +56,9 @@ Mutation:
         args:
           input:
             type: RemoveAddressInput!
+      updateUser:
+        type: User!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\UserMutation::update", [args])'
+        args:
+          input:
+            type: UpdateUserInput!

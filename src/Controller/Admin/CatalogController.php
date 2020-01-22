@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 use App\Entity\Catalog;
 use App\Entity\CatalogUrl;
 use App\Service\AdminTagService;
-use App\Service\CatalogService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Doctrine\ORM\EntityManager;
@@ -20,11 +19,6 @@ class CatalogController extends BaseAdminController
     private $tagService;
 
     /**
-     * @var CatalogService
-     */
-    private $catalogService;
-
-    /**
      * @var CatalogUrlRepository
      */
     private $catalogUrlRepository;
@@ -36,12 +30,10 @@ class CatalogController extends BaseAdminController
 
     public function __construct(
         AdminTagService $tagService,
-        CatalogService $catalogService,
         CatalogUrlRepository $catalogUrlRepository,
         EntityManager $entityManager
     ) {
         $this->tagService     = $tagService;
-        $this->catalogService = $catalogService;
         $this->catalogUrlRepository = $catalogUrlRepository;
         $this->entityManager = $entityManager;
     }

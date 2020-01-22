@@ -1,41 +1,38 @@
 <?php
+
 namespace App\GraphQL\Input;
+
 use AssoConnect\GraphQLMutationValidatorBundle\Input\RequestObject;
 
 /**
- * Class OrderInput
+ * Class UpdateUserInput
  *
  * @package App\GraphQL\Input
  */
-class OrderInput extends RequestObject
+class UpdateUserInput extends RequestObject
 {
     /**
      * @var
      */
-    public $pickup_id;
+    public $id;
 
     /**
      * @var
      */
-    public $courier_id;
+    public $firstname;
 
     /**
      * @var
      */
-    public $address_id;
+    public $lastname;
 
     /**
      * @var
      */
-    public $payment_method_id;
+    public $phone;
 
     /**
      * @var
      */
-    public $comment;
-
-    /**
-     * @var
-     */
-    public $lenses;
+    public $gender;
 }

@@ -359,7 +359,6 @@ easy_admin:
         Page:
             class: App\Entity\Page
             label: 'Страницы'
-            controller: App\Controller\Admin\PageController
             list:
                 title: 'Страницы'
                 fields: ['id', 'title', 'name', 'visible']

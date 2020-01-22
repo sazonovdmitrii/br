@@ -2,19 +2,25 @@
 namespace App\GraphQL\Input;
 use AssoConnect\GraphQLMutationValidatorBundle\Input\RequestObject;
 
+/**
+ * Class RegisterInput
+ *
+ * @package App\GraphQL\Input
+ */
 class RegisterInput extends RequestObject
 {
-    public $firstname;
-
-    public $lastname;
-
+    /**
+     * @var
+     */
     public $email;
 
-    public $gender;
-
+    /**
+     * @var
+     */
     public $password;
 
+    /**
+     * @var
+     */
     public $confirm_password;
-
-    public $phone;
 }
