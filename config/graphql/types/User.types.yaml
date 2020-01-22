@@ -21,3 +21,9 @@ User:
       phone:
         type: "String"
         description: "Phone"
+      addresses:
+        type: "[Address]"
+        description: "Users Addresses"
+      orders:
+        type: "[Order]"
+        description: "Users Orders"
