@@ -1,0 +1,14 @@
+Recipe:
+  type: object
+  config:
+    description: "Recipe Entity"
+    fields:
+      id:
+        type: "Int!"
+        description: "User Id."
+      recipe:
+        type: "String"
+        description: "Recipe"
+      customer:
+        type: "User"
+        description: "User"

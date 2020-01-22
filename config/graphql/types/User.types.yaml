@@ -27,3 +27,6 @@ User:
       orders:
         type: "[Order]"
         description: "Users Orders"
+      recipes:
+        type: "[Recipe]"
+        description: "Users Recipes"

@@ -1,0 +1,8 @@
+UpdateRecipeInput:
+  type: input-object
+  config:
+    fields:
+      recipe:
+        type: "String"
+      id:
+        type: "Int"

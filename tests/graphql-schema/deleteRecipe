@@ -1,0 +1,12 @@
+mutation ($input: EntityIdInput!) {
+  deleteRecipe(input:$input){
+    id
+    recipe
+  }
+}
+
+{
+  "input": {
+    "id": 3
+  }
+}

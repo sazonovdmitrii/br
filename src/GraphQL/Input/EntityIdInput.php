@@ -1,15 +1,14 @@
 <?php
-
 namespace App\GraphQL\Input;
 
 use AssoConnect\GraphQLMutationValidatorBundle\Input\RequestObject;
 
 /**
- * Class RemoveAddressInput
+ * Class UserInput
  *
  * @package App\GraphQL\Input
  */
-class RemoveAddressInput extends RequestObject
+class EntityIdInput extends RequestObject
 {
     /**
      * @var

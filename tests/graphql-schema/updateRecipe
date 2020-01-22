@@ -1,0 +1,13 @@
+mutation ($input: UpdateRecipeInput!) {
+  updateRecipe(input:$input){
+    id
+    recipe
+  }
+}
+
+{
+  "input": {
+    "id": 4,
+    "recipe": "asdfasdf"
+  }
+}

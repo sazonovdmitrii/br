@@ -1,7 +1,0 @@
-RemoveAddressInput:
-  type: input-object
-  config:
-    fields:
-      id:
-        type: "Int"
-        description: "Address Id"

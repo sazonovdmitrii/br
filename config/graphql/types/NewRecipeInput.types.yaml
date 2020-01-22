@@ -1,0 +1,6 @@
+NewRecipeInput:
+  type: input-object
+  config:
+    fields:
+      recipe:
+        type: "String"

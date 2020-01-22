@@ -1,0 +1,12 @@
+mutation ($input: NewRecipeInput!) {
+  addRecipe(input:$input){
+    id
+    recipe
+  }
+}
+
+{
+  "input": {
+    "recipe": "asdfasdf"
+  }
+}

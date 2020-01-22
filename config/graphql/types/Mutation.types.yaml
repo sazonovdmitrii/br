@@ -55,10 +55,28 @@ Mutation:
         resolve: '@=mutation("App\\GraphQL\\Mutation\\AddressMutation::remove", [args])'
         args:
           input:
-            type: RemoveAddressInput!
+            type: EntityIdInput!
       updateUser:
         type: User!
         resolve: '@=mutation("App\\GraphQL\\Mutation\\UserMutation::update", [args])'
         args:
           input:
             type: UpdateUserInput!
+      addRecipe:
+        type: Recipe!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\RecipeMutation::add", [args])'
+        args:
+          input:
+            type: NewRecipeInput!
+      updateRecipe:
+        type: Recipe!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\RecipeMutation::update", [args])'
+        args:
+          input:
+            type: UpdateRecipeInput!
+      deleteRecipe:
+        type: Recipe!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\RecipeMutation::delete", [args])'
+        args:
+          input:
+            type: EntityIdInput!

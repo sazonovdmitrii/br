@@ -28,10 +28,10 @@ BasketProduct:
         type: "String"
         description: "Price"
       lenses:
-        type: "LenseRecipe"
+        type: "LensesRecipe"
         description: "Price"
 
-LenseRecipe:
+LensesRecipe:
   type: object
   config:
     description: "Basket Lense"

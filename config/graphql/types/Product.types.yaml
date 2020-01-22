@@ -91,7 +91,7 @@ Lense:
         type: "[LenseItem]"
         description: "Lenses Tags Items"
       recipes:
-        type: "[Recipe]"
+        type: "[LenseRecipe]"
         description: "Recipes"
 
 LenseItem:
@@ -139,7 +139,7 @@ LenseItemTag:
         type: "Boolean"
         description: "Lense Item Visibility"
 
-Recipe:
+LenseRecipe:
   type: object
   config:
     description: "Recipe"
