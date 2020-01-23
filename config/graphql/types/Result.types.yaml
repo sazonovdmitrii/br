@@ -1,0 +1,11 @@
+Result:
+  type: object
+  config:
+    description: "Result"
+    fields:
+      success:
+        type: "Boolean"
+        description: "Is successfull"
+      message:
+        type: "String"
+        description: "Success Message"

@@ -79,6 +79,11 @@ class Users implements UserInterface
      */
     private $recipes;
 
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $confirmationToken;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -331,6 +336,18 @@ class Users implements UserInterface
                 $recipe->setCustomer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getConfirmationToken(): ?string
+    {
+        return $this->confirmationToken;
+    }
+
+    public function setConfirmationToken(?string $confirmationToken): self
+    {
+        $this->confirmationToken = $confirmationToken;
 
         return $this;
     }

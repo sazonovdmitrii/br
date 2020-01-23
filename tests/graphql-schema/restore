@@ -1,0 +1,12 @@
+mutation ($input: RestoreInput!){
+  restore(input: $input){
+    message
+    success
+  }
+}
+
+{
+  "input": {
+    "token": "nF4vujJmQIB0tjvq5lTzUhsofqhVP3"
+  }
+}

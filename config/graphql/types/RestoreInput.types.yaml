@@ -1,0 +1,6 @@
+RestoreInput:
+  type: input-object
+  config:
+    fields:
+      login:
+        type: "String"
