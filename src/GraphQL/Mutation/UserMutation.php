@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutation;
 
+use App\Event\RestorePasswordEvent;
 use App\Form\Type\UserType;
 use App\GraphQL\Input\ChangePasswordInput;
 use App\GraphQL\Input\RegisterInput;
@@ -19,6 +20,7 @@ use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Error\UserError;
 use Redis;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Forms;
 use App\GraphQL\Input\RestoreInput;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -63,6 +65,10 @@ class UserMutation extends AuthMutation
      * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
     /**
      * UserMutation constructor.
@@ -88,7 +94,8 @@ class UserMutation extends AuthMutation
         EntityManager $entityManager,
         UsersRepository $usersRepository,
         TokenGenerator $tokenGenerator,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordEncoderInterface $passwordEncoder,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->redis                = $redis;
         $this->authenticatorService = $authenticatorService;
@@ -99,6 +106,7 @@ class UserMutation extends AuthMutation
         $this->usersRepository      = $usersRepository;
         $this->tokenGenerator = $tokenGenerator;
         $this->passwordEncoder = $passwordEncoder;
+        $this->eventDispatcher = $eventDispatcher;
         parent::__construct($redis, $container, $authenticatorService, $userService);
     }
 
@@ -197,6 +205,10 @@ class UserMutation extends AuthMutation
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        $this->eventDispatcher->dispatch(
+            RestorePasswordEvent::NAME, new RestorePasswordEvent($user)
+        );
 
         return [
             'success' => true,
