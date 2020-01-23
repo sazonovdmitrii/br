@@ -161,6 +161,8 @@ easy_admin:
                     - { property: 'producttagitem', type_options: { block_name: 'products_tags_items' }}
                     - { type: 'tab' , label: 'Линзы' }
                     - { property: 'lenses', type_options: { block_name: 'product_lenses' }}
+                    - { type: 'tab' , label: 'Коллекции' }
+                    - { property: 'productCollections', type_options: { block_name: 'collections', by_reference: false }}
         Order:
             label: 'Заказы'
             class: App\Entity\Orders
@@ -571,6 +573,7 @@ easy_admin:
             - 'admin/form/page_blocks.html.twig'
             - 'admin/form/landing_blocks.html.twig'
             - 'admin/form/productcollection_urls.html.twig'
+            - 'admin/form/collections.html.twig'
         menu:
           - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']

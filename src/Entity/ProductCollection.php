@@ -144,4 +144,9 @@ class ProductCollection
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return (string)self::getName();
+    }
 }

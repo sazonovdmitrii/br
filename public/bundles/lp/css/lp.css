@@ -15,6 +15,7 @@ label[for=items_productItemTagItems],
 label[for=store_storeUrls],
 label[for=landingpage_blocks],
 label[for=lense_recipes],
+label[for=product_productCollections],
 #_easyadmin_form_design_element_10 .col-sm-2.control-label:first-of-type
 {
     display: none;

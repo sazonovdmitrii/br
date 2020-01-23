@@ -1,0 +1,29 @@
+{% block _product_collections_widget %}
+    {% set entity = form.parent.vars.data %}
+
+    {% set collections_ids = [] %}
+    {% for collection in entity.productCollections %}
+        {% set collections_ids = collections_ids|merge([collection.id]) %}
+    {% endfor %}
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Наименование</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for collection in collections.getAll() %}
+            <tr>
+                <td scope="row">
+                    <input type="checkbox" name="product[productCollections][]" value="{{ collection.id }}" {% if collection.id in collections_ids %} checked {% endif %}/>
+                </td>
+                <td>{{ collection.name }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

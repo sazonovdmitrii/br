@@ -3,30 +3,30 @@
 namespace App\Controller;
 
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use App\Service\TagService;
-use Doctrine\ORM\EntityManager;
-use App\Entity\Product;
 
 class AdminController extends BaseAdminController
 {
-    public function __construct(
-//        TagService $tagService,
-//        EntityManager $em
-    ) {
-//phpinfo();
-}
-//        $this->em = $em;
-//        $product = $this->em->getRepository('App:Product')->find(16);
-////var_dump($product->getId());
-////die();
-//        $this->tagService = $tagService;
-//        $similar = $this->tagService
-//            ->setEntity($product)
-//            ->setEntityType(Product::class)
-//            ->similars();
-//        print_r($similar);
-//        die();
+//    public function __construct()
+//    {
+//        die('adsf');
 //    }
+
+    protected function persistEntity($entity)
+    {
+        $this->em->persist($entity);
+        $this->em->flush();
+    }
+
+    protected function updateEntity($entity)
+    {
+        $this->em->flush();
+    }
+
+    protected function removeEntity($entity)
+    {
+        $this->em->remove($entity);
+        $this->em->flush();
+    }
 
     public function repository($className)
     {
