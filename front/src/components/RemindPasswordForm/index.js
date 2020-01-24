@@ -3,23 +3,27 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { FormattedMessage } from 'react-intl';
 
+import { useApp } from 'hooks';
+import { RESTORE_PASSWORD } from 'mutations';
+
 import Input from 'components/Input';
 import InputGroup from 'components/InputGroup';
 import Button from 'components/Button';
 
-const REMIND_PASSWORD_MUTATION = gql`
-    mutation remindPassword($email: String!) {
-        remindPassword(email: $email) {
-            status
-        }
-    }
-`;
-
 const RemindPassword = () => {
+    const { createNotification } = useApp();
     const [email, setEmail] = useState('');
-    const [remindPassword] = useMutation(REMIND_PASSWORD_MUTATION, {
+    const [restorePassword] = useMutation(RESTORE_PASSWORD, {
         variables: {
-            email,
+            input: {
+                login: email,
+            },
+        },
+        onCompleted({ restore: { success, message } }) {
+            createNotification({ type: success ? 'success' : 'error', message });
+        },
+        onError({ graphQLErrors: [{ message }] }) {
+            createNotification({ type: 'error', message });
         },
     });
     const handleSubmit = e => {
@@ -27,7 +31,7 @@ const RemindPassword = () => {
 
         if (!email) return;
 
-        remindPassword();
+        restorePassword();
     };
 
     return (

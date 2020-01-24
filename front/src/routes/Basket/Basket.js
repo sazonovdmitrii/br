@@ -14,7 +14,7 @@ import {
 import {
     // UPDATE_PRODUCT_MUTATION,
     REMOVE_PRODUCT_MUTATION,
-    ORDER_MUTATION,
+    CREATE_ORDER_MUTATION,
 } from 'mutations';
 import { isNumber, metrics } from 'utils';
 
@@ -183,9 +183,9 @@ const Basket = ({
         },
     });
 
-    const [createOrder] = useMutation(ORDER_MUTATION, {
         onCompleted({ order: { id } }) {
             if (id) {
+    const [createOrder] = useMutation(CREATE_ORDER_MUTATION, {
                 metrics('gtm', {
                     event: 'transaction',
                     data: {
