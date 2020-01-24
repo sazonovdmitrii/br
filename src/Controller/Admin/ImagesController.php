@@ -32,12 +32,14 @@ class ImagesController extends BaseAdminController
                     $fileName = $this->fileUploader
                         ->setTargetDirectory($this->getPath($type))
                         ->upload($file);
-                    $entity   = new $className;
-                    $entity->setPath($fileName);
-                    $this->entityManager->persist($entity);
-                    $this->entityManager->flush();
+                    if(!$request->request->get('no_persist', false)) {
+                        $entity = new $className;
+                        $entity->setPath($fileName);
+                        $this->entityManager->persist($entity);
+                        $this->entityManager->flush();
+                    }
                     $images[] = [
-                        'id'   => $entity->getId(),
+                        'id'   => (isset($entity)) ? $entity->getId() : 0,
                         'path' => $this->getUrl($type) . '/' . $fileName
                     ];
                 }

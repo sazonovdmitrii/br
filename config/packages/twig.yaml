@@ -16,3 +16,4 @@ twig:
         landings: '@App\Service\Twig\Landings'
         blocks: '@App\Service\Twig\Blocks'
         collections: '@App\Service\Twig\Collections'
+        bannerItems: '@App\Service\Twig\BannerItems'

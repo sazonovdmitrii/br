@@ -1,0 +1,9 @@
+{% block _banneritem_upload_widget %}
+    {% set entity = form.parent.vars.data %}
+    {% include 'admin/form/elements/upload.html.twig' with {
+        'name': 'path',
+        'type': 'BannerItem',
+        'src': entity.path,
+        'id': entity.id
+    } %}
+{% endblock %}

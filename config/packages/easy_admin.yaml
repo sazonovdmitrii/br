@@ -299,8 +299,43 @@ easy_admin:
                     - link
             form:
                 fields:
-                    - { property: 'pathFile', type: 'App\Form\Type\MultipleImage', type_options: { multiple: true, block_name: 'custom_title' } }
+                    - { type: 'tab' , label: 'Основные' }
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                        type_options: {
+                            default_locale: '%locale%',
+                            fields: {
+                                name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType', label: 'Наименование'}
+                            }
+                        }
+                      }
+                    - { property: 'show_from', label: 'Показывать от' }
+                    - { property: 'show_to', label: 'Показывать до' }
+                    - { type: 'tab' , label: 'Слайды' }
+                    - { property: 'bannerItems', label: 'Слайды', type_options: { block_name: 'slides', by_reference: false }}
+        BannerItem:
+            class: App\Entity\BannerItem
+            label: 'Слайды'
+            list:
+                title: 'Слайды'
+                fields:
+                    - id
+                    - { property: 'path', template: 'admin/renderers/image.html.twig' }
                     - link
+                    - active
+            form:
+                fields:
+                    - { type: 'tab' , label: 'Слайд' }
+                    - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+                        type_options: {
+                            default_locale: '%locale%',
+                            fields: {
+                                description: { field_type: 'FOS\CKEditorBundle\Form\Type\CKEditorType', label: 'Описание' }
+                            }
+                        }
+                      }
+                    - { property: 'link', label: 'Ссылка' }
+                    - { property: 'path', label: 'Загрузить изображение', type_options: { block_name: 'upload' } }
+                    - { property: 'active', label: 'Видимость' }
         Sale:
             class: App\Entity\Sale
             label: 'Акции'
@@ -574,6 +609,8 @@ easy_admin:
             - 'admin/form/landing_blocks.html.twig'
             - 'admin/form/productcollection_urls.html.twig'
             - 'admin/form/collections.html.twig'
+            - 'admin/form/slides.html.twig'
+            - 'admin/form/upload.html.twig'
         menu:
           - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']
@@ -583,11 +620,10 @@ easy_admin:
           - label: 'Меню'
             children: ['Menu', 'MenuItem']
           - label: 'Контент'
-            children: ['Page', 'Block', 'Store', 'Region', 'Courier', 'Pickup', 'City', 'PaymentMethod']
+            children: ['Page', 'Block', 'Banner', 'Store', 'Region', 'Courier', 'Pickup', 'City', 'PaymentMethod']
           - label: 'Лэндинги'
             children: ['LandingBlock', 'LandingPage']
           - Order
-          - Banner
           - Sale
           - label: 'Конфигурация'
             children: ['Configuration', 'ImageType']

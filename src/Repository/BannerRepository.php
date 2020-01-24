@@ -19,22 +19,14 @@ class BannerRepository extends ServiceEntityRepository
         parent::__construct($registry, Banner::class);
     }
 
-    // /**
-    //  * @return Banner[] Returns an array of Banner objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findCurrents()
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $qb = $this->createQueryBuilder("b");
+        $qb->where('b.show_from < :now AND b.show_to > :now')
+            ->setParameter('now', new \DateTime())
         ;
+        return $qb->getQuery()->getResult();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Banner

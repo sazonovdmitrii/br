@@ -1,0 +1,50 @@
+<input type="hidden" name="no_persist" value="true"/>
+<input type="hidden" name="type" value="{{ type }}"/>
+<div class="row">
+    <div class="col-sm-2">
+    <span class="btn btn-primary btn-file">
+        Выбрать файл <input id="file_upload" type="file" name="files" data-url="/admin/images/upload">
+    </span>
+    </div>
+</div>
+
+<div id="upload_process"></div>
+<hr>
+<div id="image_item">
+    {% if src %}
+        <img src="{{ src }}" width="200"/>
+        <input type="hidden" name="banneritem[path]" value="{{ src }}"/>
+    {% endif %}
+</div>
+
+
+<script id="image_tmpl" type="text/x-jquery-tmpl">
+    <div class="image_item col-sm-2" eid="${id}">
+        <img src="${path}" class="img-thumbnail">
+        <div>
+            <button onclick="delete_image(this)" class="btn btn-default" type="button">
+                <span class="glyphicon glyphicon-trash">Удалить</span>
+            </button>
+        </div>
+    </div>
+
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#file_upload').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                var result = data.result[0];
+                $('#image_item').html('<input type="hidden" name="banneritem[{{ name }}]" value="' + result.path + '"/>');
+                $('#upload_process').html('');
+                $('#image_tmpl').tmpl(data.result[0]).appendTo('#image_item');
+            },
+            progressall: function (e, data) {
+                var $div = $('#div_process_' + data.upload_number);
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $div.find('.progress-bar').css('width', progress + '%');
+            }
+        });
+    });
+</script>

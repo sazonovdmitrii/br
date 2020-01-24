@@ -1,0 +1,41 @@
+{% block _banner_slides_widget %}
+    {% set entity = form.parent.vars.data %}
+
+    {% set slides_ids = [] %}
+    {% for banner in entity.bannerItems %}
+        {% set slides_ids = slides_ids|merge([banner.id]) %}
+    {% endfor %}
+
+    <a title="Новый слайд" href="/admin/?action=new&entity=BannerItem" class="btn btn-primary btn-xs" type="button">
+        <span class="glyphicon glyphicon-pencil">Новый слайд</span>
+    </a>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">ID</th>
+            <th scope="col">Наименование</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for slide in bannerItems.getAll() %}
+            <tr>
+                <td scope="row">
+                    <input type="checkbox" name="banner[bannerItems][]" value="{{ slide.id }}" {% if slide.id in slides_ids %} checked {% endif %}/>
+                </td>
+                <td>{{ slide.id }}</td>
+                <td><img src="{{ slide.path }}" width="100"/></td>
+                <td>
+                    <a title="Редактировать" href="/admin/?action=edit&entity=BannerItem&id={{ slide.id }}" class="btn btn-primary btn-xs" type="button">
+                        <span class="glyphicon glyphicon-pencil">Редактировать</span>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

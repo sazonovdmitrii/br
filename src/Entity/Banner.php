@@ -2,12 +2,18 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BannerRepository")
  */
 class Banner
 {
+    use ORMBehaviors\Translatable\Translatable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -16,73 +22,114 @@ class Banner
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="datetime")
      */
-    private $path;
+    private $show_from;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="datetime")
      */
-    private $link;
+    private $show_to;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\BannerItem", mappedBy="banner")
      */
-    private $active;
+    private $bannerItems;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    public function __construct()
+    {
+        $this->bannerItems = new ArrayCollection();
+        $this->created = new \DateTime();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPath(): ?string
+    public function getShowFrom(): ?\DateTimeInterface
     {
-        return $this->path;
+        return $this->show_from;
     }
 
-    public function setPath(?string $path): self
+    public function setShowFrom(\DateTimeInterface $show_from): self
     {
-        $this->path = $path;
+        $this->show_from = $show_from;
 
         return $this;
     }
 
-    public function getLink(): ?string
+    public function getShowTo(): ?\DateTimeInterface
     {
-        return $this->link;
+        return $this->show_to;
     }
 
-    public function setLink(?string $link): self
+    public function setShowTo(?\DateTimeInterface $show_to): self
     {
-        $this->link = $link;
+        $this->show_to = $show_to;
 
         return $this;
     }
 
-    public function getActive(): ?bool
+    /**
+     * @return Collection|BannerItem[]
+     */
+    public function getBannerItems(): Collection
     {
-        return $this->active;
+        return $this->bannerItems;
     }
 
-    public function setActive(?bool $active): self
+    public function addBannerItem(BannerItem $bannerItem): self
     {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    public function getPathFile()
-    {
-        return $this->path;
-    }
-
-    public function setPathFile($images = null)
-    {
-        foreach($images as $uploadedFile)
-        {
-            $path = sha1(uniqid(mt_rand(), true)).'.'.$uploadedFile->guessExtension();
-            $uploadedFile->move(__DIR__ . '/../../public/uploads/images/banners', $path);
-            $this->setPath($path);
+        if (!$this->bannerItems->contains($bannerItem)) {
+            $this->bannerItems[] = $bannerItem;
+            $bannerItem->setBanner($this);
         }
+
+        return $this;
+    }
+
+    public function removeBannerItem(BannerItem $bannerItem): self
+    {
+        if ($this->bannerItems->contains($bannerItem)) {
+            $this->bannerItems->removeElement($bannerItem);
+            // set the owning side to null (unless already changed)
+            if ($bannerItem->getBanner() === $this) {
+                $bannerItem->setBanner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function __call($method, $arguments)
+    {
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function __get($name)
+    {
+        $method = 'get'. ucfirst($name);
+        $arguments = [];
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
 }

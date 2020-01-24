@@ -73,8 +73,8 @@ Query:
       users_orders:
         type: "UsersOrders"
         resolve: "@=resolver('UsersOrders', [args])"
-      banner:
-        type: "Banner"
+      banners:
+        type: "Banners"
         resolve: "@=resolver('Banner', [args])"
       sale:
         type: "Sale"

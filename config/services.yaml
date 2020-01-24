@@ -14,6 +14,8 @@ parameters:
     app.url.ProductItemTagItem: '/uploads/tag_items'
     app.path.Catalog: '%kernel.project_dir%/public/uploads/catalog'
     app.url.Catalog: '/uploads/catalog'
+    app.path.BannerItem: '%kernel.project_dir%/public/uploads/banneritem'
+    app.url.BannerItem: '/uploads/banneritem'
     app.path.Menu: '%kernel.project_dir%/public/uploads/menu'
     app.url.Menu: '/uploads/menu'
     app.path.locale_dir: '%kernel.project_dir%/front/src/lang/'
