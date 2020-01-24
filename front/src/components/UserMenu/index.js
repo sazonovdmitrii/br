@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import {
@@ -10,7 +10,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
 
-import { useLangLinks, useApp, useFormatMessage } from 'hooks';
+import { useLangLinks, useApp, useFormatMessage, useOnClickOutside } from 'hooks';
 import { IS_LOGGED_IN, GET_SHORT_BASKET } from 'query';
 
 import Badge from 'components/Badge';
@@ -35,6 +35,11 @@ const UserMenu = () => {
     ]);
     const [showSearch, setShowSearch] = useState(false);
     const [openSubMenu, setOpenSubMenu] = useState(false);
+    const submenuNode = useRef(null);
+
+    useOnClickOutside(submenuNode, () => {
+        handleCloseSubMenu();
+    });
 
     const handleLogOut = () => {
         logout();
@@ -96,7 +101,7 @@ const UserMenu = () => {
                                 <FormattedMessage id="account" />
                             </button>
                         </div>
-                        <ul className={submenuClassName}>
+                        <ul ref={submenuNode} className={submenuClassName}>
                             <li className={styles.submenuItem}>
                                 <Link
                                     className={styles.submenuLink}
