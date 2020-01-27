@@ -25,12 +25,14 @@ const Item = ({ image, items, active, text, url, onLink, onClick, value }) => {
                 <>
                     <button type="button" className={buttonClassName} onClick={() => onClick(value)}>
                         <div className={buttonLabelClassName}>{text}</div>
-                        <div
-                            className={styles.buttonImage}
-                            style={{
-                                backgroundImage: `url("${image}")`,
-                            }}
-                        />
+                        {image && (
+                            <div
+                                className={styles.buttonImage}
+                                style={{
+                                    backgroundImage: `url("${image}")`,
+                                }}
+                            />
+                        )}
                     </button>
                     <div className={submenuClassName} onClick={() => onClick(null)}>
                         {/* <div className={styles.submenuText}>
