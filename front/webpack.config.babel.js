@@ -12,12 +12,12 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import safePostCssParser from 'postcss-safe-parser';
 import TerserPlugin from 'terser-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import WebpackBar from 'webpackbar';
 
 require('dotenv').config();
 
 const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.ANALYZE || false;
-const ssr = process.env.SSR || false;
 
 const cssFilename = isProd ? '[name].[contenthash:8].css' : '[name].css';
 
@@ -74,13 +74,19 @@ const getConfig = target => {
                       new OptimizeCSSAssetsPlugin({
                           cssProcessorOptions: {
                               parser: safePostCssParser,
-                              discardComments: {
-                                  removeAll: true,
-                              },
                               // map: {
                               //     inline: false,
                               //     annotation: true,
                               // },
+                          },
+                          cssProcessorPluginOptions: {
+                              preset: [
+                                  'default',
+                                  {
+                                      discardComments: { removeAll: true },
+                                      minifyFontValues: { removeQuotes: false },
+                                  },
+                              ],
                           },
                       }),
                   ],
@@ -91,9 +97,7 @@ const getConfig = target => {
                   splitChunks: isProd
                       ? {
                             chunks: 'all',
-                            // name: 'vendors',
-                            maxInitialRequests: 20, // for HTTP2
-                            maxAsyncRequests: 20, // for HTTP2
+                            // name: false,
                         }
                       : false,
               }
@@ -113,7 +117,7 @@ const getConfig = target => {
                             loader: require.resolve('babel-loader'),
                             options: {
                                 compact: isProd,
-                                cacheCompression: isProd,
+                                cacheCompression: false,
                                 cacheDirectory: true,
                                 caller: { target },
                             },
@@ -193,6 +197,10 @@ const getConfig = target => {
             ],
         },
         plugins: [
+            new WebpackBar({
+                name: isNode ? 'server' : 'client',
+                color: isNode ? 'yellow' : 'green',
+            }),
             new webpack.DefinePlugin({
                 'process.env.GRAPHQL': JSON.stringify(process.env.GRAPHQL),
                 'process.env.IMAGES_PATH': JSON.stringify(process.env.IMAGES_PATH),
