@@ -29,7 +29,7 @@ import BasketProduct from 'components/BasketProduct';
 import UserForm from 'components/UserForm';
 import Title from 'components/Title';
 import Link from 'components/Link';
-import RemindPasswordForm from 'components/RemindPasswordForm';
+import RestorePasswordForm from 'components/RestorePasswordForm';
 import Hr from 'components/Hr';
 // TODO REMOVE
 import Order from 'routes/Order/Order';
@@ -779,15 +779,9 @@ const Basket = ({
                             )}
                             {loginType === 'remind' && (
                                 <>
-                                    <Title>
-                                        <FormattedMessage id="remind_password_title" />
-                                    </Title>
-                                    <div className={styles.subTitle}>
-                                        <FormattedMessage id="remind_password_subtitle" />
-                                    </div>
-                                    <RemindPasswordForm />
+                                    <RestorePasswordForm />
                                     <Link onClick={() => setLoginType('login')}>
-                                        <FormattedMessage id="remind_password_login_link" />
+                                        <FormattedMessage id="p_remind_password_login_link" />
                                     </Link>
                                 </>
                             )}

@@ -3,7 +3,7 @@ import loadable from '@loadable/component';
 
 import Loader from 'components/Loader';
 
-const Component = loadable(() => import('./RemindPassword'), {
+const Component = loadable(() => import('./RestorePassword'), {
     fallback: <Loader fullHeight />,
 });
 

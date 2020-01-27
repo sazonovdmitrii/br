@@ -107,10 +107,15 @@
     "favorites_text": "Everything you <3",
     "profile": "Profile",
     "home": "Home",
-    "remind_password_title": "How do I reset my password?",
-    "remind_password_subtitle": "Enter your email and we’ll send you a link with instructions to reset your password :-)",
-    "remind_password_button": "Email me reset instructions",
-    "remind_password_login_link": "Go back to sign in",
+
+    "p_reset_password_title": "Reset password",
+    "p_reset_password_button": "Change password",
+
+    "c_restore_password_title": "How do I reset my password?",
+    "c_restore_password_subtitle": "Enter your email and we’ll send you a link with instructions to reset your password :-)",
+    "c_restore_password_button": "Email me reset instructions",
+    "p_restore_password_login_link": "Go back to sign in",
+
     "not_specified": "Not specified",
     "male": "Male",
     "female": "Female",
@@ -126,6 +131,7 @@
     "first_name": "First name",
     "gender": "Gender",
     "last_name": "Last name",
+    "new_password": "New password",
     "password": "Password",
     "phone": "Phone",
     "save": "Save",

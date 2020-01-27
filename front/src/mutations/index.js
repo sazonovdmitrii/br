@@ -8,3 +8,5 @@ export { default as UPDATE_ADDRESS_MUTATION } from './updateAddress';
 export { default as RESTORE_PASSWORD } from './restorePassword';
 export { default as CREATE_USER_MUTATION } from './createUser';
 export { default as UPDATE_USER_MUTATION } from './updateUser';
+export { default as CHECK_TOKEN_MUTATION } from './checkToken';
+export { default as CHANGE_PASSWORD_MUTATION } from './changePassword';

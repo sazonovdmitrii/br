@@ -108,10 +108,15 @@
     "favorites_text": "Все, что вы <3",
     "profile": "Профиль",
     "home": "Главная",
-    "remind_password_title": "Как мне сбросить пароль?",
-    "remind_password_subtitle": "Введите адрес электронной почты, и мы вышлем вам ссылку с инструкциями для сброса пароля :-)",
-    "remind_password_button": "Напишите мне инструкции по сбросу",
-    "remind_password_login_link": "Вернуться, чтобы войти",
+
+    "p_reset_password_title": "Сброс пароля",
+    "p_reset_password_button": "Сменить пароль",
+
+    "c_restore_password_title": "Как мне сбросить пароль?",
+    "c_restore_password_subtitle": "Введите адрес электронной почты, и мы вышлем вам ссылку с инструкциями для сброса пароля :-)",
+    "c_restore_password_button": "Напишите мне инструкции по сбросу",
+    "p_restore_password_login_link": "Вернуться, чтобы войти",
+
     "not_specified": "Не указан",
     "male": "Мужской",
     "female": "Женский",
@@ -126,6 +131,7 @@
     "first_name": "Имя",
     "gender": "Пол",
     "last_name": "Фамилия",
+    "new_password": "Новый пароль",
     "password": "Пароль",
     "phone": "Телефон",
     "save": "Сохранить",

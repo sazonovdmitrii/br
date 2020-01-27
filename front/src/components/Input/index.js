@@ -26,6 +26,7 @@ const Input = ({
     value,
     multiline,
     rows,
+    rightButton,
     rowsMax,
     onChange,
     onBlur,
@@ -46,6 +47,7 @@ const Input = ({
         filled: filled || !!value,
     });
     const inputClassName = cx(styles.input, theme.input, {
+        withRightButton: rightButton,
         multiline,
         error,
     });
@@ -152,6 +154,7 @@ const Input = ({
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             />
+            {rightButton && <div className={styles.rightButton}>{rightButton}</div>}
             {text && <div className={textClassName}>{text}</div>}
         </div>
     );
@@ -172,6 +175,7 @@ Input.propTypes = {
     type: PropTypes.string,
     value: PropTypes.string,
     disabled: PropTypes.bool,
+    rightButton: PropTypes.bool,
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
 };
@@ -190,6 +194,7 @@ Input.defaultProps = {
     rowsMax: null,
     type: 'text',
     disabled: false,
+    rightButton: false,
     onChange: () => {},
     onBlur: () => {},
 };

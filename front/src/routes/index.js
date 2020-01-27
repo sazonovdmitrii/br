@@ -12,7 +12,7 @@ import Content from 'routes/Content';
 import Basket from 'routes/Basket';
 import Login from 'routes/Login';
 import Register from 'routes/Register';
-import RemindPassword from 'routes/RemindPassword';
+import RestorePassword from 'routes/RestorePassword';
 
 import NotFound from './NotFound';
 
@@ -43,7 +43,7 @@ export default ({ lang, defaultLang }) => {
                   ],
               ]
             : [
-                  [RemindPassword, routerOptions({ path: '/account/remind-password' })],
+                  [RestorePassword, routerOptions({ path: '/account/forgot-password/:token?' })],
                   [Register, routerOptions({ path: '/account/register' })],
                   [Login, routerOptions({ path: '/account/login' })],
               ]),

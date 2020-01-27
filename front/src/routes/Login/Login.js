@@ -16,9 +16,9 @@ import styles from './styles.css';
 export default withErrorBoundary(() => {
     const [metaTitle] = useFormatMessage([{ id: 'p_login_meta_title' }]);
     const history = useHistory();
-    const [registerLink, remindPasswordLink] = useLangLinks([
+    const [registerLink, restorePasswordLink] = useLangLinks([
         '/account/register',
-        '/account/remind-password',
+        '/account/forgot-password',
     ]);
 
     const handleCompleted = () => {
@@ -35,7 +35,7 @@ export default withErrorBoundary(() => {
                     </Title>
                 </div>
                 <LoginForm onCompleted={handleCompleted} />
-                <Link to={remindPasswordLink} className={styles.link}>
+                <Link to={restorePasswordLink} className={styles.link}>
                     <FormattedMessage id="forgot_password" />?
                 </Link>
                 <hr className={styles.hr} />
