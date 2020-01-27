@@ -183,9 +183,9 @@ const Basket = ({
         },
     });
 
+    const [createOrder] = useMutation(CREATE_ORDER_MUTATION, {
         onCompleted({ order: { id } }) {
             if (id) {
-    const [createOrder] = useMutation(CREATE_ORDER_MUTATION, {
                 metrics('gtm', {
                     event: 'transaction',
                     data: {
