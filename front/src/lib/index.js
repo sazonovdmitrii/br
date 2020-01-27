@@ -32,16 +32,17 @@ if (process.env.NODE_ENV !== 'production') {
         const hotClient = {
             host: config.host,
         };
+        const compiler = process.env.SSR ? webpack(webpackConfig) : webpack(webpackConfig[1]);
         // Set default options for koaWebpack
         const defaultOptions = {
-            compiler: webpack(webpackConfig),
+            compiler,
+            hotClient,
             devMiddleware: {
                 logLevel: 'silent',
                 publicPath: '/',
                 stats: false,
                 writeToDisk: true,
             },
-            hotClient,
         };
 
         // Create the middlware, by merging in any overrides
