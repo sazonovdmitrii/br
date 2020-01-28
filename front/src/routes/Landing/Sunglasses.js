@@ -42,19 +42,19 @@ const Landing = () => {
                     </>
                 }
             />
-            <section>
-                <HomeTry
-                    image={<img src={homeTryImage} alt="" />}
-                    title={<FormattedMessage id="home_try_on" />}
-                    text={<FormattedMessage id="home_try_text" />}
-                    action={
-                        <Button to="" kind="simple" bold>
-                            <FormattedMessage id="home_try_button" />
-                        </Button>
-                    }
-                />
-            </section>
             {/*
+                <section>
+                    <HomeTry
+                        image={<img src={homeTryImage} alt="" />}
+                        title={<FormattedMessage id="home_try_on" />}
+                        text={<FormattedMessage id="home_try_text" />}
+                        action={
+                            <Button to="" kind="simple" bold>
+                                <FormattedMessage id="home_try_button" />
+                            </Button>
+                        }
+                    />
+                </section>
                 <section className={styles.section}>
                     <VideoSection
                         title={<FormattedMessage id="video_title" />}

@@ -39,7 +39,7 @@ const Landing = () => {
                     </>
                 }
             />
-            <section>
+            {/* <section>
                 <HomeTry
                     image={<img src={homeTryImage} alt="" />}
                     title={<FormattedMessage id="home_try_on" />}
@@ -56,7 +56,6 @@ const Landing = () => {
                     }
                 />
             </section>
-            {/*
             <section className={styles.section}>
                 <VideoSection
                     title={<FormattedMessage id="video_title" />}
