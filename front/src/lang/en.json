@@ -55,14 +55,22 @@
     "p_lenses_lens_treatments_title": "Lens treatments",
     "p_lenses_lens_materials_title": "Lens materials",
     "p_lenses_lenses_w_benefits_title": "Lenses with benefits",
+
     "p_home_mensunglasses_title": "Men's sunglasses.",
+    "p_home_mensunglasses_text": "Each pair is equipped with scratch resistant lenses that block 100% of UVA and UVB rays.",
+
     "p_home_womensunglasses_title": "Women's Sunglasses.",
+    "p_home_womensunglasses_text": "Choose 5 frames for trying on the house and we will deliver them to you for free!",
+
     "p_home_meneyeglasses_title": "Men's glasses for vision.",
+    "p_home_meneyeglasses_text": "Each pair is equipped with scratch resistant lenses that block 100% of UVA and UVB rays.",
+
     "p_home_womeneyeglasses_title": "Women's glasses for vision.",
-    "p_home_menglasses_text": "Each pair is equipped with scratch resistant lenses that block 100% of UVA and UVB rays.",
-    "p_home_womenglasses_text": "Choose 5 frames for trying on the house and we will deliver them to you for free!",
+    "p_home_womeneyeglasses_text": "Choose 5 frames for trying on the house and we will deliver them to you for free!",
+
     "p_home_sunglasses_button": "Buy glasses",
     "p_home_eyeglasses_button": "Buy a frame",
+
     "с_collection_title": "Collection 2019",
     "с_collection_text": "Our best offers",
     "c_headermenu_hometry_title": "Pick 5 frames to try on at home (it's free!)",

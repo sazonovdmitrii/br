@@ -17,6 +17,8 @@ import womenSunglassesImg from './images/women-sunglasses.jpg';
 import menEyeglassesImg from './images/men-eyeglasses.jpg';
 import womenEyeglassesImg from './images/women-eyeglasses.jpg';
 
+const VALUES = { br: <br /> };
+
 export default () => {
     const [menSunglassesUrl, womenSunglassesUrl, menEyeglassesUrl, womenEyeglassesUrl] = useLangLinks([
         '/muzhskie-solncezashhitnye-ochki/',
@@ -29,7 +31,7 @@ export default () => {
         <>
             <Container>
                 <HeroLanding
-                    title={<FormattedMessage id="p_home_hero_title" values={{ br: <br /> }} />}
+                    title={<FormattedMessage id="p_home_hero_title" values={VALUES} />}
                     image={{ source: bgImage, retina: bgImageRetina }}
                     actions={
                         <>
@@ -43,6 +45,7 @@ export default () => {
                     }
                 />
             </Container>
+            {/*
             <div className={styles.main}>
                 <Container>
                     <div className={styles.mainText}>
@@ -51,6 +54,7 @@ export default () => {
                     <CollectionSection />
                 </Container>
             </div>
+            */}
             <Container>
                 <div className={styles.section}>
                     <div className={styles.sectionRow}>
@@ -59,7 +63,7 @@ export default () => {
                                 <FormattedMessage id="p_home_mensunglasses_title" />
                             </div>
                             <div className={styles.text}>
-                                <FormattedMessage id="p_home_menglasses_text" />
+                                <FormattedMessage id="p_home_mensunglasses_text" values={VALUES} />
                             </div>
                             <div className={styles.actions}>
                                 <Button to={menSunglassesUrl} kind="primary" size="large" bold>
@@ -79,7 +83,7 @@ export default () => {
                                 <FormattedMessage id="p_home_womensunglasses_title" />
                             </div>
                             <div className={styles.text}>
-                                <FormattedMessage id="p_home_womenglasses_text" />
+                                <FormattedMessage id="p_home_womensunglasses_text" values={VALUES} />
                             </div>
                             <div className={styles.actions}>
                                 <Button to={womenSunglassesUrl} kind="primary" size="large" bold>
@@ -99,7 +103,7 @@ export default () => {
                                 <FormattedMessage id="p_home_meneyeglasses_title" />
                             </div>
                             <div className={styles.text}>
-                                <FormattedMessage id="p_home_menglasses_text" />
+                                <FormattedMessage id="p_home_meneyeglasses_text" values={VALUES} />
                             </div>
                             <div className={styles.actions}>
                                 <Button to={menEyeglassesUrl} kind="primary" size="large" bold>
@@ -119,7 +123,7 @@ export default () => {
                                 <FormattedMessage id="p_home_womeneyeglasses_title" />
                             </div>
                             <div className={styles.text}>
-                                <FormattedMessage id="p_home_womenglasses_text" />
+                                <FormattedMessage id="p_home_womeneyeglasses_text" values={VALUES} />
                             </div>
                             <div className={styles.actions}>
                                 <Button to={womenEyeglassesUrl} kind="primary" size="large" bold>
