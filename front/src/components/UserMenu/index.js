@@ -162,7 +162,7 @@ const UserMenu = () => {
                 <li className={styles.item}>
                     <div className={styles.icon}>
                         <Link to="/cart">
-                            {!loadingShortBasket && basket.products && basket.products.length ? (
+                            {!loadingShortBasket && basket && basket.products.length ? (
                                 <Badge badgeContent={basket.products.length} kind="primary">
                                     <ShoppingCartIcon size="20" />
                                 </Badge>
