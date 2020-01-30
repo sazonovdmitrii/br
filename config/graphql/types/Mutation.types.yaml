@@ -103,4 +103,4 @@ Mutation:
         resolve: '@=mutation("App\\GraphQL\\Mutation\\CouponMutation::apply", [args])'
         args:
           input:
-            type: Coupon!
+            type: CouponInput!
