@@ -23,7 +23,7 @@ final class Version20190618083847 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE producttag ADD type VARCHAR(10) DEFAULT NULL');
-        $this->addSql('ALTER TABLE producttag ADD visible VARCHAR(3) DEFAULT NULL');
+//        $this->addSql('ALTER TABLE producttag ADD visible VARCHAR(3) DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -32,7 +32,7 @@ final class Version20190618083847 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE ProductTag DROP type');
+//        $this->addSql('ALTER TABLE ProductTag DROP type');
         $this->addSql('ALTER TABLE ProductTag DROP visible');
     }
 }
