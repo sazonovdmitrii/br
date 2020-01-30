@@ -98,3 +98,9 @@ Mutation:
         args:
           input:
             type: EntityIdInput!
+      applyCoupon:
+        type: Basket!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\CouponMutation::apply", [args])'
+        args:
+          input:
+            type: Coupon!

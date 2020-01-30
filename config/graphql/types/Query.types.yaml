@@ -12,10 +12,6 @@ Query:
         resolve: "@=resolver('ProductItem', [args])"
       user:
         type: "User"
-        args:
-            id:
-              description: "Resolves using the user id."
-              type: "Int"
         resolve: "@=resolver('User', [args])"
       product:
         type: "Product"
