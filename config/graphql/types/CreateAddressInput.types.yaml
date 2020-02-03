@@ -38,3 +38,9 @@ CreateAddressInput:
       code:
         type: "String"
         description: "Code"
+      region_fias_id:
+        type: "String"
+        description: "Code"
+      city_fias_id:
+        type: "String"
+        description: "Code"

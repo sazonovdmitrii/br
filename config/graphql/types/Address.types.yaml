@@ -45,4 +45,10 @@ Address:
       active:
         type: "String"
         description: "Active"
+      region_fias_id:
+        type: "String"
+        description: "Region Fias Id"
+      city_fias_id:
+        type: "String"
+        description: "City Fias Id"
 
