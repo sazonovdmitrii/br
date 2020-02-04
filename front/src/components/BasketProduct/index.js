@@ -42,7 +42,11 @@ const BasketProduct = ({ url, name, subName, images, price, options, recipes, on
                         />
                     </picture>
                 </Link>
-                {recipes && <RecipeTable recipe={recipes} />}
+                {recipes && (
+                    <div className={styles.recipe}>
+                        <RecipeTable recipe={recipes} />
+                    </div>
+                )}
             </div>
             <div className={styles.info}>
                 <h4 className={styles.name}>

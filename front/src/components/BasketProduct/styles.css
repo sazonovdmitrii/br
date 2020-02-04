@@ -54,6 +54,11 @@
     }
 }
 
+.recipe {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
 .info {
     @media (--viewport-tablet) {
         display: flex;
