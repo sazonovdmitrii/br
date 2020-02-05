@@ -12,6 +12,9 @@ ProductItem:
       price:
         type: "String"
         description: "Product Item Price"
+      wholesale_price:
+        type: "String"
+        description: "Product Item Price"
       productItemImages:
         type: "[ProductItemImage]"
         description: "Product Item Image"

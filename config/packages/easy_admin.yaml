@@ -123,8 +123,10 @@ easy_admin:
             form:
                 fields:
                     - { type: 'tab' , label: 'Основные' }
-                    - { property: 'price', label: 'Цена'}
                     - { property: 'sku', label: 'Артикул'}
+                    - { type: 'tab' , label: 'Цены' }
+                    - { property: 'price', label: 'Цена'}
+                    - { property: 'wholesale_price', label: 'Оптовая Цена'}
                     - { type: 'tab' , label: 'Мультиязычный контент' }
                     - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
                         type_options: {
