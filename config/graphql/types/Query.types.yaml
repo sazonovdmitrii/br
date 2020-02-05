@@ -163,6 +163,9 @@ Query:
               description: "Resolves using the order secret key."
               type: "String"
         resolve: "@=resolver('Order', [args])"
+      wholesale:
+        type: "Wholesale"
+        resolve: "@=resolver('Wholesale', [args])"
 DateTime:
     type: custom-scalar
     config:

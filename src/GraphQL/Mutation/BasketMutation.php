@@ -12,6 +12,11 @@ use Redis;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Service\UserService;
 
+/**
+ * Class BasketMutation
+ *
+ * @package App\GraphQL\Mutation
+ */
 class BasketMutation extends AuthMutation
 {
     private $authenticatorService;

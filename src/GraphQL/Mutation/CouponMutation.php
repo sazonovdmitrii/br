@@ -11,10 +11,26 @@ use Redis;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Service\UserService;
 
+/**
+ * Class CouponMutation
+ *
+ * @package App\GraphQL\Mutation
+ */
 class CouponMutation extends AuthMutation
 {
     private $productItemRepository;
 
+    /**
+     * CouponMutation constructor.
+     *
+     * @param EntityManager $em
+     * @param Redis $redis
+     * @param ContainerInterface $container
+     * @param AuthenticatorService $authenticatorService
+     * @param BasketService $basketService
+     * @param UserService $userService
+     * @param ProductItemRepository $productItemRepository
+     */
     public function __construct(
         EntityManager $em,
         Redis $redis,
@@ -31,6 +47,10 @@ class CouponMutation extends AuthMutation
         $this->productItemRepository = $productItemRepository;
     }
 
+    /**
+     * @param Argument $args
+     * @return array
+     */
     public function apply(Argument $args)
     {
         $input = new CouponInput($args);
