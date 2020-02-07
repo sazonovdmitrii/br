@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
 import { GET_ADDRESS, GET_ADDRESSES } from 'query';
 import { UPDATE_ADDRESS_MUTATION, CREATE_ADDRESS_MUTATION } from 'mutations';
@@ -10,17 +9,6 @@ import { useApp } from 'hooks';
 import Loader from 'components/Loader';
 
 import AddressForm from './AddressForm';
-
-const GET_REGIONS = gql`
-    {
-        regions {
-            data {
-                id
-                title
-            }
-        }
-    }
-`;
 
 const Root = ({ id, onSubmit, actions }) => {
     const { createNotification } = useApp();
@@ -53,7 +41,7 @@ const Root = ({ id, onSubmit, actions }) => {
     });
 
     if (id) {
-        const { loading, data: { address: { __typename, ...newAddress } = {}, regions } = {} } = useQuery(
+        const { loading, data: { address: { __typename, ...newAddress } = {} } = {} } = useQuery(
             GET_ADDRESS,
             {
                 variables: {

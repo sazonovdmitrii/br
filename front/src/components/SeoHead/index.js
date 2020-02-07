@@ -9,7 +9,7 @@ const SeoHead = props => {
     const { type, image } = props;
     const { pathname: url } = useLocation();
     const { title, description, keywords, ogType = 'website' } = SEO[type](props);
-    const { lang } = useLang();
+    const lang = useLang();
 
     return (
         <Helmet>

@@ -6,3 +6,4 @@ export { default as createMarkup } from './createMarkup';
 export { default as isNumber } from './isNumber';
 export { default as metrics } from './metrics';
 export { default as createSession } from './createSession';
+export { default as formatDate } from './formatDate';

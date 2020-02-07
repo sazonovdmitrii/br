@@ -15,13 +15,12 @@ const Component = loadable(() => import('./Basket'), {
 
 export default () => {
     const [title] = useFormatMessage([{ id: 'p_cart_meta_title' }]);
-    const {
-        loading,
-        error,
-        data: { basket = { products: [] }, cities, payments_methods, addresses, isLoggedIn } = {},
-    } = useQuery(GET_BASKET, {
-        ssr: false,
-    });
+    const { loading, error, data: { basket = { products: [] }, addresses, isLoggedIn } = {} } = useQuery(
+        GET_BASKET,
+        {
+            ssr: false,
+        }
+    );
 
     if (error) return <ErrorBoundary />;
 
@@ -32,13 +31,7 @@ export default () => {
             <Helmet>
                 <title>{title}</title>
             </Helmet>
-            <Component
-                basket={basket}
-                paymentsMethods={payments_methods.data}
-                addresses={addresses ? addresses.data : []}
-                isLoggedIn={isLoggedIn}
-                cities={cities ? cities.data : []}
-            />
+            <Component basket={basket} addresses={addresses ? addresses.data : []} isLoggedIn={isLoggedIn} />
         </>
     );
 };

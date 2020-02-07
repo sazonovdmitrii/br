@@ -6,8 +6,8 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const ListItem = ({ active, actions, description, title, onClick, pointer }) => {
-    const rootClassName = cx(styles.root, {
+const ListItem = ({ classNames = {}, active, actions, description, meta, title, onClick, pointer }) => {
+    const rootClassName = cx(styles.root, classNames.root, {
         active,
         pointer,
     });
@@ -17,6 +17,7 @@ const ListItem = ({ active, actions, description, title, onClick, pointer }) => 
             <div className={styles.body}>
                 <div className={styles.title}>{title}</div>
                 {description && <div className={styles.description}>{description}</div>}
+                {meta && <div className={styles.meta}>{meta}</div>}
             </div>
             {actions && <div className={styles.actions}>{actions}</div>}
         </div>
@@ -28,7 +29,8 @@ ListItem.defaultProps = {
     pointer: false,
     actions: null,
     description: null,
-    onClick: () => {},
+    meta: null,
+    onClick: null,
 };
 
 ListItem.propTypes = {
