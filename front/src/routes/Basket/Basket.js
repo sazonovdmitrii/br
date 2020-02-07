@@ -96,7 +96,6 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
         ...initialValues,
         city: getLocalCity(),
     });
-    useEffect(() => console.log('UPDATE VALUES', values), [values]);
 
     const isPickup = values.deliveryMethod.service_id === 'pvz';
     const isStore = values.deliveryMethod.service_id === 'stores';
