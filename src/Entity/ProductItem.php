@@ -100,6 +100,11 @@ class ProductItem
      */
     private $sku;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $wholesale_price;
+
     public function __construct()
     {
         $this->product_id = new ArrayCollection();
@@ -445,6 +450,18 @@ class ProductItem
     public function setSku(?string $sku): self
     {
         $this->sku = $sku;
+
+        return $this;
+    }
+
+    public function getWholesalePrice(): ?string
+    {
+        return $this->wholesale_price;
+    }
+
+    public function setWholesalePrice(?string $wholesale_price): self
+    {
+        $this->wholesale_price = $wholesale_price;
 
         return $this;
     }

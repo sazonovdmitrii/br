@@ -1,9 +1,13 @@
 {
     "p_order_title": "Спасибо за заказ №{id}",
+    "p_order_payment_method": "Способ оплаты",
+    "p_order_delivery_method": "Способ доставки",
+    "p_order_address": "Адрес",
     "p_cart_sidebar_message": "Включая линзы",
     "p_cart_order_receiving_title": "Способ получения",
     "p_cart_order_delivery_title": "Способ доставки",
-    "p_cart_order_pickup_title": "Самовывозы",
+    "p_cart_order_pickups_title": "Самовывозы",
+    "p_cart_order_stores_title": "Магазины",
     "p_cart_order_payment_title": "Способ оплаты",
     "p_cart_order_address_title": "Выберите адрес доставки",
     "p_cart_order_new_address_title": "Добавление адреса",
@@ -11,6 +15,8 @@
     "p_cart_order_block_shipping": "Доставка",
     "p_cart_order_block_total": "Итого",
     "p_cart_order_block_action": "Оформить заказ",
+    "p_cart_order_pickup_delivery_days": "Дата доставки",
+    "p_cart_order_pickup_storage_time": "Срок хранения",
     "p_cart_meta_title": "Корзина",
     "p_accessories_meta_title": "Аксессуары",
     "p_accessories_title": "Аксессуары",
@@ -57,16 +63,16 @@
     "p_lenses_lenses_w_benefits_title": "Линзы с преимуществами",
     "meta_title": "«BRILLENHOF» купить очки с доставкой оптика в Москве",
 
-    "p_home_mensunglasses_title": "Мужские солнцезащитные очки.",
-    "p_home_mensunglasses_text": "- линзы Carl Zeiss устойчивы к царапинам{br}- покрытие блокируют 100% UVA и UVB-лучей{br}- Материал оправ титан и итальянский ацетат Mazzucchelli",
+    "p_home_mensunglasses_title": "Мужские солнцезащитные очки",
+    "p_home_mensunglasses_text": "- линзы Carl Zeiss устойчивы к царапинам{br}- покрытие блокирует 100% UVA и UVB-лучей{br}- Материал оправ титан и итальянский ацетат Mazzucchelli",
 
-    "p_home_womensunglasses_title": "Женские солнцезащитные очки.",
+    "p_home_womensunglasses_title": "Женские солнцезащитные очки",
     "p_home_womensunglasses_text": "- коллекция модных оттенков и актуальных форм{br}- оправы ручной работы{br}- устойчивые к царапинам линзы Carl Zeiss",
 
-    "p_home_meneyeglasses_title": "Мужские очки для зрения.",
+    "p_home_meneyeglasses_title": "Мужские очки для зрения",
     "p_home_meneyeglasses_text": "Сделайте онлайн заказ очков с современными линзами по вашему рецепту или воспользуйтесь услугой примерки где вам удобно{br}- выберите понравившуюся оправу{br}- оставьте данные рецепта нашему менеджеру{br}- оформите заявку на изготовление линз",
 
-    "p_home_womeneyeglasses_title": "Женские очки для зрения.",
+    "p_home_womeneyeglasses_title": "Женские очки для зрения",
     "p_home_womeneyeglasses_text": "Сделайте онлайн заказ очков с современными линзами по вашему рецепту или воспользуйтесь услугой примерки в любом месте{br}- выберите понравившуюся оправу{br}- оставьте данные рецепта нашему менеджеру{br}- оформите заявку на изготовление линз",
 
     "p_home_sunglasses_button": "Выбрать",
@@ -147,7 +153,7 @@
 
     "shop_men": "Мужские",
     "shop_women": "Женские",
-    "p_home_hero_title": "Выберите 5 оправ и примерьте их дома бесплатно",
+    "p_home_hero_title": "Немецкие очки с линзами от 5900 руб.",
     "p_home_hero_button_men": "Мужские",
     "p_home_hero_button_women": "Женские",
     "recommended": "Рекомендуемые",

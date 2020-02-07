@@ -41,3 +41,9 @@ UpdateAddressInput:
       code:
         type: "String"
         description: "Code"
+      region_fias_id:
+        type: "String"
+        description: "Region fias Id"
+      city_fias_id:
+        type: "String"
+        description: "City Fias Id"

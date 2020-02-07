@@ -11,10 +11,25 @@ use Redis;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Service\UserService;
 
+/**
+ * Class AddressMutation
+ *
+ * @package App\GraphQL\Mutation
+ */
 class AddressMutation extends AuthMutation
 {
     private $authenticatorService;
 
+    /**
+     * AddressMutation constructor.
+     *
+     * @param EntityManager $em
+     * @param Redis $redis
+     * @param ContainerInterface $container
+     * @param AuthenticatorService $authenticatorService
+     * @param AddressService $addressService
+     * @param UserService $userService
+     */
     public function __construct(
         EntityManager $em,
         Redis $redis,
@@ -30,11 +45,13 @@ class AddressMutation extends AuthMutation
         parent::__construct($redis, $container, $authenticatorService, $userService);
     }
 
+    /**
+     * @param Argument $args
+     * @return \App\Entity\Address|array
+     */
     public function create(Argument $args)
     {
         $input = new CreateAddressInput($args);
-
-        $address = [];
 
         if($authKey = $this->getAuthKey()) {
             $address = $this->addressService
@@ -49,6 +66,10 @@ class AddressMutation extends AuthMutation
         return [];
     }
 
+    /**
+     * @param Argument $args
+     * @return array
+     */
     public function update(Argument $args)
     {
         $input = new UpdateAddressInput($args);
@@ -71,6 +92,10 @@ class AddressMutation extends AuthMutation
         ];
     }
 
+    /**
+     * @param Argument $args
+     * @return array
+     */
     public function remove(Argument $args)
     {
         $input = new UpdateAddressInput($args);

@@ -12,10 +12,6 @@ Query:
         resolve: "@=resolver('ProductItem', [args])"
       user:
         type: "User"
-        args:
-            id:
-              description: "Resolves using the user id."
-              type: "Int"
         resolve: "@=resolver('User', [args])"
       product:
         type: "Product"
@@ -167,6 +163,9 @@ Query:
               description: "Resolves using the order secret key."
               type: "String"
         resolve: "@=resolver('Order', [args])"
+      wholesale:
+        type: "Wholesale"
+        resolve: "@=resolver('Wholesale', [args])"
 DateTime:
     type: custom-scalar
     config:

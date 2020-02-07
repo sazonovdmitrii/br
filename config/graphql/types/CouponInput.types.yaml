@@ -1,0 +1,6 @@
+CouponInput:
+  type: input-object
+  config:
+    fields:
+      coupon:
+        type: "String"

@@ -45,6 +45,17 @@ easy_admin:
                 fields:
                   - name
                   - title
+        Coupons:
+            class: App\Entity\Coupons
+            label: 'Купоны'
+            list:
+                title: 'Купоны'
+                fields: ['id', 'code', 'percent']
+            form:
+                fields:
+                    - { type: 'tab' , label: 'Основные' }
+                    - { property: 'code', label: 'Код купона'}
+                    - { property: 'percent', label: 'Процент'}
         MenuItem:
             label: 'Пункты меню'
             class: App\Entity\MenuItem
@@ -112,8 +123,10 @@ easy_admin:
             form:
                 fields:
                     - { type: 'tab' , label: 'Основные' }
-                    - { property: 'price', label: 'Цена'}
                     - { property: 'sku', label: 'Артикул'}
+                    - { type: 'tab' , label: 'Цены' }
+                    - { property: 'price', label: 'Цена'}
+                    - { property: 'wholesale_price', label: 'Оптовая Цена'}
                     - { type: 'tab' , label: 'Мультиязычный контент' }
                     - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
                         type_options: {
@@ -623,8 +636,8 @@ easy_admin:
             children: ['Page', 'Block', 'Banner', 'Store', 'Region', 'Courier', 'Pickup', 'City', 'PaymentMethod']
           - label: 'Лэндинги'
             children: ['LandingBlock', 'LandingPage']
-          - Order
-          - Sale
+          - label: 'Продажи'
+            children: ['Order', 'Sale', 'Coupons']
           - label: 'Конфигурация'
             children: ['Configuration', 'ImageType']
           - Translation

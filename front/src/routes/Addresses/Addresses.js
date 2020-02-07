@@ -9,6 +9,7 @@ import { GET_ADDRESSES } from 'query';
 import ListItem from 'components/ListItem';
 import Button from 'components/Button';
 import AddressForm from 'components/AddressForm';
+import Container from 'components/Container';
 
 import styles from './styles.css';
 
@@ -48,35 +49,31 @@ const Addresses = ({ items = [], onSubmit }) => {
 
     if (showForm) {
         return (
-            <div className={styles.root} ref={formEl}>
-                <div className={styles.form}>
-                    <h1 className={styles.formTitle}>
-                        <FormattedMessage
-                            id={showForm.id ? 'p_addresses_edit_title' : 'p_addresses_new_title'}
-                        />
-                    </h1>
-                    <AddressForm
-                        id={showForm.id}
-                        actions={
-                            <Button
-                                kind="secondary"
-                                bold
-                                onClick={() => {
-                                    setShowForm(null);
-                                }}
-                            >
-                                <FormattedMessage id="back" />
-                            </Button>
-                        }
-                        onSubmit={handleSubmitAddress}
-                    />
-                </div>
-            </div>
+            <Container size="form" className={styles.root} ref={formEl}>
+                <h1 className={styles.formTitle}>
+                    <FormattedMessage id={showForm.id ? 'p_addresses_edit_title' : 'p_addresses_new_title'} />
+                </h1>
+                <AddressForm
+                    id={showForm.id}
+                    actions={
+                        <Button
+                            kind="secondary"
+                            bold
+                            onClick={() => {
+                                setShowForm(null);
+                            }}
+                        >
+                            <FormattedMessage id="back" />
+                        </Button>
+                    }
+                    onSubmit={handleSubmitAddress}
+                />
+            </Container>
         );
     }
 
     return (
-        <div className={styles.root}>
+        <Container size="form" className={styles.root}>
             <div className={styles.header}>
                 <div className={styles.title}>
                     <FormattedMessage id="p_addresses_title" />
@@ -153,7 +150,7 @@ const Addresses = ({ items = [], onSubmit }) => {
                     <FormattedMessage id="p_addresses_add_address" />
                 </Button>
             </div>
-        </div>
+        </Container>
     );
 };
 

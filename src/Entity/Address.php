@@ -103,6 +103,16 @@ class Address
      */
     private $session_key;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $region_fias_id;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $city_fias_id;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -347,6 +357,30 @@ class Address
     public function setSessionKey(?string $session_key): self
     {
         $this->session_key = $session_key;
+
+        return $this;
+    }
+
+    public function getRegionFiasId(): ?string
+    {
+        return $this->region_fias_id;
+    }
+
+    public function setRegionFiasId(?string $region_fias_id): self
+    {
+        $this->region_fias_id = $region_fias_id;
+
+        return $this;
+    }
+
+    public function getCityFiasId(): ?string
+    {
+        return $this->city_fias_id;
+    }
+
+    public function setCityFiasId(?string $city_fias_id): self
+    {
+        $this->city_fias_id = $city_fias_id;
 
         return $this;
     }

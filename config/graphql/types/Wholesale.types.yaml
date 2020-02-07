@@ -1,0 +1,12 @@
+Wholesale:
+  type: object
+  config:
+    description: "Wholesale"
+    fields:
+      products:
+        type: ProductConnection
+        argsBuilder: PaginatoringBuilder
+        resolve: '@=resolver("WholesaleProduct", [value, args])'
+      count:
+        type: "Int!"
+        description: "Count of products"

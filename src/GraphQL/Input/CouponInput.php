@@ -1,18 +1,16 @@
 <?php
-
 namespace App\GraphQL\Input;
-
 use AssoConnect\GraphQLMutationValidatorBundle\Input\RequestObject;
 
 /**
- * Class UpdateAddressInput
+ * Class CouponInputInput
  *
  * @package App\GraphQL\Input
  */
-class UpdateAddressInput extends CreateAddressInput
+class CouponInput extends RequestObject
 {
     /**
      * @var
      */
-    public $id;
+    public $coupon;
 }

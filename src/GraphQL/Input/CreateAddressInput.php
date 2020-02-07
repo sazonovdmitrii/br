@@ -70,4 +70,14 @@ class CreateAddressInput extends RequestObject
      * @var
      */
     public $code;
+
+    /**
+     * @var
+     */
+    public $region_fias_id;
+
+    /**
+     * @var
+     */
+    public $city_fias_id;
 }

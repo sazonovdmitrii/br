@@ -149,7 +149,11 @@ class UserMutation extends AuthMutation
         $this->userService->create($input);
 
         if ($user = $this->authenticatorService->auth($input->email, $input->password)) {
+
+            $this->basketService->updateCartForUser($this->getAuthKey(), $user->getId());
+
             $user->setHash($this->jwtManager->create($user));
+
             return $user;
         }
 

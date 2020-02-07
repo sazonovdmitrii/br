@@ -3,8 +3,7 @@ namespace App\GraphQL\Mutation;
 
 use App\Repository\ProductItemRepository;
 use App\Service\BasketService;
-use App\GraphQL\Input\AddBasketInput;
-use App\GraphQL\Input\UpdateBasketInput;
+use App\GraphQL\Input\CouponInput;
 use App\Service\AuthenticatorService;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Doctrine\ORM\EntityManager;
@@ -13,18 +12,25 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Service\UserService;
 
 /**
- * Class BasketMutation
+ * Class CouponMutation
  *
  * @package App\GraphQL\Mutation
  */
-class BasketMutation extends AuthMutation
+class CouponMutation extends AuthMutation
 {
-    private $authenticatorService;
-    /**
-     * @var ProductItemRepository
-     */
     private $productItemRepository;
 
+    /**
+     * CouponMutation constructor.
+     *
+     * @param EntityManager $em
+     * @param Redis $redis
+     * @param ContainerInterface $container
+     * @param AuthenticatorService $authenticatorService
+     * @param BasketService $basketService
+     * @param UserService $userService
+     * @param ProductItemRepository $productItemRepository
+     */
     public function __construct(
         EntityManager $em,
         Redis $redis,
@@ -37,44 +43,22 @@ class BasketMutation extends AuthMutation
         $this->redis = $redis;
         $this->em = $em;
         $this->basketService = $basketService;
-        $this->authenticatorService = $authenticatorService;
         parent::__construct($redis, $container, $authenticatorService, $userService);
         $this->productItemRepository = $productItemRepository;
     }
 
-    public function add(Argument $args)
+    /**
+     * @param Argument $args
+     * @return array
+     */
+    public function apply(Argument $args)
     {
-        $input = new AddBasketInput($args);
-        if($input->item_id) {
-
-            $productItem = $this->productItemRepository->find($input->item_id);
-
-            return $this->basketService
-                ->setAuthKey($this->getAuthKey())
-                ->add($productItem->getId(), $input->lenses);
-        }
-    }
-
-    public function remove(Argument $args)
-    {
-        $input = new AddBasketInput($args);
-
-        if($input->item_id) {
-            return $this->basketService
-                ->setAuthKey($this->getAuthKey())
-                ->remove($input->item_id);
-        }
-    }
-
-    public function update(Argument $args)
-    {
-        $input = new UpdateBasketInput($args);
-
-        if($input->item_id) {
+        $input = new CouponInput($args);
+        if($input->coupon) {
             return $this->basketService
                 ->setAuthKey($this->getAuthKey())
                 ->setLocale($this->getLocale())
-                ->update($input->item_id, $input->qty);
+                ->getAll();
         }
     }
 }
