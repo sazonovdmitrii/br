@@ -650,7 +650,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                                   store_id: values.stores.id,
                                               }
                                             : {
-                                                  courier_id: values.deliveryMethod.id,
+                                                  courier_id: values.deliveryMethod.service_id,
                                                   address_id: values.address.id,
                                               };
 
