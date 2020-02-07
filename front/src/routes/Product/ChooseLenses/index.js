@@ -3,13 +3,8 @@ import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 import { X as CloseIcon, ArrowLeft } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
-import { useHistory } from 'react-router';
-import { useMutation } from '@apollo/react-hooks';
 
-import { metrics, createMarkup } from 'utils';
-import { ADD_TO_BASKET } from 'mutations';
-import { GET_SHORT_BASKET, GET_BASKET } from 'query';
-import { useApp } from 'hooks';
+import { createMarkup } from 'utils';
 
 import Title from 'components/Title';
 import Link from 'components/Link';
@@ -94,6 +89,8 @@ const ChooseLenses = ({
         item: { images, id: itemId, name: itemName, price: itemPrice },
     },
     lenses,
+    loadingAddToCart,
+    onAddToCart,
     onClose,
 }) => {
     const _steps = lenses[0].lenseitemstags
@@ -102,61 +99,11 @@ const ChooseLenses = ({
     const steps = [..._steps, RECIPE_STEP, FINAL_STEP];
     const [firstStep] = steps;
 
-    const { createNotification } = useApp();
-    const history = useHistory();
     const overlayNode = useRef(null);
     const [currentStep, setCurrentStep] = useState(firstStep);
     const [values, setValues] = useState([]);
     const [recipe, setRecipe] = useState(INITIAL_RECIPE);
     const [imageIndex, setImageIndex] = useState(0);
-    const [addToCart, { loading: loadingAddToCart }] = useMutation(ADD_TO_BASKET, {
-        onCompleted({ addBasket: { products } }) {
-            if (products) {
-                console.log('product added to basket', products);
-                metrics('gtm', {
-                    event: 'addToCart',
-                    data: {
-                        currencyCode: 'RUB',
-                        add: {
-                            products: [
-                                {
-                                    name: productName,
-                                    id: itemId,
-                                    price: itemPrice,
-                                    variant: itemName,
-                                    quantity: 1,
-                                },
-                            ],
-                        },
-                    },
-                });
-
-                history.push('/cart');
-            }
-        },
-        onError({ graphQLErrors: [{ message }] }) {
-            createNotification({ type: 'error', message });
-        },
-        update(
-            cache,
-            {
-                data: { addBasket },
-            }
-        ) {
-            /* <3 apollo */
-            [GET_SHORT_BASKET, GET_BASKET].forEach(query => {
-                cache.writeQuery({
-                    query,
-                    data: {
-                        basket: {
-                            products: addBasket.products,
-                            __typename: 'Basket',
-                        },
-                    },
-                });
-            });
-        },
-    });
 
     if (typeof document === 'undefined') return null;
 
@@ -244,7 +191,7 @@ const ChooseLenses = ({
 
     const handleAddToCart = () => {
         if (choosenLenses.id) {
-            addToCart({
+            onAddToCart({
                 variables: {
                     input: {
                         item_id: itemId,
@@ -561,6 +508,8 @@ const ChooseLenses = ({
 
 ChooseLenses.defaultProps = {
     onClose: () => {},
+    onAddToCart: () => {},
+    loadingAddToCart: false,
 };
 
 ChooseLenses.propTypes = {
@@ -573,6 +522,8 @@ ChooseLenses.propTypes = {
             price: PropTypes.number.isRequired,
         }),
     }).isRequired,
+    loadingAddToCart: PropTypes.bool,
+    onAddToCart: PropTypes.func,
     onClose: PropTypes.func,
     lenses: PropTypes.arrayOf(
         PropTypes.shape({
