@@ -643,7 +643,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                     if (isValid()) {
                                         const input = isPickup
                                             ? {
-                                                  pickup_id: values.pvz.id,
+                                                  pickup_id: values.pvz.pvz_id,
                                               }
                                             : isStore
                                             ? {
