@@ -53,7 +53,7 @@ const getLocalCity = () => {
     let localCity = {};
 
     try {
-        localCity = JSON.parse(localStorage.getItem('city'));
+        localCity = JSON.parse(localStorage.getItem('city')) || {};
     } catch (e) {
         console.error(e);
     }
