@@ -1,66 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
 
-import { useApp } from 'hooks';
-import {
-    GET_SHORT_BASKET,
-    GET_DELIVERY,
-    // GET_PICKUPS,
-    // GET_STORES,
-} from 'query';
-import {
-    // UPDATE_PRODUCT_MUTATION,
-    REMOVE_PRODUCT_MUTATION,
-    CREATE_ORDER_MUTATION,
-} from 'mutations';
+import { useApp, useLang } from 'hooks';
+import { GET_SHORT_BASKET } from 'query';
+import { REMOVE_PRODUCT_MUTATION, CREATE_ORDER_MUTATION } from 'mutations';
 import { isNumber, metrics } from 'utils';
 
 import Button from 'components/Button';
-import LoginForm from 'components/LoginForm';
 import { StepView, StepContainer } from 'components/Steps';
 import AddressList from 'components/AddressList/AddressList';
-import Select from 'components/Select';
 import Loader from 'components/Loader';
 import ListItem from 'components/ListItem';
 import BasketProduct from 'components/BasketProduct';
-import UserForm from 'components/UserForm';
 import Title from 'components/Title';
-import Link from 'components/Link';
-import RestorePasswordForm from 'components/RestorePasswordForm';
-import Hr from 'components/Hr';
+import Autocomplete from 'components/Autocomplete';
 // TODO REMOVE
 import Order from 'routes/Order/Order';
-import Snackbar, { SnackbarOverlay } from 'components/Snackbar';
 
 // import Success from 'routes/Success';
 
+import api from './api';
 import Empty from './Empty';
 import Sidebar from './Sidebar';
+import Login from './Login';
+import Pickups from './Pickups';
+import Stores from './Stores';
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
 let seoProducts = [];
 
-const DELIVERY_TYPES = {
-    delivery: {
-        label: 'Курьером',
-        query: GET_DELIVERY,
-    },
-    // store: {
-    //     label: 'Магазин',
-    //     query: GET_STORES,
-    // },
-};
 const ERORRS = {
     city: 'Не указан город доставки',
     address: 'Не указан адрес',
     payment: 'Не указан способ оплаты',
-    pickup: 'Не указан пункт выдачи',
-    delivery: 'Не указан способ доставки',
+    pvz: 'Не указан пункт выдачи',
+    deliveryMethod: 'Не указан способ получения',
+    stores: 'Не указан магазин',
 };
 
 const theme = {
@@ -69,41 +49,59 @@ const theme = {
     header: styles.header,
 };
 
-const Basket = ({
-    basket: { products: productsProps },
-    cities: citiesProps = [],
-    paymentsMethods: paymentsMethodsProps,
-    addresses,
-    isLoggedIn,
-}) => {
-    const avaibleCities = citiesProps.filter(({ visible }) => visible);
-    const citiesForSelect = avaibleCities.map(({ id, title, ...any }) => {
-        return { id, value: title, ...any };
-    });
+const getLocalCity = () => {
+    let localCity = {};
 
-    const [orderId, setOrderId] = useState(false);
-    const { login } = useApp();
+    try {
+        localCity = JSON.parse(localStorage.getItem('city')) || {};
+    } catch (e) {
+        console.error(e);
+    }
+
+    return localCity;
+};
+
+const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) => {
+    const locale = useLang();
+    const { createNotification } = useApp();
     const [products, setProducts] = useState(productsProps);
+    const [orderId, setOrderId] = useState(false);
+
+    const initialDeliveryMethods = { loading: true, called: false, data: [] };
+    const [
+        { loading: loadingDeliveryMethods, called: calledDeliveryMethods, data: deliveryMethods },
+        setDeliveryMethods,
+    ] = useState(initialDeliveryMethods);
+
+    const initialPickups = { loading: true, called: false, data: [] };
+    const [{ loading: loadingPickups, called: calledPickups, data: pickups }, setPickups] = useState(
+        initialPickups
+    );
+    const [allPaymentsMethods, setAllPaymentsMethods] = useState({});
+    const [paymentsMethods, setPaymentsMethods] = useState([]);
     const [step, setStep] = useState(0);
-    const [values, setValues] = useState({
-        deliveryType: 'delivery',
-        city: citiesForSelect.length ? citiesForSelect[0] : {},
+
+    const initialValues = {
+        deliveryMethod: {},
+        city: {
+            name: '',
+        },
         payment: {},
-        delivery: null,
-        pickup: null,
+        pvz: {},
+        stores: {},
         comment: '',
         address: addresses && addresses.length ? addresses[0] : null,
+    };
+    const [values, setValues] = useState({
+        ...initialValues,
+        city: getLocalCity(),
     });
-    const [collapse, setCollapse] = useState({
-        pickup: false,
-        delivery: false,
-    });
-    const [loginType, setLoginType] = useState('login');
-    const [notification, setNotification] = useState(null);
-    const [disabledOrderButton, setDisabledOrderButton] = useState(true);
 
-    const isDelivery = values.deliveryType === 'delivery';
-    const currentDelivery = values[values.deliveryType];
+    const isPickup = values.deliveryMethod.service_id === 'pvz';
+    const isStore = values.deliveryMethod.service_id === 'stores';
+    const isCourier = values.deliveryMethod.payment_methods;
+    const currentDelivery = isCourier ? values.deliveryMethod : values[values.deliveryMethod.type];
+
     const totalSum = products.reduce(
         (acc, item) =>
             acc +
@@ -114,10 +112,39 @@ const Basket = ({
     const totalSumWithDelivery =
         parseInt(totalSum, 10) + (currentDelivery ? parseInt(currentDelivery.price, 10) : 0);
 
-    const handleChangeProducts = ({ removeBasket, updateBasket }, data = removeBasket || updateBasket) => {
-        if (!data) return;
+    const isValid = () => {
+        const fields = isCourier ? ['address'] : [isPickup ? 'pvz' : isStore ? 'stores' : null];
+        const requiredFields = ['city', 'deliveryMethod', ...fields, 'payment'];
 
-        if (removeBasket) {
+        const valid = requiredFields
+            .map(field => {
+                const value = values[field];
+
+                if (!value) return field;
+
+                if (isNumber(value) || (typeof value === 'object' && (value.id || value.service_id))) {
+                    return null;
+                }
+
+                return field;
+            })
+            .filter(Boolean);
+
+        if (valid.length) {
+            const name = [...valid].shift();
+
+            createNotification({
+                type: 'error',
+                message: ERORRS[name],
+            });
+        }
+
+        return !valid.length;
+    };
+
+    //* MUTATIONS
+    const [handleRemoveProduct] = useMutation(REMOVE_PRODUCT_MUTATION, {
+        onCompleted: ({ removeBasket }) => {
             const ids = removeBasket.products.map(({ item: { id } }) => id);
 
             metrics('gtm', {
@@ -136,35 +163,8 @@ const Basket = ({
                     },
                 },
             });
-        }
-
-        const { products: newProducts } = data;
-
-        setProducts(newProducts);
-    };
-
-    //* MUTATIONS
-    // const [handleChangeQty] = useMutation(UPDATE_PRODUCT_MUTATION, {
-    //     onCompleted: handleChangeProducts,
-    //     update(
-    //         cache,
-    //         {
-    //             data: { updateBasket },
-    //         }
-    //     ) {
-    //         cache.writeQuery({
-    //             query: GET_SHORT_BASKET,
-    //             data: {
-    //                 basket: {
-    //                     products: updateBasket.products,
-    //                     __typename: 'Basket',
-    //                 },
-    //             },
-    //         });
-    //     },
-    // });
-    const [handleRemoveProduct] = useMutation(REMOVE_PRODUCT_MUTATION, {
-        onCompleted: handleChangeProducts,
+            setProducts(removeBasket.products);
+        },
         update(
             cache,
             {
@@ -222,7 +222,7 @@ const Basket = ({
             });
         },
         onError({ graphQLErrors: [{ message }] }) {
-            setNotification({
+            createNotification({
                 type: 'error',
                 message,
             });
@@ -230,19 +230,27 @@ const Basket = ({
     });
     //* MUTATIONS
 
-    //* QUERY delivery
-    const [
-        loadDeliveries,
-        { called: calledDeliveries, loading: loadingDeliveries, data: { couriers, pickups, stores } = {} },
-    ] = useLazyQuery(DELIVERY_TYPES[values.deliveryType].query);
-    const foo = couriers || pickups || stores;
-    const deliveries = !calledDeliveries ? [] : loadingDeliveries ? [] : foo.data;
-    const { payments_methods: newPaymentsMethods = [] } = currentDelivery || {};
-    const allIdsPaymentMethods = newPaymentsMethods.map(({ id }) => id);
-    const paymentsMethods = paymentsMethodsProps.filter(({ id }) => allIdsPaymentMethods.indexOf(id) !== -1);
-    //* QUERY delivery
-
     /* EFFECTS */
+    useEffect(() => {
+        api.getPaymentsMethods({ locale }).then(({ list }) => {
+            setAllPaymentsMethods(list);
+        });
+    }, [locale]);
+
+    useEffect(() => {
+        if (!currentDelivery) return;
+
+        const { payment_methods } = currentDelivery;
+
+        console.log('find payment_methods', allPaymentsMethods, payment_methods);
+
+        if (payment_methods) {
+            const newPaymentsMethods = payment_methods.map(id => ({ id, title: allPaymentsMethods[id] }));
+
+            console.log(newPaymentsMethods);
+            setPaymentsMethods(newPaymentsMethods);
+        }
+    }, [values.deliveryMethod, currentDelivery, allPaymentsMethods]);
     useEffect(() => {
         seoProducts = products;
     }, [products]);
@@ -261,53 +269,52 @@ const Basket = ({
     }, [step]);
 
     useEffect(() => {
-        setCollapse({
-            pickup: false,
-            delivery: false,
-        });
-    }, [values.city.id]);
+        const { regionFias, cityFias } = values.city;
 
-    useEffect(() => {
-        if (deliveries.length === 1) {
-            setValues(prevState => ({
-                ...prevState,
-                delivery: deliveries[0],
-                payment: {},
+        if (!regionFias && !cityFias) return;
+
+        setDeliveryMethods(prevDeliveryMethods => ({
+            ...prevDeliveryMethods,
+            called: true,
+            loading: true,
+        }));
+
+        api.getDeliveryMethods({ regionFias, cityFias, locale }).then(({ list }) => {
+            setDeliveryMethods(prevDeliveryMethods => ({
+                ...prevDeliveryMethods,
+                loading: false,
+                data: Object.entries(list).reduce(
+                    (array, [type, value]) => [
+                        ...array,
+                        ...value.map(item => ({
+                            ...item,
+                            type,
+                            service_id: item.service_id || type,
+                        })),
+                    ],
+                    []
+                ),
             }));
-        }
-    }, [deliveries]);
+        });
+    }, [locale, values.city]);
 
     useEffect(() => {
-        if (values.city.id) {
-            loadDeliveries({
-                variables: {
-                    city_id: values.city.id,
-                },
-            });
-        }
-    }, [loadDeliveries, values.city.id]);
+        const { regionFias, cityFias } = values.city;
 
-    useEffect(() => {
-        // todo refactor
-        const fields = isDelivery ? ['delivery', 'address'] : ['pickup'];
-        const requiredFields = ['city', ...fields, 'payment'];
+        if (!regionFias && !cityFias) return;
 
-        const valid = requiredFields
-            .map(field => {
-                const value = values[field];
+        if (isPickup || isStore) {
+            const request = isPickup ? api.getPickups : api.getStores;
+            setPickups(prevPickups => ({ ...prevPickups, called: true, loading: true }));
 
-                if (!value) return field;
-
-                if (isNumber(value) || (typeof value === 'object' && value.id)) {
-                    return null;
+            request({ regionFias, cityFias, locale }).then(
+                ({ list: { points, stores } }, data = points || stores) => {
+                    setPickups(prevPickups => ({ ...prevPickups, loading: false, data }));
                 }
+            );
+        }
+    }, [isPickup, isStore, locale, values.city, values.city.id]);
 
-                return field;
-            })
-            .filter(Boolean);
-
-        setDisabledOrderButton(!!valid.length);
-    }, [isDelivery, values]);
     /* EFFECTS  */
 
     const handleChangeStep = index => {
@@ -332,14 +339,6 @@ const Basket = ({
             },
         });
     };
-    const handleChangeSelect = data => {
-        setValues(prevState => ({
-            ...prevState,
-            city: data,
-            delivery: null,
-            payment: {},
-        }));
-    };
     const handleSubmitAddress = data => {
         if (data.id) {
             setValues(prevState => ({
@@ -347,41 +346,6 @@ const Basket = ({
                 address: data,
             }));
         }
-    };
-    const isValid = () => {
-        const fields = isDelivery ? ['delivery', 'address'] : ['pickup'];
-        const requiredFields = ['city', ...fields, 'payment'];
-
-        const valid = requiredFields
-            .map(field => {
-                const value = values[field];
-
-                if (!value) return field;
-
-                if (isNumber(value) || (typeof value === 'object' && value.id)) {
-                    return null;
-                }
-
-                return field;
-            })
-            .filter(Boolean);
-
-        if (valid.length) {
-            const name = [...valid].shift();
-
-            setNotification({
-                type: 'error',
-                message: ERORRS[name],
-            });
-        }
-
-        return !valid.length;
-    };
-    const handleLogInCompleted = ({ auth: { hash } }) => {
-        login(hash);
-    };
-    const handleRegisterCompleted = ({ register: { hash } }) => {
-        login(hash);
     };
     const handleChangeAddress = data => {
         setValues(prevState => ({ ...prevState, address: data }));
@@ -391,6 +355,21 @@ const Basket = ({
             ...prevState,
             [type]: data,
         }));
+    };
+    const handeChangeAutocomplite = (event, value) => {
+        setValues(prevValues => ({ ...prevValues, city: { name: value } }));
+    };
+    const handleSelectAutocomplite = ({ value, id, region_fias_id: regionFias, city_fias_id: cityFias }) => {
+        const newCity = { id, name: value, regionFias, cityFias };
+
+        localStorage.setItem('city', JSON.stringify(newCity));
+        setValues(prevValues => ({ ...prevValues, city: newCity }));
+    };
+    const handleResetAutocomplite = () => {
+        setValues(initialValues);
+        setDeliveryMethods(initialDeliveryMethods);
+        setPickups(initialPickups);
+        setPaymentsMethods([]);
     };
 
     if (orderId) {
@@ -415,17 +394,6 @@ const Basket = ({
 
     return (
         <div className={rootClassName}>
-            <SnackbarOverlay>
-                {notification && (
-                    <Snackbar
-                        text={notification.message}
-                        active={!!notification.message}
-                        theme={notification.type}
-                        onClose={() => setNotification(null)}
-                        overlay={false}
-                    />
-                )}
-            </SnackbarOverlay>
             <StepView active={step} onChange={handleChangeStep}>
                 <StepContainer
                     title={
@@ -470,7 +438,7 @@ const Basket = ({
                         pricing={[
                             {
                                 name: 'p_cart_sidebar_shipping',
-                                value: currentDelivery && currentDelivery.price,
+                                value: currentDelivery && parseInt(currentDelivery.prices, 10),
                             },
                             { name: 'p_cart_sidebar_subtotal', value: totalSum },
                         ]}
@@ -490,189 +458,142 @@ const Basket = ({
                 {isLoggedIn ? (
                     <StepContainer title="Оформление заказа" theme={theme}>
                         <div className={styles.block}>
-                            <Select
+                            <Autocomplete
                                 label="Город*"
-                                items={citiesForSelect}
-                                value={values.city.id}
-                                onChange={handleChangeSelect}
+                                value={values.city.name}
+                                onInputChange={handeChangeAutocomplite}
+                                onSelectValue={handleSelectAutocomplite}
+                                onResetValue={handleResetAutocomplite}
                             />
                         </div>
-                        {!calledDeliveries ? null : loadingDeliveries ? (
+                        {!calledDeliveryMethods ? null : loadingDeliveryMethods ? (
                             <Loader />
-                        ) : (
-                            <>
-                                {/* !isDelivery && (
-                                    <Map
-                                        value={values.pickup}
-                                        center={{
-                                            lat: parseFloat(values.city.latitude),
-                                            lng: parseFloat(values.city.longitude),
-                                        }}
-                                        source={deliveries.data.map(
-                                            ({ id, latitude, longitude, ...any }) => ({
-                                                ...any,
-                                                id,
-                                                lat: parseFloat(latitude),
-                                                lng: parseFloat(longitude),
-                                            })
-                                        )}
-                                        onChange={pickup => {
-                                            setValues(prevState => ({ ...prevState, pickup }));
-                                            setCollapse(prevState => ({ ...prevState, pickup: true }));
-                                        }}
-                                    />
-                                ) */}
-                                <div className={styles.block}>
-                                    <Title className={styles.blockTitle}>
-                                        <FormattedMessage
-                                            id={
-                                                isDelivery
-                                                    ? 'p_cart_order_delivery_title'
-                                                    : 'p_cart_order_pickup_title'
-                                            }
-                                        />
-                                    </Title>
-                                    {collapse[values.deliveryType] &&
-                                    deliveries.length > 1 &&
-                                    currentDelivery ? (
-                                        <>
-                                            <ListItem
-                                                title={currentDelivery.direction_title}
-                                                description={
-                                                    isDelivery ? (
-                                                        currentDelivery.comment && (
-                                                            <p>{currentDelivery.comment}</p>
-                                                        )
-                                                    ) : (
-                                                        <>
-                                                            <p>Адрес: {currentDelivery.address}</p>
-                                                            <p>Время работы: {currentDelivery.schedule}</p>
-                                                            {currentDelivery.comment && (
-                                                                <p>{currentDelivery.comment}</p>
-                                                            )}
-                                                        </>
-                                                    )
-                                                }
-                                                actions={
+                        ) : deliveryMethods.length ? (
+                            <div className={styles.block}>
+                                <Title className={styles.blockTitle}>
+                                    <FormattedMessage id="p_cart_order_receiving_title" />
+                                </Title>
+                                {deliveryMethods.map(item => {
+                                    return (
+                                        <ListItem
+                                            key={item.service_id}
+                                            title={item.service}
+                                            active={values.deliveryMethod.service_id === item.service_id}
+                                            onClick={() => {
+                                                handleClickListItem({
+                                                    type: 'deliveryMethod',
+                                                    data: item,
+                                                });
+                                            }}
+                                            actions={
+                                                item.prices ? (
                                                     <b>
                                                         <FormattedMessage
                                                             id={
-                                                                currentDelivery.price === '0'
+                                                                item.prices.min_price && item.prices.min_price
+                                                                    ? 'currency'
+                                                                    : 'free'
+                                                            }
+                                                            values={{
+                                                                price: `${item.prices.min_price}${item.prices
+                                                                    .max_price &&
+                                                                    `-${item.prices.max_price}`}`,
+                                                            }}
+                                                        />
+                                                    </b>
+                                                ) : (
+                                                    <b>
+                                                        <FormattedMessage
+                                                            id={
+                                                                parseInt(item.price, 10) === 0
                                                                     ? 'free'
                                                                     : 'currency'
                                                             }
-                                                            values={{ price: currentDelivery.price }}
+                                                            values={{ price: parseInt(item.price, 10) }}
                                                         />
                                                     </b>
-                                                }
-                                                active
-                                            />
-                                            <Button
-                                                kind="primary"
-                                                onClick={() =>
-                                                    setCollapse(prevState => ({
-                                                        ...prevState,
-                                                        [values.deliveryType]: false,
-                                                    }))
-                                                }
-                                                bold
-                                            >
-                                                Показать еще ({deliveries.length - 1})
-                                            </Button>
-                                        </>
-                                    ) : (
-                                        deliveries.map(item => {
-                                            const {
-                                                direction_title: title,
-                                                id,
-                                                address,
-                                                schedule,
-                                                price,
-                                                visible,
-                                                comment,
-                                            } = item;
-                                            if (!visible) return null;
-
-                                            return (
-                                                <ListItem
-                                                    key={id}
-                                                    title={title}
-                                                    description={
-                                                        isDelivery ? (
-                                                            comment && <p>{comment}</p>
-                                                        ) : (
-                                                            <>
-                                                                <p>Адрес: {address}</p>
-                                                                <p>Время работы: {schedule}</p>
-                                                                {comment && <p>{comment}</p>}
-                                                            </>
-                                                        )
-                                                    }
-                                                    actions={
-                                                        <b>
-                                                            <FormattedMessage
-                                                                id={price === '0' ? 'free' : 'currency'}
-                                                                values={{ price }}
-                                                            />
-                                                        </b>
-                                                    }
-                                                    active={currentDelivery && currentDelivery.id === id}
-                                                    onClick={() => {
-                                                        handleClickListItem({
-                                                            type: isDelivery ? 'delivery' : 'pickup',
-                                                            data: item,
-                                                        });
-                                                        setCollapse(prevState => ({
-                                                            ...prevState,
-                                                            [values.deliveryType]: true,
-                                                        }));
-                                                    }}
-                                                    pointer
-                                                />
-                                            );
-                                        })
-                                    )}
-                                </div>
-                                {isDelivery && (
-                                    <div className={styles.block}>
-                                        <AddressList
-                                            items={addresses}
-                                            onChange={handleChangeAddress}
-                                            onSubmit={handleSubmitAddress}
-                                            value={values.address ? values.address.id : null}
+                                                )
+                                            }
+                                            pointer
                                         />
-                                    </div>
+                                    );
+                                })}
+                            </div>
+                        ) : null}
+                        {isCourier ? (
+                            <div className={styles.block}>
+                                <AddressList
+                                    items={addresses}
+                                    onChange={handleChangeAddress}
+                                    onSubmit={handleSubmitAddress}
+                                    value={values.address ? values.address.id : null}
+                                />
+                            </div>
+                        ) : !calledPickups ? null : loadingPickups ? (
+                            <Loader />
+                        ) : (
+                            <div className={styles.block}>
+                                <Title className={styles.blockTitle}>
+                                    <FormattedMessage
+                                        id={
+                                            isPickup
+                                                ? 'p_cart_order_pickups_title'
+                                                : 'p_cart_order_stores_title'
+                                        }
+                                    />
+                                </Title>
+                                {isPickup ? (
+                                    <Pickups
+                                        items={pickups}
+                                        value={currentDelivery.pvz_id}
+                                        onChange={value => {
+                                            handleClickListItem({
+                                                type: 'pvz',
+                                                data: value,
+                                            });
+                                        }}
+                                    />
+                                ) : (
+                                    <Stores
+                                        items={pickups}
+                                        value={currentDelivery.service_id}
+                                        onChange={value => {
+                                            handleClickListItem({
+                                                type: 'stores',
+                                                data: value,
+                                            });
+                                        }}
+                                    />
                                 )}
-                                {currentDelivery &&
-                                currentDelivery.id &&
-                                paymentsMethods &&
-                                paymentsMethods.length ? (
-                                    <div className={styles.block}>
-                                        <Title className={styles.blockTitle}>
-                                            <FormattedMessage id="p_cart_order_payment_title" />
-                                        </Title>
-                                        {paymentsMethods.map(item => {
-                                            const { id, name } = item;
-
-                                            return (
-                                                <ListItem
-                                                    key={id}
-                                                    title={name}
-                                                    active={values.payment.id === id}
-                                                    onClick={() => {
-                                                        handleClickListItem({
-                                                            type: 'payment',
-                                                            data: item,
-                                                        });
-                                                    }}
-                                                    pointer
-                                                />
-                                            );
-                                        })}
-                                    </div>
-                                ) : null}
-                            </>
+                            </div>
                         )}
+                        {paymentsMethods && paymentsMethods.length ? (
+                            <>
+                                <div className={styles.block}>
+                                    <Title className={styles.blockTitle}>
+                                        <FormattedMessage id="p_cart_order_payment_title" />
+                                    </Title>
+                                    {paymentsMethods.map(item => {
+                                        const { id, title } = item;
+
+                                        return (
+                                            <ListItem
+                                                key={id}
+                                                title={title}
+                                                active={values.payment.id === id}
+                                                onClick={() => {
+                                                    handleClickListItem({
+                                                        type: 'payment',
+                                                        data: item,
+                                                    });
+                                                }}
+                                                pointer
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </>
+                        ) : null}
                         <div className={styles.orderBlock}>
                             <div className={styles.orderBlockInfo}>
                                 <ul className={styles.orderBlockList}>
@@ -692,7 +613,7 @@ const Basket = ({
                                             <FormattedMessage id="p_cart_order_block_shipping" />
                                         </span>
                                         <span className={styles.orderBlockListValue}>
-                                            {currentDelivery ? (
+                                            {currentDelivery && currentDelivery.price ? (
                                                 <FormattedMessage
                                                     id="currency"
                                                     values={{ price: currentDelivery.price }}
@@ -720,14 +641,19 @@ const Basket = ({
                                 size="large"
                                 onClick={() => {
                                     if (isValid()) {
-                                        const input = isDelivery
+                                        const input = isPickup
                                             ? {
-                                                  courier_id: values.delivery.id,
-                                                  address_id: values.address.id,
+                                                  pickup_id: values.pvz.pvz_id,
+                                              }
+                                            : isStore
+                                            ? {
+                                                  store_id: values.stores.id,
                                               }
                                             : {
-                                                  pvz_id: values.pickup.id,
+                                                  courier_id: values.deliveryMethod.service_id,
+                                                  address_id: values.address.id,
                                               };
+
                                         createOrder({
                                             variables: {
                                                 input: {
@@ -739,7 +665,6 @@ const Basket = ({
                                         });
                                     }
                                 }}
-                                disabled={disabledOrderButton}
                                 bold
                                 fullWidth
                             >
@@ -749,48 +674,19 @@ const Basket = ({
                     </StepContainer>
                 ) : (
                     <StepContainer theme={theme}>
-                        <div className={styles.containerSmall}>
-                            {loginType === 'login' && (
-                                <>
-                                    <Title>
-                                        <FormattedMessage id="c_login_title" />
-                                    </Title>
-                                    <LoginForm onCompleted={handleLogInCompleted} />
-                                    {/* <Link onClick={() => setLoginType('remind')}>
-                                        <FormattedMessage id="forgot_password" />?
-                                    </Link> */}
-                                    <Hr />
-                                    <Link onClick={() => setLoginType('register')}>
-                                        <FormattedMessage id="create_account" />
-                                    </Link>
-                                </>
-                            )}
-                            {loginType === 'register' && (
-                                <>
-                                    <Title>
-                                        <FormattedMessage id="c_register_title" />!
-                                    </Title>
-                                    <UserForm type="registration" onCompleted={handleRegisterCompleted} />
-                                    <Hr />
-                                    <Link onClick={() => setLoginType('login')}>
-                                        <FormattedMessage id="i_have_an_account" />
-                                    </Link>
-                                </>
-                            )}
-                            {loginType === 'remind' && (
-                                <>
-                                    <RestorePasswordForm />
-                                    <Link onClick={() => setLoginType('login')}>
-                                        <FormattedMessage id="p_remind_password_login_link" />
-                                    </Link>
-                                </>
-                            )}
-                        </div>
+                        <Login />
                     </StepContainer>
                 )}
             </StepView>
         </div>
     );
+};
+
+Basket.defaultProps = {
+    basket: {
+        products: [],
+    },
+    addresses: [],
 };
 
 Basket.propTypes = {
@@ -804,19 +700,10 @@ Basket.propTypes = {
                     name: PropTypes.string,
                 }),
                 price: PropTypes.string,
-                qty: PropTypes.number.isRequired,
             })
         ),
     }),
-    cities: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            latitude: PropTypes.string,
-            longitude: PropTypes.string,
-            title: PropTypes.string.isRequired,
-            visible: PropTypes.bool,
-        })
-    ).isRequired,
+    addresses: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default Basket;

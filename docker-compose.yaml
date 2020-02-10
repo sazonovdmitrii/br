@@ -1,6 +1,7 @@
 version: '2'
 services:
     br_php:
+        container_name: br_php
         build: php-fpm
         ports:
             - '9008:9000'
@@ -19,8 +20,8 @@ services:
                 aliases:
                     - br_php
     br_postgres:
-        image: postgres
         container_name: br_postgres
+        image: postgres
         environment:
         - POSTGRES_DB=symfony
         - POSTGRES_USER=symfony
@@ -35,6 +36,7 @@ services:
                 aliases:
                     - br_postgres
     br_nginx:
+        container_name: br_nginx
         build: nginx
         ports:
             - '8084:80'
@@ -49,6 +51,7 @@ services:
                 aliases:
                     - br_nginx
     br_db:
+        container_name: br_db
         image: mariadb:latest
         restart: on-failure
         ports:
@@ -71,6 +74,5 @@ services:
             main:
                 aliases:
                     - br_redis
-
 networks:
     main:

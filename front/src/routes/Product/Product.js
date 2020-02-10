@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
+import { useMutation } from '@apollo/react-hooks';
+import { useHistory } from 'react-router';
 
-import { useLangLinks } from 'hooks';
+import { ADD_TO_BASKET } from 'mutations';
+import { GET_SHORT_BASKET, GET_BASKET } from 'query';
+import { useApp, useLangLinks } from 'hooks';
+import { metrics } from 'utils';
 
 import SeoHead from 'components/SeoHead';
 import Button from 'components/Button';
@@ -13,6 +18,7 @@ import Delivery from 'components/Delivery';
 import ProductTags from 'components/ProductTags';
 import ProductCard from 'components/ProductCard';
 import ProductCarousel from 'components/ProductCarousel';
+import Loader from 'components/Loader';
 
 import styles from './styles.css';
 // import headTurnImage from './headturn.jpg';
@@ -27,9 +33,65 @@ const Product = ({
     similars: { edges: similars = [] },
     lenses,
 }) => {
+    const history = useHistory();
+    const { createNotification } = useApp();
     const [buyLink] = useLangLinks(['/retail']);
     const [selectedProduct, setSelectedProduct] = useState(items.length ? items[0].node : {});
     const [showChooseLenses, setShowChooseLenses] = useState(false);
+
+    const [addToCart, { loading: loadingAddToCart }] = useMutation(ADD_TO_BASKET, {
+        variables: {
+            input: {
+                item_id: selectedProduct.id,
+            },
+        },
+        onCompleted({ addBasket: { products } }) {
+            if (products) {
+                console.log('product added to basket', products);
+                metrics('gtm', {
+                    event: 'addToCart',
+                    data: {
+                        currencyCode: 'RUB',
+                        add: {
+                            products: [
+                                {
+                                    name,
+                                    id: selectedProduct.id,
+                                    price: selectedProduct.price,
+                                    variant: selectedProduct.name,
+                                    quantity: 1,
+                                },
+                            ],
+                        },
+                    },
+                });
+
+                history.push('/cart');
+            }
+        },
+        onError({ graphQLErrors: [{ message }] }) {
+            createNotification({ type: 'error', message });
+        },
+        update(
+            cache,
+            {
+                data: { addBasket },
+            }
+        ) {
+            /* <3 apollo */
+            [GET_SHORT_BASKET, GET_BASKET].forEach(query => {
+                cache.writeQuery({
+                    query,
+                    data: {
+                        basket: {
+                            products: addBasket.products,
+                            __typename: 'Basket',
+                        },
+                    },
+                });
+            });
+        },
+    });
 
     const { images } = selectedProduct;
     const colors = items.reduce((array, item) => {
@@ -59,6 +121,8 @@ const Product = ({
                 <ChooseLenses
                     product={{ name, item: selectedProduct }}
                     lenses={lenses}
+                    loading={loadingAddToCart}
+                    onAddToCart={addToCart}
                     onClose={handleCloseChooseLenses}
                 />
             )}
@@ -92,7 +156,15 @@ const Product = ({
                                 >
                                     <FormattedMessage id="p_product_select_lenses" />
                                 </Button>
-                            ) : null}
+                            ) : (
+                                <Button onClick={addToCart} kind="primary" size="large" bold>
+                                    {loadingAddToCart ? (
+                                        <Loader kind="secondary" />
+                                    ) : (
+                                        <FormattedMessage id="p_product_add_to_cart" />
+                                    )}
+                                </Button>
+                            )}
                             <Button to={buyLink} kind="primary" size="large" bold>
                                 <FormattedMessage id="p_product_buy_at_optics_for" />
                             </Button>

@@ -27,6 +27,11 @@
     font-size: var(--font-size-small);
 }
 
+.meta {
+    font-size: var(--font-size-small);
+    color: #999;
+}
+
 .actions {
     margin-left: auto;
 

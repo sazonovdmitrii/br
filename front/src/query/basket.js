@@ -8,23 +8,8 @@ const GET_BASKET = gql`
         basket {
             ...BasketProducts
         }
-        payments_methods {
-            data {
-                id
-                name
-            }
-        }
         addresses {
             ...Addresses
-        }
-        cities {
-            data {
-                id
-                title
-                visible
-                longitude
-                latitude
-            }
         }
     }
     ${BasketProducts}

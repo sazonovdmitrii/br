@@ -3,7 +3,7 @@ FROM php:7.2-fpm
 RUN apt-get update
 
 RUN apt-get install -y zlib1g-dev libpq-dev git libicu-dev libxml2-dev libxpm-dev libwebp-dev libjpeg62-turbo-dev libpng-dev libfreetype6-dev\
-    && docker-php-ext-configure gd --with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf \
+    && docker-php-ext-configure gd --with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \

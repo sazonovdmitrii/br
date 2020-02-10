@@ -4,25 +4,17 @@ import { FormattedMessage } from 'react-intl';
 import Input from 'components/Input';
 import InputGroup from 'components/InputGroup';
 import Button from 'components/Button';
-import Select from 'components/Select';
-import Snackbar from 'components/Snackbar';
+import Autocomplete from 'components/Autocomplete';
 
 import styles from './styles.css';
 
-const AddressForm = ({
-    className,
-    values: valuesProp,
-    onSubmit,
-    history,
-    actions,
-    // regions
-}) => {
-    // const regionsForSelect = regions.map(({ id, title }) => ({ id, value: title }));
+const AddressForm = ({ className, values: valuesProp, onSubmit, history, actions }) => {
     const [values, setValues] = useState({
         name: '',
         person: '',
-        // region_id: null,
         city: '',
+        city_fias_id: '',
+        region_fias_id: '',
         street: '',
         zip: '',
         house: '',
@@ -30,7 +22,6 @@ const AddressForm = ({
         level: '',
         flat: '',
         code: '',
-        // comment: '',
         ...valuesProp,
     });
     const handleChange = ({ target: { name, value } }) => {
@@ -39,50 +30,40 @@ const AddressForm = ({
             [name]: value,
         }));
     };
-    // const handleChangeSelect = ({ id }) => {
-    //     setValues(prevState => ({
-    //         ...prevState,
-    //         region_id: id,
-    //     }));
-    // };
     const handleSubmit = event => {
         event.preventDefault();
 
+        const { city, ...any } = values;
+
         onSubmit({
-            variables: { input: values },
+            variables: { input: { ...any, city: city.value } },
         });
     };
     const handleBackURL = () => {
         history.goBack();
     };
+    const handeChangeAutocomplite = (event, value) => {
+        setValues(prevValues => ({ ...prevValues, city: value }));
+    };
+    const handleSelectAutocomplite = ({ value, region_fias_id, city_fias_id }) => {
+        setValues(prevValues => ({ ...prevValues, city_fias_id, region_fias_id, city: value }));
+    };
+    const handleResetAutocomplite = () => {
+        setValues(prevValues => ({ ...prevValues, city_fias_id: '', region_fias_id: '', city: '' }));
+    };
 
-    const {
-        city,
-        street,
-        zip,
-        house,
-        corp,
-        level,
-        flat,
-        region_id,
-        code,
-        name,
-        person,
-        // comment,
-    } = values;
+    const { city, street, zip, house, corp, level, flat, code, name, person } = values;
 
     return (
         <form className={className} onSubmit={handleSubmit}>
-            {/*<InputGroup>
-                <Select
-                    label="Регион*"
-                    items={regionsForSelect}
-                    value={region_id}
-                    onChange={handleChangeSelect}
-                />
-            </InputGroup>*/}
             <InputGroup>
-                <Input label="Город" name="city" value={city} onChange={handleChange} required />
+                <Autocomplete
+                    label="Город*"
+                    value={city}
+                    onInputChange={handeChangeAutocomplite}
+                    onSelectValue={handleSelectAutocomplite}
+                    onResetValue={handleResetAutocomplite}
+                />
             </InputGroup>
             <InputGroup>
                 <Input label="Улица" name="street" value={street} onChange={handleChange} required />
@@ -100,14 +81,6 @@ const AddressForm = ({
             <InputGroup>
                 <Input label="Получатель" name="person" value={person} onChange={handleChange} />
                 <Input label="Название адреса" name="name" value={name} onChange={handleChange} required />
-                {/* <Input
-                    label="Коментарий"
-                    name="comment"
-                    value={comment}
-                    onChange={handleChange}
-                    rowsMax="4"
-                    multiline
-                /> */}
             </InputGroup>
             <div className={styles.actions}>
                 <Button type="submit" kind="primary" bold>
