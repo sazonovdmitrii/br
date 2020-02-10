@@ -86,13 +86,13 @@ class OrderMutation extends AuthMutation
         if ($user) {
             $order->setUserId($user);
 
-            if(!$input->courier_id && !$input->pickup_id) {
+            if(!$input->courier_id && !$input->pickup_code) {
                 throw new UserError('Необходимо указать хотя бы один метод доставки.');
             }
 
-            if($input->pickup_id) {
+            if($input->pickup_code) {
                 $order->setPickup(
-                    $this->pickupRepository->find($input->pickup_id)
+                    $this->pickupRepository->find($input->pickup_code)
                 );
             }
 
