@@ -47,7 +47,7 @@
     <h4>Покупатель: {{ order.getUserId().email }}</h4>
     <h4>Платежный метод: {{ order.getPaymentMethodCode() }}</h4>
 
-    {% if order.address_id %}
+    {% if order.getAddressId() %}
         {% set address = order.getAddressId() %}
         <h4>Адрес: {{ address.city }} {{ address.street }} {{ address.house }}</h4>
     {% endif %}
