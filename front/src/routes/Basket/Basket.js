@@ -436,13 +436,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                     <Sidebar
                         className={styles.sidebar}
                         messages={['p_cart_sidebar_message']}
-                        pricing={[
-                            {
-                                name: 'p_cart_sidebar_shipping',
-                                value: currentDelivery && parseInt(currentDelivery.prices, 10),
-                            },
-                            { name: 'p_cart_sidebar_subtotal', value: totalSum },
-                        ]}
+                        pricing={[{ name: 'p_cart_sidebar_subtotal', value: totalSum }]}
                         actions={
                             <Button
                                 kind="primary"
@@ -650,7 +644,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                             : {
                                                   pickup_code: isPickup
                                                       ? values.pvz.pvz_id
-                                                      : values.stores.id,
+                                                      : values.stores.service_id,
                                               };
                                         createOrder({
                                             variables: {
