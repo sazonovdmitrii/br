@@ -378,7 +378,8 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                 id={orderId}
                 products={products}
                 address={values.address}
-                delivery={values.delivery}
+                delivery={values.deliveryMethod}
+                pickup={currentDelivery}
                 payment={values.payment}
             />
         );
@@ -641,24 +642,21 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                 size="large"
                                 onClick={() => {
                                     if (isValid()) {
-                                        const input = isPickup
+                                        const input = isCourier
                                             ? {
-                                                  pickup_id: values.pvz.pvz_id,
-                                              }
-                                            : isStore
-                                            ? {
-                                                  store_id: values.stores.id,
-                                              }
-                                            : {
                                                   courier_id: values.deliveryMethod.service_id,
                                                   address_id: values.address.id,
+                                              }
+                                            : {
+                                                  pickup_code: isPickup
+                                                      ? values.pvz.pvz_id
+                                                      : values.stores.id,
                                               };
-
                                         createOrder({
                                             variables: {
                                                 input: {
                                                     ...input,
-                                                    payment_method_id: values.payment.id,
+                                                    payment_method_code: values.payment.id,
                                                     comment: values.comment,
                                                 },
                                             },
