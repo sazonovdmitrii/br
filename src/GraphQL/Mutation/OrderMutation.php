@@ -91,9 +91,7 @@ class OrderMutation extends AuthMutation
             }
 
             if($input->pickup_code) {
-                $order->setPickup(
-                    $this->pickupRepository->find($input->pickup_code)
-                );
+                $order->setPickupCode($input->pickup_code);
             }
 
             if($input->courier_id) {
