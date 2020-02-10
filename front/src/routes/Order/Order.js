@@ -10,7 +10,7 @@ import styles from './styles.css';
 const Order = ({ id, address, products, delivery, payment }) => {
     const totalSum = products.reduce(
         (acc, { price, lenses }) =>
-            acc + parseInt(price, 10) + (lenses ? parseInt(lenses.lenses.price, 10) : 0),
+            acc + parseInt(price, 10) + (lenses.lenses ? parseInt(lenses.lenses.price, 10) : 0),
         0
     );
     const totalSumWithDelivery = totalSum + (delivery ? parseInt(delivery.price, 10) : 0);
@@ -35,7 +35,7 @@ const Order = ({ id, address, products, delivery, payment }) => {
                         name={name}
                         subName={item.name}
                         url={url}
-                        options={lenses ? lenses.lenses.options : []}
+                        options={lenses.lenses ? lenses.lenses.options : []}
                         images={item.images ? item.images[0] : null}
                         price={
                             <FormattedMessage
@@ -43,7 +43,7 @@ const Order = ({ id, address, products, delivery, payment }) => {
                                 values={{
                                     price:
                                         parseInt(price, 10) +
-                                        (lenses ? parseInt(lenses.lenses.price, 10) : 0),
+                                        (lenses.lenses ? parseInt(lenses.lenses.price, 10) : 0),
                                 }}
                             />
                         }

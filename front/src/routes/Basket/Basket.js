@@ -378,7 +378,8 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                 id={orderId}
                 products={products}
                 address={values.address}
-                delivery={values.delivery}
+                delivery={values.deliveryMethod}
+                pickup={currentDelivery}
                 payment={values.payment}
             />
         );
@@ -435,13 +436,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                     <Sidebar
                         className={styles.sidebar}
                         messages={['p_cart_sidebar_message']}
-                        pricing={[
-                            {
-                                name: 'p_cart_sidebar_shipping',
-                                value: currentDelivery && parseInt(currentDelivery.prices, 10),
-                            },
-                            { name: 'p_cart_sidebar_subtotal', value: totalSum },
-                        ]}
+                        pricing={[{ name: 'p_cart_sidebar_subtotal', value: totalSum }]}
                         actions={
                             <Button
                                 kind="primary"
@@ -641,24 +636,21 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                 size="large"
                                 onClick={() => {
                                     if (isValid()) {
-                                        const input = isPickup
+                                        const input = isCourier
                                             ? {
-                                                  pickup_id: values.pvz.pvz_id,
-                                              }
-                                            : isStore
-                                            ? {
-                                                  store_id: values.stores.id,
-                                              }
-                                            : {
                                                   courier_id: values.deliveryMethod.service_id,
                                                   address_id: values.address.id,
+                                              }
+                                            : {
+                                                  pickup_code: isPickup
+                                                      ? values.pvz.pvz_id
+                                                      : values.stores.service_id,
                                               };
-
                                         createOrder({
                                             variables: {
                                                 input: {
                                                     ...input,
-                                                    payment_method_id: values.payment.id,
+                                                    payment_method_code: values.payment.id,
                                                     comment: values.comment,
                                                 },
                                             },
