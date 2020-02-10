@@ -27,7 +27,7 @@ class OrderInput extends RequestObject
     /**
      * @var
      */
-    public $payment_method_id;
+    public $payment_method_code;
 
     /**
      * @var

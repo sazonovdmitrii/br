@@ -19,11 +19,6 @@ class Orders
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PaymentMethod", inversedBy="orders")
-     */
-    private $payment_method_id;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Delivery", inversedBy="orders")
      */
     private $delivery_id;
@@ -73,6 +68,11 @@ class Orders
      */
     private $secret_key;
 
+    /**
+     * @ORM\Column(type="string", length=12, nullable=true)
+     */
+    private $payment_method_code;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
@@ -82,18 +82,6 @@ class Orders
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPaymentMethodId(): ?PaymentMethod
-    {
-        return $this->payment_method_id;
-    }
-
-    public function setPaymentMethodId(?PaymentMethod $payment_method_id): self
-    {
-        $this->payment_method_id = $payment_method_id;
-
-        return $this;
     }
 
     public function getDeliveryId(): ?Delivery
@@ -236,6 +224,18 @@ class Orders
     public function setSecretKey(?string $secret_key): self
     {
         $this->secret_key = $secret_key;
+
+        return $this;
+    }
+
+    public function getPaymentMethodCode(): ?string
+    {
+        return $this->payment_method_code;
+    }
+
+    public function setPaymentMethodCode(?string $payment_method_code): self
+    {
+        $this->payment_method_code = $payment_method_code;
 
         return $this;
     }

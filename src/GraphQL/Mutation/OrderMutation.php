@@ -104,13 +104,11 @@ class OrderMutation extends AuthMutation
 
             $order->setLenses($input->lenses);
 
-            if(!$input->payment_method_id) {
+            if(!$input->payment_method_code) {
                 throw new UserError('Необходимо указать способ оплаты.');
             }
 
-            $paymentMethod = $this->paymentMethodRepository->find($input->payment_method_id);
-
-            $order->setPaymentMethodId($paymentMethod);
+            $order->setPaymentMethodCode($input->payment_method_code);
 
             if($input->courier_id && !$input->address_id) {
                 throw new UserError('Необходимо указать способ адрес для курьерской доставки.');
