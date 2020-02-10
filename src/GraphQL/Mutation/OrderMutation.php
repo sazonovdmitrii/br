@@ -112,9 +112,11 @@ class OrderMutation extends AuthMutation
                 throw new UserError('Необходимо указать способ адрес для курьерской доставки.');
             }
 
-            $order->setAddressId(
-                $this->addressRepository->find($input->address_id)
-            );
+            if($input->address_id) {
+                $order->setAddressId(
+                    $this->addressRepository->find($input->address_id)
+                );
+            }
 
             $order->setComment($input->comment);
             $order->setLenses($input->lenses);
