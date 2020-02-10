@@ -56,8 +56,8 @@
         <h4>Курьерская доставка: {{ order.courier.address }} {{ order.courier.price }}</h4>
     {% endif %}
 
-    {% if order.pickup_code %}
-        <h4>Самовывоз: {{ order.pickup_code }} {{ order.pickup_code }}</h4>
+    {% if order.getPickupCode() %}
+        <h4>Самовывоз: {{ order.getPickupCode() }}</h4>
     {% endif %}
 
     {% if order.getUserId().phone %}
