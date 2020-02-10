@@ -2,8 +2,8 @@ OrderInput:
   type: input-object
   config:
     fields:
-      pickup_id:
-        type: "Int"
+      pickup_code:
+        type: "String"
         description: "Pvz ID"
       payment_method_code:
         type: "String"

@@ -12,7 +12,7 @@ class OrderInput extends RequestObject
     /**
      * @var
      */
-    public $pickup_id;
+    public $pickup_code;
 
     /**
      * @var

@@ -73,6 +73,11 @@ class Orders
      */
     private $payment_method_code;
 
+    /**
+     * @ORM\Column(type="string", length=12, nullable=true)
+     */
+    private $pickup_code;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
@@ -236,6 +241,18 @@ class Orders
     public function setPaymentMethodCode(?string $payment_method_code): self
     {
         $this->payment_method_code = $payment_method_code;
+
+        return $this;
+    }
+
+    public function getPickupCode(): ?string
+    {
+        return $this->pickup_code;
+    }
+
+    public function setPickupCode(?string $pickup_code): self
+    {
+        $this->pickup_code = $pickup_code;
 
         return $this;
     }
