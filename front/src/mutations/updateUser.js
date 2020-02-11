@@ -9,9 +9,6 @@ const UPDATE_USER_MUTATION = gql`
             firstname
             lastname
             phone
-            addresses
-            orders
-            recipes
         }
     }
 `;
