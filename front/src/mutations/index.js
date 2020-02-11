@@ -10,3 +10,4 @@ export { default as CREATE_USER_MUTATION } from './createUser';
 export { default as UPDATE_USER_MUTATION } from './updateUser';
 export { default as CHECK_TOKEN_MUTATION } from './checkToken';
 export { default as CHANGE_PASSWORD_MUTATION } from './changePassword';
+export { default as APPLY_COUPON_MUTATION } from './applyCoupon';

@@ -17,6 +17,9 @@
     "p_cart_order_block_action": "Оформить заказ",
     "p_cart_order_pickup_delivery_days": "Дата доставки",
     "p_cart_order_pickup_storage_time": "Срок хранения",
+    "p_cart_order_coupon_title": "Применить купон",
+    "p_cart_order_coupon_action": "Применить",
+
     "p_cart_meta_title": "Корзина",
     "p_accessories_meta_title": "Аксессуары",
     "p_accessories_title": "Аксессуары",

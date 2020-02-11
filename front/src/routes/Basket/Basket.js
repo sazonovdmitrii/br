@@ -6,7 +6,7 @@ import classnames from 'classnames/bind';
 
 import { useApp, useLang } from 'hooks';
 import { GET_SHORT_BASKET } from 'query';
-import { REMOVE_PRODUCT_MUTATION, CREATE_ORDER_MUTATION } from 'mutations';
+import { REMOVE_PRODUCT_MUTATION, CREATE_ORDER_MUTATION, APPLY_COUPON_MUTATION } from 'mutations';
 import { isNumber, metrics } from 'utils';
 
 import Button from 'components/Button';
@@ -17,6 +17,8 @@ import ListItem from 'components/ListItem';
 import BasketProduct from 'components/BasketProduct';
 import Title from 'components/Title';
 import Autocomplete from 'components/Autocomplete';
+import InputGroup from 'components/InputGroup';
+import Input from 'components/Input';
 // TODO REMOVE
 import Order from 'routes/Order/Order';
 
@@ -66,6 +68,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
     const { createNotification } = useApp();
     const [products, setProducts] = useState(productsProps);
     const [orderId, setOrderId] = useState(false);
+    const [coupon, setCoupon] = useState('');
 
     const initialDeliveryMethods = { loading: true, called: false, data: [] };
     const [
@@ -220,6 +223,20 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                     },
                 },
             });
+        },
+        onError({ graphQLErrors: [{ message }] }) {
+            createNotification({
+                type: 'error',
+                message,
+            });
+        },
+    });
+    const [applyCoupon] = useMutation(APPLY_COUPON_MUTATION, {
+        variables: {
+            input: { coupon },
+        },
+        onCompleted: ({ applyCoupon }) => {
+            setProducts(applyCoupon.products);
         },
         onError({ graphQLErrors: [{ message }] }) {
             createNotification({
@@ -589,6 +606,25 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                 </div>
                             </>
                         ) : null}
+                        <div className={styles.block}>
+                            <Title className={styles.blockTitle}>
+                                <FormattedMessage id="p_cart_order_coupon_title" />
+                            </Title>
+                            <InputGroup>
+                                <Input
+                                    name="coupon"
+                                    value={coupon}
+                                    onChange={({ target: { value } }) => {
+                                        setCoupon(value);
+                                    }}
+                                />
+                            </InputGroup>
+                            <InputGroup>
+                                <Button kind="primary" onClick={applyCoupon}>
+                                    <FormattedMessage id="p_cart_order_coupon_action" />
+                                </Button>
+                            </InputGroup>
+                        </div>
                         <div className={styles.orderBlock}>
                             <div className={styles.orderBlockInfo}>
                                 <ul className={styles.orderBlockList}>

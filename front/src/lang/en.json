@@ -17,6 +17,8 @@
     "p_cart_order_block_action": "Checkout",
     "p_cart_order_pickup_delivery_days.": "Delivery date",
     "p_cart_order_pickup_storage_time": "Shelf life",
+    "p_cart_order_coupon_title": "Apply coupon",
+    "p_cart_order_coupon_action": "Submit",
 
     "p_cart_meta_title": "Cart",
     "p_accessories_meta_title": "Accessories",
