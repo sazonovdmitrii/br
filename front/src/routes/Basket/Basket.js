@@ -97,8 +97,8 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
         city: getLocalCity(),
     });
 
-    const isPickup = values.deliveryMethod.service_id === 'pvz';
-    const isStore = values.deliveryMethod.service_id === 'stores';
+    const isPickup = values.deliveryMethod.id === 'pvz';
+    const isStore = values.deliveryMethod.id === 'stores';
     const isCourier = values.deliveryMethod.payment_methods;
     const currentDelivery = isCourier ? values.deliveryMethod : values[values.deliveryMethod.type];
 
@@ -122,7 +122,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
 
                 if (!value) return field;
 
-                if (isNumber(value) || (typeof value === 'object' && (value.id || value.service_id))) {
+                if (isNumber(value) || (typeof value === 'object' && value.id)) {
                     return null;
                 }
 
@@ -289,7 +289,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                         ...value.map(item => ({
                             ...item,
                             type,
-                            service_id: item.service_id || type,
+                            id: item.id || type,
                         })),
                     ],
                     []
@@ -471,9 +471,9 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                 {deliveryMethods.map(item => {
                                     return (
                                         <ListItem
-                                            key={item.service_id}
+                                            key={item.id}
                                             title={item.service}
-                                            active={values.deliveryMethod.service_id === item.service_id}
+                                            active={values.deliveryMethod.id === item.id}
                                             onClick={() => {
                                                 handleClickListItem({
                                                     type: 'deliveryMethod',
@@ -540,7 +540,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                 {isPickup ? (
                                     <Pickups
                                         items={pickups}
-                                        value={currentDelivery.pvz_id}
+                                        value={currentDelivery.id}
                                         onChange={value => {
                                             handleClickListItem({
                                                 type: 'pvz',
@@ -551,7 +551,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                 ) : (
                                     <Stores
                                         items={pickups}
-                                        value={currentDelivery.service_id}
+                                        value={currentDelivery.id}
                                         onChange={value => {
                                             handleClickListItem({
                                                 type: 'stores',
@@ -638,13 +638,11 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                     if (isValid()) {
                                         const input = isCourier
                                             ? {
-                                                  courier_id: values.deliveryMethod.service_id,
+                                                  courier_id: values.deliveryMethod.id,
                                                   address_id: values.address.id,
                                               }
                                             : {
-                                                  pickup_code: isPickup
-                                                      ? values.pvz.pvz_id
-                                                      : values.stores.service_id,
+                                                  pickup_code: currentDelivery.id,
                                               };
                                         createOrder({
                                             variables: {

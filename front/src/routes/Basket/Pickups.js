@@ -12,12 +12,12 @@ import styles from './styles.css';
 const Pickups = ({ onChange, value, items }) => {
     const itemsForMap = useMemo(
         () =>
-            items.map(({ pvz_id, pvz_title, address, schedule, latitude, longitude }) => ({
-                id: pvz_id,
-                name: pvz_title,
-                full_name: `Адрес: ${address}, Время работы: ${schedule}`,
+            items.map(({ id, address, schedule, latitude, longitude }) => ({
+                id,
                 latitude,
                 longitude,
+                name: address,
+                full_name: `Время работы: ${schedule}`,
             })),
         [items]
     );
@@ -26,13 +26,13 @@ const Pickups = ({ onChange, value, items }) => {
         <div className={styles.mapWrapper}>
             <Map items={itemsForMap} value={value} mapHeight={500} />
             <div className={styles.pickupsList} style={{ height: '500px' }}>
-                {items.map((item, index) => {
-                    const { service, pvz_title, pvz_id: id, price, days } = item;
+                {items.map(item => {
+                    const { service, address, id, price, days } = item;
 
                     return (
                         <ListItem
-                            key={index}
-                            title={pvz_title}
+                            key={id}
+                            title={address}
                             description={
                                 <>
                                     <b>
