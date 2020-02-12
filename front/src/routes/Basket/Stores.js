@@ -5,6 +5,7 @@ import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
 import { FixedSizeList as List, areEqual } from 'react-window';
 import memoize from 'memoize-one';
 
+import { useLang } from 'hooks';
 import { formatDate } from 'utils';
 
 import Button from 'components/Button';
