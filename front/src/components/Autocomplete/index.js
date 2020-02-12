@@ -24,11 +24,11 @@ const Autocomplete = ({ label, value: valueProp, onInputChange, onSelectValue, o
         setShowOptions(false);
 
         const {
-            data: { city_fias_id, region_fias_id },
+            data: { fias_id, region_fias_id },
         } = _SUGGESTIONS.find(({ data: { fias_id } }) => fias_id === item.id);
 
         if (onSelectValue) {
-            onSelectValue({ ...item, city_fias_id, region_fias_id });
+            onSelectValue({ ...item, city_fias_id: fias_id, region_fias_id });
         }
     };
     const handleResetValue = () => {
