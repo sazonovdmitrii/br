@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "467e319bb72be03b8be09b0e601cd2cb",
+    "content-hash": "8869424a57dcd66fff86d5d81b5231e5",
     "packages": [
         {
             "name": "a2lix/auto-form-bundle",
@@ -272,6 +272,7 @@
             },
             "require": {
                 "ext-simplexml": "*",
+                "ext-xmlwriter": "*",
                 "php": ">=5.6.1"
             },
             "require-dev": {
@@ -308,7 +309,7 @@
                 "yml",
                 "yml-generator"
             ],
-            "time": "2019-09-20T10:04:56+00:00"
+            "time": "2019-12-04T09:01:19+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -3687,6 +3688,120 @@
             "time": "2019-10-05T18:32:17+00:00"
         },
         {
+            "name": "sabre/uri",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sabre-io/uri.git",
+                "reference": "059d11012603be2e32ddb7543602965563ddbb09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sabre-io/uri/zipball/059d11012603be2e32ddb7543602965563ddbb09",
+                "reference": "059d11012603be2e32ddb7543602965563ddbb09",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpunit/phpunit": "^7 || ^8"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/functions.php"
+                ],
+                "psr-4": {
+                    "Sabre\\Uri\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Evert Pot",
+                    "email": "me@evertpot.com",
+                    "homepage": "http://evertpot.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Functions for making sense out of URIs.",
+            "homepage": "http://sabre.io/uri/",
+            "keywords": [
+                "rfc3986",
+                "uri",
+                "url"
+            ],
+            "time": "2020-01-31T18:53:43+00:00"
+        },
+        {
+            "name": "sabre/xml",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sabre-io/xml.git",
+                "reference": "705f5cbf7f4fb1e3dd47173e3f026892818c8d46"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sabre-io/xml/zipball/705f5cbf7f4fb1e3dd47173e3f026892818c8d46",
+                "reference": "705f5cbf7f4fb1e3dd47173e3f026892818c8d46",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-xmlreader": "*",
+                "ext-xmlwriter": "*",
+                "lib-libxml": ">=2.6.20",
+                "php": "^7.1",
+                "sabre/uri": ">=1.0,<3.0.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.16.1",
+                "phpunit/phpunit": "^7 || ^8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sabre\\Xml\\": "lib/"
+                },
+                "files": [
+                    "lib/Deserializer/functions.php",
+                    "lib/Serializer/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Evert Pot",
+                    "email": "me@evertpot.com",
+                    "homepage": "http://evertpot.com/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Markus Staab",
+                    "email": "markus.staab@redaxo.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "sabre/xml is an XML library that you may not hate.",
+            "homepage": "https://sabre.io/xml/",
+            "keywords": [
+                "XMLReader",
+                "XMLWriter",
+                "dom",
+                "xml"
+            ],
+            "time": "2020-01-31T18:52:58+00:00"
+        },
+        {
             "name": "sensio/framework-extra-bundle",
             "version": "v5.5.1",
             "source": {
@@ -4375,6 +4490,63 @@
             "description": "Symfony Doctrine Bridge",
             "homepage": "https://symfony.com",
             "time": "2019-09-08T20:39:53+00:00"
+        },
+        {
+            "name": "symfony/dotenv",
+            "version": "v4.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dotenv.git",
+                "reference": "1785b18148a016b8f4e6a612291188d568e1f9cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dotenv/zipball/1785b18148a016b8f4e6a612291188d568e1f9cd",
+                "reference": "1785b18148a016b8f4e6a612291188d568e1f9cd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "symfony/process": "~3.4|~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Dotenv\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Registers environment variables from a .env file",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "dotenv",
+                "env",
+                "environment"
+            ],
+            "time": "2019-08-03T21:50:52+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -5308,6 +5480,68 @@
                 "localization"
             ],
             "time": "2019-10-04T21:18:34+00:00"
+        },
+        {
+            "name": "symfony/mailer",
+            "version": "v4.3.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/mailer.git",
+                "reference": "9f1067430479527a21d9dc8461d97f4fbd1907de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/mailer/zipball/9f1067430479527a21d9dc8461d97f4fbd1907de",
+                "reference": "9f1067430479527a21d9dc8461d97f4fbd1907de",
+                "shasum": ""
+            },
+            "require": {
+                "egulias/email-validator": "^2.1.10",
+                "php": "^7.1.3",
+                "psr/log": "~1.0",
+                "symfony/event-dispatcher": "^4.3",
+                "symfony/mime": "^4.3.3"
+            },
+            "require-dev": {
+                "symfony/amazon-mailer": "^4.3",
+                "symfony/google-mailer": "^4.3",
+                "symfony/http-client-contracts": "^1.1",
+                "symfony/mailchimp-mailer": "^4.3.3",
+                "symfony/mailgun-mailer": "^4.3.3",
+                "symfony/postmark-mailer": "^4.3.3",
+                "symfony/sendgrid-mailer": "^4.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Mailer\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Mailer Component",
+            "homepage": "https://symfony.com",
+            "time": "2020-01-01T11:51:43+00:00"
         },
         {
             "name": "symfony/mime",
@@ -7218,28 +7452,28 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v4.3.5",
+            "version": "v4.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "d5b4e2d334c1d80e42876c7d489896cfd37562f2"
+                "reference": "1a76a943f2af334da13bc9f33f49392fa530eec9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/d5b4e2d334c1d80e42876c7d489896cfd37562f2",
-                "reference": "d5b4e2d334c1d80e42876c7d489896cfd37562f2",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/1a76a943f2af334da13bc9f33f49392fa530eec9",
+                "reference": "1a76a943f2af334da13bc9f33f49392fa530eec9",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1.3"
             },
             "require-dev": {
-                "symfony/var-dumper": "^4.1.1"
+                "symfony/var-dumper": "^4.1.1|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -7274,7 +7508,7 @@
                 "instantiate",
                 "serialize"
             ],
-            "time": "2019-08-22T07:33:08+00:00"
+            "time": "2020-01-04T13:00:46+00:00"
         },
         {
             "name": "symfony/web-link",
@@ -7627,6 +7861,48 @@
             "time": "2019-10-11T13:37:44+00:00"
         },
         {
+            "name": "vitalybaev/google-merchant-feed",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vitalybaev/php-google-merchant-feed.git",
+                "reference": "80c8a51b526e429fffc6e089e77f082ffb9bdd09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vitalybaev/php-google-merchant-feed/zipball/80c8a51b526e429fffc6e089e77f082ffb9bdd09",
+                "reference": "80c8a51b526e429fffc6e089e77f082ffb9bdd09",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5",
+                "sabre/xml": "^1.5 || ^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vitalybaev\\GoogleMerchant\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vitaly Baev",
+                    "email": "dj@vitalybaev.ru"
+                }
+            ],
+            "description": "PHP package for creating Google Merchant products feed",
+            "keywords": [
+                "feed",
+                "google",
+                "merchant"
+            ],
+            "time": "2019-07-27T07:05:47+00:00"
+        },
+        {
             "name": "webmozart/assert",
             "version": "1.5.0",
             "source": {
@@ -7779,6 +8055,7 @@
                 "code",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-code",
             "time": "2019-10-05T23:18:22+00:00"
         },
         {
@@ -7833,6 +8110,7 @@
                 "events",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-eventmanager",
             "time": "2018-04-25T15:33:34+00:00"
         }
     ],
@@ -8398,63 +8676,6 @@
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
             "time": "2019-09-28T21:25:05+00:00"
-        },
-        {
-            "name": "symfony/dotenv",
-            "version": "v4.3.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/dotenv.git",
-                "reference": "1785b18148a016b8f4e6a612291188d568e1f9cd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dotenv/zipball/1785b18148a016b8f4e6a612291188d568e1f9cd",
-                "reference": "1785b18148a016b8f4e6a612291188d568e1f9cd",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3"
-            },
-            "require-dev": {
-                "symfony/process": "~3.4|~4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Dotenv\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Registers environment variables from a .env file",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "dotenv",
-                "env",
-                "environment"
-            ],
-            "time": "2019-08-03T21:50:52+00:00"
         },
         {
             "name": "symfony/maker-bundle",
