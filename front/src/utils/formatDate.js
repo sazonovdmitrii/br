@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 
-dayjs.locale('ru');
+const formatDate = ({ date, locale = 'ru', format, day }) => {
+    dayjs.locale(locale);
 
-const formatDate = ({ date, format, day }) => {
     if (day) {
         return dayjs()
             .add(day, 'day')

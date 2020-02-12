@@ -72,15 +72,6 @@ const UserForm = ({ data, type, onSubmit }) => {
                     required
                 />
             </InputGroup>
-            {/* TODO <InputGroup>
-                        <Input
-                            type="text"
-                            name="midname"
-                            label="Отчество"
-                            value={midname}
-                            onChange={handleChange}
-                        />
-                    </InputGroup> */}
             <FormattedMessage id="gender" />:
             <InputGroup>
                 <RadioGroup name="gender" value={gender} onChange={handleChange}>
@@ -95,6 +86,7 @@ const UserForm = ({ data, type, onSubmit }) => {
                     label="Email"
                     type="email"
                     value={email}
+                    autoComplete={isRegistration && 'email'}
                     onChange={handleChange}
                     required
                 />
@@ -116,6 +108,7 @@ const UserForm = ({ data, type, onSubmit }) => {
                     <Input
                         name="password"
                         type="password"
+                        autoComplete="new-password"
                         label={<FormattedMessage id="password" />}
                         value={password}
                         onChange={handleChange}

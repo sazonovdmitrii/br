@@ -1,0 +1,36 @@
+.root {
+    padding: 20px;
+}
+
+.address {
+    margin-bottom: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.info {
+    margin-bottom: 10px;
+    line-height: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.price {
+    font-weight: var(--font-weight-bold);
+}
+
+.meta {
+    font-size: var(--font-size-small);
+    color: #999;
+}
+
+.metaItem {
+    &:not(:last-child) {
+        margin-right: 5px;
+    }
+}
+
+.actions {
+    margin-top: 20px;
+}

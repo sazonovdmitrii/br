@@ -1,62 +1,191 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
+import classnames from 'classnames/bind';
+import { FixedSizeList as List, areEqual } from 'react-window';
+import memoize from 'memoize-one';
 
+import { useLang } from 'hooks';
 import { formatDate } from 'utils';
 
-import ListItem from 'components/ListItem';
+import Button from 'components/Button';
+
 import Map from './Map';
+import Point from './Point';
 
 import styles from './styles.css';
 
-const Pickups = ({ onChange, value, items }) => {
-    const itemsForMap = useMemo(
+const cx = classnames.bind(styles);
+
+const Row = memo(({ data: { items, onClick }, index, style }) => {
+    // Data passed to List as "itemData" is available as props.data
+    const locale = useLang();
+    const item = items[index];
+    const { service, address, id, price, days } = item;
+
+    return (
+        <Point
+            id={id}
+            style={style}
+            address={address}
+            className={styles.point}
+            price={<FormattedMessage id="currency" values={{ price }} />}
+            deliveryDays={
+                <>
+                    <FormattedMessage id="p_cart_order_pickup_delivery_days" />:{' '}
+                    {formatDate({ locale, day: days, format: 'D MMMM YYYY' })}
+                </>
+            }
+            meta={[service]}
+            onClick={() => {
+                onClick(item);
+            }}
+            bordered
+        />
+    );
+}, areEqual);
+
+const createItemData = memoize((items, onClick) => ({
+    items,
+    onClick,
+}));
+
+const Pickups = ({ value, items, onChange }) => {
+    const locale = useLang();
+    const [filter, setFilter] = useState(null);
+    const [active, setActive] = useState(value);
+
+    const pickupsObj = useMemo(
         () =>
-            items.map(({ pvz_id, pvz_title, address, schedule, latitude, longitude }) => ({
-                id: pvz_id,
-                name: pvz_title,
-                full_name: `Адрес: ${address}, Время работы: ${schedule}`,
-                latitude,
-                longitude,
-            })),
+            items.reduce(
+                (acc, item) => ({
+                    ...acc,
+                    [item.service]: [...(acc[item.service] ? acc[item.service] : []), item],
+                }),
+                {}
+            ),
         [items]
     );
+    const filteredPickups = filter ? pickupsObj[filter] : items;
+    const filters = useMemo(() => {
+        const allNames = items.map(({ service }) => service);
+
+        return [...new Set(allNames)];
+    }, [items]);
+    const itemsForMap = useMemo(
+        () =>
+            items.map(({ id, service, price, address, schedule, latitude, longitude }) => ({
+                id,
+                latitude,
+                longitude,
+                price,
+                visible: filter ? filter === service : true,
+                name: address,
+                full_name: `Время работы: ${schedule}`,
+            })),
+        [items, filter]
+    );
+    const handleClickPoint = point => {
+        setActive(point);
+    };
+    const itemData = createItemData(filteredPickups, handleClickPoint);
+
+    const handleClickMarker = id => {
+        setActive(items.find(item => item.id === id));
+    };
 
     return (
         <div className={styles.mapWrapper}>
-            <Map items={itemsForMap} value={value} mapHeight={500} />
-            <div className={styles.pickupsList} style={{ height: '500px' }}>
-                {items.map((item, index) => {
-                    const { service, pvz_title, pvz_id: id, price, days } = item;
-
-                    return (
-                        <ListItem
-                            key={index}
-                            title={pvz_title}
-                            description={
-                                <>
-                                    <b>
-                                        <FormattedMessage
-                                            id={parseInt(price, 10) === 0 ? 'free' : 'currency'}
-                                            values={{ price: parseInt(price, 10) }}
-                                        />
-                                    </b>
-                                    <span>
-                                        <FormattedMessage id="p_cart_order_pickup_delivery_days" />:{' '}
-                                        {formatDate({ day: days, format: 'D MMMM YYYY' })}
-                                    </span>
-                                </>
-                            }
-                            meta={service}
-                            active={value === id}
-                            classNames={{ root: styles.pickupListItem }}
+            <Map
+                items={itemsForMap}
+                value={active ? active.id : null}
+                mapHeight="500px"
+                onClickMarker={handleClickMarker}
+            />
+            <div className={styles.right}>
+                {active ? (
+                    <>
+                        <button
+                            type="button"
+                            className={styles.backButton}
                             onClick={() => {
-                                onChange(item);
+                                setActive(null);
                             }}
-                            pointer
-                        />
-                    );
-                })}
+                        >
+                            <ArrowLeftIcon className={styles.backButtonIcon} />
+                            <FormattedMessage id="back" />
+                        </button>
+                        <div className={styles.activePoint}>
+                            <Point
+                                address={active.address}
+                                price={<FormattedMessage id="currency" values={{ price: active.price }} />}
+                                deliveryDays={
+                                    <>
+                                        <FormattedMessage id="p_cart_order_pickup_delivery_days" />:{' '}
+                                        {formatDate({ locale, day: active.days, format: 'D MMMM YYYY' })}
+                                    </>
+                                }
+                                meta={[active.service]}
+                                actions={
+                                    <Button
+                                        kind="primary"
+                                        size="small"
+                                        onClick={() => {
+                                            onChange(active);
+                                        }}
+                                        bold
+                                    >
+                                        Выбрать пункт
+                                    </Button>
+                                }
+                            />
+                            <div className={styles.activePointInfo}>
+                                <div>
+                                    <b>Телефон:</b> {active.phones}
+                                </div>
+                                <div>
+                                    <b>Время работы:</b> {active.schedule}
+                                </div>
+                                <div>
+                                    <b>Как добраться:</b> {active.how_to_get_there}
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <div style={{ height: '100%' }}>
+                        <div className={styles.pickupsFilters}>
+                            {filters.map(name => {
+                                const buttonClassName = cx(styles.filterButton, { active: filter === name });
+
+                                return (
+                                    <Button
+                                        key={name}
+                                        className={buttonClassName}
+                                        kind="simple"
+                                        size="small"
+                                        onClick={() => {
+                                            setFilter(name === filter ? null : name);
+                                        }}
+                                    >
+                                        {name}
+                                    </Button>
+                                );
+                            })}
+                        </div>
+                        <div className={styles.pickupsList}>
+                            <List
+                                height={400}
+                                itemCount={filteredPickups.length}
+                                itemData={itemData}
+                                itemSize={132}
+                            >
+                                {Row}
+                            </List>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

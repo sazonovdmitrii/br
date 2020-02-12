@@ -2,13 +2,14 @@ import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 
 import { useApp } from 'hooks';
-import { CREATE_USER_MUTATION } from 'mutations';
+import { CREATE_USER_MUTATION, UPDATE_USER_MUTATION } from 'mutations';
 
 import UserForm from './UserForm';
 
 export default ({ type, onSubmit = () => {}, onCompleted = () => {}, data = {} }) => {
+    const { createNotification, login } = useApp();
+
     if (type === 'registration') {
-        const { createNotification, login } = useApp();
         const [createUser] = useMutation(CREATE_USER_MUTATION, {
             onCompleted({ register: { hash } }) {
                 if (hash) {
@@ -43,5 +44,34 @@ export default ({ type, onSubmit = () => {}, onCompleted = () => {}, data = {} }
         );
     }
 
-    return <UserForm type={type} data={data} onSubmit={onSubmit} />;
+    const [updateUser] = useMutation(UPDATE_USER_MUTATION, {
+        onCompleted({ register: { hash } }) {
+            if (hash) {
+                createNotification({ type: 'success', message: 'Успешно обновленно' });
+            }
+        },
+        onError({ graphQLErrors: [{ message }] }) {
+            createNotification({ type: 'error', message });
+        },
+    });
+
+    return (
+        <UserForm
+            type={type}
+            data={data}
+            onSubmit={({ firstname, lastname, phone, gender }) => {
+                updateUser({
+                    variables: {
+                        input: {
+                            id: data.id,
+                            firstname,
+                            lastname,
+                            phone,
+                            gender,
+                        },
+                    },
+                });
+            }}
+        />
+    );
 };

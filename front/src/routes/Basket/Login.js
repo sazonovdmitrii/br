@@ -7,6 +7,7 @@ import { useApp } from 'hooks';
 import Title from 'components/Title';
 import LoginForm from 'components/LoginForm';
 import UserForm from 'components/UserForm';
+import Link from 'components/Link';
 import Hr from 'components/Hr';
 import RestorePasswordForm from 'components/RestorePasswordForm';
 

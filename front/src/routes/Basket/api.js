@@ -3,7 +3,7 @@ const request = (url, options) =>
         .then(resp => resp.json())
         .catch(console.error);
 
-const BEGU_HOST = 'https://dev.begu.ru/api/v1/delivery/';
+const BEGU_HOST = 'https://begu.ru/api/v1/delivery/';
 const BEGU_HEADERS = {
     'Host-slug': 'bh',
     'KM-Authenticate': '8fb40e703eede771eef652e71b32f499',

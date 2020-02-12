@@ -64,13 +64,13 @@ const User = () => {
                             text={<FormattedMessage id="addresses_text" />}
                         />
                     </Link>
-                    {/* <Link to={profileLink} className={styles.card}>
+                    <Link to={profileLink} className={styles.card}>
                         <CardContent
                             title={<FormattedMessage id="profile" />}
                             icon={<ProfileIcon />}
                             text={<FormattedMessage id="profile_text" />}
                         />
-                    </Link> */}
+                    </Link>
                 </section>
                 <p className={styles.footer}>
                     <Button onClick={handleLogoOut} kind="simple" bold>
