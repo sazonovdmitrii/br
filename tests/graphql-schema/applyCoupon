@@ -1,0 +1,16 @@
+mutation($input:CouponInput!){
+  applyCoupon(input: $input) {
+    products {
+      name
+      qty
+      price
+      coupon_price
+    }
+  }
+}
+
+{
+  "input": {
+    "coupon": "HELPROSTURIZM"
+  }
+}

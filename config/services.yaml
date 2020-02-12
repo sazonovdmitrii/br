@@ -64,9 +64,14 @@ services:
         arguments:
             $localeDir: '%app.path.locale_dir%'
 
-    App\GraphQL\Type\ItemsImagesType:
-        public: true
-        autowire: true
+#    App\GraphQL\Type\ItemsImagesType:
+#        public: true
+#        autowire: true
+
+    App\Service\CouponService:
+        arguments:
+            $productItemRepository: '@App\Repository\ProductItemRepository'
+
     Redis:
         class: Redis
         calls:

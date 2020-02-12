@@ -6,6 +6,9 @@ Basket:
       products:
         type: "[BasketProduct]"
         description: "Basket Id."
+      coupon:
+        type: "String"
+        description: "Coupon"
 
 BasketProduct:
   type: object
@@ -27,6 +30,9 @@ BasketProduct:
       price:
         type: "String"
         description: "Price"
+      coupon_price:
+        type: "String"
+        description: "Coupon Price"
       lenses:
         type: "LensesRecipe"
         description: "Price"

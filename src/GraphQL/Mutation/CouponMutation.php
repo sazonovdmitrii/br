@@ -1,10 +1,12 @@
 <?php
 namespace App\GraphQL\Mutation;
 
+use App\Repository\CouponsRepository;
 use App\Repository\ProductItemRepository;
 use App\Service\BasketService;
 use App\GraphQL\Input\CouponInput;
 use App\Service\AuthenticatorService;
+use GraphQL\Error\UserError;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Doctrine\ORM\EntityManager;
 use Redis;
@@ -19,6 +21,10 @@ use App\Service\UserService;
 class CouponMutation extends AuthMutation
 {
     private $productItemRepository;
+    /**
+     * @var CouponsRepository
+     */
+    private $couponsRepository;
 
     /**
      * CouponMutation constructor.
@@ -30,6 +36,7 @@ class CouponMutation extends AuthMutation
      * @param BasketService $basketService
      * @param UserService $userService
      * @param ProductItemRepository $productItemRepository
+     * @param CouponsRepository $couponsRepository
      */
     public function __construct(
         EntityManager $em,
@@ -38,26 +45,37 @@ class CouponMutation extends AuthMutation
         AuthenticatorService $authenticatorService,
         BasketService $basketService,
         UserService $userService,
-        ProductItemRepository $productItemRepository
+        ProductItemRepository $productItemRepository,
+        CouponsRepository $couponsRepository
     ) {
         $this->redis = $redis;
         $this->em = $em;
         $this->basketService = $basketService;
-        parent::__construct($redis, $container, $authenticatorService, $userService);
         $this->productItemRepository = $productItemRepository;
+        $this->couponsRepository = $couponsRepository;
+        parent::__construct($redis, $container, $authenticatorService, $userService);
     }
 
     /**
      * @param Argument $args
      * @return array
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function apply(Argument $args)
     {
         $input = new CouponInput($args);
         if($input->coupon) {
+            $coupon = $this->couponsRepository->findByCode($input->coupon);
+
+            if(!$coupon) {
+                throw new UserError('Вы ввели неверный промокод.');
+            }
+
             return $this->basketService
+                ->setCoupon($coupon)
                 ->setAuthKey($this->getAuthKey())
                 ->setLocale($this->getLocale())
+                ->apply()
                 ->getAll();
         }
     }

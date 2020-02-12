@@ -1,15 +1,22 @@
 <?php
+
 namespace App\Service;
+
+use App\Entity\Coupon;
+use App\Entity\Coupons;
 use App\Repository\ImageTypeRepository;
 use App\Repository\ProductItemRepository;
 use App\Repository\ProductRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Redis;
-use Doctrine\ORM\EntityManager;
 use App\Service\Image\GeneratorService;
+use Doctrine\ORM\EntityManager;
+use GraphQL\Error\UserError;
+use Redis;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BasketService extends AbstractController
 {
+    const BASKET_KEY = 'basket';
+
     private $authKey;
 
     private $locale;
@@ -29,11 +36,38 @@ class BasketService extends AbstractController
     private $productRepository;
 
     /**
+     * @var Coupons
+     */
+    private $coupon;
+    /**
+     * @var CouponService
+     */
+    private $couponService;
+
+    /**
      * @return mixed
      */
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCoupon()
+    {
+        return $this->coupon;
+    }
+
+    /**
+     * @param Coupons $coupon
+     * @return $this
+     */
+    public function setCoupon(Coupons $coupon)
+    {
+        $this->coupon = $coupon;
+        return $this;
     }
 
     /**
@@ -46,6 +80,18 @@ class BasketService extends AbstractController
         return $this;
     }
 
+    /**
+     * BasketService constructor.
+     *
+     * @param EntityManager $em
+     * @param Redis $redis
+     * @param GeneratorService $generatorService
+     * @param LenseService $lenseService
+     * @param ProductItemRepository $productItemRepository
+     * @param ProductRepository $productRepository
+     * @param ImageTypeRepository $imageTypeRepository
+     * @param CouponService $couponService
+     */
     public function __construct(
         EntityManager $em,
         Redis $redis,
@@ -53,182 +99,242 @@ class BasketService extends AbstractController
         LenseService $lenseService,
         ProductItemRepository $productItemRepository,
         ProductRepository $productRepository,
-        ImageTypeRepository $imageTypeRepository
+        ImageTypeRepository $imageTypeRepository,
+        CouponService $couponService
     ) {
-        $this->em = $em;
-        $this->redis = $redis;
-        $this->imageGenerator = $generatorService;
-        $this->lenseService = $lenseService;
+        $this->em                    = $em;
+        $this->redis                 = $redis;
+        $this->imageGenerator        = $generatorService;
+        $this->lenseService          = $lenseService;
         $this->productItemRepository = $productItemRepository;
-        $this->imageTypeRepository = $imageTypeRepository;
-        $this->productRepository = $productRepository;
+        $this->imageTypeRepository   = $imageTypeRepository;
+        $this->productRepository     = $productRepository;
+        $this->couponService         = $couponService;
     }
 
+    /**
+     * @param string $authKey
+     * @return $thiss
+     */
     public function setAuthKey(string $authKey)
     {
         $this->authKey = $authKey;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAuthKey()
     {
         return $this->authKey;
     }
 
-    public function add(int $itemId, $lenses)
+    /**
+     * @param int $itemId
+     * @param $lenses
+     * @return array
+     */
+    public function add($itemId, $lenses)
     {
-        if($authKey = $this->getAuthKey()) {
-            $key = 'basket::' . $this->getAuthKey();
-            $oldBasket = $this->redis->get($key);
+        $productItem = $this->productItemRepository->find($itemId);
 
-            if($oldBasket) {
-                $basket = json_decode($oldBasket, true);
-                if(!is_array($basket)) {
-                    $basket = [];
-                }
-                if(!isset($basket[$itemId])) {
-                    $basket[$itemId] = [
-                        'item_id' => $itemId,
-                        'qty' => 1
-                    ];
-                } else {
-                    $basket[$itemId]['qty'] += 1;
-                }
-            } else {
-                $basket[$itemId] = [
+        if (!$productItem) {
+            throw new UserError('Товара не существует');
+        }
+
+        $basket = $this->_getCurrentBasket();
+
+        if ($basket) {
+            $products = (isset($basket['products'])) ? $basket['products'] : [];
+            if (!isset($products[$itemId])) {
+                $products[$itemId] = [
                     'item_id' => $itemId,
-                    'qty' => 1
+                    'qty'     => 1,
+                    'price'   => $productItem->getPrice()
                 ];
+            } else {
+                $products[$itemId]['qty'] += 1;
             }
-
-            $basket[$itemId]['lenses'] = $lenses;
-
-            if($basket) {
-                $this->redis->set($key, json_encode($basket));
-            }
-            return $this->getAll();
+        } else {
+            $products[$itemId] = [
+                'item_id' => $itemId,
+                'qty'     => 1,
+                'price'   => $productItem->getPrice()
+            ];
         }
-        return [
-            'products' => []
-        ];
+
+        $products[$itemId]['lenses'] = $lenses;
+
+        $basket['products'] = $products;
+
+        $this->_updateBasket($basket);
+
+        return $this->getAll();
     }
 
-    public function remove(int $itemId)
+    /**
+     * @param int $itemId
+     * @return array
+     */
+    public function remove($itemId)
     {
-        if($authKey = $this->getAuthKey()) {
-            $key       = 'basket::' . $this->getAuthKey();
-            $basket = json_decode($this->redis->get($key), true);
-            if(isset($basket[$itemId])) {
-                unset($basket[$itemId]);
-            }
-            $this->redis->set($key, json_encode($basket));
-            foreach($basket as $basketItem) {
+        $basket = $this->_getCurrentBasket();
 
-                $productItem = $this->productItemRepository->find($basketItem['item_id']);
+        $products = (isset($basket['products'])) ?: [];
 
-                if($productItem && $productItem->getEntity()) {
-                    $basket[$basketItem['item_id']] = array_merge(
-                        $basketItem,
-                        [
-                            'name' => $productItem->getName(),
-                            'product_name' => $productItem->getEntity()->getName(),
-                            'price' => $productItem->getPrice()
-                        ]
-                    );
-                }
-            }
-            return $this->getAll();
+        if (isset($products[$itemId])) {
+            unset($products[$itemId]);
         }
-        return [
-            'products' => []
-        ];
+
+        $basket['products'] = $products;
+
+        $this->_updateBasket($basket);
+
+        return $this->getAll();
     }
 
-    public function update(int $itemId, int $qty, $lenses = [], $recipe = [])
+    public function update($itemId, $qty, $lenses = [], $recipe = [])
     {
-        if($authKey = $this->getAuthKey()) {
-            $key       = 'basket::' . $this->getAuthKey();
-            $basket = json_decode($this->redis->get($key), true);
-            if(isset($basket[$itemId])) {
-                $basket[$itemId]['qty'] = $qty;
-                if(count($lenses)) {
-                    $basket[$itemId]['lenses'] = $lenses;
-                }
-                if(count($recipe)) {
-                    $basket[$itemId]['recipe'] = $recipe;
-                }
+        $basket = $this->_getCurrentBasket();
+
+        $products = (isset($basket['products'])) ?: [];
+
+        if (isset($products[$itemId])) {
+            $products[$itemId]['qty'] = $qty;
+            if (count($lenses)) {
+                $products[$itemId]['lenses'] = $lenses;
             }
-            $this->redis->set($key, json_encode($basket));
-            return $this->getAll();
+            if (count($recipe)) {
+                $products[$itemId]['recipe'] = $recipe;
+            }
         }
-        return [
-            'products' => []
-        ];
+
+        $basket['products'] = $products;
+
+        $this->_updateBasket($basket);
+
+        return $this->getAll();
     }
 
     public function getAll()
     {
-        if($authKey = $this->getAuthKey()) {
-            $key = 'basket::' . $this->getAuthKey();
-            $basket = json_decode($this->redis->get($key), true);
+        $basket = $this->_getCurrentBasket();
+
+        if ($basket) {
             $result = [];
-            if($basket) {
-                foreach($basket as $basketItem) {
-                    $productItem = $this->productItemRepository->find($basketItem['item_id']);
+            foreach ($basket['products'] as $basketItem) {
 
-                    if($productItem) {
+                $productItem = $this->productItemRepository->find($basketItem['item_id']);
 
-                        $productItem->setCurrentLocale($this->getLocale());
+                if ($productItem) {
 
-                        $product = $this->productRepository
-                            ->find($productItem->getProduct()->getId());
+                    $productItem->setCurrentLocale($this->getLocale());
 
-                        $product->setCurrentLocale($this->getLocale());
+                    $product = $this->productRepository
+                        ->find($productItem->getProduct()->getId());
 
-                        $images = [];
+                    $product->setCurrentLocale($this->getLocale());
 
-                        $config = $this->imageTypeRepository->findAll();
+                    $images = [];
 
-                        foreach($productItem->getProductItemImages() as $image) {
+                    $config = $this->imageTypeRepository->findAll();
 
-                            $images[] = $this->imageGenerator
-                                ->setImage($image)
-                                ->setTypes(['original', 'webp'])
-                                ->setConfig($config)
-                                ->getAll();
+                    foreach ($productItem->getProductItemImages() as $image) {
 
-                        }
+                        $images[] = $this->imageGenerator
+                            ->setImage($image)
+                            ->setTypes(['original', 'webp'])
+                            ->setConfig($config)
+                            ->getAll();
 
-                        $productItem->setImages($images);
-                        $lenses = (isset($basketItem['lenses'])) ? $basketItem['lenses'] : [];
-                        $result[] = [
-                            'item' => $productItem,
-                            'qty' => $basketItem['qty'],
-                            'name' => $product->getName(),
-                            'url' => $product->getProductUrls()[0]->getUrl(),
-                            'price' => $productItem->getPrice(),
-                            'lenses' => $this->lenseService->parse($lenses)
-                        ];
                     }
+
+                    $productItem->setImages($images);
+                    $lenses               = (isset($basketItem['lenses'])) ? $basketItem['lenses'] : [];
+                    $result['products'][] = [
+                        'item'         => $productItem,
+                        'qty'          => $basketItem['qty'],
+                        'name'         => $product->getName(),
+                        'url'          => $product->getProductUrls()[0]->getUrl(),
+                        'price'        => $basketItem['price'],
+                        'coupon_price' => isset($basketItem['coupon_price']) ? $basketItem['coupon_price'] : 0,
+                        'lenses'       => $this->lenseService->parse($lenses)
+                    ];
                 }
-                return ['products' => $result];
             }
+
+            if(isset($basket['coupon'])) $result['coupon'] = $basket['coupon'];
+
+            return $result;
         }
-        return [
-            'products' => []
-        ];
+        return [];
     }
 
     public function delete()
     {
-        if($authKey = $this->getAuthKey()) {
-            $key = 'basket::' . $this->getAuthKey();
-            $this->redis->delete($key);
+        if ($authKey = $this->getAuthKey()) {
+            $this->redis->delete(self::BASKET_KEY . '::' . $authKey);
         }
     }
 
+    /**
+     * @param $authKey
+     * @param $userId
+     * @return bool
+     */
     public function updateCartForUser($authKey, $userId)
     {
-        return $this->redis->set('basket::' . $userId, $this->redis->get('basket::' . $authKey));
+        return $this->redis->set(
+            self::BASKET_KEY . '::' . $userId, $this->redis->get(self::BASKET_KEY . '::' . $authKey)
+        );
+    }
+
+    /**
+     * @return array|mixed
+     */
+    private function _getCurrentBasket()
+    {
+        if ($authKey = $this->getAuthKey()) {
+            return json_decode(
+                $this->redis->get(self::BASKET_KEY . '::' . $authKey), true
+            );
+        }
+        return [];
+    }
+
+    /**
+     * @param $basket
+     */
+    private function _updateBasket($basket)
+    {
+        if ($basket) {
+            $this->redis->set(
+                self::BASKET_KEY . '::' . $this->getAuthKey(), json_encode($basket)
+            );
+        }
+    }
+
+    public function apply()
+    {
+        $basket = $this->_getCurrentBasket();
+
+        if (!$basket) {
+            throw new UserError(
+                'В корзине нет товаров, к которым можно применить промокод ' . $this->getCoupon()->getCode()
+            );
+        }
+
+        if (!isset($basket['coupon']) || $basket['coupon'] != $this->getCoupon()->getCode()) {
+
+            $basket = $this->couponService
+                ->setCoupon($this->getCoupon())
+                ->setBasket($basket)
+                ->apply();
+
+            $this->_updateBasket($basket);
+        }
+
+        return $this;
     }
 }

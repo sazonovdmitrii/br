@@ -14,37 +14,27 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class CouponsRepository extends ServiceEntityRepository
 {
+    /**
+     * CouponsRepository constructor.
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Coupons::class);
     }
 
-    // /**
-    //  * @return Coupons[] Returns an array of Coupons objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param string $couponCode
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findByCode(string $couponCode)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->where('c.code = :couponCode')
+            ->setParameter('couponCode', $couponCode)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Coupons
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
