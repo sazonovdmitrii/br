@@ -268,7 +268,9 @@ class BasketService extends AbstractController
 
             return $result;
         }
-        return [];
+        return [
+            'products' => []
+        ];
     }
 
     public function delete()
