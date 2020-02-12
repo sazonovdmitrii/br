@@ -554,7 +554,11 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                     meta={
                                         <>
                                             <FormattedMessage id="p_cart_order_pickup_delivery_days" />:{' '}
-                                            {formatDate({ day: currentDelivery.days, format: 'D MMMM YYYY' })}
+                                            {formatDate({
+                                                locale,
+                                                day: currentDelivery.days,
+                                                format: 'D MMMM YYYY',
+                                            })}
                                         </>
                                     }
                                     actions={

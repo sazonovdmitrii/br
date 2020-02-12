@@ -6,6 +6,7 @@ import classnames from 'classnames/bind';
 import { FixedSizeList as List, areEqual } from 'react-window';
 import memoize from 'memoize-one';
 
+import { useLang } from 'hooks';
 import { formatDate } from 'utils';
 
 import Button from 'components/Button';
@@ -19,6 +20,7 @@ const cx = classnames.bind(styles);
 
 const Row = memo(({ data: { items, onClick }, index, style }) => {
     // Data passed to List as "itemData" is available as props.data
+    const locale = useLang();
     const item = items[index];
     const { service, address, id, price, days } = item;
 
@@ -32,7 +34,7 @@ const Row = memo(({ data: { items, onClick }, index, style }) => {
             deliveryDays={
                 <>
                     <FormattedMessage id="p_cart_order_pickup_delivery_days" />:{' '}
-                    {formatDate({ day: days, format: 'D MMMM YYYY' })}
+                    {formatDate({ locale, day: days, format: 'D MMMM YYYY' })}
                 </>
             }
             meta={[service]}
@@ -50,6 +52,7 @@ const createItemData = memoize((items, onClick) => ({
 }));
 
 const Pickups = ({ value, items, onChange }) => {
+    const locale = useLang();
     const [filter, setFilter] = useState(null);
     const [active, setActive] = useState(value);
 
@@ -120,7 +123,7 @@ const Pickups = ({ value, items, onChange }) => {
                                 deliveryDays={
                                     <>
                                         <FormattedMessage id="p_cart_order_pickup_delivery_days" />:{' '}
-                                        {formatDate({ day: active.days, format: 'D MMMM YYYY' })}
+                                        {formatDate({ locale, day: active.days, format: 'D MMMM YYYY' })}
                                     </>
                                 }
                                 meta={[active.service]}

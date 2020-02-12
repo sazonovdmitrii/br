@@ -16,6 +16,7 @@ import styles from './styles.css';
 
 const Row = memo(({ data: { items, onClick }, index, style }) => {
     // Data passed to List as "itemData" is available as props.data
+    const locale = useLang();
     const item = items[index];
     const { service, address, id, days, storage_time: storageTime } = item;
 
@@ -28,7 +29,7 @@ const Row = memo(({ data: { items, onClick }, index, style }) => {
             deliveryDays={
                 <>
                     <FormattedMessage id="p_cart_order_pickup_delivery_days" />:{' '}
-                    {formatDate({ day: days, format: 'D MMMM YYYY' })}
+                    {formatDate({ locale, day: days, format: 'D MMMM YYYY' })}
                 </>
             }
             meta={[
@@ -50,6 +51,7 @@ const createItemData = memoize((items, onClick) => ({
 }));
 
 const Stores = ({ value, items, onChange }) => {
+    const locale = useLang();
     const [active, setActive] = useState(value);
 
     const itemsForMap = useMemo(
@@ -98,7 +100,7 @@ const Stores = ({ value, items, onChange }) => {
                                 deliveryDays={
                                     <>
                                         <FormattedMessage id="p_cart_order_pickup_delivery_days" />:{' '}
-                                        {formatDate({ day: active.days, format: 'D MMMM YYYY' })}
+                                        {formatDate({ locale, day: active.days, format: 'D MMMM YYYY' })}
                                     </>
                                 }
                                 meta={[
