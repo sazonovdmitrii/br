@@ -12,6 +12,25 @@ class RegisterInput extends RequestObject
     /**
      * @var
      */
+    public $firstname;
+
+    /**
+     * @var
+     */
+    public $lastname;
+
+    /**
+     * @var
+     */
+    public $gender;
+
+    /**
+     * @var 
+     */
+    public $phone;
+    /**
+     * @var
+     */
     public $email;
 
     /**
