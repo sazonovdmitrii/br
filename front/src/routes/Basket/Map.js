@@ -1,60 +1,50 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { GoogleMap, useLoadScript, Marker, InfoWindow, MarkerClusterer } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, Marker, MarkerClusterer } from '@react-google-maps/api';
+
+import { useLang } from 'hooks';
 
 import Loader from 'components/Loader';
-import Title from 'components/Title';
-
-import styles from './styles.css';
 
 const markers = {};
 
-const Map = ({ items, zoom, value, mapHeight }) => {
+const Map = ({ items, zoom, value, mapHeight, onClickMarker }) => {
+    console.log('map value:', value);
+    const lang = useLang();
     const { isLoaded, loadError } = useLoadScript({
+        language: lang,
         googleMapsApiKey: 'AIzaSyAy60jEl44vOurnzSHTaJtpd2KHjAA9O_0',
     });
     const [map, setMap] = useState(null);
     const [bounds, setBounds] = useState({});
-    const [infoWindow, setInfoWindow] = useState(null);
 
     const handleClick = useCallback(
-        ({ id, latitude, longitude, name, fullName }) => {
-            console.log(fullName);
-            setInfoWindow({
-                id,
-                position: {
-                    lat: 1 * latitude,
-                    lng: 1 * longitude,
-                },
-                title: name,
-                description: fullName,
-            });
+        id => {
             map.setCenter(markers[id].getPosition());
-            map.setZoom(8);
+            map.setZoom(16);
+            console.log('handleClick');
+
+            if (onClickMarker) onClickMarker(id);
         },
-        [map]
+        [map, onClickMarker]
     );
 
-    const resetMap = () => {
-        map.fitBounds(bounds);
-        map.panToBounds(bounds);
-    };
-
     useEffect(() => {
-        if (items.length > 1 && map && bounds) {
-            resetMap();
+        if (map && bounds) {
+            map.fitBounds(bounds);
+            map.panToBounds(bounds);
+            console.log('RESET MAP');
         }
-    }, [items, map, bounds, resetMap]);
+    }, [map, bounds]);
 
     useEffect(() => {
         if (map && value && items.length) {
             console.log('map items', items);
-            const { id, latitude, longitude, name, full_name: fullName } =
-                items.find(item => value === item.id) || {};
+            const { id } = items.find(item => value === item.id) || {};
 
             if (!id) return;
 
-            handleClick({ id, latitude, longitude, name, fullName });
+            handleClick(id);
         }
     }, [map, value, items, handleClick]);
 
@@ -64,7 +54,7 @@ const Map = ({ items, zoom, value, mapHeight }) => {
 
     return isLoaded ? (
         <GoogleMap
-            mapContainerStyle={{ height: `${mapHeight}px` }}
+            mapContainerStyle={{ height: mapHeight }}
             options={{
                 zoom,
             }}
@@ -74,6 +64,7 @@ const Map = ({ items, zoom, value, mapHeight }) => {
             }}
         >
             <MarkerClusterer
+                ignoreHidden
                 options={{
                     ignoreHiddenMarkers: false,
                     imagePath:
@@ -81,14 +72,15 @@ const Map = ({ items, zoom, value, mapHeight }) => {
                 }}
             >
                 {clusterer =>
-                    items.map(({ id, longitude, latitude, name, full_name: fullName }) => (
+                    items.map(({ id, longitude, latitude, visible }) => (
                         <Marker
                             key={id}
                             onLoad={marker => {
                                 bounds.extend(marker.position);
                                 markers[id] = marker;
                             }}
-                            onClick={() => handleClick({ id, latitude, longitude, name, fullName })}
+                            visible={visible}
+                            onClick={() => handleClick(id)}
                             position={{
                                 lat: 1 * latitude,
                                 lng: 1 * longitude,
@@ -106,16 +98,18 @@ const Map = ({ items, zoom, value, mapHeight }) => {
 
 Map.defaultProps = {
     items: [],
-    active: null,
+    value: null,
     zoom: 10,
     mapHeight: 500,
+    onClickMarker: null,
 };
 
 Map.propTypes = {
+    onClickMarker: PropTypes.func,
     zoom: PropTypes.number,
-    active: PropTypes.number,
+    value: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
     items: PropTypes.arrayOf(PropTypes.object),
-    mapHeight: PropTypes.number,
+    mapHeight: PropTypes.string,
 };
 
 export default Map;

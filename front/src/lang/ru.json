@@ -6,6 +6,8 @@
     "p_cart_sidebar_message": "Включая линзы",
     "p_cart_order_receiving_title": "Способ получения",
     "p_cart_order_delivery_title": "Способ доставки",
+    "p_cart_order_current_delivery_title": "Адрес доставки",
+    "p_cart_order_current_delivery_edit": "Изменить",
     "p_cart_order_pickups_title": "Самовывозы",
     "p_cart_order_stores_title": "Магазины",
     "p_cart_order_payment_title": "Способ оплаты",

@@ -7,7 +7,7 @@ import classnames from 'classnames/bind';
 import { useApp, useLang } from 'hooks';
 import { GET_SHORT_BASKET } from 'query';
 import { REMOVE_PRODUCT_MUTATION, CREATE_ORDER_MUTATION, APPLY_COUPON_MUTATION } from 'mutations';
-import { isNumber, metrics } from 'utils';
+import { isNumber, metrics, formatDate } from 'utils';
 
 import Button from 'components/Button';
 import { StepView, StepContainer } from 'components/Steps';
@@ -90,8 +90,8 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
             name: '',
         },
         payment: {},
-        pvz: {},
-        stores: {},
+        pvz: null,
+        stores: null,
         comment: '',
         address: addresses && addresses.length ? addresses[0] : null,
     };
@@ -116,7 +116,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
         parseInt(totalSum, 10) + (currentDelivery ? parseInt(currentDelivery.price, 10) : 0);
 
     const isValid = () => {
-        const fields = isCourier ? ['address'] : [isPickup ? 'pvz' : isStore ? 'stores' : null];
+        const fields = isCourier ? ['address'] : [values.deliveryMethod.type];
         const requiredFields = ['city', 'deliveryMethod', ...fields, 'payment'];
 
         const valid = requiredFields
@@ -235,8 +235,8 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
         variables: {
             input: { coupon },
         },
-        onCompleted: ({ applyCoupon }) => {
-            setProducts(applyCoupon.products);
+        onCompleted: ({ applyCoupon: data }) => {
+            setProducts(data.products);
         },
         onError({ graphQLErrors: [{ message }] }) {
             createNotification({
@@ -264,7 +264,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
         if (payment_methods) {
             const newPaymentsMethods = payment_methods.map(id => ({ id, title: allPaymentsMethods[id] }));
 
-            console.log(newPaymentsMethods);
+            console.log('new payments', newPaymentsMethods);
             setPaymentsMethods(newPaymentsMethods);
         }
     }, [values.deliveryMethod, currentDelivery, allPaymentsMethods]);
@@ -480,7 +480,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                         </div>
                         {!calledDeliveryMethods ? null : loadingDeliveryMethods ? (
                             <Loader />
-                        ) : deliveryMethods.length ? (
+                        ) : (
                             <div className={styles.block}>
                                 <Title className={styles.blockTitle}>
                                     <FormattedMessage id="p_cart_order_receiving_title" />
@@ -531,7 +531,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                     );
                                 })}
                             </div>
-                        ) : null}
+                        )}
                         {isCourier ? (
                             <div className={styles.block}>
                                 <AddressList
@@ -543,6 +543,37 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                             </div>
                         ) : !calledPickups ? null : loadingPickups ? (
                             <Loader />
+                        ) : currentDelivery ? (
+                            <div className={styles.block}>
+                                <Title className={styles.blockTitle}>
+                                    <FormattedMessage id="p_cart_order_current_delivery_title" />
+                                </Title>
+                                <ListItem
+                                    title={currentDelivery.service}
+                                    description={currentDelivery.address}
+                                    meta={
+                                        <>
+                                            <FormattedMessage id="p_cart_order_pickup_delivery_days" />:{' '}
+                                            {formatDate({ day: currentDelivery.days, format: 'D MMMM YYYY' })}
+                                        </>
+                                    }
+                                    actions={
+                                        <Button
+                                            kind="primary"
+                                            onClick={() => {
+                                                setValues(prevValues => ({
+                                                    ...prevValues,
+                                                    [prevValues.deliveryMethod.type]: null,
+                                                }));
+                                                setPaymentsMethods([]);
+                                            }}
+                                            bold
+                                        >
+                                            <FormattedMessage id="p_cart_order_current_delivery_edit" />
+                                        </Button>
+                                    }
+                                />
+                            </div>
                         ) : (
                             <div className={styles.block}>
                                 <Title className={styles.blockTitle}>
@@ -557,7 +588,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                 {isPickup ? (
                                     <Pickups
                                         items={pickups}
-                                        value={currentDelivery.id}
+                                        value={currentDelivery}
                                         onChange={value => {
                                             handleClickListItem({
                                                 type: 'pvz',
@@ -568,7 +599,7 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                 ) : (
                                     <Stores
                                         items={pickups}
-                                        value={currentDelivery.id}
+                                        value={currentDelivery}
                                         onChange={value => {
                                             handleClickListItem({
                                                 type: 'stores',
