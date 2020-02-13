@@ -23,7 +23,7 @@ Store:
         type: "String"
         description: "Store City"
       visible:
-        type: "String"
+        type: "Boolean"
         description: "Visibility"
       longitude:
         type: "String"

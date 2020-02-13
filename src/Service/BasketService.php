@@ -256,7 +256,7 @@ class BasketService extends AbstractController
                         'item'         => $productItem,
                         'qty'          => $basketItem['qty'],
                         'name'         => $product->getName(),
-                        'url'          => $product->getProductUrls()[0]->getUrl(),
+                        'url'          => '/' . $product->getProductUrls()[0]->getUrl(),
                         'price'        => $basketItem['price'],
                         'coupon_price' => isset($basketItem['coupon_price']) ? $basketItem['coupon_price'] : 0,
                         'lenses'       => $this->lenseService->parse($lenses)
