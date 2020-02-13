@@ -98,7 +98,7 @@ const HeaderMenu = ({ items }) => {
                     </li>
                 );
             })}
-            <li className={styles.item}>
+            {/* <li className={styles.item}>
                 <button
                     type="button"
                     className={homeTryLinkClassName}
@@ -136,7 +136,7 @@ const HeaderMenu = ({ items }) => {
                         </ul>
                     </div>
                 </div>
-            </li>
+            </li> */}
         </ul>
     );
 };
