@@ -7,6 +7,7 @@ const GET_BASKET = gql`
         isLoggedIn @client(always: false)
         basket {
             ...BasketProducts
+            coupon
         }
         addresses {
             ...Addresses

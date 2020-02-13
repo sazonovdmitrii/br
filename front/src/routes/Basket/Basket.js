@@ -63,12 +63,12 @@ const getLocalCity = () => {
     return localCity;
 };
 
-const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) => {
+const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addresses, isLoggedIn }) => {
     const locale = useLang();
     const { createNotification } = useApp();
     const [products, setProducts] = useState(productsProps);
     const [orderId, setOrderId] = useState(false);
-    const [coupon, setCoupon] = useState('');
+    const [coupon, setCoupon] = useState({ value: couponProp, active: !!couponProp });
 
     const initialDeliveryMethods = { loading: true, called: false, data: [] };
     const [
@@ -104,12 +104,13 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
     const isStore = values.deliveryMethod.id === 'stores';
     const isCourier = values.deliveryMethod.payment_methods;
     const currentDelivery = isCourier ? values.deliveryMethod : values[values.deliveryMethod.type];
+    const isCouponApplied = coupon.active;
 
     const totalSum = products.reduce(
-        (acc, item) =>
+        (acc, { price, coupon_price: couponPrice, lenses }) =>
             acc +
-            parseInt(item.price, 10) +
-            (item.lenses.lenses ? parseInt(item.lenses.lenses.price, 10) : 0),
+            parseInt(isCouponApplied ? couponPrice : price, 10) +
+            (lenses.lenses ? parseInt(lenses.lenses.price, 10) : 0),
         0
     );
     const totalSumWithDelivery =
@@ -199,13 +200,15 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                                 revenue: totalSumWithDelivery, // Total transaction value (incl. tax and shipping)
                                 shipping: currentDelivery.price,
                             },
-                            products: products.map(({ name, item, price, qty }) => ({
-                                price,
-                                name, // Name or ID is required.
-                                id: item.id,
-                                variant: item.name,
-                                quantity: qty,
-                            })),
+                            products: products.map(
+                                ({ name, item, price, coupon_price: couponPrice, qty }) => ({
+                                    price: isCouponApplied ? couponPrice : price,
+                                    name, // Name or ID is required.
+                                    id: item.id,
+                                    variant: item.name,
+                                    quantity: qty,
+                                })
+                            ),
                         },
                     },
                 });
@@ -233,9 +236,10 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
     });
     const [applyCoupon] = useMutation(APPLY_COUPON_MUTATION, {
         variables: {
-            input: { coupon },
+            input: { coupon: coupon.value },
         },
         onCompleted: ({ applyCoupon: data }) => {
+            setCoupon(prevCoupon => ({ ...prevCoupon, active: true }));
             setProducts(data.products);
         },
         onError({ graphQLErrors: [{ message }] }) {
@@ -423,32 +427,53 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                     theme={{ ...theme, body: styles.firstStepBody }}
                 >
                     <div className={styles.products}>
-                        {products.map(({ name, item, lenses: { lenses, recipes } = {}, price, url }) => (
-                            <BasketProduct
-                                key={item.id}
-                                images={item.images[0]}
-                                name={name}
-                                recipes={recipes}
-                                options={lenses ? lenses.options : []}
-                                subName={item.name}
-                                price={
-                                    <FormattedMessage
-                                        id="currency"
-                                        values={{
-                                            price:
-                                                parseInt(price, 10) +
-                                                (lenses ? parseInt(lenses.price, 10) : 0),
-                                        }}
-                                    />
-                                }
-                                url={url}
-                                onRemove={() => {
-                                    handleRemoveProduct({
-                                        variables: { input: { item_id: item.id } },
-                                    });
-                                }}
-                            />
-                        ))}
+                        {products.map(
+                            ({
+                                name,
+                                item,
+                                lenses: { lenses, recipes } = {},
+                                price,
+                                coupon_price: couponPrice,
+                                url,
+                            }) => (
+                                <BasketProduct
+                                    key={item.id}
+                                    images={item.images[0]}
+                                    name={name}
+                                    recipes={recipes}
+                                    options={lenses ? lenses.options : []}
+                                    subName={item.name}
+                                    oldPrice={
+                                        isCouponApplied && (
+                                            <FormattedMessage
+                                                id="currency"
+                                                values={{
+                                                    price:
+                                                        parseInt(price, 10) +
+                                                        (lenses ? parseInt(lenses.price, 10) : 0),
+                                                }}
+                                            />
+                                        )
+                                    }
+                                    price={
+                                        <FormattedMessage
+                                            id="currency"
+                                            values={{
+                                                price:
+                                                    parseInt(isCouponApplied ? couponPrice : price, 10) +
+                                                    (lenses ? parseInt(lenses.price, 10) : 0),
+                                            }}
+                                        />
+                                    }
+                                    url={url}
+                                    onRemove={() => {
+                                        handleRemoveProduct({
+                                            variables: { input: { item_id: item.id } },
+                                        });
+                                    }}
+                                />
+                            )
+                        )}
                     </div>
                     <Sidebar
                         className={styles.sidebar}
@@ -648,16 +673,17 @@ const Basket = ({ basket: { products: productsProps }, addresses, isLoggedIn }) 
                             <InputGroup>
                                 <Input
                                     name="coupon"
-                                    value={coupon}
+                                    value={coupon.value}
                                     onChange={({ target: { value } }) => {
-                                        setCoupon(value);
+                                        setCoupon(prevCoupon => ({ ...prevCoupon, value }));
                                     }}
+                                    disabled={coupon.active}
                                 />
-                            </InputGroup>
-                            <InputGroup>
-                                <Button kind="primary" onClick={applyCoupon}>
-                                    <FormattedMessage id="p_cart_order_coupon_action" />
-                                </Button>
+                                {!coupon.active && (
+                                    <Button kind="primary" size="large" onClick={applyCoupon}>
+                                        <FormattedMessage id="p_cart_order_coupon_action" />
+                                    </Button>
+                                )}
                             </InputGroup>
                         </div>
                         <div className={styles.orderBlock}>

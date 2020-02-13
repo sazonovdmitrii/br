@@ -76,8 +76,8 @@
 .name {
     width: 100%;
     color: var(--color-font);
-    font-weight: 600;
-    font-size: 18px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-large);
     font-family: var(--headings-font-family);
     line-height: 1.3;
 
@@ -182,15 +182,15 @@
 
 .frameDetailsLabel {
     margin: 0;
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-small);
 }
 
 .frameDetailsValue {
     display: flex;
     margin: 0 0 12px;
     color: #676f78;
-    font-size: 14px;
+    font-size: var(--font-size-small);
     line-height: 24px;
 }
 
@@ -198,12 +198,21 @@
     margin-left: auto;
 }
 
+.oldPrice {
+    display: inline-block;
+    margin: 0;
+    color: #414b56;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-small);
+    text-decoration: line-through;
+}
+
 .totalPrice {
     display: inline-block;
     margin: 0;
     color: #414b56;
     font-weight: var(--font-weight-bold);
-    font-size: 14px;
+    font-size: var(--font-size-small);
 }
 
 .removeConfirm {
@@ -236,7 +245,7 @@
 .removeConfimTitle {
     max-width: 190px;
     margin: 0 auto 12px;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 .removeConfirmActions {
