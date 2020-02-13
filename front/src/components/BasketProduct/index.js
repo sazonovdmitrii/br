@@ -12,7 +12,7 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const BasketProduct = ({ url, name, subName, images, price, options, recipes, onRemove }) => {
+const BasketProduct = ({ url, name, subName, images, oldPrice, price, options, recipes, onRemove }) => {
     const [expanded, setExpanded] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const rootClassName = cx(styles.root);
