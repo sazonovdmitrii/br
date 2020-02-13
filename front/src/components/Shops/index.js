@@ -13,17 +13,19 @@ const Shops = ({ items, kind }) => {
 
     return (
         <section className={rootClassName}>
-            {items.map(({ id, region, city, name, full_name, storeUrls: [{ url }] }) => (
-                <div key={id} className={styles.column}>
-                    {region && <h3 className={styles.region}>{region}</h3>}
-                    <h1 className={styles.title}>
-                        {city}
-                        {', '}
-                        {url ? <Link to={url}>{name}</Link> : name}
-                    </h1>
-                    <p className={styles.text}>{full_name}</p>
-                </div>
-            ))}
+            {items.map(({ id, region, city, name, full_name, storeUrls: [{ url }], visible }) =>
+                visible ? (
+                    <div key={id} className={styles.column}>
+                        {region && <h3 className={styles.region}>{region}</h3>}
+                        <h1 className={styles.title}>
+                            {city}
+                            {', '}
+                            {url ? <Link to={url}>{name}</Link> : name}
+                        </h1>
+                        <p className={styles.text}>{full_name}</p>
+                    </div>
+                ) : null
+            )}
         </section>
     );
 };
