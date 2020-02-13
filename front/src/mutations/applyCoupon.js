@@ -6,6 +6,7 @@ const APPLY_COUPON_MUTATION = gql`
     mutation applyCoupon($input: CouponInput!) {
         applyCoupon(input: $input) {
             ...BasketProducts
+            coupon
         }
     }
     ${BasketProducts}
