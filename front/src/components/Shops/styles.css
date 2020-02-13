@@ -9,6 +9,18 @@
     }
 }
 
+.row {
+    display: flex;
+    flex-wrap: wrap;
+
+    & .column {
+        flex: 1;
+        min-width: 290px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}
+
 .column {
     display: inline-block;
     margin-top: 36px;

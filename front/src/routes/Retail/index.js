@@ -46,7 +46,7 @@ const Retail = () => {
                             <Title className={styles.subTitle}>
                                 <FormattedMessage id="p_retail_store_vision_title" />
                             </Title>
-                            <Shops items={storesWithVision.data} />
+                            <Shops items={storesWithVision.data} kind="row" />
                         </>
                     )}
                     {loadingStores ? (
@@ -56,7 +56,7 @@ const Retail = () => {
                             <Title className={styles.subTitle}>
                                 <FormattedMessage id="p_retail_store_title" />
                             </Title>
-                            <Shops items={stores.data} />
+                            <Shops items={stores.data} kind="row" />
                         </>
                     )}
                     {!loading && stores && storesWithVision ? (
