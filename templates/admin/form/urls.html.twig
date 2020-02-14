@@ -26,7 +26,7 @@
                         </button>
                     </td>
                 </tr>
-                <input type="hidden" name="url[]" id="url-{{ row.id }}" value="{{ row.id }}"/>
+                <input type="hidden" name="{{ field }}[]" id="url-{{ row.id }}" value="{{ row.id }}"/>
             {% endfor %}
             </tbody>
         </table>
