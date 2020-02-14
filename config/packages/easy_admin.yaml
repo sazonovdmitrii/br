@@ -52,7 +52,7 @@ easy_admin:
                 title: 'Менеджер картинок'
                 fields:
                     - id
-                    - { property: 'image', template: 'admin/renderers/image.html.twig' }
+                    - { property: 'path', template: 'admin/renderers/image.html.twig' }
                     - created
             form:
                 fields:
