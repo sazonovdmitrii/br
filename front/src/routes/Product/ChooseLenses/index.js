@@ -187,17 +187,18 @@ const ChooseLenses = ({
         setImageIndex(0);
     };
 
-    const [choosenLenses = {}] = getLensesByValues({ lenses, values });
+    const selectedLenses = getLensesByValues({ lenses, values });
+    const [selectedLens = {}] = selectedLenses;
 
     const handleAddToCart = () => {
-        if (choosenLenses.id) {
+        if (selectedLens.id) {
             onAddToCart({
                 variables: {
                     input: {
                         item_id: itemId,
                         lenses: JSON.stringify({
                             recipes: recipe,
-                            lenses: choosenLenses.id,
+                            lenses: selectedLens.id,
                         }),
                     },
                 },
@@ -214,7 +215,7 @@ const ChooseLenses = ({
     const isFirstStep = currentStep === firstStep;
 
     const StepView = () => {
-        const { recipes } = choosenLenses;
+        const { recipes } = selectedLens;
 
         switch (currentStep) {
             case RECIPE_STEP: {
