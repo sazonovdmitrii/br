@@ -223,6 +223,11 @@ class BasketService extends AbstractController
 
         if ($basket) {
             $result = [];
+
+            if(!isset($basket['products'])) {
+                $basket['products'] = [];
+            }
+
             foreach ($basket['products'] as $basketItem) {
 
                 $productItem = $this->productItemRepository->find($basketItem['item_id']);
