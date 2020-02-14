@@ -443,7 +443,7 @@ easy_admin:
                     - meta_keywords
                     - meta_description
                     - { type: 'tab', label: 'Адреса' }
-                    - { property: 'pageUrls', type_options: { block_name: 'page_urls' }}
+                    - { property: 'pageUrls', type_options: { block_name: 'page_urls', by_reference: false }}
         Block:
             class: App\Entity\Block
             label: 'Блоки'
