@@ -1,0 +1,74 @@
+{% set entity = form.parent.vars.data %}
+<input type="hidden" id="{{ type|lower }}_{{ name }}" name="{{ type|lower }}[{{ name }}]" value="{{ src }}" class="form-control"/>
+<input type="hidden" id="type" name="type" value="{{ type }}" class="form-control"/>
+
+<div class="row">
+    <div class="col-sm-2">
+        <span class="btn btn-primary btn-file">
+            Выбрать файл <input id="file_upload_{{ name }}" type="file" name="file" data-url="/admin/images/upload_once">
+        </span>
+    </div>
+</div>
+<div id="upload_process"></div>
+<hr>
+<div id="image_{{ name }}">
+    {% if src %}
+        <div class="image_item col-sm-2">
+            <img src="{{ src }}" class="img-thumbnail">
+            <div>
+                <button onclick="delete_image(this)" class="btn btn-default" type="button">
+                        <span class="glyph icon glyphicon-trash">Удалить</span>
+                </button>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#file_upload_{{ name }}').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                var src = data.result.image;
+                $('#{{ type|lower }}_{{ name }}').val(src);
+                $('#upload_process').html('');
+                $('#image_{{ name }}').html('');
+                $('#image_tmpl').tmpl(data.result).appendTo('#image_{{ name }}');
+            },
+            progressall: function (e, data) {
+                var $div = $('#div_process_' + data.upload_number);
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $div.find('.progress-bar').css('width', progress + '%');
+            }
+        });
+    });
+
+    function delete_image(btn) {
+        if (confirm('Удалить картинку?')) {
+            var img = $(btn).parents(".image_item");
+            $.get("/admin/images/delete?" + $.param({
+                'eid': img.attr('eid'),
+                'type': '{{ type }}'
+            }), {}, function (data) {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    img.remove();
+                }
+            }, 'json')
+                .error(function () {
+                    alert("error connection");
+                })
+        }
+    }
+</script>
+<script id="image_tmpl" type="text/x-jquery-tmpl">
+    <div class="image_item col-sm-2">
+        <img src="${image}" class="img-thumbnail">
+        <div>
+            <button onclick="delete_image(this)" class="btn btn-default" type="button">
+                <span class="glyphicon glyphicon-trash">Удалить</span>
+            </button>
+        </div>
+    </div>
+</script>

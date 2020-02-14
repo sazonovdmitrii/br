@@ -17,3 +17,4 @@ twig:
         blocks: '@App\Service\Twig\Blocks'
         collections: '@App\Service\Twig\Collections'
         bannerItems: '@App\Service\Twig\BannerItems'
+        helper: '@App\Service\Twig\Helper'

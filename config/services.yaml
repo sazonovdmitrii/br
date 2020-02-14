@@ -18,6 +18,8 @@ parameters:
     app.url.BannerItem: '/uploads/banneritem'
     app.path.Menu: '%kernel.project_dir%/public/uploads/menu'
     app.url.Menu: '/uploads/menu'
+    app.path.ImageManager: '%kernel.project_dir%/public/uploads/imagemanager'
+    app.url.ImageManager: '/uploads/imagemanager'
     app.path.locale_dir: '%kernel.project_dir%/front/src/lang/'
     lense_tags:
        - { key: 'simple', value: 'Простой' }

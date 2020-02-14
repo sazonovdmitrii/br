@@ -45,6 +45,18 @@ easy_admin:
                 fields:
                   - name
                   - title
+        ImageManager:
+            class: App\Entity\ImageManager
+            label: 'Менеджер картинок'
+            list:
+                title: 'Менеджер картинок'
+                fields:
+                    - id
+                    - { property: 'image', template: 'admin/renderers/image.html.twig' }
+                    - created
+            form:
+                fields:
+                    - { property: path, label: 'Изображение', type_options: { block_name: 'image' }}
         Coupons:
             class: App\Entity\Coupons
             label: 'Купоны'
@@ -624,6 +636,7 @@ easy_admin:
             - 'admin/form/collections.html.twig'
             - 'admin/form/slides.html.twig'
             - 'admin/form/upload.html.twig'
+            - 'admin/form/image.html.twig'
         menu:
           - label: 'Адреса'
             children: ['ProductUrl', 'CatalogUrl']
@@ -633,7 +646,7 @@ easy_admin:
           - label: 'Меню'
             children: ['Menu', 'MenuItem']
           - label: 'Контент'
-            children: ['Page', 'Block', 'Banner', 'Store', 'Region', 'Courier', 'Pickup', 'City', 'PaymentMethod']
+            children: ['Page', 'Block', 'Banner', 'ImageManager', 'Store', 'Region', 'Courier', 'Pickup', 'City', 'PaymentMethod']
           - label: 'Лэндинги'
             children: ['LandingBlock', 'LandingPage']
           - label: 'Продажи'

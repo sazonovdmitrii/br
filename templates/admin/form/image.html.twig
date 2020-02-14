@@ -1,0 +1,10 @@
+{% block _imagemanager_image_widget %}
+    {% set entity = form.parent.vars.data %}
+
+    {% include 'admin/form/elements/image_once.html.twig' with {
+        'name': (name),
+        'type': 'ImageManager',
+        'src': helper.value(entity, name)
+    } %}
+{% endblock %}
+
