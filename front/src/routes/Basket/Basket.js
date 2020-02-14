@@ -479,6 +479,24 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                         className={styles.sidebar}
                         messages={['p_cart_sidebar_message']}
                         pricing={[{ name: 'p_cart_sidebar_subtotal', value: totalSum }]}
+                        coupon={
+                            <>
+                                <Input
+                                    name="coupon"
+                                    label={<FormattedMessage id="p_cart_coupon_label" />}
+                                    value={coupon.value}
+                                    onChange={({ target: { value } }) => {
+                                        setCoupon(prevCoupon => ({ ...prevCoupon, value }));
+                                    }}
+                                    disabled={coupon.active}
+                                />
+                                {!coupon.active && (
+                                    <Button kind="primary" size="large" onClick={applyCoupon} bold>
+                                        <FormattedMessage id="p_cart_coupon_submit" />
+                                    </Button>
+                                )}
+                            </>
+                        }
                         actions={
                             <Button
                                 kind="primary"
@@ -666,26 +684,6 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                 </div>
                             </>
                         ) : null}
-                        <div className={styles.block}>
-                            <Title className={styles.blockTitle}>
-                                <FormattedMessage id="p_cart_order_coupon_title" />
-                            </Title>
-                            <InputGroup>
-                                <Input
-                                    name="coupon"
-                                    value={coupon.value}
-                                    onChange={({ target: { value } }) => {
-                                        setCoupon(prevCoupon => ({ ...prevCoupon, value }));
-                                    }}
-                                    disabled={coupon.active}
-                                />
-                                {!coupon.active && (
-                                    <Button kind="primary" size="large" onClick={applyCoupon}>
-                                        <FormattedMessage id="p_cart_order_coupon_action" />
-                                    </Button>
-                                )}
-                            </InputGroup>
-                        </div>
                         <div className={styles.orderBlock}>
                             <div className={styles.orderBlockInfo}>
                                 <ul className={styles.orderBlockList}>

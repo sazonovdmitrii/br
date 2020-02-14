@@ -58,6 +58,15 @@
     }
 }
 
+.reverse {
+    display: flex;
+    flex-direction: column-reverse;
+
+    @media (--viewport-wide) {
+        flex-direction: column;
+    }
+}
+
 .pricingItem {
     display: flex;
     margin: 16px 0;
@@ -66,6 +75,15 @@
 .pricingValue {
     margin-left: auto;
     white-space: nowrap;
+}
+
+.coupon {
+    display: flex;
+    margin: 16px 18px;
+
+    @media (--viewport-wide) {
+        margin: 16px 0;
+    }
 }
 
 .actions {

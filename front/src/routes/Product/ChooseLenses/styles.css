@@ -206,7 +206,8 @@
 
     @media (--viewport-desktop) {
         padding: 16px 36px 48px;
-        overflow: hidden;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 }
 

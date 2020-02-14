@@ -4,6 +4,8 @@
     "p_order_delivery_method": "Способ доставки",
     "p_order_address": "Адрес",
     "p_cart_sidebar_message": "Включая линзы",
+    "p_cart_coupon_label": "Купон",
+    "p_cart_coupon_submit": "Применить",
     "p_cart_order_receiving_title": "Способ получения",
     "p_cart_order_delivery_title": "Способ доставки",
     "p_cart_order_current_delivery_title": "Адрес доставки",
@@ -19,8 +21,6 @@
     "p_cart_order_block_action": "Оформить заказ",
     "p_cart_order_pickup_delivery_days": "Дата доставки",
     "p_cart_order_pickup_storage_time": "Срок хранения",
-    "p_cart_order_coupon_title": "Применить купон",
-    "p_cart_order_coupon_action": "Применить",
 
     "p_cart_meta_title": "Корзина",
     "p_accessories_meta_title": "Аксессуары",
