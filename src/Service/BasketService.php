@@ -164,7 +164,7 @@ class BasketService extends AbstractController
     {
         $basket = $this->_getCurrentBasket();
 
-        $products = (isset($basket['products'])) ?: [];
+        $products = (isset($basket['products'])) ? $basket['products'] : [];
 
         if (isset($products[$itemId])) {
             unset($products[$itemId]);
