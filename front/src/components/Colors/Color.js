@@ -16,7 +16,7 @@ const Color = ({ onClick, id, active, to, type, image }) => {
             type={type}
             to={to}
             className={itemClassName}
-            style={{ backgroundImage: `url("${image}")` }}
+            style={{ backgroundImage: image ? `url("${image}")` : null }}
             onClick={onClick}
         />
     );

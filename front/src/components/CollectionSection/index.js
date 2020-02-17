@@ -21,7 +21,7 @@ const CollectionSection = () => (
                         <FormattedMessage id="с_collection_title" />
                     </div>
                     <div className={styles.subTitle}>
-                        <FormattedMessage id="с_collection_text" />
+                        <FormattedMessage id="с_collection_text" values={{ br: <br /> }} />
                     </div>
                     {/* <Button kind="simple" rounded bold>
                         <FormattedMessage id="shop_the_collection" />

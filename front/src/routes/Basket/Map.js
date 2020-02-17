@@ -8,7 +8,7 @@ import Loader from 'components/Loader';
 
 const markers = {};
 
-const Map = ({ items, zoom, value, mapHeight, onClickMarker }) => {
+const Map = ({ items, zoom, className, value, mapHeight, onClickMarker }) => {
     console.log('map value:', value);
     const lang = useLang();
     const { isLoaded, loadError } = useLoadScript({
@@ -18,35 +18,43 @@ const Map = ({ items, zoom, value, mapHeight, onClickMarker }) => {
     const [map, setMap] = useState(null);
     const [bounds, setBounds] = useState({});
 
-    const handleClick = useCallback(
+    const centeredMap = useCallback(
         id => {
             map.setCenter(markers[id].getPosition());
             map.setZoom(16);
-            console.log('handleClick');
-
-            if (onClickMarker) onClickMarker(id);
+            console.log('CENTERED MAP');
         },
-        [map, onClickMarker]
+        [map, markers]
     );
 
-    useEffect(() => {
-        if (map && bounds) {
-            map.fitBounds(bounds);
-            map.panToBounds(bounds);
-            console.log('RESET MAP');
-        }
-    }, [map, bounds]);
+    const handleClick = id => {
+        // centeredMap(id);
+        console.log('handleClick');
+
+        if (onClickMarker) onClickMarker(id);
+    };
+
+    window.resetMap = () => {
+        map.fitBounds(bounds);
+        map.panToBounds(bounds);
+    };
 
     useEffect(() => {
-        if (map && value && items.length) {
-            console.log('map items', items);
-            const { id } = items.find(item => value === item.id) || {};
-
-            if (!id) return;
-
-            handleClick(id);
+        if (map && bounds && items.length) {
+            setTimeout(() => {
+                map.fitBounds(bounds);
+                map.panToBounds(bounds);
+            }, 0);
+            console.log('RESET MAP', map, bounds, items);
         }
-    }, [map, value, items, handleClick]);
+    }, [map, bounds, items]);
+
+    useEffect(() => {
+        if (map && value) {
+            setTimeout(() => centeredMap(value), 0);
+            // centeredMap(value);
+        }
+    }, [map, value]);
 
     if (loadError) {
         return <div>Map cannot be loaded right now, sorry.</div>;
@@ -54,9 +62,12 @@ const Map = ({ items, zoom, value, mapHeight, onClickMarker }) => {
 
     return isLoaded ? (
         <GoogleMap
+            className={className}
             mapContainerStyle={{ height: mapHeight }}
             options={{
                 zoom,
+                streetViewControl: false,
+                mapTypeControl: false,
             }}
             onLoad={mapInstance => {
                 setBounds(new window.google.maps.LatLngBounds());

@@ -19,6 +19,7 @@ import Title from 'components/Title';
 import Autocomplete from 'components/Autocomplete';
 import InputGroup from 'components/InputGroup';
 import Input from 'components/Input';
+import { Dialog, DialogContent } from 'components/Dialog';
 // TODO REMOVE
 import Order from 'routes/Order/Order';
 
@@ -259,7 +260,10 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
     }, [locale]);
 
     useEffect(() => {
-        if (!currentDelivery) return;
+        if (!currentDelivery) {
+            setPaymentsMethods([]);
+            return;
+        }
 
         const { payment_methods } = currentDelivery;
 
@@ -336,6 +340,15 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
         }
     }, [isPickup, isStore, locale, values.city, values.city.id]);
 
+    useEffect(() => {
+        if (
+            !currentDelivery &&
+            (values.deliveryMethod.type === 'pvz' || values.deliveryMethod.type === 'stores')
+        ) {
+            setOpenDialog(true);
+        }
+    }, [currentDelivery, values.deliveryMethod.type]);
+
     /* EFFECTS  */
 
     const handleChangeStep = index => {
@@ -370,6 +383,11 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
     };
     const handleChangeAddress = data => {
         setValues(prevState => ({ ...prevState, address: data }));
+    };
+
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
     };
     const handleClickListItem = ({ data, type }) => {
         setValues(prevState => ({
@@ -416,6 +434,51 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
 
     return (
         <div className={rootClassName}>
+            {!calledPickups || loadingPickups
+                ? null
+                : openDialog && (
+                      <Dialog
+                          open={openDialog}
+                          onClose={handleCloseDialog}
+                          classNames={{ inner: styles.dialogInner }}
+                          title={
+                              <FormattedMessage
+                                  id={isPickup ? 'p_cart_pickups_title' : 'p_cart_stores_title'}
+                              />
+                          }
+                          maxWidth="lg"
+                          closeOnClickOutside={false}
+                          fullWidth
+                      >
+                          <DialogContent className={styles.dialogContent}>
+                              {isPickup ? (
+                                  <Pickups
+                                      items={pickups}
+                                      value={currentDelivery}
+                                      onChange={value => {
+                                          handleClickListItem({
+                                              type: 'pvz',
+                                              data: value,
+                                          });
+                                          handleCloseDialog();
+                                      }}
+                                  />
+                              ) : (
+                                  <Stores
+                                      items={pickups}
+                                      value={currentDelivery}
+                                      onChange={value => {
+                                          handleClickListItem({
+                                              type: 'stores',
+                                              data: value,
+                                          });
+                                          handleCloseDialog();
+                                      }}
+                                  />
+                              )}
+                          </DialogContent>
+                      </Dialog>
+                  )}
             <StepView active={step} onChange={handleChangeStep}>
                 <StepContainer
                     title={
@@ -505,7 +568,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                 bold
                                 fullWidth
                             >
-                                Перейти к оформлению
+                                <FormattedMessage id="p_cart_sidebar_goto_checkout" />
                             </Button>
                         }
                     />
@@ -526,7 +589,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                         ) : (
                             <div className={styles.block}>
                                 <Title className={styles.blockTitle}>
-                                    <FormattedMessage id="p_cart_order_receiving_title" />
+                                    <FormattedMessage id="p_cart_receiving_title" />
                                 </Title>
                                 {deliveryMethods.map(item => {
                                     return (
@@ -584,84 +647,50 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                     value={values.address ? values.address.id : null}
                                 />
                             </div>
-                        ) : !calledPickups ? null : loadingPickups ? (
-                            <Loader />
-                        ) : currentDelivery ? (
-                            <div className={styles.block}>
-                                <Title className={styles.blockTitle}>
-                                    <FormattedMessage id="p_cart_order_current_delivery_title" />
-                                </Title>
-                                <ListItem
-                                    title={currentDelivery.service}
-                                    description={currentDelivery.address}
-                                    meta={
-                                        <>
-                                            <FormattedMessage id="p_cart_order_pickup_delivery_days" />:{' '}
-                                            {formatDate({
-                                                locale,
-                                                day: currentDelivery.days,
-                                                format: 'D MMMM YYYY',
-                                            })}
-                                        </>
-                                    }
-                                    actions={
-                                        <Button
-                                            kind="primary"
-                                            onClick={() => {
-                                                setValues(prevValues => ({
-                                                    ...prevValues,
-                                                    [prevValues.deliveryMethod.type]: null,
-                                                }));
-                                                setPaymentsMethods([]);
-                                            }}
-                                            bold
-                                        >
-                                            <FormattedMessage id="p_cart_order_current_delivery_edit" />
-                                        </Button>
-                                    }
-                                />
-                            </div>
                         ) : (
-                            <div className={styles.block}>
-                                <Title className={styles.blockTitle}>
-                                    <FormattedMessage
-                                        id={
-                                            isPickup
-                                                ? 'p_cart_order_pickups_title'
-                                                : 'p_cart_order_stores_title'
+                            currentDelivery && (
+                                <div className={styles.block}>
+                                    <Title className={styles.blockTitle}>
+                                        <FormattedMessage id="p_cart_current_delivery_title" />
+                                    </Title>
+                                    <ListItem
+                                        title={currentDelivery.service}
+                                        description={currentDelivery.address}
+                                        meta={
+                                            <>
+                                                <FormattedMessage id="p_cart_pickup_delivery_days" />:{' '}
+                                                {formatDate({
+                                                    locale,
+                                                    day: currentDelivery.days,
+                                                    format: 'D MMMM YYYY',
+                                                })}
+                                            </>
+                                        }
+                                        actions={
+                                            <Button
+                                                kind="primary"
+                                                onClick={() => {
+                                                    setOpenDialog(true);
+                                                    // setValues(prevValues => ({
+                                                    //     ...prevValues,
+                                                    //     [prevValues.deliveryMethod.type]: null,
+                                                    // }));
+                                                    // setPaymentsMethods([]);
+                                                }}
+                                                bold
+                                            >
+                                                <FormattedMessage id="p_cart_current_delivery_edit" />
+                                            </Button>
                                         }
                                     />
-                                </Title>
-                                {isPickup ? (
-                                    <Pickups
-                                        items={pickups}
-                                        value={currentDelivery}
-                                        onChange={value => {
-                                            handleClickListItem({
-                                                type: 'pvz',
-                                                data: value,
-                                            });
-                                        }}
-                                    />
-                                ) : (
-                                    <Stores
-                                        items={pickups}
-                                        value={currentDelivery}
-                                        onChange={value => {
-                                            handleClickListItem({
-                                                type: 'stores',
-                                                data: value,
-                                            });
-                                        }}
-                                    />
-                                )}
-                            </div>
+                                </div>
+                            )
                         )}
                         {paymentsMethods && paymentsMethods.length ? (
                             <>
                                 <div className={styles.block}>
                                     <Title className={styles.blockTitle}>
-                                        <FormattedMessage id="p_cart_order_payment_title" />
+                                        <FormattedMessage id="p_cart_payment_title" />
                                     </Title>
                                     {paymentsMethods.map(item => {
                                         const { id, title } = item;
@@ -682,6 +711,21 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                         );
                                     })}
                                 </div>
+                                <div className={styles.block}>
+                                    <Title className={styles.blockTitle}>
+                                        <FormattedMessage id="p_cart_comment_title" />
+                                    </Title>
+                                    <InputGroup>
+                                        <Input
+                                            name="comment"
+                                            value={values.comment}
+                                            onChange={({ target: { value } }) =>
+                                                setValues(prevValues => ({ ...prevValues, comment: value }))
+                                            }
+                                            multiline
+                                        />
+                                    </InputGroup>
+                                </div>
                             </>
                         ) : null}
                         <div className={styles.orderBlock}>
@@ -690,7 +734,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                     <li className={styles.orderBlockListItem}>
                                         <span className={styles.orderBlockListKey}>
                                             <FormattedMessage
-                                                id="p_cart_order_block_subtotal"
+                                                id="p_cart_block_subtotal"
                                                 values={{ amount: products.length }}
                                             />
                                         </span>
@@ -700,7 +744,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                     </li>
                                     <li className={styles.orderBlockListItem}>
                                         <span className={styles.orderBlockListKey}>
-                                            <FormattedMessage id="p_cart_order_block_shipping" />
+                                            <FormattedMessage id="p_cart_block_shipping" />
                                         </span>
                                         <span className={styles.orderBlockListValue}>
                                             {currentDelivery && currentDelivery.price ? (
@@ -716,7 +760,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                 </ul>
                                 <div className={styles.orderBlockFooter}>
                                     <div>
-                                        <FormattedMessage id="p_cart_order_block_total" />
+                                        <FormattedMessage id="p_cart_block_total" />
                                     </div>
                                     <div>
                                         <FormattedMessage
@@ -753,7 +797,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                 bold
                                 fullWidth
                             >
-                                <FormattedMessage id="p_cart_order_block_action" />
+                                <FormattedMessage id="p_cart_checkout_button" />
                             </Button>
                         </div>
                     </StepContainer>

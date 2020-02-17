@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { GET_ADDRESSES } from 'query';
 import { REMOVE_ADDRESS_MUTATION } from 'mutations';
+import { useApp } from 'hooks';
 
 import ListItem from 'components/ListItem';
 import Button from 'components/Button';
@@ -24,6 +25,7 @@ const TEXT = {
 
 const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
     const [showForm, setShowForm] = useState(null);
+    const { createNotification } = useApp();
     const [handleRemoveAddress] = useMutation(REMOVE_ADDRESS_MUTATION, {
         update(
             cache,
@@ -40,6 +42,9 @@ const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
                     },
                 },
             });
+        },
+        onError({ graphQLErrors: [{ message }] }) {
+            createNotification({ type: 'error', message });
         },
     });
     useEffect(() => {
@@ -59,7 +64,7 @@ const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
         return (
             <>
                 <Title className={styles.title}>
-                    <FormattedMessage id="p_cart_order_new_address_title" />
+                    <FormattedMessage id="p_cart_new_address_title" />
                 </Title>
                 <AddressForm
                     id={showForm.id}
@@ -83,7 +88,7 @@ const AddressList = ({ items = [], value, onChange, onSubmit = () => {} }) => {
     return (
         <>
             <Title className={styles.title}>
-                <FormattedMessage id="p_cart_order_address_title" />
+                <FormattedMessage id="p_cart_address_title" />
             </Title>
             {items.map(item => (
                 <ListItem

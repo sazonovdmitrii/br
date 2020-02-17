@@ -127,73 +127,16 @@
     border-top: 1px solid #d2d6d9;
 }
 
-.mapWrapper {
-    @media (--viewport-tablet) {
-        overflow: hidden;
-        display: grid;
-        grid-template-columns: 2fr 420px;
+.dialogInner {
+    height: 100%;
+
+    @media (--viewport-wide) {
+        max-height: 500px;
     }
 }
 
-.pickupsFilters {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 15px 20px 10px;
-
-    & .filterButton {
-        margin-bottom: 5px;
-
-        &:not(:last-child) {
-            margin-right: 5px;
-        }
-    }
-}
-
-.filterButton {
-    &.active {
-        border-color: var(--color-primary);
-    }
-}
-
-.pickupsList {
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.point {
-    cursor: pointer;
-    border-collapse: collapse;
-    border: 1px solid transparent;
-    border-top-color: #d2d6d9;
-
-    &:hover {
-        border-color: var(--color-primary);
-    }
-}
-
-.backButton {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    border-top: 1px solid #dfdfdf;
-    border-right: 1px solid #dfdfdf;
-    border-bottom: 1px solid #dfdfdf;
-    position: relative;
-    background: #f8f8f8;
-    padding: 11px 20px;
-}
-
-.backButtonIcon {
-    width: 16px;
-    height: 16px;
-    margin-right: 5px;
-}
-
-.activePoint {
-    overflow-y: auto;
-    height: 450px;
-}
-
-.activePointInfo {
-    padding: 0 20px 20px;
+.dialogContent {
+    padding: 0;
+    /* for safari */
+    height: 100%;
 }

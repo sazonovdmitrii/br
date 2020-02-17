@@ -5,16 +5,13 @@ import classnames from 'classnames/bind';
 
 import { useOnClickOutside } from 'hooks';
 
+import { DialogHeader } from 'components/Dialog';
+
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Dialog = ({ children, open, onClose, fullWidth, maxWidth }) => {
-    const rootClassName = cx(styles.root);
-    const innerClassName = cx(styles.inner, {
-        fullWidth,
-        [maxWidth]: !!maxWidth,
-    });
+const Dialog = ({ title, children, open, onClose, classNames, fullWidth, maxWidth, closeOnClickOutside }) => {
     const overlayNode = useRef(null);
 
     if (typeof document === 'undefined') return null;
@@ -33,8 +30,16 @@ const Dialog = ({ children, open, onClose, fullWidth, maxWidth }) => {
         };
     }, [domNode.style, open]);
 
-    useOnClickOutside(overlayNode, () => {
-        onClose();
+    if (closeOnClickOutside) {
+        useOnClickOutside(overlayNode, () => {
+            onClose();
+        });
+    }
+
+    const rootClassName = cx(styles.root, classNames.root);
+    const innerClassName = cx(styles.inner, classNames.inner, {
+        fullWidth,
+        [maxWidth]: !!maxWidth,
     });
 
     const $Dialog = (
@@ -42,6 +47,7 @@ const Dialog = ({ children, open, onClose, fullWidth, maxWidth }) => {
             <div className={styles.overlay} />
             <div className={styles.container}>
                 <div ref={overlayNode} className={innerClassName}>
+                    <DialogHeader title={title} onClose={onClose} />
                     {children}
                 </div>
             </div>
@@ -58,6 +64,8 @@ Dialog.defaultProps = {
     onClose: () => {},
     fullWidth: false,
     maxWidth: null,
+    closeOnClickOutside: true,
+    classNames: {},
 };
 
 Dialog.propTypes = {
@@ -66,6 +74,8 @@ Dialog.propTypes = {
     onClose: PropTypes.func,
     fullWidth: PropTypes.bool,
     maxWidth: PropTypes.string,
+    closeOnClickOutside: PropTypes.bool,
+    classNames: PropTypes.objectOf(PropTypes.string),
 };
 
 export default Dialog;

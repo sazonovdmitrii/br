@@ -6,6 +6,7 @@ import { Edit as EditIcon, X as RemoveIcon } from 'react-feather';
 import { REMOVE_ADDRESS_MUTATION } from 'mutations';
 import { GET_ADDRESSES } from 'query';
 
+import Title from 'components/Title';
 import ListItem from 'components/ListItem';
 import Button from 'components/Button';
 import AddressForm from 'components/AddressForm';
@@ -75,9 +76,9 @@ const Addresses = ({ items = [], onSubmit }) => {
     return (
         <Container size="form" className={styles.root}>
             <div className={styles.header}>
-                <div className={styles.title}>
+                <Title className={styles.title}>
                     <FormattedMessage id="p_addresses_title" />
-                </div>
+                </Title>
             </div>
             {items && items.length ? (
                 items.map(item => (
