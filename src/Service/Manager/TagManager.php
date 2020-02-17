@@ -123,7 +123,6 @@ class TagManager extends AbstractController
             ];
             $tagChildrens = [];
             foreach ($allTag->getProductTagItems() as $productTagItem) {
-                $productTagItem->setCurrentLocale($this->getLocale());
                 $count = 0;
                 if (isset($productTags[$productTagItem->getId()])) {
                     $count = $productTags[$productTagItem->getId()];
