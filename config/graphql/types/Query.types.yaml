@@ -195,6 +195,9 @@ Query:
             secret_key:
               description: "Resolves using the order secret key."
               type: "String"
+            locale:
+              description: "Locale"
+              type: "String"
         resolve: "@=resolver('Order', [args])"
       wholesale:
         type: "Wholesale"
