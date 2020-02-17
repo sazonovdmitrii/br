@@ -44,7 +44,7 @@ class CatalogsResolver extends LocaleAlias {
 
         if($catalogUrl) {
             $catalog = $catalogUrl->getEntity();
-            $catalog->setCurrentLocale($this->getLocale());
+            $catalog->setCurrentLocale($args['locale']);
             $catalog->setParsed($parsed);
             return $catalog;
         }

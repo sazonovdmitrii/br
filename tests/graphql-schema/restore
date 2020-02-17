@@ -7,6 +7,6 @@ mutation ($input: RestoreInput!){
 
 {
   "input": {
-    "token": "nF4vujJmQIB0tjvq5lTzUhsofqhVP3"
+    "login": "sazon@nxt.ru"
   }
 }

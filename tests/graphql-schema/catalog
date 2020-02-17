@@ -1,5 +1,5 @@
 {
-  catalog(slug: "zhenskie-solncezashhitnye-ochki") {
+  catalog(slug: "zhenskie-solncezashhitnye-ochki", locale:"ru") {
     id
     name
     banner

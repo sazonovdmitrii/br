@@ -3,13 +3,13 @@ namespace App\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use App\Service\BeguService;
 use App\Entity\City;
 use App\Entity\Region;
 use App\Entity\District;
 
-class BeguCommand extends ContainerAwareCommand
+class BeguCommand extends Command
 {
     protected $beguService;
     protected $_lpDoctrine;

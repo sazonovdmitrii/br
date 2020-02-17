@@ -235,6 +235,11 @@ class UserMutation extends AuthMutation
         if(!$user) {
             throw new UserError('User not found');
         }
+
+        return [
+            'success' => true,
+            'message' => ''
+        ];
     }
 
     /**

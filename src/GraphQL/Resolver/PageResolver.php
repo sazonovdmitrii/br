@@ -37,7 +37,7 @@ class PageResolver extends LocaleAlias {
 
         if($pageUrl) {
             $page = $pageUrl->getEntity();
-            $page->setCurrentLocale($this->getLocale());
+            $page->setCurrentLocale($args['locale']);
             return $page;
         }
 

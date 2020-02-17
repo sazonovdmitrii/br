@@ -30,3 +30,6 @@ User:
       recipes:
         type: "[Recipe]"
         description: "Users Recipes"
+      confirmationToken:
+        type: "String"
+        description: "Confirmation Token"

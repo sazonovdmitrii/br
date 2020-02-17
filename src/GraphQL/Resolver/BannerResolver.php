@@ -58,7 +58,7 @@ class BannerResolver extends LocaleAlias implements ResolverInterface, AliasedIn
     /**
      * @return array
      */
-    public function resolve()
+    public function resolve($args)
     {
         $banners = $this->bannerRepository->findCurrents();
 
@@ -66,7 +66,7 @@ class BannerResolver extends LocaleAlias implements ResolverInterface, AliasedIn
 
         foreach($banners as $banner) {
 
-            $banner->setCurrentLocale($this->getLocale());
+            $banner->setCurrentLocale($args['locale']);
 
             $images = [];
             foreach($banner->getBannerItems() as $bannerItem) {

@@ -1,9 +1,12 @@
 {
-  banner{
+  banners(locale: "en") {
     data {
       id
-      path
-      link
+      name
+      bannerItems {
+        id
+        images
+      }
     }
   }
 }

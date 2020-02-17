@@ -74,7 +74,7 @@ class ProductFieldResolver extends LocaleAlias
         $productUrl = $this->productUrlRepository->findByUrl($args['slug']);
 
         if ($productUrl) {
-            return $productUrl->getEntity();
+            return $productUrl->setCurrentLocale($args['locale'])->getEntity();
         }
 
         return [];
@@ -89,8 +89,11 @@ class ProductFieldResolver extends LocaleAlias
         return $product->getName();
     }
 
-    public function catalog(Product $product)
+    public function catalog(Product $product, $args)
     {
+        foreach($product->getCatalog() as $catalog) {
+            $catalog->setCurrentLocale($product->getCurrentLocale());
+        }
         return $product->getCatalog();
     }
 
@@ -124,7 +127,7 @@ class ProductFieldResolver extends LocaleAlias
         return $this->tagService
             ->setEntityType(Product::class)
             ->setEntity($product)
-            ->setLocale($this->getLocale())
+            ->setLocale($product->getCurrentLocale())
             ->getFilters();
     }
 
@@ -141,7 +144,7 @@ class ProductFieldResolver extends LocaleAlias
 
         foreach($items as $item) {
 
-            $item->setCurrentLocale($this->getLocale());
+            $item->setCurrentLocale($product->getCurrentLocale());
 
             $images = [];
             foreach($item->getProductItemImages() as $image) {
@@ -171,12 +174,14 @@ class ProductFieldResolver extends LocaleAlias
         $aromat = $this->tagService
             ->setEntityType(Product::class)
             ->setEntity($product)
+            ->setLocale($product->getCurrentLocale())
             ->setTagId($this->configService->get('fragrance_tag'))
             ->getOne();
 
         $catalog = $this->tagService
             ->setEntityType(Catalog::class)
             ->setTagId($aromat->getId())
+            ->setLocale($product->getCurrentLocale())
             ->getOne();
 
         return $catalog->getProducts()->slice(0, 10);
@@ -191,25 +196,31 @@ class ProductFieldResolver extends LocaleAlias
         $brand = $this->tagService
             ->setEntityType(Product::class)
             ->setEntity($product)
+            ->setLocale($product->getCurrentLocale())
             ->setTagId($this->configService->get('brand_tag'))
             ->getOne();
 
         $catalog = $this->tagService
             ->setEntityType(Catalog::class)
+            ->setLocale($product->getCurrentLocale())
             ->setTagId($brand->getId())
             ->getOne();
 
         return $catalog->getProducts()->slice(0, 10);
     }
 
+    /**
+     * @param Product $product
+     * @return \App\Entity\Lense[]|\Doctrine\Common\Collections\Collection
+     */
     public function lenses(Product $product)
     {
         $lenses = $product->getLenses();
 
         foreach($lenses as &$lense) {
             foreach($lense->getLenseitemstags() as &$lenseitemstag) {
-                $lenseitemstag->setCurrentLocale($this->getLocale());
-                $lenseitemstag->getEntity()->setCurrentLocale($this->getLocale());
+                $lenseitemstag->setCurrentLocale($product->getCurrentLocale());
+                $lenseitemstag->getEntity()->setCurrentLocale($product->getCurrentLocale());
             }
         }
 

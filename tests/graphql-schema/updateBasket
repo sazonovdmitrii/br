@@ -1,7 +1,10 @@
 mutation ($input: UpdateBasketInput!) {
   updateBasket(input: $input) {
     products {
-      item_id
+      item {
+          id
+        }
+      }
     }
   }
 }

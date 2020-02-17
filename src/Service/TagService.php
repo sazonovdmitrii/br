@@ -4,6 +4,8 @@ use App\Service\Manager\TagManager;
 
 class TagService extends TagManager
 {
+    use Translatable;
+
     private $entityType;
 
     private $entity;
@@ -15,26 +17,6 @@ class TagService extends TagManager
     private $extraTagsIds;
 
     private $parentTagId;
-
-    private $locale;
-
-    /**
-     * @return mixed
-     */
-    public function getLocale()
-    {
-        return $this->locale;
-    }
-
-    /**
-     * @param $locale
-     * @return $this
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-        return $this;
-    }
 
     public function getEntityType()
     {

@@ -117,7 +117,8 @@ class AddressMutation extends AuthMutation
         }
 
         return [
-            'data' => []
+            'success' => true,
+            'message' => 'Адрес удален'
         ];
     }
 }

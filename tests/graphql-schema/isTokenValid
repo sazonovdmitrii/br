@@ -1,4 +1,4 @@
-mutation ($input: RestoreInput!){
+mutation ($input: TokenInput!){
   isTokenValid(input: $input){
     message
     success

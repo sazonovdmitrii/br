@@ -38,7 +38,7 @@ class ProductItemResolver extends LocaleAlias {
     {
         $productItem = $this->productItemRepository->find($args['id']);
 
-        $productItem->setCurrentLocale($this->getLocale());
+        $productItem->setCurrentLocale($args['locale']);
 
         $images = [];
 

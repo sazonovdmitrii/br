@@ -5,10 +5,10 @@ use App\Repository\LenseRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Doctrine\ORM\EntityManager;
 
-class LinkLensesToProducts extends ContainerAwareCommand
+class LinkLensesToProducts extends Command
 {
     protected static $defaultName = 'products:linklenses';
     /**

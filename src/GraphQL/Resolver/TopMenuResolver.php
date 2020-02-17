@@ -28,7 +28,7 @@ class TopMenuResolver extends LocaleAlias
     {
         $topMenu = $this->menuRepository
             ->findOneBy(
-                ['name' => 'top_menu_' . $this->getLocale()]
+                ['name' => 'top_menu_' . $args['locale']]
             );
 
         $result = [];

@@ -1,5 +1,5 @@
 {
-  page(slug: "test") {
+  page(slug: "history", locale:"de") {
     title
     name
     content

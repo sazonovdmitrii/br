@@ -39,7 +39,7 @@ class StoresResolver extends LocaleAlias
             ->findAll();
 
         foreach($stores as $store) {
-            $store->setCurrentLocale($this->getLocale());
+            $store->setCurrentLocale($args['locale']);
         }
 
         return [

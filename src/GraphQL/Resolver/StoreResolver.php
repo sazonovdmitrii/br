@@ -36,7 +36,7 @@ class StoreResolver extends LocaleAlias
 
         if($storeUrl) {
             $store = $storeUrl->getEntity();
-            $store->setCurrentLocale($this->getLocale());
+            $store->setCurrentLocale($args['locale']);
             return $store;
         }
 

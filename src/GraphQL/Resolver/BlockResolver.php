@@ -39,7 +39,7 @@ class BlockResolver extends LocaleAlias {
             return [];
         }
 
-        $block->setCurrentLocale($this->getLocale());
+        $block->setCurrentLocale($args['locale']);
         return $block;
     }
 

@@ -3,6 +3,7 @@ namespace App\GraphQL\Resolver;
 
 use App\Repository\RegionRepository;
 use Doctrine\ORM\EntityManager;
+use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 
@@ -22,12 +23,12 @@ class RegionsResolver extends LocaleAlias
         $this->regionRepository = $regionRepository;
     }
 
-    public function resolve()
+    public function resolve(Argument $args)
     {
         $regions = $this->regionRepository->findAll();
 
         foreach($regions as $region) {
-            $region->setCurrentLocale($this->getLocale());
+            $region->setCurrentLocale($args['locale']);
         }
 
         return [

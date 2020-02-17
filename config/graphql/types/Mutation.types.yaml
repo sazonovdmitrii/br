@@ -69,7 +69,7 @@ Mutation:
           input:
             type: UpdateAddressInput!
       removeAddress:
-        type: Addresses!
+        type: Result!
         resolve: '@=mutation("App\\GraphQL\\Mutation\\AddressMutation::remove", [args])'
         args:
           input:

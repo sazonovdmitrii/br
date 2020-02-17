@@ -74,7 +74,6 @@ class CouponMutation extends AuthMutation
             return $this->basketService
                 ->setCoupon($coupon)
                 ->setAuthKey($this->getAuthKey())
-                ->setLocale($this->getLocale())
                 ->apply()
                 ->getAll();
         }

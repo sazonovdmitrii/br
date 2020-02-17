@@ -3,3 +3,16 @@ mutation {
     id
   }
 }
+
+
+mutation createOrder($input: OrderInput) {
+    order(input: $input) {
+        id
+        secret_key
+    }
+}
+
+courier_id: 1500
+address_id: 1
+payment_method_code: "00-2009"
+comment: ""

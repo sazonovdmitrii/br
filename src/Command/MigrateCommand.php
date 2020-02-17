@@ -6,11 +6,10 @@ use App\Entity\Urls;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\Users;
 
-class MigrateCommand extends ContainerAwareCommand
+class MigrateCommand extends Command
 {
     protected static $defaultName = 'lp:migrate';
     protected $_lpDoctrine;

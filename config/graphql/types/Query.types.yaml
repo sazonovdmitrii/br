@@ -9,6 +9,9 @@ Query:
             id:
               description: "Resolves using the product item id."
               type: "Int"
+            locale:
+              description: "Locale"
+              type: "String"
         resolve: "@=resolver('ProductItem', [args])"
       user:
         type: "User"
@@ -21,6 +24,9 @@ Query:
               type: "Int"
             slug:
               description: "Resolves using the product slug."
+              type: "String"
+            locale:
+              description: "Locale"
               type: "String"
         resolve: "@=resolver('Product', [args])"
       catalog:
@@ -38,6 +44,9 @@ Query:
             tags:
               description: 'Tags'
               type: "[Int]"
+            locale:
+              description: "Locale"
+              type: "String"
         resolve: "@=resolver('Catalogs', [args])"
       page:
         type: "Page"
@@ -48,12 +57,18 @@ Query:
             slug:
               description: "Resolves using the page slug."
               type: "String"
+            locale:
+              description: "Locale"
+              type: "String"
         resolve: "@=resolver('Page', [args])"
       block:
         type: "Block"
         args:
             id:
               description: "Resolves using the block ID."
+              type: "String"
+            locale:
+              description: "Locale"
               type: "String"
         resolve: "@=resolver('Block', [args])"
       addresses:
@@ -66,12 +81,20 @@ Query:
       basket:
         type: "Basket"
         resolve: "@=resolver('Basket', [args])"
+        args:
+          locale:
+            description: "Locale"
+            type: "String"
       users_orders:
         type: "UsersOrders"
         resolve: "@=resolver('UsersOrders', [args])"
       banners:
         type: "Banners"
         resolve: "@=resolver('Banner', [args])"
+        args:
+          locale:
+            description: "Locale"
+            type: "String"
       sale:
         type: "Sale"
         args:
@@ -82,6 +105,10 @@ Query:
       regions:
         type: "Regions"
         resolve: "@=resolver('Regions', [args])"
+        args:
+          locale:
+            description: "Locale"
+            type: "String"
       cities:
         type: "Cities"
         resolve: "@=resolver('Cities', [args])"
@@ -142,11 +169,17 @@ Query:
             check_vision:
               description: "Check vision option"
               type: "Int"
+            locale:
+              description: "Locale"
+              type: "String"
       store:
         type: "Store"
         args:
             slug:
               description: "Resolves using the store slug."
+              type: "String"
+            locale:
+              description: "Locale"
               type: "String"
         resolve: "@=resolver('Store', [args])"
       catalog_search:

@@ -10,6 +10,7 @@ use App\Repository\ProductTagItemRepository;
 use App\Repository\ProductTagRepository;
 use App\Service\ConfigService;
 use App\Service\DoctrineService;
+use App\Service\Translatable;
 use Doctrine\ORM\EntityManager;
 use Redis;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +18,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class TagManager extends AbstractController
 {
+    use Translatable;
+
     private $redis;
 
     private $doctrineService;
@@ -113,12 +116,14 @@ class TagManager extends AbstractController
             }
         }
         foreach ($allTags as $allTag) {
+            $allTag->setCurrentLocale($this->getLocale());
             $tag          = [
                 'name' => $allTag->getName(),
                 'id'   => $allTag->getId()
             ];
             $tagChildrens = [];
             foreach ($allTag->getProductTagItems() as $productTagItem) {
+                $productTagItem->setCurrentLocale($this->getLocale());
                 $count = 0;
                 if (isset($productTags[$productTagItem->getId()])) {
                     $count = $productTags[$productTagItem->getId()];
@@ -160,7 +165,6 @@ class TagManager extends AbstractController
                 ];
             }
         }
-
         return $tags;
     }
 

@@ -19,6 +19,10 @@ class PaginatoringBuilder implements MappingInterface
                 'type' => 'Int!',
                 'defaultValue' => 0,
             ],
+            'locale' => [
+                'type' => 'String',
+                'defaultValue' => 'ru',
+            ],
         ];
     }
 }

@@ -73,7 +73,6 @@ class BasketMutation extends AuthMutation
         if($input->item_id) {
             return $this->basketService
                 ->setAuthKey($this->getAuthKey())
-                ->setLocale($this->getLocale())
                 ->update($input->item_id, $input->qty);
         }
     }

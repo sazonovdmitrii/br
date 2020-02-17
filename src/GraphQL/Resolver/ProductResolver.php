@@ -42,7 +42,7 @@ class ProductResolver extends LocaleAlias {
         }
         if($productUrl) {
             $product = $productUrl->getEntity();
-            $product->setCurrentLocale($this->getLocale());
+            $product->setCurrentLocale($args['locale']);
             return $product;
         }
 

@@ -1,8 +1,8 @@
 {
-  product(slug: "asdfasdf"){
+  product(slug: "sun-k3130.htm/", locale: "de"){
     id,
     name,
-    items(limit: 40, offset:0) {
+    items(limit: 40, offset:0, locale: "de") {
       edges {
         node {
           id

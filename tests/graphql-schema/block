@@ -1,5 +1,5 @@
 {
-  block(id: "footer") {
+  block(id: "test", locale: "en") {
     title
     name
     content

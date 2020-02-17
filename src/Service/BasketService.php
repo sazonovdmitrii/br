@@ -15,11 +15,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BasketService extends AbstractController
 {
+    use Translatable;
+
     const BASKET_KEY = 'basket';
 
     private $authKey;
-
-    private $locale;
 
     private $lenseService;
     /**
@@ -47,14 +47,6 @@ class BasketService extends AbstractController
     /**
      * @return mixed
      */
-    public function getLocale()
-    {
-        return $this->locale;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCoupon()
     {
         return $this->coupon;
@@ -67,16 +59,6 @@ class BasketService extends AbstractController
     public function setCoupon(Coupons $coupon)
     {
         $this->coupon = $coupon;
-        return $this;
-    }
-
-    /**
-     * @param $locale
-     * @return $this
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
         return $this;
     }
 
@@ -199,7 +181,7 @@ class BasketService extends AbstractController
     {
         $basket = $this->_getCurrentBasket();
 
-        $products = (isset($basket['products'])) ?: [];
+        $products = (isset($basket['products'])) ? $basket['products'] : [];
 
         if (isset($products[$itemId])) {
             $products[$itemId]['qty'] = $qty;
@@ -209,9 +191,8 @@ class BasketService extends AbstractController
             if (count($recipe)) {
                 $products[$itemId]['recipe'] = $recipe;
             }
+            $basket['products'] = $products;
         }
-
-        $basket['products'] = $products;
 
         $this->_updateBasket($basket);
 

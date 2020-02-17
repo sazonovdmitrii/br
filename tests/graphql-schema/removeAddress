@@ -1,4 +1,4 @@
-mutation ($input: RemoveAddressInput!) {
+mutation ($input: EntityIdInput!) {
   removeAddress(input: $input) {
     data{
         id
