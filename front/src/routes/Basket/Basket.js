@@ -109,13 +109,17 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
 
     const totalSum = products.reduce(
         (acc, { price, coupon_price: couponPrice, lenses }) =>
-            acc +
-            parseInt(isCouponApplied ? couponPrice : price, 10) +
-            (lenses.lenses ? parseInt(lenses.lenses.price, 10) : 0),
+            acc + parseInt(price, 10) + (lenses.lenses ? parseInt(lenses.lenses.price, 10) : 0),
+        0
+    );
+    const totalSumWithCoupon = products.reduce(
+        (acc, { price, coupon_price: couponPrice, lenses }) =>
+            acc + parseInt(couponPrice, 10) + (lenses.lenses ? parseInt(lenses.lenses.price, 10) : 0),
         0
     );
     const totalSumWithDelivery =
-        parseInt(totalSum, 10) + (currentDelivery ? parseInt(currentDelivery.price, 10) : 0);
+        parseInt(isCouponApplied ? totalSumWithCoupon : totalSum, 10) +
+        (currentDelivery ? parseInt(currentDelivery.price, 10) : 0);
 
     const isValid = () => {
         const fields = isCourier ? ['address'] : [values.deliveryMethod.type];
@@ -541,7 +545,13 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                     <Sidebar
                         className={styles.sidebar}
                         messages={['p_cart_sidebar_message']}
-                        pricing={[{ name: 'p_cart_sidebar_subtotal', value: totalSum }]}
+                        pricing={[
+                            { name: 'p_cart_sidebar_total', value: totalSum },
+                            isCouponApplied && {
+                                name: 'p_cart_sidebar_total_with_coupon',
+                                value: totalSumWithCoupon,
+                            },
+                        ].filter(Boolean)}
                         coupon={
                             <>
                                 <Input
@@ -742,6 +752,19 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                             <FormattedMessage id="currency" values={{ price: totalSum }} />
                                         </span>
                                     </li>
+                                    {isCouponApplied && (
+                                        <li className={styles.orderBlockListItem}>
+                                            <span className={styles.orderBlockListKey}>
+                                                <FormattedMessage id="p_cart_block_subtotal_with_coupon" />
+                                            </span>
+                                            <span className={styles.orderBlockListValue}>
+                                                <FormattedMessage
+                                                    id={totalSumWithCoupon ? 'currency' : 'free'}
+                                                    values={{ price: totalSumWithCoupon }}
+                                                />
+                                            </span>
+                                        </li>
+                                    )}
                                     <li className={styles.orderBlockListItem}>
                                         <span className={styles.orderBlockListKey}>
                                             <FormattedMessage id="p_cart_block_shipping" />
@@ -764,7 +787,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                     </div>
                                     <div>
                                         <FormattedMessage
-                                            id="currency"
+                                            id={totalSumWithDelivery ? 'currency' : 'free'}
                                             values={{ price: totalSumWithDelivery }}
                                         />
                                     </div>

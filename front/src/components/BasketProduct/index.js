@@ -80,14 +80,16 @@ const BasketProduct = ({ url, name, subName, images, oldPrice, price, options, r
                                 <span className={expansionIconClassName}>
                                     <ChevronDownIcon size="20" />
                                 </span>
-                                <p className={styles.oldPrice}>{oldPrice}</p>
-                                <p className={styles.totalPrice}>{price}</p>
+                                <p className={styles.prices}>
+                                    <p className={styles.oldPrice}>{oldPrice}</p>
+                                    <p className={styles.totalPrice}>{price}</p>
+                                </p>
                             </button>
                         ) : (
-                            <>
+                            <p className={styles.prices}>
                                 <p className={styles.oldPrice}>{oldPrice}</p>
                                 <p className={styles.totalPrice}>{price}</p>
-                            </>
+                            </p>
                         )}
                     </div>
                 </div>

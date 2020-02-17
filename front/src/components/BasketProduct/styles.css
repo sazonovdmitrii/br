@@ -143,7 +143,7 @@
 
     @media (--viewport-tablet) {
         max-height: none !important;
-        margin-bottom: 52px;
+        margin-bottom: 68px;
         padding-bottom: 6px;
         border-color: #f2f2f2 !important;
     }
@@ -198,21 +198,15 @@
     margin-left: auto;
 }
 
-.oldPrice {
+.prices {
     display: inline-block;
-    margin: 0;
     color: #414b56;
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-small);
-    text-decoration: line-through;
 }
 
-.totalPrice {
-    display: inline-block;
-    margin: 0;
-    color: #414b56;
-    font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-small);
+.oldPrice {
+    text-decoration: line-through;
 }
 
 .removeConfirm {
