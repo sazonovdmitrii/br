@@ -15,9 +15,10 @@ import Title from 'components/Title';
 import styles from './styles.css';
 import bgImage from './images/bg.jpg';
 
-const Retail = () => {
+const Retail = ({ lang }) => {
     const { loading: loadingStores, data: { stores } = {} } = useQuery(GET_STORES, {
         variables: {
+            locale: lang,
             vision: false,
         },
     });
@@ -25,6 +26,7 @@ const Retail = () => {
         GET_STORES,
         {
             variables: {
+                locale: lang,
                 vision: true,
             },
         }

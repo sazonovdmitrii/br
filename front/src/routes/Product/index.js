@@ -10,11 +10,11 @@ const Component = loadable(() => import('./Product'), {
     fallback: Loader,
 });
 
-export default () => {
+export default ({ lang }) => {
     const params = useParams();
     const slug = `${Object.values(params)
         .filter(Boolean)
         .join('/')}.htm`;
 
-    return withQuery({ query: GET_PRODUCT, variables: { slug } })(Component);
+    return withQuery({ query: GET_PRODUCT, variables: { slug, locale: lang } })(Component);
 };

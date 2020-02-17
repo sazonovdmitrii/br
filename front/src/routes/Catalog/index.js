@@ -11,7 +11,7 @@ const Component = loadable(() => import('./Catalog'), {
     fallback: () => <Loader fullHeight />,
 });
 
-export default () => {
+export default ({ lang }) => {
     const params = useParams();
     const slug = Object.values(params)
         .reduce((array, item = '') => {
@@ -24,7 +24,7 @@ export default () => {
         .filter(Boolean)
         .join('/');
 
-    return withQuery({ query: GET_CATALOG, variables: { slug } })(props => (
+    return withQuery({ query: GET_CATALOG, variables: { slug, locale: lang } })(props => (
         <Component {...props} slug={slug} />
     ));
 };

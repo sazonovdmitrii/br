@@ -11,11 +11,11 @@ const Component = loadable(() => import('./RetailPage'), {
     fallback: Loader,
 });
 
-export default () => {
+export default ({ lang }) => {
     const params = useParams();
     const slug = Object.values(params)
         .filter(Boolean)
         .join('/');
 
-    return withQuery({ query: GET_STORE, variables: { slug } })(Component);
+    return withQuery({ query: GET_STORE, variables: { slug, locale: lang } })(Component);
 };

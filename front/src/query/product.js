@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const GET_PRODUCT = gql`
-    query Product($slug: String!) {
-        product(slug: $slug) {
+    query Product($slug: String!, $locale: String) {
+        product(slug: $slug, locale: $locale) {
             name
             items(limit: 40, offset: 0) {
                 edges {

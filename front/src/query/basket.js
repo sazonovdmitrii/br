@@ -3,9 +3,9 @@ import gql from 'graphql-tag';
 import { BasketProducts, Addresses } from 'fragments';
 
 const GET_BASKET = gql`
-    query {
+    query basket($locale: String) {
         isLoggedIn @client(always: false)
-        basket {
+        basket(locale: $locale) {
             ...BasketProducts
             coupon
         }

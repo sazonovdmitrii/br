@@ -11,8 +11,8 @@ const Component = loadable(() => import('./Content'), {
     fallback: Loader,
 });
 
-export default () => {
+export default ({ lang }) => {
     const { slug } = useParams();
 
-    return withQuery({ query: GET_CONTENT, variables: { slug } })(Component);
+    return withQuery({ query: GET_CONTENT, variables: { slug, locale: lang } })(Component);
 };

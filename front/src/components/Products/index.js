@@ -5,6 +5,7 @@ import classnames from 'classnames';
 
 import { GET_PRODUCTS } from 'query';
 import { metrics } from 'utils';
+import { useLang } from 'hooks';
 
 import ProductCard from 'components/ProductCard';
 import Loader from 'components/Loader';
@@ -16,8 +17,9 @@ import styles from './styles.css';
 let firstRender = true;
 
 const Products = ({ slug, limit, offset, className }) => {
+    const locale = useLang();
     const { loading, error, data, refetch } = useQuery(GET_PRODUCTS, {
-        variables: { slug, limit, offset },
+        variables: { slug, limit, offset, locale },
     });
 
     useEffect(() => {

@@ -13,11 +13,14 @@ const Component = loadable(() => import('./Basket'), {
     fallback: <Loader fullHeight />,
 });
 
-export default () => {
+export default ({ lang }) => {
     const [title] = useFormatMessage([{ id: 'p_cart_meta_title' }]);
     const { loading, error, data: { basket = { products: [] }, addresses, isLoggedIn } = {} } = useQuery(
         GET_BASKET,
         {
+            variables: {
+                locale: lang,
+            },
             ssr: false,
         }
     );

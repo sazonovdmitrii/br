@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const GET_STORES = gql`
-    query stores($vision: Int) {
-        stores(check_vision: $vision) {
+    query stores($vision: Int, $locale: String) {
+        stores(check_vision: $vision, locale: $locale) {
             data {
                 id
                 name

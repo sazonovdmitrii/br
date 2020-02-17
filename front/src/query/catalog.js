@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const GET_CATALOG = gql`
-    query Catalog($slug: String!) {
-        catalog(slug: $slug) {
+    query Catalog($slug: String!, $locale: String) {
+        catalog(slug: $slug, locale: $locale) {
             name
             banner
             description
