@@ -63,6 +63,9 @@ class Lenses
             ->setEntity($lense)
             ->setTagId($this->configService->get('lense_type_tag'))
             ->getOneForLense();
-        return $lenseType->getId() == $this->configService->get('lense_item_type_tag');
+        if($lenseType) {
+            return $lenseType->getId() == $this->configService->get('lense_item_type_tag');
+        }
+        return true;
     }
 }
