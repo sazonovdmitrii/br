@@ -33,7 +33,7 @@ BasketProduct:
       coupon_price:
         type: "String"
         description: "Coupon Price"
-      lenses:
+      lense:
         type: "LensesRecipe"
         description: "Price"
 

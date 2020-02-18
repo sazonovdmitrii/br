@@ -51,7 +51,7 @@ class BasketMutation extends AuthMutation
 
             return $this->basketService
                 ->setAuthKey($this->getAuthKey())
-                ->add($productItem->getId(), $input->lenses);
+                ->add($productItem->getId(), $input->lense);
         }
     }
 

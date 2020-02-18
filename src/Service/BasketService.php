@@ -113,11 +113,11 @@ class BasketService extends AbstractController
     }
 
     /**
-     * @param int $itemId
-     * @param $lenses
+     * @param $itemId
+     * @param $lense
      * @return array
      */
-    public function add($itemId, $lenses)
+    public function add($itemId, $lense)
     {
         $productItem = $this->productItemRepository->find($itemId);
 
@@ -147,7 +147,7 @@ class BasketService extends AbstractController
             ];
         }
 
-        $products[$itemId]['lenses'] = $lenses;
+        $products[$itemId]['lense'] = $lense;
 
         $basket['products'] = $products;
 
@@ -177,7 +177,7 @@ class BasketService extends AbstractController
         return $this->getAll();
     }
 
-    public function update($itemId, $qty, $lenses = [], $recipe = [])
+    public function update($itemId, $qty, $lense = [], $recipe = [])
     {
         $basket = $this->_getCurrentBasket();
 
@@ -185,8 +185,8 @@ class BasketService extends AbstractController
 
         if (isset($products[$itemId])) {
             $products[$itemId]['qty'] = $qty;
-            if (count($lenses)) {
-                $products[$itemId]['lenses'] = $lenses;
+            if (count($lense)) {
+                $products[$itemId]['lense'] = $lense;
             }
             if (count($recipe)) {
                 $products[$itemId]['recipe'] = $recipe;
@@ -239,7 +239,7 @@ class BasketService extends AbstractController
                     }
 
                     $productItem->setImages($images);
-                    $lenses               = (isset($basketItem['lenses'])) ? $basketItem['lenses'] : [];
+                    $lense               = (isset($basketItem['lense'])) ? $basketItem['lense'] : [];
                     $result['products'][] = [
                         'item'         => $productItem,
                         'qty'          => $basketItem['qty'],
@@ -247,7 +247,7 @@ class BasketService extends AbstractController
                         'url'          => '/' . $product->getProductUrls()[0]->getUrl(),
                         'price'        => $basketItem['price'],
                         'coupon_price' => isset($basketItem['coupon_price']) ? $basketItem['coupon_price'] : 0,
-                        'lenses'       => $this->lenseService->parse($lenses)
+                        'lense'       => $this->lenseService->parse($lense)
                     ];
                 }
             }

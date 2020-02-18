@@ -44,7 +44,7 @@ class LenseService extends AbstractController
     /**
      * @param string $lense
      * @return array
-     * $lense = "{'recipes':{'left':{'7':'4.25','8':'23','9':'90','10':'35.5'},'right':{'7':'-3.25','8':'13','9':'10','10':'25.5'},'extraData':{'11':'53'}},'lenses':2}";
+     * $lense = "{'recipes':{'left':{'7':'4.25','8':'23','9':'90','10':'35.5'},'right':{'7':'-3.25','8':'13','9':'10','10':'25.5'},'extraData':{'11':'53'}},'lense':2}";
      */
     public function parse($lense = '')
     {
@@ -65,7 +65,7 @@ class LenseService extends AbstractController
 
         $formattedRecipe = BasketRecipe::FORMATTED_RECIPE;
 
-        if ($lenseEntity = $this->getLenseById($lense['lenses'])) {
+        if ($lenseEntity = $this->getLenseById($lense['lense'])) {
             $lenseResult = [
                 'name'    => $lenseEntity->getName(),
                 'price'   => $lenseEntity->getPrice(),

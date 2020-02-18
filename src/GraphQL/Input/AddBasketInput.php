@@ -17,5 +17,5 @@ class AddBasketInput extends RequestObject
     /**
      * @var
      */
-    public $lenses;
+    public $lense;
 }

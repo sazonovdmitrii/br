@@ -8,7 +8,7 @@ mutation ($input: AddBasketInput!) {
         id
       }
       url
-      lenses {
+      lense {
         name
         price
         options {
@@ -39,6 +39,6 @@ mutation ($input: AddBasketInput!) {
 {
   "input": {
     "item_id": 114,
-    "lenses": "{'recipes':{'left':{'7':'4.25','8':'23','9':'90','10':'35.5'},'right':{'7':'-3.25','8':'13','9':'10','10':'25.5'}},'extraData':{'11':'53'},'lenses':2}"
+    "lense": "{'recipes':{'left':{'7':'4.25','8':'23','9':'90','10':'35.5'},'right':{'7':'-3.25','8':'13','9':'10','10':'25.5'}},'extraData':{'11':'53'},'lense':2}"
   }
 }

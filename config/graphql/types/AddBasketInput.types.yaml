@@ -4,7 +4,7 @@ AddBasketInput:
     fields:
       item_id:
         type: "Int!"
-      lenses:
+      lense:
         type: "String"
       recipe:
         type: "String"
