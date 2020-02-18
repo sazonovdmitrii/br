@@ -308,7 +308,7 @@ GRAPHQL;
         return
 <<<'GRAPHQL'
             {
-              product(slug: "sun-k3130.htm/"){
+              product(slug: "model-cm-19.htm"){
                 id,
                 name,
                 items(limit: 40, offset:0) {
