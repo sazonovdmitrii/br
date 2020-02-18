@@ -82,7 +82,7 @@ class LenseFieldResolver extends LocaleAlias
 
     public function recipes(Lense $lense)
     {
-        if($this->lensesService->isNonReceipt($lense)) {
+        if(!$lense || $this->lensesService->isNonReceipt($lense)) {
             return [];
         }
         return $this->lenseTagService->getLenseTagsItemsTree('receipt');
