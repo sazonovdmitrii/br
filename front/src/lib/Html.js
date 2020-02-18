@@ -67,7 +67,7 @@ export default ({ bundle, helmet, html, window = {} }) => (
                         <div>
                             <img
                                 src="https://mc.yandex.ru/watch/55754116"
-                                style="position:absolute; left:-9999px;"
+                                style={{ position: 'absolute', left: '-9999px;' }}
                                 alt=""
                             />
                         </div>
