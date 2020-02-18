@@ -35,7 +35,7 @@ class ProductItemRepository extends ServiceEntityRepository
             "SELECT pi.id, pi.product_id FROM productitem pi "
             . "JOIN productitemtranslation pit "
             . "ON pit.translatable_id = pi.id "
-            . "WHERE pit.name LIKE '%".$name."%'"
+            . "WHERE pit.name LIKE '%" . $name . "%'"
         );
         $stmt->execute();
         $productsIds = $stmt->fetchAll();
@@ -44,14 +44,17 @@ class ProductItemRepository extends ServiceEntityRepository
             "SELECT p.id AS product_id FROM product p "
             . "JOIN producttranslation pt "
             . "ON pt.translatable_id = p.id "
-            . "WHERE pt.name LIKE '%".$name."%'"
+            . "WHERE pt.name LIKE '%" . $name . "%'"
         );
         $stmt->execute();
-        $productsIds = array_unique(
-            array_merge($productsIds, $stmt->fetchAll())
-        );
+        $productsIds = array_merge($productsIds, $stmt->fetchAll());
 
-        return array_map(function($entity){ return $entity['product_id']; }, $productsIds);
+        return array_unique(
+            array_map(function ($entity) {
+                    return $entity['product_id'];
+                }, $productsIds
+            )
+        );
     }
 
     // /**
