@@ -42,18 +42,6 @@ LensesRecipe:
   config:
     description: "Basket Lense"
     fields:
-      lenses:
-        type: "LenseOptions"
-        description: "Lense Options"
-      recipes:
-        type: "Recipes"
-        description: "Recipe"
-
-LenseOptions:
-  type: object
-  config:
-    description: "Lense Options"
-    fields:
       name:
         type: "String"
         description: "Lense Name"
@@ -63,6 +51,9 @@ LenseOptions:
       options:
         type: "[LenseOptionTag]"
         description: "Lense Option Tag"
+      recipes:
+        type: "Recipes"
+        description: "Recipe"
 
 LenseOptionTag:
   type: object
@@ -81,9 +72,26 @@ Recipes:
   config:
     description: "Recipe"
     fields:
+      sides:
+        type: "BasketRecipeSide"
+        description: "Basket Recipe Side"
+      extraData:
+        type: "[LenseOptionTag]"
+        description: "Lense Recipes Right Options Tags"
+
+BasketRecipeSide:
+  type: object
+  config:
+    description: "Basket Recipe Side"
+    fields:
       left:
         type: "[LenseOptionTag]"
         description: "Lense Recipes Left Options Tags"
       right:
         type: "[LenseOptionTag]"
         description: "Lense Recipes Right Options Tags"
+
+
+
+
+

@@ -165,6 +165,7 @@ easy_admin:
                     - { type: 'tab' , label: 'Основные' }
                     - { property: 'sku', label: 'Артикул'}
                     - { property: 'visible', label: 'Видимость'}
+                    - { property: 'priority', label: 'Приоритет'}
                     - { property: 'gtin', label: 'Google Merchant GTIN'}
                     - { type: 'tab' , label: 'Мультиязычный контент' }
                     - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
@@ -181,7 +182,7 @@ easy_admin:
                     - { type: 'tab', label: 'Товары'}
                     - { property: 'productItems', type_options: { block_name: 'products_items' }}
                     - { type: 'tab', label: 'Адреса' }
-                    - { property: 'productUrls', type: 'form', type_options: {block_name: 'products_urls'}}
+                    - { property: 'productUrls', type: 'form', type_options: {block_name: 'products_urls', allow_extra_fields: true}}
                     - { type: 'tab', label: 'Теги' }
                     - { property: 'producttagitem', type_options: { block_name: 'products_tags_items' }}
                     - { type: 'tab' , label: 'Линзы' }

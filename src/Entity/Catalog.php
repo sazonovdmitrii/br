@@ -396,7 +396,7 @@ class Catalog
             )
         )->matching(
             (Criteria::create())->orderBy([
-                'id' => Criteria::ASC,
+                'priority' => Criteria::DESC,
             ])
         );
     }

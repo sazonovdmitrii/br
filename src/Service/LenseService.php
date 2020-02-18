@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Service;
 
-use App\Entity\LenseTag;
-use App\Entity\Lense;
 use App\Repository\LenseRepository;
 use App\Repository\LenseTagRepository;
+use App\Service\Structure\BasketRecipe;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -14,22 +14,6 @@ class LenseService extends AbstractController
 
     protected $cache;
 
-    private $formattedResult = [
-        'recipes' => [
-            'left' => [
-
-            ],
-            'right' => [
-
-            ]
-        ],
-        'lenses' => [
-            'name' => '',
-            'options' => [
-
-            ]
-        ]
-    ];
     /**
      * @var LenseTagRepository
      */
@@ -38,69 +22,84 @@ class LenseService extends AbstractController
      * @var LenseRepository
      */
     private $lenseRepository;
+    /**
+     * @var StructureValidatorService
+     */
+    private $structureValidatorService;
 
     public function __construct(
         EntityManager $entityManager,
         \Symfony\Component\Cache\Adapter\AdapterInterface $cache,
         LenseTagRepository $lenseTagRepository,
-        LenseRepository $lenseRepository
+        LenseRepository $lenseRepository,
+        StructureValidatorService $structureValidatorService
     ) {
-        $this->entityManager = $entityManager;
-        $this->cache = $cache;
-        $this->lenseTagRepository = $lenseTagRepository;
-        $this->lenseRepository = $lenseRepository;
+        $this->entityManager             = $entityManager;
+        $this->cache                     = $cache;
+        $this->lenseTagRepository        = $lenseTagRepository;
+        $this->lenseRepository           = $lenseRepository;
+        $this->structureValidatorService = $structureValidatorService;
     }
 
-    public function parse($lenses = '')
+    /**
+     * @param string $lense
+     * @return array
+     * $lense = "{'recipes':{'left':{'7':'4.25','8':'23','9':'90','10':'35.5'},'right':{'7':'-3.25','8':'13','9':'10','10':'25.5'},'extraData':{'11':'53'}},'lenses':2}";
+     */
+    public function parse($lense = '')
     {
-        if(!$lenses) {
+        if (!$lense) {
             return [];
         }
-//        $lenses = '{"recipes":{"left":{"7":"4.25","8":"23","9":"90","10":"35.5"},"right":{"7":"-3.25","8":"13","9":"10","10":"25.5"}},"lenses":2}';
-        $cacheItem = $this->cache->getItem('lenses_' . md5($lenses));
+
+        $cacheItem = $this->cache->getItem('lense_' . md5($lense));
         if($cacheItem->isHit()) {
             return $cacheItem->get();
         }
-        $lenses = json_decode(str_replace('\'', '"', $lenses), true);
 
-        foreach(['left', 'right'] as $side) {
+        $lense = json_decode(str_replace('\'', '"', $lense), true);
 
-            foreach($lenses['recipes'][$side] as $recipeId => $recipeValue) {
-
-                if($recipe = $this->getLenseTagById($recipeId)) {
-                    $this->formattedResult['recipes'][$side][] = [
-                        'name' => $recipe->getName(),
-                        'value' => $recipeValue
-                    ];
-                }
-
-            }
-
+        if (!$this->structureValidatorService->validateBasketRecipe($lense)) {
+            return [];
         }
 
-        $options = [];
-        if($lense = $this->getLenseById($lenses['lenses'])) {
+        $formattedRecipe = BasketRecipe::FORMATTED_RECIPE;
 
-            $this->formattedResult['lenses']['name'] = $lense->getName();
-            $this->formattedResult['lenses']['price'] = $lense->getPrice();
+        if ($lenseEntity = $this->getLenseById($lense['lenses'])) {
+            $lenseResult = [
+                'name'    => $lenseEntity->getName(),
+                'price'   => $lenseEntity->getPrice(),
+                'options' => [
 
-            foreach($lense->getLenseitemstags() as $lenseItemTag) {
+                ]
+            ];
 
-                $options[] = [
-                    'name' => $lenseItemTag->getEntity()->getName(),
+            foreach ($lenseEntity->getLenseitemstags() as $lenseItemTag) {
+                $lenseResult['options'][] = [
+                    'name'  => $lenseItemTag->getEntity()->getName(),
                     'value' => $lenseItemTag->getName()
                 ];
-
             }
-
+            $formattedRecipe = array_merge_recursive($formattedRecipe, $lenseResult);
         }
 
-        $this->formattedResult['lenses']['options'] = $options;
+        $recipes = $formattedRecipe['recipes'];
+        foreach (array_keys($formattedRecipe['recipes']['sides']) as $side) {
+            foreach ($lense['recipes'][$side] as $recipeId => $recipeValue) {
+                $recipes['sides'][$side][] = $this->_toOption($recipeId, $recipeValue);
+            }
+        }
 
-        $cacheItem->set($this->formattedResult);
+        foreach ($lense['recipes']['extraData'] as $recipeId => $recipeValue) {
+            $recipes['extraData'][] = $this->_toOption($recipeId, $recipeValue);
+        }
+
+        $formattedRecipe['recipes'] = $recipes;
+
+        $cacheItem->set($formattedRecipe);
         $this->cache->save($cacheItem);
 
-        return $this->formattedResult;
+        return $formattedRecipe;
     }
 
     /**
@@ -119,5 +118,15 @@ class LenseService extends AbstractController
     private function getLenseById($lenseId)
     {
         return $this->lenseRepository->find($lenseId);
+    }
+
+    private function _toOption($recipeId, $recipeValue)
+    {
+        if ($recipe = $this->getLenseTagById($recipeId)) {
+            return [
+                'name'  => $recipe->getName(),
+                'value' => $recipeValue
+            ];
+        }
     }
 }

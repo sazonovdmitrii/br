@@ -95,6 +95,11 @@ class Product
      */
     private $productCollections;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $priority;
+
     public function __construct()
     {
         $this->catalog = new ArrayCollection();
@@ -483,6 +488,18 @@ class Product
             $this->productCollections->removeElement($productCollection);
             $productCollection->removeProduct($this);
         }
+
+        return $this;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(?int $priority): self
+    {
+        $this->priority = $priority;
 
         return $this;
     }
