@@ -4,6 +4,7 @@ namespace App\GraphQL\Resolver;
 
 use App\Repository\ImageTypeRepository;
 use App\Repository\ProductUrlRepository;
+use App\Service\Twig\Lenses;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Product;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -31,6 +32,10 @@ class ProductFieldResolver extends LocaleAlias
      * @var ImageTypeRepository
      */
     private $imageTypeRepository;
+    /**
+     * @var Lenses
+     */
+    private $lensesService;
 
     /**
      * ProductResolver constructor.
@@ -43,7 +48,8 @@ class ProductFieldResolver extends LocaleAlias
         ConfigService $configService,
         GeneratorService $generatorService,
         ProductUrlRepository $productUrlRepository,
-        ImageTypeRepository $imageTypeRepository
+        ImageTypeRepository $imageTypeRepository,
+        Lenses $lensesService
     ) {
         $this->em = $em;
         $this->tagService = $tagService;
@@ -51,6 +57,7 @@ class ProductFieldResolver extends LocaleAlias
         $this->imageGenerator = $generatorService;
         $this->productUrlRepository = $productUrlRepository;
         $this->imageTypeRepository = $imageTypeRepository;
+        $this->lensesService = $lensesService;
     }
 
     /**

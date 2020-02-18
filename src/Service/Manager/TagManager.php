@@ -2,6 +2,7 @@
 
 namespace App\Service\Manager;
 
+use App\Entity\LenseItemTag;
 use App\Entity\Product;
 use App\Entity\ProductTagItem;
 use App\Repository\CatalogRepository;
@@ -203,6 +204,17 @@ class TagManager extends AbstractController
     {
         return $this->getEntity()->getProducttagitem()->filter(function (ProductTagItem $productTagItem) {
             return $productTagItem->getEntityId()->getId() == $this->getTagId();
+        }
+        )->first();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOneForLense()
+    {
+        return $this->getEntity()->getLenseitemstags()->filter(function (LenseItemTag $lenseItemTag) {
+            return $lenseItemTag->getEntity()->getId() == $this->getTagId();
         }
         )->first();
     }

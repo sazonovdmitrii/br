@@ -188,6 +188,12 @@ class Lense
         return $this->recipes;
     }
 
+    public function setRecipes($recipes)
+    {
+        $this->recipes = $recipes;
+        return $this;
+    }
+
     public function addRecipe(LenseItemTag $recipe): self
     {
         if (!$this->recipes->contains($recipe)) {

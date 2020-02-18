@@ -2,6 +2,9 @@
 
 namespace App\GraphQL\Resolver;
 
+use App\Service\LenseService;
+use App\Service\Twig\Lenses;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Lense;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -14,15 +17,23 @@ use App\Service\Twig\LenseTags;
 class LenseFieldResolver extends LocaleAlias
 {
     private $lenseTagService;
+    /**
+     * @var Lenses
+     */
+    private $lensesService;
 
     /**
      * LenseFieldResolver constructor.
      *
      * @param LenseTags $lenseTags
+     * @param Lenses $lensesService
      */
-    public function __construct(LenseTags $lenseTags)
-    {
+    public function __construct(
+        LenseTags $lenseTags,
+        Lenses $lensesService
+    ) {
         $this->lenseTagService = $lenseTags;
+        $this->lensesService = $lensesService;
     }
 
     /**
@@ -71,7 +82,9 @@ class LenseFieldResolver extends LocaleAlias
 
     public function recipes(Lense $lense)
     {
-//        return $lense->getRecipes();
+        if($this->lensesService->isNonReceipt($lense)) {
+            return [];
+        }
         return $this->lenseTagService->getLenseTagsItemsTree('receipt');
     }
 

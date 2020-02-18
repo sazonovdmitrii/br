@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\LenseItemTag;
+use App\Repository\LenseItemTagRepository;
 use Doctrine\ORM\EntityManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use App\Service\RequestFilterService;
@@ -38,19 +40,25 @@ class ConfigurationController extends BaseAdminController
      * @var ConfigurationRepository
      */
     private $configurationRepository;
+    /**
+     * @var LenseItemTagRepository
+     */
+    private $lenseItemTagRepository;
 
     public function __construct(
         RequestFilterService $filterService,
         DoctrineService $doctrineService,
         EntityManager $entityManager,
         TagService $tagService,
-        ConfigurationRepository $configurationRepository
+        ConfigurationRepository $configurationRepository,
+        LenseItemTagRepository $lenseItemTagRepository
     ) {
         $this->filterService = $filterService;
         $this->doctrineService = $doctrineService;
         $this->entityManager = $entityManager;
         $this->tagService = $tagService;
         $this->configurationRepository = $configurationRepository;
+        $this->lenseItemTagRepository = $lenseItemTagRepository;
     }
 
     protected function renderTemplate($actionName, $templatePath, array $parameters = array())
@@ -60,6 +68,7 @@ class ConfigurationController extends BaseAdminController
             $parameters['list'][$item->getOption()] = $item->getValue();
         }
         $parameters['tags'] = $this->tagService->all();
+        $parameters['lenseItemTags'] = $this->lenseItemTagRepository->findAll();
         return $this->render($this->_template, $parameters);
     }
 

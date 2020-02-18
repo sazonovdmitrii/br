@@ -80,6 +80,14 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="profit">Значение для безрецептурных тегов</label>
+                            <select class="form-control" name="lense_item_type_tag">
+                                {% for tag in lenseItemTags %}
+                                    <option value="{{ tag.id }}" {{ list.lense_item_type_tag is defined and list.lense_item_type_tag == tag.id ? 'selected' : '' }}>{{ tag.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="profit">Линзовый тег назначение</label>
                             <select class="form-control" name="lense_function_tag">
                                 {% for tag in lense_tags.getTree() %}
