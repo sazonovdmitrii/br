@@ -60,7 +60,7 @@ class CatalogProductResolver implements ResolverInterface, AliasedInterface {
                     $productsIds = array_map(function($product) { return $product['product_id']; }, $productsIds);
                 }
 
-                $products = $catalogUrl->getEntity()->setCurrentLocale($args['locale'])->getProducts();
+                $products = $catalogUrl->getEntity()->setCurrentLocale($args['locale'])->getProductCollection();
 
                 $products = $products->filter(
                     function($entry) use ($productsIds) {
@@ -69,7 +69,7 @@ class CatalogProductResolver implements ResolverInterface, AliasedInterface {
                 );
                 $products = $products->toArray();
             } else {
-                $products = $catalog->getProducts()->toArray();
+                $products = $catalog->getProductCollection()->toArray();
             }
         }
         $paginator = new Paginator(function () use ($products, $args) {

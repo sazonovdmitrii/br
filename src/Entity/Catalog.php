@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
-
+use Doctrine\Common\Collections\Criteria;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CatalogRepository")
  */
@@ -386,5 +386,18 @@ class Catalog
         $method = 'get'. ucfirst($name);
         $arguments = [];
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function getProductCollection()
+    {
+        return $this->products->matching(
+            Criteria::create()->where(
+                Criteria::expr()->eq('visible', true)
+            )
+        )->matching(
+            (Criteria::create())->orderBy([
+                'id' => Criteria::ASC,
+            ])
+        );
     }
 }
