@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
 use Symfony\Component\HttpFoundation\File\File;
@@ -347,6 +348,15 @@ class ProductItem
         }
 
         return $this;
+    }
+
+    public function getImagesCollection()
+    {
+        return $this->productItemImages->matching(
+            (Criteria::create())->orderBy([
+                'id' => Criteria::ASC,
+            ])
+        );
     }
 
     public function removeProductItemImage(ProductItemImage $productItemImage): self

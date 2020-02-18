@@ -19,6 +19,7 @@ class BasketTest extends GraphQLTesting
         $basket = $this->graphqlQuery(
             $this->getMutationTestQuery('addBasket'), $this->getMutationTestData('addBasket'), $this->getToken()
         );
+
         $this->assertArraySubset([
             'data' => [
                 'addBasket' => [
@@ -33,9 +34,22 @@ class BasketTest extends GraphQLTesting
             'qty',
             'price',
             'name',
+            'item',
             'url',
-            'item'
+            'lense'
         ], array_keys($products[0]));
+
+        $this->assertArraySubset([
+            'lense' => [
+                'recipes' => [
+                    'sides' => [
+                        'left' => [
+
+                        ]
+                    ]
+                ]
+            ]
+        ], $products[0]);
     }
 
     public function testRemoveBasket()
@@ -62,8 +76,9 @@ class BasketTest extends GraphQLTesting
 
     public function testUpdateBasket()
     {
+        $token = $this->getToken();
         $basket = $this->graphqlQuery(
-            $this->getMutationTestQuery('addBasket'), $this->getMutationTestData('addBasket'), $this->getToken()
+            $this->getMutationTestQuery('addBasket'), $this->getMutationTestData('addBasket'), $token
         );
         $itemId = $basket['data']['addBasket']['products'][0]['item']['id'];
 
@@ -73,7 +88,7 @@ class BasketTest extends GraphQLTesting
                     'item_id' => $itemId,
                     'qty' => 58
                 ]
-            ], $this->getToken()
+            ], $token
         );
 
         $this->assertArraySubset([
@@ -85,6 +100,7 @@ class BasketTest extends GraphQLTesting
         ], $updateBasket);
 
         $products = $updateBasket['data']['updateBasket']['products'];
+
         $this->assertNotEmpty($products);
 
         $qty = 0;

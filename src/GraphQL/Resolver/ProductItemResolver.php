@@ -44,8 +44,7 @@ class ProductItemResolver extends LocaleAlias {
 
         $config = $this->imageTypeRepository->findAll();
 
-        foreach($productItem->getProductItemImages() as $image) {
-
+        foreach($productItem->getImagesCollection() as $image) {
             $images[] = $this->imageGenerator
                 ->setImage($image)
                 ->setTypes(['original', 'webp'])

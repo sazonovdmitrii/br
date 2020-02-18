@@ -7,7 +7,7 @@ class StructureValidatorService
 {
     public function validateBasketRecipe($recipe)
     {
-        $recipeStructure = BasketRecipe::RECIPE;$result = true;
+        $recipeStructure = BasketRecipe::RECIPE;
 
         foreach($recipeStructure as $primaryKey => $primaryStructure) {
             if(!isset($recipe[$primaryKey])) {

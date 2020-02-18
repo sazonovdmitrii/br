@@ -7,7 +7,7 @@ mutation ($input: UpdateBasketInput!) {
       }
     }
   }
-}
+
 
 {
   "input": {

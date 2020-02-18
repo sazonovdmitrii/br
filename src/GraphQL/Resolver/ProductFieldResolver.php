@@ -154,7 +154,7 @@ class ProductFieldResolver extends LocaleAlias
             $item->setCurrentLocale($product->getCurrentLocale());
 
             $images = [];
-            foreach($item->getProductItemImages() as $image) {
+            foreach($item->getImagesCollection() as $image) {
                 $images[] = $this->imageGenerator
                     ->setImage($image)
                     ->setTypes(['original', 'webp'])

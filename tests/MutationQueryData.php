@@ -26,17 +26,41 @@ GRAPHQL;
         return
 <<<'GRAPHQL'
             mutation ($input: AddBasketInput!) {
-                addBasket(input: $input) {
-                    products {                        
-                        qty
-                        price
-                        name                        
-                        url
-                        item {
-                            id
+              addBasket(input: $input) {
+                products {      
+                  qty
+                  price
+                  name
+                  item{
+                    id
+                  }
+                  url
+                  lense {        
+                    name
+                    price
+                    options {
+                      name
+                      value
+                    }        
+                    recipes {
+                      sides {
+                        left {
+                          name
+                          value
                         }
+                        right {
+                          name
+                          value
+                        }            
+                      }
+                      extraData {
+                        name
+                        value
+                      }
                     }
+                  }
                 }
+              }
             }
 GRAPHQL;
     }

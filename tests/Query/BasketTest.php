@@ -12,7 +12,11 @@ class BasketTest extends GraphQLTesting
 {
     public function testBasket()
     {
-        $basket = $this->graphqlQuery($this->getQueryTestQuery('basket'), [], $this->getToken());
+        $token = $this->getToken();
+        $this->graphqlQuery(
+            $this->getMutationTestQuery('addBasket'), $this->getMutationTestData('addBasket'), $token
+        );
+        $basket = $this->graphqlQuery($this->getQueryTestQuery('basket'), [], $token);
 
         $this->assertArraySubset([
             'data' => [

@@ -12,10 +12,16 @@ class OrderTest extends GraphQLTesting
 {
     public function testOrder()
     {
+        $token = $this->getToken();
+        $this->graphqlQuery(
+            $this->getMutationTestQuery('addBasket'), $this->getMutationTestData('addBasket'), $token
+        );
+
         $createOrder = $this->graphqlQuery(
-            $this->getMutationTestQuery('createOrder'), $this->getMutationTestData('createOrder'), $this->getToken()
+            $this->getMutationTestQuery('createOrder'), $this->getMutationTestData('createOrder'), $token
         );
         $secretKey = $createOrder['data']['order']['secret_key'];
+
         $order = $this->graphqlQuery($this->getQueryTestQuery('order', $secretKey));
 
         $this->assertArraySubset([

@@ -13,13 +13,19 @@ class CouponTest extends GraphQLTesting
 {
     public function testApplyCoupon()
     {
+        $token = $this->getToken();
+        $this->graphqlQuery(
+            $this->getMutationTestQuery('addBasket'), $this->getMutationTestData('addBasket'), $token
+        );
         $coupon = $this->graphqlQuery(
-            $this->getMutationTestQuery('coupon'), $this->getMutationTestData('coupon'), $this->getToken()
+            $this->getMutationTestQuery('coupon'), $this->getMutationTestData('coupon'), $token
         );
         $this->assertArraySubset([
             'data' => [
                 'applyCoupon' => [
-                    'products' => []
+                    'products' => [
+
+                    ]
                 ]
             ]
         ], $coupon);
