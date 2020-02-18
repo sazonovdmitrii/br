@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 import { X as CloseIcon, ArrowLeft } from 'react-feather';
@@ -93,17 +93,24 @@ const ChooseLenses = ({
     onAddToCart,
     onClose,
 }) => {
-    const _steps = lenses[0].lenseitemstags
-        .map(({ entity }) => (entity.visible ? entity.name : null))
-        .filter(Boolean);
-    const steps = [..._steps, RECIPE_STEP, FINAL_STEP];
-    const [firstStep] = steps;
-
     const overlayNode = useRef(null);
-    const [currentStep, setCurrentStep] = useState(firstStep);
     const [values, setValues] = useState([]);
     const [recipe, setRecipe] = useState(INITIAL_RECIPE);
     const [imageIndex, setImageIndex] = useState(0);
+    // const [prevStep, setPrevStep] = useState(false);
+
+    const selectedLenses = getLensesByValues({ lenses, values });
+    const [selectedLens = {}] = selectedLenses;
+    const _steps = lenses[0].lenseitemstags
+        .map(({ entity }) => (entity.visible ? entity.name : null))
+        .filter(Boolean);
+    const steps = useMemo(
+        () => [..._steps, selectedLens.recipes.length ? RECIPE_STEP : null, FINAL_STEP].filter(Boolean),
+        [_steps, selectedLens.recipes.length]
+    );
+    const [firstStep] = steps;
+    const [currentStep, setCurrentStep] = useState(firstStep);
+    const isFirstStep = currentStep === firstStep;
 
     if (typeof document === 'undefined') return null;
 
@@ -120,31 +127,29 @@ const ChooseLenses = ({
         };
     }, [domNode.style]);
 
+    const stepIndex = steps.indexOf(currentStep);
     const stepPrice = values.reduce((acc, { price }) => acc + price, 0);
-    const currentOptions = getOptionsByStep({
-        stepPrice,
-        lenses: getLensesByValues({ lenses, values }),
-        step: currentStep,
-    });
 
     const handleClose = () => {
         onClose();
     };
 
-    const stepIndex = steps.indexOf(currentStep);
     const handleClick = item => {
         const nextStep = steps[stepIndex + 1];
+        const newImageIndex = (imageIndex + 1) % images.length;
+        const nextImage = images[newImageIndex];
 
-        if (nextStep === FINAL_STEP) {
-            setImageIndex(0);
-        } else {
-            const newImageIndex = (imageIndex + 1) % images.length;
-            const nextImage = images[newImageIndex];
+        // setPrevStep(false);
+        setImageIndex(nextImage ? newImageIndex : 0);
+        setValues(prevState => [...prevState, { name: currentStep, ...item }]);
 
-            setImageIndex(nextImage ? newImageIndex : 0);
-            setValues(prevState => [...prevState, { step: currentStep, ...item }]);
-        }
+        setCurrentStep(nextStep);
+    };
 
+    const handleSubmitRecipe = () => {
+        const nextStep = steps[stepIndex + 1];
+
+        setImageIndex(0);
         setCurrentStep(nextStep);
     };
 
@@ -164,12 +169,20 @@ const ChooseLenses = ({
         }));
     };
 
+    const handleReset = () => {
+        setValues([]);
+        setCurrentStep(firstStep);
+        setRecipe(INITIAL_RECIPE);
+        setImageIndex(0);
+        console.log('RESET');
+    };
+
     const handlePrevStep = () => {
         const prevStepIndex = stepIndex - 1;
 
         if (prevStepIndex >= 0) {
             if (currentStep !== FINAL_STEP) {
-                setValues(prevState => prevState.slice(0, prevState.length - 1));
+                setValues(prevValues => prevValues.slice(0, prevValues.length - 1));
             }
 
             const newImageIndex = (imageIndex - 1 + images.length) % images.length;
@@ -180,31 +193,6 @@ const ChooseLenses = ({
         }
     };
 
-    const handleReset = () => {
-        setValues([]);
-        setCurrentStep(firstStep);
-        setRecipe(INITIAL_RECIPE);
-        setImageIndex(0);
-    };
-
-    const selectedLenses = getLensesByValues({ lenses, values });
-    const [selectedLens = {}] = selectedLenses;
-
-    const handleAddToCart = () => {
-        if (selectedLens.id) {
-            onAddToCart({
-                variables: {
-                    input: {
-                        item_id: itemId,
-                        lenses: JSON.stringify({
-                            recipes: recipe,
-                            lenses: selectedLens.id,
-                        }),
-                    },
-                },
-            });
-        }
-    };
 
     const totalPrice = values.reduce(
         (acc, { price }) => (price ? acc + parseInt(price, 10) : acc),
@@ -212,7 +200,6 @@ const ChooseLenses = ({
     );
     const stepWidthStyle = 100 / steps.length;
     const progressWidth = `${stepWidthStyle * stepIndex}%`;
-    const isFirstStep = currentStep === firstStep;
 
     const StepView = () => {
         const { recipes } = selectedLens;
@@ -230,7 +217,7 @@ const ChooseLenses = ({
                     .filter(Boolean);
                 const getRecipeById = searchId => {
                     const { id, name, range_from: rangeFrom, range_to: rangeTo, step } =
-                        recipes.find(({ id }) => id === searchId) || {};
+                        recipes.find(item => item.id === searchId) || {};
                     const items = getRecipeItems({ rangeFrom, rangeTo, step });
 
                     return { id, name, items };
@@ -281,7 +268,13 @@ const ChooseLenses = ({
                                 </div>
                             ))}
                             <div className={styles.reviewActions}>
-                                <Button kind="primary" size="large" onClick={handleClick} bold fullWidth>
+                                <Button
+                                    kind="primary"
+                                    size="large"
+                                    onClick={handleSubmitRecipe}
+                                    bold
+                                    fullWidth
+                                >
                                     <FormattedMessage id="p_product_select_lenses_next_button" />
                                 </Button>
                             </div>
@@ -293,7 +286,7 @@ const ChooseLenses = ({
                 const recipeList = Object.entries(recipe).reduce((obj, [key, value]) => {
                     if (/(left|right)/.test(key)) {
                         const bar = Object.entries(value).map(([id, value]) => {
-                            const { name } = recipes.find(recipe => recipe.id === parseInt(id, 10)) || {};
+                            const { name } = recipes.find(item => item.id === parseInt(id, 10)) || {};
 
                             return { name, id: parseInt(id, 10), value };
                         });
@@ -304,7 +297,7 @@ const ChooseLenses = ({
                         };
                     }
 
-                    const { name } = recipes.find(recipe => recipe.id === parseInt(key, 10)) || {};
+                    const { name } = recipes.find(item => item.id === parseInt(key, 10)) || {};
 
                     return { ...obj, [key]: { name, value } };
                 }, {});
@@ -320,11 +313,11 @@ const ChooseLenses = ({
                             <FormattedMessage id="p_product_select_lenses_review_text" />
                         </div>
                         <div className={styles.reviewsWrapper}>
-                            {values.map(({ step, id, name, price }) => (
+                            {values.map(({ name, id, value, price }) => (
                                 <div key={id} className={styles.review}>
                                     <div>
-                                        <div className={styles.reviewTitle}>{step}</div>
-                                        <div className={styles.reviewItem}>{name}</div>
+                                        <div className={styles.reviewTitle}>{name}</div>
+                                        <div className={styles.reviewItem}>{value}</div>
                                     </div>
                                     {price > 0 ? (
                                         <div className={styles.reviewItem}>
@@ -346,7 +339,27 @@ const ChooseLenses = ({
                             <RecipeTable recipe={recipeList} />
                         </div>
                         <div className={styles.reviewActions}>
-                            <Button kind="primary" size="large" onClick={handleAddToCart} bold fullWidth>
+                            <Button
+                                kind="primary"
+                                size="large"
+                                onClick={() => {
+                                    if (!selectedLens) return;
+
+                                    onAddToCart({
+                                        variables: {
+                                            input: {
+                                                item_id: itemId,
+                                                lenses: JSON.stringify({
+                                                    recipes: recipe,
+                                                    lenses: selectedLens.id,
+                                                }),
+                                            },
+                                        },
+                                    });
+                                }}
+                                bold
+                                fullWidth
+                            >
                                 {loadingAddToCart ? (
                                     <Loader kind="secondary" />
                                 ) : (
@@ -364,6 +377,12 @@ const ChooseLenses = ({
                 );
             }
             default: {
+                const currentOptions = getOptionsByStep({
+                    stepPrice,
+                    lenses: getLensesByValues({ lenses, values }),
+                    step: currentStep,
+                });
+
                 return (
                     <>
                         <div className={styles.heading}>
@@ -381,7 +400,7 @@ const ChooseLenses = ({
                                         key={id}
                                         type="button"
                                         className={styles.rail}
-                                        onClick={() => handleClick({ id, name, price })}
+                                        onClick={() => handleClick({ id, value: name, price })}
                                     >
                                         <div className={styles.railHead}>
                                             <div className={styles.pill}>{name}</div>
@@ -410,18 +429,43 @@ const ChooseLenses = ({
                                     </button>
                                 ))}
                             </div>
-                            <div className={styles.subtotal}>
-                                <span>
-                                    <FormattedMessage id="p_product_select_lenses_subtotal" />
-                                </span>
-                                <span>
-                                    <FormattedMessage
-                                        id="currency"
-                                        values={{
-                                            price: totalPrice,
+                            <div className={styles.stepFooter}>
+                                {isFirstStep && (
+                                    <Button
+                                        className={styles.buyWoLenses}
+                                        onClick={() => {
+                                            onAddToCart({
+                                                variables: {
+                                                    input: {
+                                                        item_id: itemId,
+                                                    },
+                                                },
+                                            });
                                         }}
-                                    />
-                                </span>
+                                        kind="primary"
+                                        bold
+                                        fullWidth
+                                    >
+                                        {loadingAddToCart ? (
+                                            <Loader kind="secondary" />
+                                        ) : (
+                                            <FormattedMessage id="p_product_select_lenses_buy_wo_lenses" />
+                                        )}
+                                    </Button>
+                                )}
+                                <div className={styles.subtotal}>
+                                    <span>
+                                        <FormattedMessage id="p_product_select_lenses_subtotal" />
+                                    </span>
+                                    <span>
+                                        <FormattedMessage
+                                            id="currency"
+                                            values={{
+                                                price: totalPrice,
+                                            }}
+                                        />
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </>
