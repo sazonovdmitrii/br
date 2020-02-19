@@ -7,7 +7,7 @@ import { useHistory } from 'react-router';
 
 import { ADD_TO_BASKET } from 'mutations';
 import { GET_SHORT_BASKET, GET_BASKET } from 'query';
-import { useApp, useLangLinks } from 'hooks';
+import { useApp, useLangLinks, useLang } from 'hooks';
 import { metrics } from 'utils';
 import LANGS from 'lang';
 
