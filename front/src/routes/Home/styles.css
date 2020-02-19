@@ -59,10 +59,12 @@
     max-width: 100%;
     padding: 0 24px;
     text-align: center;
+    margin-bottom: 15px;
 
     @media (--viewport-ipad) {
         flex: 0 0 60%;
         max-width: 60%;
+        margin: 0;
     }
 }
 

@@ -13,9 +13,13 @@ import bgImage from './images/bg.jpg';
 import bgImageRetina from './images/bg@2x.jpg';
 
 import menSunglassesImg from './images/men-sunglasses.jpg';
+import menSunglassesImgWebp from './images/men-sunglasses.webp';
 import womenSunglassesImg from './images/women-sunglasses.jpg';
+import womenSunglassesImgWebp from './images/women-sunglasses.webp';
 import menEyeglassesImg from './images/men-eyeglasses.jpg';
+import menEyeglassesImgWebp from './images/men-eyeglasses.webp';
 import womenEyeglassesImg from './images/women-eyeglasses.jpg';
+import womenEyeglassesImgWebp from './images/women-eyeglasses.webp';
 
 const VALUES = { br: <br /> };
 
@@ -58,6 +62,12 @@ export default () => {
             <Container>
                 <div className={styles.section}>
                     <div className={styles.sectionRow}>
+                        <div className={styles.imageContainer}>
+                            <picture>
+                                <source type="image/webp" srcSet={menSunglassesImgWebp} />
+                                <img src={menSunglassesImg} alt="" />
+                            </picture>
+                        </div>
                         <div className={styles.body}>
                             <div className={styles.title}>
                                 <FormattedMessage id="p_home_mensunglasses_title" />
@@ -71,13 +81,16 @@ export default () => {
                                 </Button>
                             </div>
                         </div>
-                        <div className={styles.imageContainer}>
-                            <img src={menSunglassesImg} alt="" />
-                        </div>
                     </div>
                 </div>
                 <div className={styles.section}>
                     <div className={styles.sectionRow}>
+                        <div className={styles.imageContainer}>
+                            <picture>
+                                <source type="image/webp" srcSet={womenSunglassesImgWebp} />
+                                <img src={womenSunglassesImg} alt="" />
+                            </picture>
+                        </div>
                         <div className={styles.body}>
                             <div className={styles.title}>
                                 <FormattedMessage id="p_home_womensunglasses_title" />
@@ -91,13 +104,16 @@ export default () => {
                                 </Button>
                             </div>
                         </div>
-                        <div className={styles.imageContainer}>
-                            <img src={womenSunglassesImg} alt="" />
-                        </div>
                     </div>
                 </div>
                 <div className={styles.section}>
                     <div className={styles.sectionRow}>
+                        <div className={styles.imageContainer}>
+                            <picture>
+                                <source type="image/webp" srcSet={menEyeglassesImgWebp} />
+                                <img src={menEyeglassesImg} alt="" />
+                            </picture>
+                        </div>
                         <div className={styles.body}>
                             <div className={styles.title}>
                                 <FormattedMessage id="p_home_meneyeglasses_title" />
@@ -111,13 +127,16 @@ export default () => {
                                 </Button>
                             </div>
                         </div>
-                        <div className={styles.imageContainer}>
-                            <img src={menEyeglassesImg} alt="" />
-                        </div>
                     </div>
                 </div>
                 <div className={styles.section}>
                     <div className={styles.sectionRow}>
+                        <div className={styles.imageContainer}>
+                            <picture>
+                                <source type="image/webp" srcSet={womenEyeglassesImgWebp} />
+                                <img src={womenEyeglassesImg} alt="" />
+                            </picture>
+                        </div>
                         <div className={styles.body}>
                             <div className={styles.title}>
                                 <FormattedMessage id="p_home_womeneyeglasses_title" />
@@ -130,9 +149,6 @@ export default () => {
                                     <FormattedMessage id="p_home_eyeglasses_button" />
                                 </Button>
                             </div>
-                        </div>
-                        <div className={styles.imageContainer}>
-                            <img src={womenEyeglassesImg} alt="" />
                         </div>
                     </div>
                 </div>
