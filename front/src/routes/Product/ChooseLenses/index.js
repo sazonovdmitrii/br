@@ -29,7 +29,7 @@ const INITIAL_RECIPE = SIDES.reduce(
             9: '0',
         },
     }),
-    {}
+    { extraData: {} }
 );
 
 const getRecipeItems = ({ rangeFrom, rangeTo, step }) => {
@@ -164,7 +164,10 @@ const ChooseLenses = ({
                       },
                   }
                 : {
-                      [id]: value,
+                      extraData: {
+                          ...prevRecipe.extraData,
+                          [id]: value,
+                      },
                   }),
         }));
     };
@@ -192,7 +195,6 @@ const ChooseLenses = ({
             setCurrentStep(steps[prevStepIndex]);
         }
     };
-
 
     const totalPrice = values.reduce(
         (acc, { price }) => (price ? acc + parseInt(price, 10) : acc),
@@ -240,7 +242,7 @@ const ChooseLenses = ({
                                     label={pupilDistance.name}
                                     name={pupilDistance.id}
                                     items={pupilDistance.items}
-                                    value={recipe[pupilDistance.id]}
+                                    value={recipe.extraData[pupilDistance.id]}
                                     onChange={value =>
                                         handleChangeSelect({
                                             value,
@@ -284,22 +286,26 @@ const ChooseLenses = ({
             }
             case FINAL_STEP: {
                 const recipeList = Object.entries(recipe).reduce((obj, [key, value]) => {
-                    if (/(left|right)/.test(key)) {
-                        const bar = Object.entries(value).map(([id, value]) => {
-                            const { name } = recipes.find(item => item.id === parseInt(id, 10)) || {};
+                    const newValue = Object.entries(value).map(([id, value]) => {
+                        const { name } = recipes.find(item => item.id === parseInt(id, 10)) || {};
 
-                            return { name, id: parseInt(id, 10), value };
-                        });
+                        return { name, id: parseInt(id, 10), value };
+                    });
 
+                    if (/left|right/.test(key)) {
                         return {
                             ...obj,
-                            [key]: bar,
+                            sides: {
+                                ...obj.sides,
+                                [key]: newValue,
+                            },
                         };
                     }
 
-                    const { name } = recipes.find(item => item.id === parseInt(key, 10)) || {};
-
-                    return { ...obj, [key]: { name, value } };
+                    return {
+                        ...obj,
+                        [key]: newValue,
+                    };
                 }, {});
 
                 return (
@@ -349,9 +355,9 @@ const ChooseLenses = ({
                                         variables: {
                                             input: {
                                                 item_id: itemId,
-                                                lenses: JSON.stringify({
+                                                lense: JSON.stringify({
                                                     recipes: recipe,
-                                                    lenses: selectedLens.id,
+                                                    lense: selectedLens.id,
                                                 }),
                                             },
                                         },
