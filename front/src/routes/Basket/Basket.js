@@ -108,13 +108,12 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
     const isCouponApplied = coupon.active;
 
     const totalSum = products.reduce(
-        (acc, { price, coupon_price: couponPrice, lense }) =>
-            acc + parseInt(price, 10) + (lense ? parseInt(lense.price, 10) : 0),
+        (acc, { price, lense }) => acc + parseInt(price, 10) + (lense.price ? parseInt(lense.price, 10) : 0),
         0
     );
     const totalSumWithCoupon = products.reduce(
-        (acc, { price, coupon_price: couponPrice, lense }) =>
-            acc + parseInt(couponPrice, 10) + (lense ? parseInt(lense.price, 10) : 0),
+        (acc, { coupon_price: couponPrice, lense }) =>
+            acc + parseInt(couponPrice, 10) + (lense.price ? parseInt(lense.price, 10) : 0),
         0
     );
     const totalSumWithDelivery =
