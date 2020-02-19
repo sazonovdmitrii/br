@@ -108,13 +108,13 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
     const isCouponApplied = coupon.active;
 
     const totalSum = products.reduce(
-        (acc, { price, coupon_price: couponPrice, lenses }) =>
-            acc + parseInt(price, 10) + (lenses.lenses ? parseInt(lenses.lenses.price, 10) : 0),
+        (acc, { price, coupon_price: couponPrice, lense }) =>
+            acc + parseInt(price, 10) + (lense ? parseInt(lense.price, 10) : 0),
         0
     );
     const totalSumWithCoupon = products.reduce(
-        (acc, { price, coupon_price: couponPrice, lenses }) =>
-            acc + parseInt(couponPrice, 10) + (lenses.lenses ? parseInt(lenses.lenses.price, 10) : 0),
+        (acc, { price, coupon_price: couponPrice, lense }) =>
+            acc + parseInt(couponPrice, 10) + (lense ? parseInt(lense.price, 10) : 0),
         0
     );
     const totalSumWithDelivery =
@@ -494,53 +494,44 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                     theme={{ ...theme, body: styles.firstStepBody }}
                 >
                     <div className={styles.products}>
-                        {products.map(
-                            ({
-                                name,
-                                item,
-                                lenses: { lenses, recipes } = {},
-                                price,
-                                coupon_price: couponPrice,
-                                url,
-                            }) => (
-                                <BasketProduct
-                                    key={item.id}
-                                    images={item.images[0]}
-                                    name={name}
-                                    recipes={recipes}
-                                    options={lenses ? lenses.options : []}
-                                    subName={item.name}
-                                    oldPrice={
-                                        isCouponApplied && (
-                                            <FormattedMessage
-                                                id="currency"
-                                                values={{
-                                                    price:
-                                                        parseInt(price, 10) +
-                                                        (lenses ? parseInt(lenses.price, 10) : 0),
-                                                }}
-                                            />
-                                        )
-                                    }
-                                    price={
+                        {products.map(({ name, item, lense, price, coupon_price: couponPrice, url }) => (
+                            <BasketProduct
+                                key={item.id}
+                                images={item.images[0]}
+                                name={name}
+                                recipes={lense.recipes}
+                                options={lense.options ? lense.options : []}
+                                subName={item.name}
+                                oldPrice={
+                                    isCouponApplied && (
                                         <FormattedMessage
                                             id="currency"
                                             values={{
                                                 price:
-                                                    parseInt(isCouponApplied ? couponPrice : price, 10) +
-                                                    (lenses ? parseInt(lenses.price, 10) : 0),
+                                                    parseInt(price, 10) +
+                                                    (lense.price ? parseInt(lense.price, 10) : 0),
                                             }}
                                         />
-                                    }
-                                    url={url}
-                                    onRemove={() => {
-                                        handleRemoveProduct({
-                                            variables: { input: { item_id: item.id } },
-                                        });
-                                    }}
-                                />
-                            )
-                        )}
+                                    )
+                                }
+                                price={
+                                    <FormattedMessage
+                                        id="currency"
+                                        values={{
+                                            price:
+                                                parseInt(isCouponApplied ? couponPrice : price, 10) +
+                                                (lense.price ? parseInt(lense.price, 10) : 0),
+                                        }}
+                                    />
+                                }
+                                url={url}
+                                onRemove={() => {
+                                    handleRemoveProduct({
+                                        variables: { input: { item_id: item.id } },
+                                    });
+                                }}
+                            />
+                        ))}
                     </div>
                     <Sidebar
                         className={styles.sidebar}
