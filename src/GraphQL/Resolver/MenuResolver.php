@@ -36,7 +36,7 @@ class MenuResolver extends LocaleAlias
 
         $result = [];
         if($topMenu && $topMenu->getMenu()) {
-            $menu = str_replace('"undefined"', '', $topMenu->getMenu());
+            $menu = str_replace('"undefined"', 'null', $topMenu->getMenu());
             $menu = json_decode($menu, true);
             $result = $menu[0]['children'];
         }
