@@ -12,21 +12,25 @@ const BasketProducts = gql`
                 name
                 images
             }
-            lenses {
-                lenses {
+            lense {
+                name
+                price
+                options {
                     name
-                    price
-                    options {
-                        name
-                        value
-                    }
+                    value
                 }
                 recipes {
-                    left {
-                        name
-                        value
+                    sides {
+                        left {
+                            name
+                            value
+                        }
+                        right {
+                            name
+                            value
+                        }
                     }
-                    right {
+                    extraData {
                         name
                         value
                     }

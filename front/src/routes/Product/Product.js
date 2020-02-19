@@ -7,8 +7,9 @@ import { useHistory } from 'react-router';
 
 import { ADD_TO_BASKET } from 'mutations';
 import { GET_SHORT_BASKET, GET_BASKET } from 'query';
-import { useApp, useLangLinks } from 'hooks';
+import { useApp, useLangLinks, useLang } from 'hooks';
 import { metrics } from 'utils';
+import LANGS from 'lang';
 
 import SeoHead from 'components/SeoHead';
 import Button from 'components/Button';
@@ -33,6 +34,7 @@ const Product = ({
     similars: { edges: similars = [] },
     lenses,
 }) => {
+    const lang = useLang();
     const history = useHistory();
     const { createNotification } = useApp();
     const [buyLink] = useLangLinks(['/retail']);
@@ -66,7 +68,8 @@ const Product = ({
                     },
                 });
 
-                history.push('/cart');
+                const defaultLang = LANGS.find(item => item.default);
+                history.push(defaultLang === lang ? '/cart' : `/${lang}/cart`);
             }
         },
         onError({ graphQLErrors: [{ message }] }) {

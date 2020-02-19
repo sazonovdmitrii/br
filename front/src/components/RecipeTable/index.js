@@ -1,29 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import styles from './styles.css';
 
-const PUPIL_DISTANCE_ID = 11;
-
-const RecipeTable = ({ recipe = {} }) => {
-    const recipeList = Object.entries(recipe)
-        .map(([key, value]) => {
-            if (/(left|right)/.test(key)) {
-                return {
-                    position: 1,
-                    side: key,
-                    items: value,
-                };
-            } else {
-                return {
-                    position: 2,
-                    id: key,
-                    ...value,
-                };
-            }
-        })
-        .sort((a, b) => a.position - b.position);
+const RecipeTable = ({ recipe }) => {
+    const sides = Object.entries(recipe.sides)
+        .map(([key, value]) => (/left|right/.test(key) ? { side: key, items: value } : null))
+        .filter(Boolean);
 
     return (
         <>
@@ -31,49 +15,55 @@ const RecipeTable = ({ recipe = {} }) => {
                 <thead>
                     <tr>
                         <th />
-                        {recipe.left.map(({ id, name }) => (
-                            <th key={id} className={styles.tableHeading}>
+                        {recipe.sides.left.map(({ name }, index) => (
+                            <th key={index} className={styles.tableHeading}>
                                 {name}
                             </th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {recipeList.map(({ side, items, name, value, id }) =>
-                        items ? (
-                            <tr key={side}>
-                                <th className={styles.tableHeading}>
-                                    <FormattedMessage id={`p_product_select_lenses_${side}`} />
+                    {sides.map(({ side, items }) => (
+                        <tr key={side}>
+                            <th className={styles.tableHeading}>
+                                <FormattedMessage id={`p_product_select_lenses_${side}`} />
+                            </th>
+                            {items.map((item, index) => (
+                                <td key={index} className={styles.tableValue}>
+                                    {item.value}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                    {recipe.extraData.map(({ name, value }) => (
+                        <Fragment key={name}>
+                            <tr>
+                                <th className={styles.tableHeading} colSpan="4">
+                                    {name}
                                 </th>
-                                {items.map(item => (
-                                    <td key={item.id} className={styles.tableValue}>
-                                        {item.value}
-                                    </td>
-                                ))}
                             </tr>
-                        ) : (
-                            <>
-                                <tr>
-                                    <th className={styles.tableHeading} colSpan="4">
-                                        {name}
-                                    </th>
-                                </tr>
-                                <tr key={side}>
-                                    <td className={styles.tableValue} colSpan="4">
-                                        {value}
-                                    </td>
-                                </tr>
-                            </>
-                        )
-                    )}
+                            <tr>
+                                <td className={styles.tableValue} colSpan="4">
+                                    {value}
+                                </td>
+                            </tr>
+                        </Fragment>
+                    ))}
                 </tbody>
             </table>
         </>
     );
 };
 
-RecipeTable.defaultProps = {};
+RecipeTable.defaultProps = {
+    recipe: {},
+};
 
-RecipeTable.propTypes = {};
+RecipeTable.propTypes = {
+    recipe: PropTypes.shape({
+        sides: PropTypes.objectOf(PropTypes.array),
+        extraData: PropTypes.arrayOf(PropTypes.string),
+    }),
+};
 
 export default RecipeTable;
