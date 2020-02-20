@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
+import { FormattedMessage } from 'react-intl';
+import { useQuery } from '@apollo/react-hooks';
 import classnames from 'classnames/bind';
+
+import { IS_LOGGED_IN } from 'query';
+import { useLangLinks, useApp } from 'hooks';
 
 import styles from './mobile.css';
 
@@ -52,12 +56,14 @@ const Item = ({ image, items, active, text, url, onLink, onClick, value }) => {
             ) : (
                 <Link className={styles.button} to={url}>
                     <div className={styles.buttonLabel}>{text}</div>
-                    <div
-                        className={styles.buttonImage}
-                        style={{
-                            backgroundImage: `url("${image}")`,
-                        }}
-                    />
+                    {image && (
+                        <div
+                            className={styles.buttonImage}
+                            style={{
+                                backgroundImage: `url("${image}")`,
+                            }}
+                        />
+                    )}
                 </Link>
             )}
         </li>
@@ -65,6 +71,9 @@ const Item = ({ image, items, active, text, url, onLink, onClick, value }) => {
 };
 
 const MobileMenu = ({ items, active: activeProps, onClick }) => {
+    const { logout, login } = useApp();
+    const { data: { isLoggedIn } = {} } = useQuery(IS_LOGGED_IN);
+    const [retailsLink, accountLink, signInLink] = useLangLinks(['/retail', '/account', '/account/login']);
     const [activeItem, setActiveItem] = useState(null);
     const rootClassName = cx(styles.root, { active: activeProps });
     const rootNode = useRef(null);
@@ -85,6 +94,15 @@ const MobileMenu = ({ items, active: activeProps, onClick }) => {
             domNode.style = null;
         };
     }, [activeProps, domNode.style]);
+
+    const handleClick = () => {
+        onClick();
+    };
+
+    const handleLogOut = () => {
+        logout();
+        onClick();
+    };
 
     return (
         <div ref={rootNode} className={rootClassName}>
@@ -110,6 +128,35 @@ const MobileMenu = ({ items, active: activeProps, onClick }) => {
                         );
                     })}
                 </ul>
+                <div className={styles.secondaryLinks}>
+                    <ul className={styles.secondaryLinksList}>
+                        <li className={styles.secondaryLinksItem}>
+                            <Link to={retailsLink} onClick={handleClick}>
+                                <FormattedMessage id="locations" />
+                            </Link>
+                        </li>
+                        {isLoggedIn ? (
+                            <>
+                                <li className={styles.secondaryLinksItem}>
+                                    <Link to={accountLink} onClick={handleClick}>
+                                        <FormattedMessage id="account" />
+                                    </Link>
+                                </li>
+                                <li className={styles.secondaryLinksItem}>
+                                    <Link onClick={handleLogOut}>
+                                        <FormattedMessage id="sign_out" />
+                                    </Link>
+                                </li>
+                            </>
+                        ) : (
+                            <li className={styles.secondaryLinksItem}>
+                                <Link to={signInLink} onClick={handleClick}>
+                                    <FormattedMessage id="sign_in" />
+                                </Link>
+                            </li>
+                        )}
+                    </ul>
+                </div>
             </div>
         </div>
     );

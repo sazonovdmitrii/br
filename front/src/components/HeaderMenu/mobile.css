@@ -158,3 +158,21 @@
 
 .childText {
 }
+
+.secondaryLinks {
+    margin-top: 15px;
+    padding: 0 15px;
+}
+
+.secondaryLinksList {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.secondaryLinksItem {
+    font-weight: var(--font-weight-bold);
+    line-height: 1.63;
+    padding: 0 15px;
+    margin-bottom: 24px;
+}
