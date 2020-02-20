@@ -1,6 +1,4 @@
 {
-    "p_prescription_title": "Рецепты",
-
     "p_order_title": "Спасибо за заказ №{id}",
     "p_order_payment_method": "Способ оплаты",
     "p_order_delivery_method": "Способ доставки",
@@ -50,7 +48,6 @@
     "p_catalog_filters_modal_reset_button": "Сбросить фильтры ({count})",
     "p_catalog_filters_modal_button": "Показать {count}",
     "p_catalog_filters_button": "Фильтры",
-
     "p_catalog_meta_title": "{name} купить с доставкой в Москве",
     "p_hometry_meta_title": "Бесплатная примерка очков",
     "p_hometry_title": "Бесплатная примерка очков",
@@ -100,9 +97,6 @@
     "с_collection_title": "Коллекция 2020",
     "с_collection_text": "Дизайнерские модели{br}Биометалл и керамические детали{br}Ацетат Мацукелли{br}Оправы 100% сделаны в Италии",
     "c_headermenu_hometry_title": "Выберите 5 оправ и примерьте их дома бесплатно",
-    "c_headermenu_hometry_button_eyeglasses": "Очки для зрения",
-    "c_headermenu_hometry_button_sunglasses": "Солнцезащитные очки",
-
     "terms_and_conditions": "Создавая эту учетную запись, вы соглашаетесь с <terms>Публичной офертой</terms> и <privacy>Политикой конфиденциальности</privacy>",
     "your_cart": "Ваша корзина",
     "p_cart_empty_title": "Ваша корзина пуста",
