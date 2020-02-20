@@ -25,11 +25,11 @@ const UserMenu = () => {
     const { logout, login } = useApp();
     const { loading: loadingShortBasket, data: { basket } = {} } = useQuery(GET_SHORT_BASKET, { ssr: false });
     const { data: { isLoggedIn } = {} } = useQuery(IS_LOGGED_IN);
-    const [reailsLink, accountLink, signInLink, profileLink, favoritesLink, ordersLink] = useLangLinks([
+    const [retailsLink, accountLink, signInLink, profileLink, favoritesLink, ordersLink] = useLangLinks([
         '/retail',
         '/account',
         '/account/login',
-        '/account/personal',
+        '/account/profile',
         '/account/favorites',
         '/account/orders',
     ]);
@@ -55,6 +55,8 @@ const UserMenu = () => {
     };
 
     const submenuClassName = cx(styles.submenu, { open: openSubMenu });
+    const itemHideOnTablet = cx(styles.item, { hideOnTablet: true });
+    const itemWithTextHideOnTablet = cx(styles.itemWithText, { hideOnTablet: true });
 
     return (
         <>
@@ -77,20 +79,20 @@ const UserMenu = () => {
                     </div>
                 </li>
                 <li className={styles.line} />
-                <li className={styles.itemWithText}>
+                <li className={itemWithTextHideOnTablet}>
                     <div className={styles.icon}>
-                        <Link to={reailsLink} className={styles.link}>
+                        <Link to={retailsLink} className={styles.link}>
                             <MapPinIcon size="20" />
                         </Link>
                     </div>
                     <div className={styles.text}>
-                        <Link to={reailsLink}>
+                        <Link to={retailsLink}>
                             <FormattedMessage id="locations" />
                         </Link>
                     </div>
                 </li>
                 {isLoggedIn ? (
-                    <li className={styles.itemWithText}>
+                    <li className={itemWithTextHideOnTablet}>
                         <div className={styles.icon}>
                             <Link to={accountLink} className={styles.link}>
                                 <UserIcon size="20" />
@@ -112,13 +114,13 @@ const UserMenu = () => {
                                 </Link>
                             </li>
                             <li className={styles.submenuItem}>
-                                {/* <Link
+                                <Link
                                     className={styles.submenuLink}
                                     to={profileLink}
                                     onClick={handleCloseSubMenu}
                                 >
                                     <FormattedMessage id="profile" />
-                                </Link> */}
+                                </Link>
                             </li>
                             <li className={styles.submenuItem}>
                                 {/* <Link
@@ -146,7 +148,7 @@ const UserMenu = () => {
                         </ul>
                     </li>
                 ) : (
-                    <li className={styles.itemWithText}>
+                    <li className={itemWithTextHideOnTablet}>
                         <div className={styles.icon}>
                             <Link to={signInLink} className={styles.link}>
                                 <UserIcon size="20" />

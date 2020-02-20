@@ -17,6 +17,14 @@
     &:not(:last-child) {
         margin-right: 20px;
     }
+
+    &.hideOnTablet {
+        display: none;
+
+        @media (--viewport-tablet) {
+            display: inline-flex;
+        }
+    }
 }
 
 .itemWithText {
@@ -43,6 +51,14 @@
 
         @media (--viewport-desktop) {
             display: block;
+        }
+    }
+
+    &.hideOnTablet {
+        display: none;
+
+        @media (--viewport-tablet) {
+            display: inline-flex;
         }
     }
 }

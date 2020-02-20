@@ -67,22 +67,19 @@
 
 .logoLink {
     display: block;
-    max-width: 35px;
     margin: 0 auto;
+    width: 120px;
 
     @media (--viewport-ipad) {
+        width: 100%;
         max-width: 190px;
     }
 }
 
 .logo {
-    display: none;
+    display: block;
     width: inherit;
     height: inherit;
-
-    @media (--viewport-ipad) {
-        display: block;
-    }
 }
 
 .mobileLogo {

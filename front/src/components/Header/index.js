@@ -9,7 +9,6 @@ import HeaderMenu from 'components/HeaderMenu';
 import Container from 'components/Container';
 
 import Logo from './images/logo.svg';
-import MobileLogo from './images/mobilelogo.svg';
 
 import styles from './styles.css';
 
@@ -45,7 +44,6 @@ export default ({ lang }) => {
                         <div className={styles.item}>
                             <Link to={homeLink} className={styles.logoLink}>
                                 <Logo className={styles.logo} />
-                                <MobileLogo className={styles.mobileLogo} />
                             </Link>
                         </div>
                         <div className={styles.item}>
