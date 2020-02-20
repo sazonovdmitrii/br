@@ -1,11 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useQuery } from '@apollo/react-hooks';
 
 import { useLangLinks } from 'hooks';
-import { GET_BANNERS } from 'query';
 
-import Banners from 'components/Banners';
 import Button from 'components/Button';
 import CollectionSection from 'components/CollectionSection';
 import Container from 'components/Container';
@@ -27,7 +24,6 @@ import womenEyeglassesImgWebp from './images/women-eyeglasses.webp';
 const VALUES = { br: <br /> };
 
 export default () => {
-    const { data, loading, error } = useQuery(GET_BANNERS);
     const [menSunglassesUrl, womenSunglassesUrl, menEyeglassesUrl, womenEyeglassesUrl] = useLangLinks([
         '/muzhskie-solncezashhitnye-ochki/',
         '/zhenskie-solncezashhitnye-ochki/',
@@ -38,15 +34,6 @@ export default () => {
     return (
         <>
             <Container>
-                {loading || error ? null : (
-                    <Banners>
-                        {data.banners.data.map(({ bannerItems }) =>
-                            bannerItems.map(({ id, link, images }) => (
-                                <img id={id} src={images.banner.original.path} srcSet="" alt="" />
-                            ))
-                        )}
-                    </Banners>
-                )}
                 <HeroLanding
                     title={<FormattedMessage id="p_home_hero_title" values={VALUES} />}
                     image={{ source: bgImage, retina: bgImageRetina }}
