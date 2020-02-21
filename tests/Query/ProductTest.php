@@ -60,5 +60,26 @@ class ProductTest extends GraphQLTesting
             'name',
             'value'
         ], array_keys($tags[0]));
+
+        $lenses = $product['lenses'];
+        $this->assertNotEmpty($lenses);
+
+        $this->assertArraySubset([
+            'id',
+            'name',
+            'price',
+            'recipes'
+        ], array_keys($lenses[0]));
+
+        $recipes = $lenses[0]['recipes'];
+        $this->assertNotEmpty($recipes);
+
+        $this->assertArraySubset([
+            'id',
+            'name',
+            'range_from',
+            'range_to',
+            'step'
+        ], array_keys($recipes[0]));
     }
 }

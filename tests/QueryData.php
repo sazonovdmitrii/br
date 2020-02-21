@@ -357,6 +357,29 @@ GRAPHQL;
                   name
                   value
                 }
+                lenses {
+                    id
+                    name
+                    price
+                    recipes {
+                        id
+                        name
+                        range_from
+                        range_to
+                        step
+                    }
+                    lenseitemstags {
+                        id
+                        name
+                        visible
+                        description
+                        entity {
+                            id
+                            name
+                            visible
+                        }
+                    }
+                }
               }
             }
 GRAPHQL;
