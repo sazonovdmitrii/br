@@ -63,7 +63,9 @@ const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, 
         url ? (
             <Link {...props} onClick={handleSEOClick} />
         ) : (
-            <div className={props.className}>{props.children}</div>
+            <div className={props.className} onClick={onClick}>
+                {props.children}
+            </div>
         );
 
     return (

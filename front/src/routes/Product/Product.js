@@ -69,7 +69,7 @@ const Product = ({
                 });
 
                 const defaultLang = LANGS.find(item => item.default);
-                history.push(defaultLang === lang ? '/cart' : `/${lang}/cart`);
+                history.push(defaultLang.value === lang ? '/cart' : `/${lang}/cart`);
             }
         },
         onError({ graphQLErrors: [{ message }] }) {
@@ -210,6 +210,28 @@ const Product = ({
                     </picture>
                 </div>
             )}
+            {items.length > 1 ? (
+                <div className={styles.section}>
+                    <h2 className={sectionTitleCenterClassName}>
+                        <FormattedMessage id="p_product_section_colors_title" />
+                    </h2>
+                    <div className={styles.related}>
+                        {items.map(({ node: product }) => (
+                            <div key={product.id} className={styles.relatedProduct}>
+                                <ProductCard
+                                    name={product.name}
+                                    url={product.url}
+                                    image={product.images[0] ? product.images[0] : null}
+                                    onClick={() => {
+                                        window.scrollTo(0, 0);
+                                        handleChangeColor(product.id);
+                                    }}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : null}
             {similars.length ? (
                 <div className={styles.section}>
                     <h2 className={sectionTitleCenterClassName}>
