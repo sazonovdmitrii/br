@@ -44,6 +44,8 @@
 {% block main %}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     {% set order = form.vars.data %}
+    <h4>Создан:</h4>
+    <h5>{{ order.created |date("Y.m.d H:i:s") }}</h5>
     <h4>Покупатель:</h4>
     <h5>{{ order.getUserId().email }}</h5>
     {% if order.payment %}
@@ -74,6 +76,7 @@
         <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Артикул</th>
             <th scope="col">Наименование</th>
             <th scope="col">Количество</th>
             <th scope="col">Линзы</th>
@@ -85,7 +88,8 @@
             {% set lenses = json.json_decode(item.getLenses()) %}
             <tr>
                 <td>{{ item.getItem().id }}</td>
-                <td>{{ item.getItem().name }}</td>
+                <td>{{ item.item.product.sku}}</td>
+                <td>{{ item.item.product.name }} {{ item.item.name }}</td>
                 <td>{{ item.qty }}</td>
                 <td>
                     {% if lenses|length %}
