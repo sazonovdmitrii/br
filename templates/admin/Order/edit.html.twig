@@ -48,6 +48,8 @@
     <h5>{{ order.created |date("Y.m.d H:i:s") }}</h5>
     <h4>Покупатель:</h4>
     <h5>{{ order.getUserId().email }}</h5>
+    <h4>Телефон:</h4>
+    <h5>{{ order.getUserId().phone }}</h5>
     {% if order.payment %}
         <h4>Платежный метод:</h4>
         <h5>Код: {{ order.payment.id }} ({{ order.payment.title }} - {{ order.payment.description }})</h5>
@@ -79,43 +81,23 @@
             <th scope="col">Артикул</th>
             <th scope="col">Наименование</th>
             <th scope="col">Количество</th>
-            <th scope="col">Линзы</th>
-            <th scope="col">Рецепт</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Цена по скидке</th>
+            <th scope="col">Линзы/Рецепт</th>
         </tr>
         </thead>
         <tbody>
         {% for item in order.getOrderItems() %}
-            {% set lenses = json.json_decode(item.getLenses()) %}
             <tr>
                 <td>{{ item.getItem().id }}</td>
                 <td>{{ item.item.product.sku}}</td>
                 <td>{{ item.item.product.name }} {{ item.item.name }}</td>
                 <td>{{ item.qty }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.getCouponPrice() }}</td>
                 <td>
-                    {% if lenses|length %}
-                        <b>{{ lenses.lenses.name }}</b><br/>
-                        {% for lense in lenses.lenses.options %}
-                            {{ lense.name }}
-                            {{ lense.value }}
-                            <br/>
-                        {% endfor %}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if lenses|length %}
-                        <b>Левый</b>:<br/>
-                        {% for item in lenses.recipes.left %}
-                            {{ item.name }}
-                            {{ item.value }}
-                            <br/>
-                        {% endfor %}
-                        <b>Правый</b>:<br/>
-                        {% for item in lenses.recipes.right %}
-                            {{ item.name }}
-                            {{ item.value }}
-                            <br/>
-                        {% endfor %}
-                    {% endif %}
+                    {% set lenses = json.json_decode(item.getLenses()) %}
+                    {{ dump(lenses) }}
                 </td>
             </tr>
         {% endfor %}
