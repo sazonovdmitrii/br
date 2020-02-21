@@ -29,6 +29,12 @@ class OrderTest extends GraphQLTesting
                 'order' => [
                     'orderItems' => [
 
+                    ],
+                    'payment' => [
+
+                    ],
+                    'delivery' => [
+
                     ]
                 ]
             ]
@@ -36,6 +42,14 @@ class OrderTest extends GraphQLTesting
 
         $orderItems = $order['data']['order']['orderItems'];
         $this->assertNotEmpty($orderItems);
+
+        $payment = $order['data']['order']['payment'];
+        $this->assertNotEmpty($payment);
+        $this->assertNotEmpty($payment['id']);
+
+        $delivery = $order['data']['order']['delivery'];
+        $this->assertNotEmpty($delivery);
+        $this->assertNotEmpty($delivery['id']);
 
         $this->assertArraySubset([
             'item' => [

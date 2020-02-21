@@ -81,10 +81,10 @@ trait MutationTestData
     public function createOrderData()
     {
         return [
-            'courier_id' => '1500',
+            'external_payment_code' => '00-2005',
             'address_id' => '1',
-            'payment_method_code' => '00-2009',
-            'comment' => ''
+            'external_delivery_code' => '86795',
+            'comment' => 'AUTO TEST COMMENT'
         ];
     }
 

@@ -3,12 +3,23 @@
 namespace App\Controller\Admin;
 
 use App\Entity\ImportQueueRelation;
+use App\Service\InfoService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use App\Entity\ImportQueue;
 
 class OrderController extends BaseAdminController
 {
+    /**
+     * @var InfoService
+     */
+    private $infoService;
+
+    public function __construct(InfoService $infoService)
+    {
+        $this->infoService = $infoService;
+    }
+
     protected function editOrderAction()
     {
         $this->dispatch(EasyAdminEvents::PRE_EDIT);
@@ -49,6 +60,9 @@ class OrderController extends BaseAdminController
         }
 
         $this->dispatch(EasyAdminEvents::POST_EDIT);
+
+        $entity->setPayment($this->infoService->getPaymentInfo($entity));
+        $entity->setDelivery($this->infoService->getDeliveryInfo($entity));
 
         $parameters = array(
             'form' => $editForm->createView(),

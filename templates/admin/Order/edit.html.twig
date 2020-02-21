@@ -44,24 +44,30 @@
 {% block main %}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     {% set order = form.vars.data %}
-    <h4>Покупатель: {{ order.getUserId().email }}</h4>
-    <h4>Платежный метод: {{ order.getPaymentMethodCode() }}</h4>
+    <h4>Покупатель:</h4>
+    <h5>{{ order.getUserId().email }}</h5>
+    {% if order.payment %}
+        <h4>Платежный метод:</h4>
+        <h5>Код: {{ order.payment.id }} ({{ order.payment.title }} - {{ order.payment.description }})</h5>
+    {% endif %}
 
     {% if order.getAddressId() %}
         {% set address = order.getAddressId() %}
-        <h4>Адрес: {{ address.city }} {{ address.street }} {{ address.house }}</h4>
+        <h4>Адрес: <h5>
+        <h5>{{ address.city }} {{ address.street }} {{ address.house }}</h5>
     {% endif %}
 
-    {% if order.courier %}
-        <h4>Курьерская доставка: {{ order.courier.address }} {{ order.courier.price }}</h4>
-    {% endif %}
-
-    {% if order.getPickupCode() %}
-        <h4>Самовывоз: {{ order.getPickupCode() }}</h4>
-    {% endif %}
-
-    {% if order.getUserId().phone %}
-        <h4>{{ order.getUserId().phone }}</h4>
+    {% if(order.delivery) %}
+        {% set delivery = order.delivery %}
+        <h4>Данные по доставке:</h4>
+        <h5>ID: {{ delivery.id }}</h5>
+        <h5>Наименование: {{ delivery.service }}</h5>
+        <h5>Адрес: {{ delivery.service }}</h5>
+        <h5>Телефон: {{ delivery.phones }}</h5>
+        <h5>Время работы: {{ delivery.schedule }}</h5>
+        <h5>Ожидаемое время доставки: {{ delivery.days }} день/дня/дней</h5>
+        <h5>Комментарий: {{ delivery.comment }}</h5>
+        <h5>Ориентир: {{ delivery.how_to_get_there }}</h5>
     {% endif %}
 
     <table class="table">
