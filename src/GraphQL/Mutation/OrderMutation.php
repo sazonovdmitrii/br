@@ -86,31 +86,17 @@ class OrderMutation extends AuthMutation
         if ($user) {
             $order->setUserId($user);
 
-            if(!$input->courier_id && !$input->pickup_code) {
-                throw new UserError('Необходимо указать хотя бы один метод доставки.');
+            if(!$input->external_delivery_code) {
+                throw new UserError('Необходимо указать метод доставки.');
             }
+            $order->setExternalDeliveryCode($input->external_delivery_code);
 
-            if($input->pickup_code) {
-                $order->setPickupCode($input->pickup_code);
-            }
-
-            if($input->courier_id) {
-                $order->setCourier(
-                    $this->courierRepository->find($input->courier_id)
-                );
-            }
-
-            $order->setLenses($input->lenses);
-
-            if(!$input->payment_method_code) {
+            if(!$input->external_payment_code) {
                 throw new UserError('Необходимо указать способ оплаты.');
             }
+            $order->setExternalPaymentCode($input->external_payment_code);
 
-            $order->setPaymentMethodCode($input->payment_method_code);
-
-            if($input->courier_id && !$input->address_id) {
-                throw new UserError('Необходимо указать способ адрес для курьерской доставки.');
-            }
+            $order->setLenses($input->lenses);
 
             if($input->address_id) {
                 $order->setAddressId(
@@ -152,6 +138,7 @@ class OrderMutation extends AuthMutation
         $this->basketService
             ->setAuthKey($this->getAuthKey())
             ->delete();
+        
         return [
             'id' => $order->getId(),
             'secret_key' => $order->getSecretKey()

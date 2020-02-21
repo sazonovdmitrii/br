@@ -2,18 +2,15 @@ OrderInput:
   type: input-object
   config:
     fields:
-      pickup_code:
+      external_delivery_code:
         type: "String"
-        description: "Pvz ID"
-      payment_method_code:
+        description: "External Delivery Code"
+      external_payment_code:
         type: "String"
-        description: "Payment Method Code"
+        description: "External Payment Code"
       comment:
         type: "String"
         description: "Comment"
-      courier_id:
-        type: "Int"
-        description: "Courier ID"
       address_id:
         type: "Int"
         description: "User Address Id"

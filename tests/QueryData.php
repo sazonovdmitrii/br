@@ -278,6 +278,22 @@ GRAPHQL;
                     }
                   }
                 }
+                payment {
+                  id
+                  title
+                  description
+                }
+                delivery {
+                  id
+                  days
+                  address
+                  days
+                  latitude
+                  longitude
+                  service
+                  schedule
+                  comment
+                }
               }
             }
         ';

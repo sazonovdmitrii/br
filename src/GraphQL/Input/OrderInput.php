@@ -12,22 +12,17 @@ class OrderInput extends RequestObject
     /**
      * @var
      */
-    public $pickup_code;
+    public $external_payment_code;
 
     /**
      * @var
      */
-    public $courier_id;
+    public $external_delivery_code;
 
     /**
      * @var
      */
     public $address_id;
-
-    /**
-     * @var
-     */
-    public $payment_method_code;
 
     /**
      * @var
