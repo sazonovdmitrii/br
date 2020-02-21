@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { IS_LOGGED_IN } from 'query';
 
 import Loader from 'components/Loader';
+import Order from 'routes/Order';
 import Catalog from 'routes/Catalog';
 import Product from 'routes/Product';
 import RetailPage from 'routes/RetailPage';
@@ -62,6 +63,7 @@ export default ({ lang, defaultLang }) => {
         ],
         [loadable(() => import('./Retail'), loadableOpts), routerOptions({ path: '/retail' })],
         [loadable(() => import('./Home'), loadableOpts), routerOptions({ path: '/' })],
+        [Order, routerOptions({ path: '/order/:hash' })],
         [RetailPage, routerOptions({ path: '/retail/:city/:name' })],
         [Content, routerOptions({ path: '/info/:slug' })],
         [Product, routerOptions({ path: '/:catalog?/:subcatalog?/:product.htm' })],

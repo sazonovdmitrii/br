@@ -1,59 +1,69 @@
 import gql from 'graphql-tag';
 
+import { Address } from 'fragments';
+
 const GET_ORDER = gql`
-    query order($hash: String) {
-        order(secret_key: $hash) {
+    query order($hash: String, $locale: String) {
+        order(secret_key: $hash, locale: $locale) {
             id
             orderItems {
                 id
-                qty
                 item {
-                    id
+                    product {
+                        url
+                        name
+                    }
+                    images
+                }
+                qty
+                price
+                coupon_price
+                lense {
                     name
                     price
-                }
-                lenses {
-                    lenses {
+                    options {
                         name
-                        price
-                        options {
-                            name
-                            value
-                        }
+                        value
                     }
                     recipes {
-                        left {
-                            name
-                            value
+                        sides {
+                            left {
+                                name
+                                value
+                            }
+                            right {
+                                name
+                                value
+                            }
                         }
-                        right {
+                        extraData {
                             name
                             value
                         }
                     }
                 }
             }
-            payment_method_id {
+            payment {
                 id
-                name
+                title
+                description
             }
-            delivery_id {
+            delivery {
                 id
-                name
-            }
-            courier {
-                direction_title
+                comment
+                service
+                address
+                schedule
+                latitude
+                longitude
+                days
             }
             address_id {
-                zip
-                city
-                street
-                house
-                corp
-                flat
+                ...Address
             }
         }
     }
+    ${Address}
 `;
 
 export default GET_ORDER;

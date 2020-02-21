@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames/bind';
+import { useHistory } from 'react-router';
 
 import { useApp, useLang } from 'hooks';
-import { GET_SHORT_BASKET } from 'query';
+import { GET_SHORT_BASKET, GET_BASKET } from 'query';
 import { REMOVE_PRODUCT_MUTATION, CREATE_ORDER_MUTATION, APPLY_COUPON_MUTATION } from 'mutations';
 import { isNumber, metrics, formatDate } from 'utils';
+import LANGS from 'lang';
 
 import Button from 'components/Button';
 import { StepView, StepContainer } from 'components/Steps';
@@ -65,10 +67,10 @@ const getLocalCity = () => {
 };
 
 const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addresses, isLoggedIn }) => {
+    const history = useHistory();
     const locale = useLang();
     const { createNotification } = useApp();
     const [products, setProducts] = useState(productsProps);
-    const [orderId, setOrderId] = useState(false);
     const [coupon, setCoupon] = useState({ value: couponProp, active: !!couponProp });
 
     const initialDeliveryMethods = { loading: true, called: false, data: [] };
@@ -192,8 +194,8 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
     });
 
     const [createOrder] = useMutation(CREATE_ORDER_MUTATION, {
-        onCompleted({ order: { id } }) {
-            if (id) {
+        onCompleted({ order: { secret_key, id } }) {
+            if (secret_key && id) {
                 metrics('gtm', {
                     event: 'transaction',
                     data: {
@@ -217,18 +219,23 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                     },
                 });
 
-                setOrderId(id);
+                const defaultLang = LANGS.find(item => item.default);
+                history.push(
+                    defaultLang.value === locale ? `/order/${secret_key}` : `/${locale}/order/${secret_key}`
+                );
             }
         },
         update(cache) {
-            cache.writeQuery({
-                query: GET_SHORT_BASKET,
-                data: {
-                    basket: {
-                        products: [],
-                        __typename: 'Basket',
+            [GET_SHORT_BASKET, GET_BASKET].forEach(query => {
+                cache.writeQuery({
+                    query,
+                    data: {
+                        basket: {
+                            products: [],
+                            __typename: 'Basket',
+                        },
                     },
-                },
+                });
             });
         },
         onError({ graphQLErrors: [{ message }] }) {
@@ -413,19 +420,6 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
         setPickups(initialPickups);
         setPaymentsMethods([]);
     };
-
-    if (orderId) {
-        return (
-            <Order
-                id={orderId}
-                products={products}
-                address={values.address}
-                delivery={values.deliveryMethod}
-                pickup={currentDelivery}
-                payment={values.payment}
-            />
-        );
-    }
 
     if (!products.length) {
         return <Empty />;
@@ -790,17 +784,17 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                     if (isValid()) {
                                         const input = isCourier
                                             ? {
-                                                  courier_id: values.deliveryMethod.id,
+                                                  external_delivery_code: values.deliveryMethod.id,
                                                   address_id: values.address.id,
                                               }
                                             : {
-                                                  pickup_code: currentDelivery.id,
+                                                  external_delivery_code: currentDelivery.id,
                                               };
                                         createOrder({
                                             variables: {
                                                 input: {
                                                     ...input,
-                                                    payment_method_code: values.payment.id,
+                                                    external_payment_code: values.payment.id,
                                                     comment: values.comment,
                                                 },
                                             },

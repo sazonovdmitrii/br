@@ -2,6 +2,7 @@
     "p_order_title": "Thanks for order №{id}",
     "p_order_payment_method": "Payment method",
     "p_order_delivery_method": "Delivery method",
+    "p_order_address_title": "Shipping address",
     "p_order_address": "Address",
 
     "p_cart_address_title": "Choose a shipping address",

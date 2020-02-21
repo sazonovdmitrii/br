@@ -8,16 +8,26 @@ const cx = classnames.bind(styles);
 
 export default ({ className, messages = [], coupon, actions, pricing = [] }) => {
     const rootClassName = cx(styles.root, className);
+    const listItemCheckClassName = cx(styles.listItem, styles.check);
 
     return (
         <div className={rootClassName}>
             {messages.length ? (
                 <ul className={styles.list}>
-                    {messages.map(item => (
-                        <li key={item} className={styles.listItem}>
-                            <FormattedMessage id={item} />
-                        </li>
-                    ))}
+                    {messages.map(item => {
+                        if (typeof item === 'object') {
+                            return (
+                                <li key={item.name} className={styles.listItem}>
+                                    {item.name}: {item.value}
+                                </li>
+                            );
+                        }
+                        return (
+                            <li key={item} className={listItemCheckClassName}>
+                                <FormattedMessage id={item} />
+                            </li>
+                        );
+                    })}
                 </ul>
             ) : null}
             <div className={styles.reverse}>

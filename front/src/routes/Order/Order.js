@@ -1,81 +1,121 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Helmet } from 'react-helmet';
 
+import { useFormatMessage } from 'hooks';
+
+import Container from 'components/Container';
 import Title from 'components/Title';
 import BasketProduct from 'components/BasketProduct';
 
+import Sidebar from '../Basket/Sidebar';
+
 import styles from './styles.css';
 
-const Order = ({ id, address, products, delivery, payment }) => {
-    const totalSum = products.reduce(
-        (acc, { price, lenses }) =>
-            acc + parseInt(price, 10) + (lenses.lenses ? parseInt(lenses.lenses.price, 10) : 0),
-        0
+const getTotalSum = (array, callback) =>
+    array.reduce((acc, item) => {
+        const foo = callback(item);
+
+        return acc + foo;
+    }, 0);
+
+const Order = ({ id, address_id, orderItems = [], delivery, payment }) => {
+    const [title] = useFormatMessage([{ id: 'p_order_title', values: { id } }]);
+    const isCouponApplied = orderItems.some(({ coupon_price: couponPrice }) => parseInt(couponPrice, 10));
+    const totalSum = getTotalSum(
+        orderItems,
+        ({ price, lense }) => parseInt(price, 10) + (lense.price ? parseInt(lense.price, 10) : 0)
     );
-    const totalSumWithDelivery = totalSum + (delivery ? parseInt(delivery.price, 10) : 0);
+    const totalSumWithCoupon = getTotalSum(
+        orderItems,
+        ({ coupon_price: couponPrice, lense }) =>
+            parseInt(couponPrice, 10) + (lense.price ? parseInt(lense.price, 10) : 0)
+    );
+    const totalSumWithDelivery =
+        (isCouponApplied ? totalSumWithCoupon : totalSum) +
+        (delivery.price ? parseInt(delivery.price, 10) : 0);
 
     return (
-        <div className={styles.container}>
+        <Container className={styles.container}>
+            <Helmet>
+                <title>{title}</title>
+            </Helmet>
             <Title className={styles.title}>
                 <FormattedMessage id="p_order_title" values={{ id }} />
             </Title>
-            <ul className={styles.info}>
-                <li className={styles.infoItem}>Способ доставки: {delivery.direction_title}</li>
-                <li className={styles.infoItem}>Способ оплаты: {payment.name}</li>
-                <li className={styles.infoItem}>
-                    Адрес:
-                    <FormattedMessage id="p_addresses_address_text" values={address} />
-                </li>
-            </ul>
             <div className={styles.products}>
-                {products.map(({ name, item, lenses, price, url }) => (
+                {orderItems.map(({ item, lense, price, coupon_price: couponPrice, url }) => (
                     <BasketProduct
                         key={item.id}
-                        name={name}
+                        name={item.product.name}
                         subName={item.name}
-                        url={url}
-                        options={lenses.lenses ? lenses.lenses.options : []}
+                        url={item.product.url}
+                        options={lense.options ? lense.options : []}
+                        recipes={lense.recipes}
                         images={item.images ? item.images[0] : null}
+                        oldPrice={
+                            isCouponApplied && (
+                                <FormattedMessage
+                                    id="currency"
+                                    values={{
+                                        price:
+                                            parseInt(price, 10) +
+                                            (lense.price ? parseInt(lense.price, 10) : 0),
+                                    }}
+                                />
+                            )
+                        }
                         price={
                             <FormattedMessage
                                 id="currency"
                                 values={{
                                     price:
-                                        parseInt(price, 10) +
-                                        (lenses.lenses ? parseInt(lenses.lenses.price, 10) : 0),
+                                        parseInt(isCouponApplied ? couponPrice : price, 10) +
+                                        (lense.price ? parseInt(lense.price, 10) : 0),
                                 }}
                             />
                         }
                     />
                 ))}
             </div>
-            <div className={styles.pricing}>
-                <p className={styles.pricingItem}>
-                    Доставка
-                    <span className={styles.pricingValue}>
-                        <FormattedMessage
-                            id={delivery.price ? 'currency' : 'free'}
-                            values={{ price: delivery.price }}
-                        />
-                    </span>
-                </p>
-                <p className={styles.pricingItem}>
-                    Итого
-                    <span className={styles.pricingValue}>
-                        <FormattedMessage id="currency" values={{ price: totalSumWithDelivery }} />
-                    </span>
-                </p>
-            </div>
-        </div>
+            <Sidebar
+                className={styles.sidebar}
+                messages={[
+                    // {
+                    //     name: <FormattedMessage id="p_order_delivery_method" />,
+                    //     value: delivery && delivery.direction_title,
+                    // },
+                    {
+                        name: <FormattedMessage id="p_order_payment_method" />,
+                        value: payment.title,
+                    },
+                    {
+                        name: <FormattedMessage id="p_order_address_title" />,
+                        value: address_id ? (
+                            <FormattedMessage id="p_addresses_address_text" values={address_id} />
+                        ) : (
+                            delivery.address
+                        ),
+                    },
+                ]}
+                pricing={[
+                    {
+                        name: 'p_cart_sidebar_shipping',
+                        value: delivery && delivery.price,
+                    },
+                    isCouponApplied && {
+                        name: 'p_cart_sidebar_total_with_coupon',
+                        value: totalSumWithCoupon,
+                    },
+                    { name: 'p_cart_sidebar_total', value: totalSumWithDelivery },
+                ].filter(Boolean)}
+            />
+        </Container>
     );
 };
 
-Order.defaultProps = {
-    products: [],
-    delivery: {},
-    payment: {},
-};
+Order.defaultProps = {};
 
 Order.propTypes = {
     products: PropTypes.arrayOf(PropTypes.string),

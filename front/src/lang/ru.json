@@ -2,6 +2,7 @@
     "p_order_title": "Спасибо за заказ №{id}",
     "p_order_payment_method": "Способ оплаты",
     "p_order_delivery_method": "Способ доставки",
+    "p_order_address_title": "Адрес доставки",
     "p_order_address": "Адрес",
 
     "p_cart_address_title": "Выберите адрес доставки",
