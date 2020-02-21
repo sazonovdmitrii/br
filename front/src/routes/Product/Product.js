@@ -115,7 +115,6 @@ const Product = ({
     };
 
     const sectionTitleCenterClassName = cx(styles.sectionTitle, styles.center);
-    const rootClassName = cx(styles.root, { hide: showChooseLenses });
 
     return (
         <Container>
@@ -129,10 +128,24 @@ const Product = ({
                     onClose={handleCloseChooseLenses}
                 />
             )}
-            <div className={rootClassName}>
+            <div className={styles.productDetails}>
                 {images.length ? (
                     <div className={styles.carouselWrapper}>
-                        <ProductCarousel items={images} />
+                        <ProductCarousel>
+                            {images.map((image, index) => (
+                                <picture key={index}>
+                                    <source
+                                        srcSet={`${image.middle.webp} 1x, ${image.big.webp} 2x`}
+                                        type="image/webp"
+                                    />
+                                    <img
+                                        src={image.middle.original}
+                                        srcSet={`${image.big.original} 2x`}
+                                        alt=""
+                                    />
+                                </picture>
+                            ))}
+                        </ProductCarousel>
                     </div>
                 ) : null}
                 <div className={styles.meta}>
