@@ -1,7 +1,9 @@
 <?php
 namespace App\GraphQL\Resolver;
 
+use App\Repository\ImageTypeRepository;
 use App\Repository\OrdersRepository;
+use App\Service\Image\GeneratorService;
 use App\Service\InfoService;
 use App\Service\LenseService;
 use Doctrine\ORM\EntityManager;
@@ -23,6 +25,14 @@ class OrderResolver extends LocaleAlias
      * @var LenseService
      */
     private $lenseService;
+    /**
+     * @var ImageTypeRepository
+     */
+    private $imageTypeRepository;
+    /**
+     * @var GeneratorService
+     */
+    private $generatorService;
 
     /**
      * OrderResolver constructor.
@@ -34,12 +44,16 @@ class OrderResolver extends LocaleAlias
         EntityManager $em,
         OrdersRepository $ordersRepository,
         InfoService $infoService,
-        LenseService $lenseService
+        LenseService $lenseService,
+        ImageTypeRepository $imageTypeRepository,
+        GeneratorService $generatorService
     ) {
         $this->em = $em;
         $this->ordersRepository = $ordersRepository;
         $this->infoService = $infoService;
         $this->lenseService = $lenseService;
+        $this->imageTypeRepository = $imageTypeRepository;
+        $this->generatorService = $generatorService;
     }
 
     /**
@@ -59,6 +73,26 @@ class OrderResolver extends LocaleAlias
         $order->setDelivery($infoService->getDeliveryInfo($order));
 
         foreach($order->getOrderItems() as $orderItem) {
+
+            $images = [];
+
+            $config = $this->imageTypeRepository->findAll();
+
+            $item = $orderItem->getItem();
+
+            foreach ($item->getProductItemImages() as $image) {
+
+                $images[] = $this->generatorService
+                    ->setImage($image)
+                    ->setTypes(['original', 'webp'])
+                    ->setConfig($config)
+                    ->getAll();
+
+            }
+
+            $item->setImages($images);
+            $orderItem->setItem($item);
+
             $orderItem->setLense(
                 json_decode(str_replace('\'', '"', $orderItem->getLenses()), true)
             );
