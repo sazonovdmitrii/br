@@ -210,7 +210,7 @@ const Product = ({
                     </picture>
                 </div>
             )}
-            {items.length ? (
+            {items.length > 1 ? (
                 <div className={styles.section}>
                     <h2 className={sectionTitleCenterClassName}>
                         <FormattedMessage id="p_product_section_colors_title" />
