@@ -6,13 +6,30 @@ use Symfony\Component\HttpClient\HttpClient;
 
 class ApiManager extends AbstractController implements ApiManagerInterface
 {
+    /**
+     * @var
+     */
     private $_method;
 
+    /**
+     * @var
+     */
     private $_url;
 
+    /**
+     * @var
+     */
     private $_headers;
 
+    /**
+     * @var
+     */
     private $_content;
+
+    /**
+     * @var
+     */
+    private $_params;
 
     /**
      * @param $url
@@ -87,17 +104,52 @@ class ApiManager extends AbstractController implements ApiManagerInterface
     }
 
     /**
+     * @return mixed
+     */
+    private function getParams()
+    {
+        return $this->_params;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQueryParams()
+    {
+        if($this->getParams()) {
+            return '?' . http_build_query($this->getParams());
+        }
+        return '';
+    }
+
+    /**
+     * @param array $params
+     * @return $this
+     */
+    public function setParams(array $params)
+    {
+        $this->_params = $params;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getData()
     {
         $httpClient = HttpClient::create();
+
         $response = $httpClient->request(
-            'POST', $this->getUrl() . $this->getMethod(), [
+            'POST', $this->getUrl() . $this->getMethod() . $this->getQueryParams(), [
                 'headers' => $this->getHeaders(),
                 'query' => $this->getContent()
             ]
         );
-        return $response->getContent();
+
+        if(200 != $response->getStatusCode()) {
+            return [];
+        }
+
+        return json_decode($response->getContent(), true);
     }
 }

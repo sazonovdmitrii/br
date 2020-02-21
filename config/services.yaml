@@ -74,6 +74,10 @@ services:
         arguments:
             $productItemRepository: '@App\Repository\ProductItemRepository'
 
+    App\Service\InfoService:
+        arguments:
+            $externalService: '@App\Service\BeguService'
+
     Redis:
         class: Redis
         calls:

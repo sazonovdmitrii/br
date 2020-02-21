@@ -78,6 +78,20 @@ class Orders
      */
     private $pickup_code;
 
+    private $delivery;
+
+    private $payment;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $external_delivery_code;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $external_payment_code;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
@@ -253,6 +267,62 @@ class Orders
     public function setPickupCode(?string $pickup_code): self
     {
         $this->pickup_code = $pickup_code;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDelivery()
+    {
+        return $this->delivery;
+    }
+
+    /**
+     * @param mixed $delivery
+     */
+    public function setDelivery($delivery)
+    {
+        $this->delivery = $delivery;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayment()
+    {
+        return $this->payment;
+    }
+
+    /**
+     * @param mixed $payment
+     */
+    public function setPayment($payment)
+    {
+        $this->payment = $payment;
+    }
+
+    public function getExternalDeliveryCode(): ?string
+    {
+        return $this->external_delivery_code;
+    }
+
+    public function setExternalDeliveryCode(?string $external_delivery_code): self
+    {
+        $this->external_delivery_code = $external_delivery_code;
+
+        return $this;
+    }
+
+    public function getExternalPaymentCode(): ?string
+    {
+        return $this->external_payment_code;
+    }
+
+    public function setExternalPaymentCode(?string $external_payment_code): self
+    {
+        $this->external_payment_code = $external_payment_code;
 
         return $this;
     }

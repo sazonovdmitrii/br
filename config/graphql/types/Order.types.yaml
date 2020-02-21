@@ -12,15 +12,57 @@ Order:
       orderItems:
         type: "[OrderItem]"
         description: "Orders Items"
-      payment_method_id:
-        type: "PaymentMethod"
-        description: "Payment Item"
-      delivery_id:
-        type: "Delivery"
-        description: "Payment Item"
-      courier:
-        type: "CourierItem"
-        description: "Courier Item"
+      payment:
+        type: "ExternalPayment"
+        description: "External Payment Item"
+      delivery:
+        type: "ExternalDelivery"
+        description: "External Delivery Method"
       address_id:
         type: "Address"
         description: "Address Item"
+
+ExternalPayment:
+  type: object
+  config:
+    description: "External Payment"
+    fields:
+      id:
+        type: "String"
+        description: "External Payment Id"
+      title:
+        type: "String"
+        description: "External Payment Title"
+      description:
+        type: "String"
+        description: "External Payment Description"
+
+ExternalDelivery:
+  type: object
+  config:
+    description: "External Delivery"
+    fields:
+      id:
+        type: "String"
+        description: "External Delivery Id"
+      comment:
+        type: "String"
+        description: "External Delivery Comment"
+      service:
+        type: "String"
+        description: "External Delivery Service"
+      address:
+        type: "String"
+        description: "External Delivery Address"
+      schedule:
+        type: "String"
+        description: "External Delivery Schedule"
+      latitude:
+        type: "String"
+        description: "External Delivery Latitude"
+      longitude:
+        type: "String"
+        description: "External Delivery Longitude"
+      days:
+        type: "String"
+        description: "External Delivery Days"
