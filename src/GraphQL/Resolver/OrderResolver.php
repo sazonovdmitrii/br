@@ -3,6 +3,7 @@ namespace App\GraphQL\Resolver;
 
 use App\Repository\OrdersRepository;
 use App\Service\InfoService;
+use App\Service\LenseService;
 use Doctrine\ORM\EntityManager;
 use Overblog\GraphQLBundle\Definition\Argument;
 use GraphQL\Error\UserError;
@@ -18,6 +19,10 @@ class OrderResolver extends LocaleAlias
      * @var InfoService
      */
     private $infoService;
+    /**
+     * @var LenseService
+     */
+    private $lenseService;
 
     /**
      * OrderResolver constructor.
@@ -28,11 +33,13 @@ class OrderResolver extends LocaleAlias
     public function __construct(
         EntityManager $em,
         OrdersRepository $ordersRepository,
-        InfoService $infoService
+        InfoService $infoService,
+        LenseService $lenseService
     ) {
         $this->em = $em;
         $this->ordersRepository = $ordersRepository;
         $this->infoService = $infoService;
+        $this->lenseService = $lenseService;
     }
 
     /**
@@ -50,6 +57,12 @@ class OrderResolver extends LocaleAlias
 
         $order->setPayment($infoService->getPaymentInfo($order));
         $order->setDelivery($infoService->getDeliveryInfo($order));
+
+        foreach($order->getOrderItems() as $orderItem) {
+            $orderItem->setLense(
+                json_decode(str_replace('\'', '"', $orderItem->getLenses()), true)
+            );
+        }
 
         if(!$order) {
             throw new UserError('Ошибка! Заказ не найден.');

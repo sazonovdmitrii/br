@@ -24,6 +24,9 @@ ProductItem:
       images:
         type: "ItemsImages"
         description: "Images"
+      product:
+        type: "Product"
+        description: "Product Item Product"
 
 ItemsImages:
     type: custom-scalar

@@ -122,12 +122,17 @@ class OrderMutation extends AuthMutation
             if($productItem) {
                 $orderItem->setItem($productItem);
             }
-            if(isset($basketItem['lenses'])) {
-                $orderItem->setLenses(json_encode($basketItem['lenses']));
+            if(isset($basketItem['lense'])) {
+                $orderItem->setLenses(json_encode($basketItem['lense']));
+            }
+            if(isset($basketItem['coupon_price'])) {
+                $orderItem->setCouponPrice($basketItem['coupon_price']);
+            }
+            if(isset($basketItem['price'])) {
+                $orderItem->setPrice($basketItem['price']);
             }
 
             $this->manager->persist($orderItem);
-            $this->manager->flush();
 
             $order->addOrderItem($orderItem);
         }

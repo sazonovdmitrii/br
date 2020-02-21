@@ -24,12 +24,21 @@ OrderItem:
       id:
         type: "Int"
         description: "Order Item Id"
-      qty:
-        type: "Int"
-        description: "Order Item Qty"
       item:
         type: "ProductItem"
-        description: "Order Item Product Item"
-      lenses:
-        type: "LenseRecipe"
+        description: "Basket Product Item"
+      qty:
+        type: "Int"
+        description: "Qty"
+      name:
+        type: "String"
+        description: "Product Name"
+      price:
+        type: "String"
+        description: "Price"
+      coupon_price:
+        type: "String"
+        description: "Coupon Price"
+      lense:
+        type: "LensesRecipe"
         description: "Price"

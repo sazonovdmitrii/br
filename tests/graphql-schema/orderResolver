@@ -1,5 +1,5 @@
 {
-  order(secret_key:"7807b57d353fbe5085e1018c2ad6b10e") {
+  order(secret_key: "be6b6f9fedc787c6ddd3de095f59b6d2", locale: "de") {
     id
     secret_key
     orderItems {
@@ -13,6 +13,36 @@
         productItemTagItems{
           id
           name
+        }
+        product {
+          id
+          url
+        }
+        wholesale_price
+      }
+      price
+      coupon_price
+      lense {
+        price
+        options {
+          name
+          value
+        }
+        recipes {
+          sides {
+            left {
+              name
+              value
+            }
+            right {
+              name
+              value
+            }
+          }
+          extraData {
+            name
+            value
+          }
         }
       }
     }
