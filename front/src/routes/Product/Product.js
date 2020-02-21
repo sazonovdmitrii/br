@@ -69,7 +69,7 @@ const Product = ({
                 });
 
                 const defaultLang = LANGS.find(item => item.default);
-                history.push(defaultLang === lang ? '/cart' : `/${lang}/cart`);
+                history.push(defaultLang.value === lang ? '/cart' : `/${lang}/cart`);
             }
         },
         onError({ graphQLErrors: [{ message }] }) {
