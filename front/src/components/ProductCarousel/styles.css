@@ -2,57 +2,26 @@
     position: relative;
 }
 
-.inner {
-    position: relative;
+.carousel {
     width: 80%;
     margin: 0 auto;
-    padding-bottom: 50%;
-    overflow: hidden;
 
     @media (--viewport-wide) {
         width: 100%;
     }
 }
 
-.items {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.item {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-
-    &:first-child {
-        position: relative;
-    }
-
-    &.active {
-        opacity: 1;
-    }
-}
-
-.image {
-    max-height: 100%;
-    margin: auto;
-}
-
 .nav {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    display: none;
+
+    @media (--viewport-desktop) {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
 }
 
 .prevArrow,
