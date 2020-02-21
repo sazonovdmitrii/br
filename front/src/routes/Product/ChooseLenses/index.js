@@ -342,7 +342,7 @@ const ChooseLenses = ({
                                     )}
                                 </div>
                             ))}
-                            <RecipeTable recipe={recipeList} />
+                            {recipes.length ? <RecipeTable recipe={recipeList} /> : null}
                         </div>
                         <div className={styles.reviewActions}>
                             <Button
@@ -356,7 +356,7 @@ const ChooseLenses = ({
                                             input: {
                                                 item_id: itemId,
                                                 lense: JSON.stringify({
-                                                    recipes: recipe,
+                                                    recipes: recipes.length ? recipe : {},
                                                     lense: selectedLens.id,
                                                 }),
                                             },
