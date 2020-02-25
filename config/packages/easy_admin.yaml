@@ -10,6 +10,10 @@ easy_admin:
             class: App\Entity\Urls
             list:
                 fields: ['id', 'url', 'created']
+        Import:
+            class: App\Entity\Import
+            label: 'Импорт продуктов'
+            controller: App\Controller\Admin\ImportController
         ProductUrl:
             class: App\Entity\ProductUrl
             label: 'Адреса продуктов'
@@ -653,7 +657,7 @@ easy_admin:
           - label: 'Продажи'
             children: ['Order', 'Sale', 'Coupons']
           - label: 'Конфигурация'
-            children: ['Configuration', 'ImageType']
+            children: ['Configuration', 'ImageType','Import']
           - Translation
         assets:
             css:

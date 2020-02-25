@@ -80,7 +80,7 @@ class ProductItem
     private $product;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductItemImage", mappedBy="product_item")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductItemImage", mappedBy="product_item", cascade={"remove"})
      */
     private $productItemImages;
 

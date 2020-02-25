@@ -42,7 +42,7 @@ class Product
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductUrl", mappedBy="entity")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductUrl", mappedBy="entity", cascade={"remove"})
      */
     private $productUrls;
 
@@ -71,7 +71,7 @@ class Product
     private $catalog;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductItem", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductItem", mappedBy="product", cascade={"remove"})
      */
     private $productItems;
 

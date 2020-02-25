@@ -1,0 +1,24 @@
+{% set _entity_config = easyadmin_entity(app.request.query.get('entity')) %}
+{% extends _entity_config.templates.layout %}
+
+{% block main %}
+    <a href="/admin/?entity=Import&action=export">
+        <button type="button" class="btn btn-labeled btn-success">
+            <span class="btn-label">
+                <i class="glyphicon glyphicon-ok"></i>
+            </span>Export
+        </button>
+    </a>
+    <br/><br/>
+    <form action="/admin/import" enctype="multipart/form-data" method="POST">
+        <div class="form-group">
+            <label>Import</label>
+            <input type="file" name="export" class="form-control-file">
+        </div>
+        <button type="submit" class="btn btn-labeled btn-success">
+            <span class="btn-label">
+                <i class="glyphicon glyphicon-ok"></i>
+            </span>Импортировать
+        </button>
+    </form>
+{% endblock main %}
