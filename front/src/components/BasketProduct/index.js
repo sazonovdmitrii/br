@@ -80,16 +80,16 @@ const BasketProduct = ({ url, name, subName, images, oldPrice, price, options, r
                                 <span className={expansionIconClassName}>
                                     <ChevronDownIcon size="20" />
                                 </span>
-                                <p className={styles.prices}>
+                                <span className={styles.prices}>
                                     <p className={styles.oldPrice}>{oldPrice}</p>
                                     <p className={styles.totalPrice}>{price}</p>
-                                </p>
+                                </span>
                             </button>
                         ) : (
-                            <p className={styles.prices}>
+                            <div className={styles.prices}>
                                 <p className={styles.oldPrice}>{oldPrice}</p>
                                 <p className={styles.totalPrice}>{price}</p>
-                            </p>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -134,12 +134,12 @@ BasketProduct.defaultProps = {
 
 BasketProduct.propTypes = {
     recipes: PropTypes.objectOf(PropTypes.array),
-    images: PropTypes.objectOf(PropTypes.string),
+    images: PropTypes.objectOf(PropTypes.object),
     url: PropTypes.string,
     subName: PropTypes.string,
     onRemove: PropTypes.func,
     name: PropTypes.string,
-    price: PropTypes.string,
+    price: PropTypes.oneOfType(PropTypes.node, PropTypes.string, PropTypes.number),
     options: PropTypes.arrayOf(PropTypes.object),
 };
 

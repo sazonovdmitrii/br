@@ -71,7 +71,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
     const locale = useLang();
     const { createNotification } = useApp();
     const [products, setProducts] = useState(productsProps);
-    const [coupon, setCoupon] = useState({ value: couponProp, active: !!couponProp });
+    const [coupon, setCoupon] = useState({ value: couponProp || '', active: !!couponProp });
 
     const initialDeliveryMethods = { loading: true, called: false, data: [] };
     const [
@@ -548,7 +548,16 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                     disabled={coupon.active}
                                 />
                                 {!coupon.active && (
-                                    <Button kind="primary" size="large" onClick={applyCoupon} bold>
+                                    <Button
+                                        kind="primary"
+                                        size="large"
+                                        onClick={() => {
+                                            if (!coupon.value) return;
+
+                                            applyCoupon();
+                                        }}
+                                        bold
+                                    >
                                         <FormattedMessage id="p_cart_coupon_submit" />
                                     </Button>
                                 )}
@@ -839,7 +848,7 @@ Basket.propTypes = {
             })
         ),
     }),
-    addresses: PropTypes.arrayOf(PropTypes.string),
+    addresses: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Basket;

@@ -141,9 +141,9 @@ const UserMenu = () => {
                                 </Link>
                             </li> */}
                             <li className={styles.submenuItem}>
-                                <Link className={styles.submenuLink} onClick={handleLogOut}>
+                                <button type="button" className={styles.submenuLink} onClick={handleLogOut}>
                                     <FormattedMessage id="sign_out" />
-                                </Link>
+                                </button>
                             </li>
                         </ul>
                     </li>
