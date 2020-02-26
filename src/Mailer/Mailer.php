@@ -47,7 +47,7 @@ class Mailer
             ->setSubject('Hello test letter')
             ->setFrom($this->mailFrom)
             ->setTo($user->getEmail())
-            ->setBody($body);
+            ->setBody($body, 'text/html');
 
         $this->mailer->send($message);
     }
