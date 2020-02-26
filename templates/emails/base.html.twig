@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <div
+            style="color: #45555F;font-family: 'Times New Roman', 'Times', sans-serif;font-size: 16px;line-height: 1.5em;margin-left: auto;margin-right: auto;text-align: left;visibility: visible;max-width: 700px;"
+            align="left"
+        >
+            {% include 'emails/header.html.twig' %}
+            {% block body %}{% endblock %}
+            {% include 'emails/footer.html.twig' %}
+        </div>
+    </body>
+</html>
