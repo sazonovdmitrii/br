@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Eye as EyeIcon, EyeOff as EyeOffIcon } from 'react-feather';
 import { useMutation } from '@apollo/react-hooks';
+import { useHistory } from 'react-router';
 
 import { useFormatMessage, useApp } from 'hooks';
 import { CHANGE_PASSWORD_MUTATION } from 'mutations';
+import LANGS from 'lang';
 
 import Input from 'components/Input';
 import InputGroup from 'components/InputGroup';
@@ -14,10 +16,11 @@ import Title from 'components/Title';
 import styles from './styles.css';
 
 const RestorePasswordForm = ({ token }) => {
+    const history = useHistory();
     const { createNotification } = useApp();
-    const [metaTitle] = useFormatMessage([{ id: 'p_remind_password_meta_title' }]);
     const [password, setPassword] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
+    const [successMessage] = useFormatMessage([{ id: 'p_remind_password_success_message' }]);
     const [changePassword] = useMutation(CHANGE_PASSWORD_MUTATION, {
         variables: {
             input: {
@@ -26,7 +29,10 @@ const RestorePasswordForm = ({ token }) => {
             },
         },
         onCompleted({ changePassword: { message } }) {
-            createNotification({ type: 'success', message });
+            createNotification({ type: 'success', message: message || successMessage });
+
+            const defaultLang = LANGS.find(item => item.default);
+            history.push(defaultLang.value === locale ? '/account/login' : `/${locale}/account/login`);
         },
         onError({ graphQLErrors: [{ message }] }) {
             createNotification({ type: 'error', message });
