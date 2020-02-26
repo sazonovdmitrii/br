@@ -164,6 +164,8 @@ easy_admin:
             list:
                 title: 'Продукты'
                 fields: ['id', 'sku', 'name', 'visible']
+            search:
+                fields: ['sku', 'translations.name']
             form:
                 fields:
                     - { type: 'tab' , label: 'Основные' }
@@ -245,6 +247,7 @@ easy_admin:
                 - { type: 'tab' , label: 'Теги' }
                 - { property: 'productTagItems', label: 'Добавить тег', type_options: { block_name: 'products_tags_items' }}
         ProductTagItem:
+            label: 'Опции тегов продуктов'
             class: App\Entity\ProductTagItem
             form:
               fields:
@@ -267,6 +270,7 @@ easy_admin:
                 - { type: 'tab' , label: 'Теги' }
                 - { property: 'productItemTagItems', label: 'Добавить тег', type_options: { block_name: 'product_item_tag_items' }}
         ProductItemTagItem:
+            label: 'Опции тегов товаров'
             class: App\Entity\ProductItemTagItem
             controller: App\Controller\Admin\ProductItemTagItemController
             list:
@@ -643,10 +647,8 @@ easy_admin:
             - 'admin/form/upload.html.twig'
             - 'admin/form/image.html.twig'
         menu:
-          - label: 'Адреса'
-            children: ['ProductUrl', 'CatalogUrl']
-          - label: 'Каталоги'
-            children: ['Catalog', 'Product', 'Items', 'ProductTag', 'ProductItemTag', 'Lense', 'LenseTag', 'LenseTagItem', 'ProductCollection']
+          - label: 'Каталог'
+            children: ['Catalog', 'Product', 'Items', 'ProductTag', 'ProductTagItem', 'ProductItemTag', 'ProductItemTagItem', 'Lense', 'LenseTag', 'LenseTagItem', 'ProductCollection']
           - Users
           - label: 'Меню'
             children: ['Menu', 'MenuItem']

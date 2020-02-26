@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
+    locale: 'ru'
     email_from: '%env(MAILER_FROM)%'
     app.path.product_images: /uploads/images/products
     app.path.import_product: /public/uploads/import/
@@ -66,9 +66,8 @@ services:
         arguments:
             $localeDir: '%app.path.locale_dir%'
 
-#    App\GraphQL\Type\ItemsImagesType:
-#        public: true
-#        autowire: true
+    App\Event\LocaleSubscriber:
+        arguments: ['%kernel.default_locale%']
 
     App\Service\CouponService:
         arguments:
