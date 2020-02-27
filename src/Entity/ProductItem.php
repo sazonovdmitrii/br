@@ -354,7 +354,7 @@ class ProductItem
     {
         return $this->productItemImages->matching(
             (Criteria::create())->orderBy([
-                'id' => Criteria::ASC,
+                'sort_order' => Criteria::DESC,
             ])
         );
     }

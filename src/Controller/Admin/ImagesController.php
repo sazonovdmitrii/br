@@ -2,17 +2,39 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\ProductItemImageRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManager;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ImagesController extends BaseAdminController
 {
     private $entityManager;
 
     private $fileUploader;
+
+    /**
+     * @Route("/images/order", methods={"POST","HEAD"})
+     */
+    public function order(
+        Request $request,
+        ProductItemImageRepository $productItemImageRepository,
+        EntityManager $entityManager
+    ) {
+        $itemImage = $productItemImageRepository->find($request->request->get('id'));
+        $itemImage->setSortOrder($request->request->get('value'));
+
+        $entityManager->persist($itemImage);
+        $entityManager->flush();
+
+        $response = new Response();
+        $response->setContent(json_encode(['success']));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 
     public function __construct(
         EntityManager $entityManager,

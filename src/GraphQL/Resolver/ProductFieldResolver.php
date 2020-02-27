@@ -161,7 +161,6 @@ class ProductFieldResolver extends LocaleAlias
                     ->setConfig($imageConfiguration)
                     ->getAll();
             }
-//            $images = array_reverse($images);
             $item->setImages($images);
         }
 

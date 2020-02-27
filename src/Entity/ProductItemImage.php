@@ -36,6 +36,11 @@ class ProductItemImage
      */
     private $title;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $sort_order;
+
     public function __construct()
     {
         $this->created = new \DateTime();
@@ -96,5 +101,17 @@ class ProductItemImage
     public function __toString()
     {
         return self::class;
+    }
+
+    public function getSortOrder(): ?int
+    {
+        return $this->sort_order;
+    }
+
+    public function setSortOrder(?int $sort_order): self
+    {
+        $this->sort_order = $sort_order;
+
+        return $this;
     }
 }

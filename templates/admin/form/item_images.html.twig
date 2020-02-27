@@ -16,6 +16,7 @@
         {% for key, image in entity.productItemImages %}
             <div class="image_item col-sm-2" eid="{{ image.id }}">
                 <img src="{{ image.path }}" class="img-thumbnail">
+                <input type="number" class="sort_order" data-id="{{ image.id }}" value="{{ image.getSortOrder() }}"/>
                 <div>
                     <button onclick="delete_image(this)" class="btn btn-default" type="button">
                         <span class="glyphicon glyphicon-trash">Удалить</span>
@@ -28,6 +29,12 @@
 
     <script type="text/javascript">
         $(function () {
+            $('.sort_order').change(function(){
+                var e = $(this);
+                $.post('/images/order', {id: e.data('id'), value: e.val()}, function(response) {
+                    console.log(response);
+                });
+            });
             $('#file_upload').fileupload({
                 dataType: 'json',
                 done: function (e, data) {
