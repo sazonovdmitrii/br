@@ -249,10 +249,16 @@ easy_admin:
         ProductTagItem:
             label: 'Опции тегов продуктов'
             class: App\Entity\ProductTagItem
+            list:
+                title: 'Опции тегов продуктов'
+                fields:
+                    - { property: 'id', label: 'ID'}
+                    - { property: 'name', label: 'Наименование'}
+                    - { property: 'products', label: 'Продуктов'}
             form:
               fields:
-                - name
-                - slug
+                - { type: 'tab' , label: 'Мультиязычный контент' }
+                - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: {default_locale: '%locale%', fields: { name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType', label: 'Наименование' }}}}
         ProductItemTag:
             label: 'Теги товаров'
             class: App\Entity\ProductItemTag
@@ -276,16 +282,17 @@ easy_admin:
             list:
               title: 'Опции тегов товаров'
               fields:
-                - id
-                - name
+                - { property: 'id', label: 'ID'}
+                - { property: 'name', label: 'Наименование'}
                 - { property: 'image', template: 'admin/renderers/image.html.twig' }
-                - created
             form:
               title: 'Добавить опцию тега товара'
               fields:
-                - { property: 'name', label: 'Имя'}
+                - { type: 'tab' , label: 'Основные' }
                 - { property: 'entity', type_options: { block_name: 'entity_id'} }
                 - { property: 'image', label: 'Изображение', type_options: { block_name: 'product_item_tag_image' }}
+                - { type: 'tab' , label: 'Мультиязычный контент' }
+                - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType, type_options: {default_locale: '%locale%', fields: { name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType', label: 'Наименование' }}}}
         CatalogTag:
             class: App\Entity\CatalogTag
             label: 'Теги каталогов'

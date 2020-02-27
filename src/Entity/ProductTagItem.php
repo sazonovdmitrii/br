@@ -5,12 +5,15 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductTagItemRepository")
  */
 class ProductTagItem
 {
+    use ORMBehaviors\Translatable\Translatable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -22,11 +25,6 @@ class ProductTagItem
      * @ORM\ManyToOne(targetEntity="App\Entity\ProductTag", inversedBy="productTagItems")
      */
     private $entity_id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -67,18 +65,6 @@ class ProductTagItem
     public function setEntityId(?ProductTag $entity_id): self
     {
         $this->entity_id = $entity_id;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
 
         return $this;
     }
@@ -164,5 +150,19 @@ class ProductTagItem
         }
 
         return $this;
+    }
+
+    public function __call($method, $arguments)
+    {
+        $method = ('get' === substr($method, 0, 3) || 'set' === substr($method, 0, 3)) ? $method : 'get'. ucfirst($method);
+
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function __get($name)
+    {
+        $method = 'get'. ucfirst($name);
+        $arguments = [];
+        return $this->proxyCurrentLocaleTranslation($method, $arguments);
     }
 }
