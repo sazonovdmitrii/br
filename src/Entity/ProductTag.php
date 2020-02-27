@@ -36,7 +36,7 @@ class ProductTag
     private $entity_id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductTagItem", mappedBy="entity_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductTagItem", mappedBy="entity_id", cascade={"remove"})
      */
     private $productTagItems;
 

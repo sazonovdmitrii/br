@@ -46,7 +46,7 @@ class Catalog
     private $brand;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CatalogUrl", mappedBy="entity")
+     * @ORM\OneToMany(targetEntity="App\Entity\CatalogUrl", mappedBy="entity", cascade={"remove"})
      */
     private $catalogUrls;
 

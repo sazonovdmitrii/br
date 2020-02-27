@@ -24,7 +24,7 @@ class Region
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\City", mappedBy="region")
+     * @ORM\OneToMany(targetEntity="App\Entity\City", mappedBy="region", cascade={"remove"})
      */
     private $cities;
 

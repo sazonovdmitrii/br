@@ -49,7 +49,7 @@ class ProductItemTag
     private $visible;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductItemTagItem", mappedBy="entity")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductItemTagItem", mappedBy="entity", cascade={"remove"})
      */
     private $productItemTagItems;
 

@@ -47,7 +47,7 @@ class Page
     private $visible;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PageUrl", mappedBy="entity")
+     * @ORM\OneToMany(targetEntity="App\Entity\PageUrl", mappedBy="entity", cascade={"remove"})
      */
     private $pageUrls;
 

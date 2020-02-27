@@ -31,7 +31,7 @@ class LenseTag
     private $visible;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\LenseItemTag", mappedBy="entity")
+     * @ORM\OneToMany(targetEntity="App\Entity\LenseItemTag", mappedBy="entity", cascade={"remove"})
      */
     private $lenseItemTags;
 

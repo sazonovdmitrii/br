@@ -37,7 +37,7 @@ class Store
     private $latitude;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StoreUrl", mappedBy="entity")
+     * @ORM\OneToMany(targetEntity="App\Entity\StoreUrl", mappedBy="entity", cascade={"remove"})
      */
     private $storeUrls;
 
