@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="ru" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="0jg4sef" resname="Symfony is great">
+        <source>Symfony is great</source>
+        <target>Symfony is great123</target>
+      </trans-unit>
+      <trans-unit id="HafpNy4" resname="Имя">
+        <source>Имя</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="NT6vo7s" resname="Фамилия">
+        <source>Фамилия</source>
+        <target>Surname</target>
+      </trans-unit>
+      <trans-unit id="gi_f2bo" resname="Телефон">
+        <source>Телефон</source>
+        <target>Phone</target>
+      </trans-unit>
+      <trans-unit id="PgzNkvo" resname="Сообщение">
+        <source>Сообщение</source>
+        <target>Message</target>
+      </trans-unit>
+      <trans-unit id="zraKkof" resname="Отправить">
+        <source>Отправить</source>
+        <target>Send</target>
+      </trans-unit>
+      <trans-unit id="wJuSiph" resname="О нас">
+        <source>О нас</source>
+        <target>About Us</target>
+      </trans-unit>
+      <trans-unit id="AS7SSvb" resname="Цель и задачи проектного офиса">
+        <source>Цель и задачи проектного офиса</source>
+        <target>The purpose and tasks of the project office</target>
+      </trans-unit>
+      <trans-unit id=".KjVqjw" resname="Контакты">
+        <source>Контакты</source>
+        <target>Contacts</target>
+      </trans-unit>
+      <trans-unit id="bAJxqNJ" resname="Электронный магазин">
+        <source>Электронный магазин</source>
+        <target>Shop</target>
+      </trans-unit>
+      <trans-unit id="UCnwLQq" resname="Проекты">
+        <source>Проекты</source>
+        <target>Projects</target>
+      </trans-unit>
+      <trans-unit id="D5mMCK_" resname="Симфони великий">
+        <source>Симфони великий</source>
+        <target>Symfony is great</target>
+      </trans-unit>
+      <trans-unit id="3NHVIj9" resname="Name">
+        <source>Name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="RokUi3i" resname="[Default]">
+        <source>[Default]</source>
+        <target>__[Default]</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

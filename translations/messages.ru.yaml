@@ -1,0 +1,47 @@
+Order: Заказ
+Catalog: Каталог
+Name: Наименование
+Visible: Видимость
+Sku: Артикул
+Product: Продукт
+Items: Товар
+ProductTag: Тег Продукта
+Input type: Тип ввода
+Created: Создан
+Updated: Обновлен
+ProductTagItem: Опция Тега Продукта
+ProductItemTag: Тег товара
+ProductItemTagItem: Опция Тега Товара
+Image: Изображение
+Lense: Линза
+LenseTag: Тег линзы
+LenseTagItem: Опция Тега Линзы
+ProductCollection: Коллекция
+Users: Пользователь
+Roles: Роли
+Menu: Меню
+Title: Заголовок
+MenuItem: Пункт Меню
+Page: Страница
+Block: Блок
+Banner: Баннер
+Path: Путь
+Link: Ссылка
+ImageManager: Картинка
+Store: Магазин
+LandingBlock: Лэндинг Блок
+LandingPage: Страница Лэндинга
+Sale: Акция
+Start: Старт
+Finish: Финиш
+Discount: Скидка
+Enabled: Включен
+Featured: Избранное
+Type: Тип
+Code: Код
+Percent: Процент
+Coupons: Купон
+Width: Длина
+Height: Ширина
+Quality: Качество
+ImageType: Тип Изображения
