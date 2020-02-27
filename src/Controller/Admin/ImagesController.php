@@ -17,7 +17,7 @@ class ImagesController extends BaseAdminController
     private $fileUploader;
 
     /**
-     * @Route("/images/order", methods={"POST","HEAD"})
+     * @Route("/admin/images/order", methods={"POST","HEAD"})
      */
     public function order(
         Request $request,

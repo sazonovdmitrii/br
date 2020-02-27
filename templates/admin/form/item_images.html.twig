@@ -31,7 +31,7 @@
         $(function () {
             $('.sort_order').change(function(){
                 var e = $(this);
-                $.post('/images/order', {id: e.data('id'), value: e.val()}, function(response) {
+                $.post('/admin/images/order', {id: e.data('id'), value: e.val()}, function(response) {
                     console.log(response);
                 });
             });
