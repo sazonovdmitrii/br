@@ -153,9 +153,9 @@ easy_admin:
                         }
                       }
                     - { property: 'product_id', type_options: { block_name: 'entity_id'} }
-                    - { type: 'tab', label: 'Images' }
+                    - { type: 'tab', label: 'Изображения' }
                     - { property: 'productItemImages', type_options: { block_name: 'item_images' }}
-                    - { type: 'tab', label: 'Tags' }
+                    - { type: 'tab', label: 'Теги' }
                     - { property: 'productItemTagItems', type_options: { block_name: 'items_tags_items' }}
         Product:
             class: App\Entity\Product
