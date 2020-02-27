@@ -17,6 +17,8 @@ const cx = classnames.bind(styles);
 
 const Footer = ({ lang }) => {
     const { pathname } = useLocation();
+    const date = new Date();
+    const currentYear = date.getFullYear();
 
     return (
         <footer id="footer" className={styles.root}>
@@ -57,7 +59,7 @@ const Footer = ({ lang }) => {
                 <CopyrightMenu lang={lang} />
             </section>
             <section className={styles.copyright}>
-                <FormattedMessage id="c_footer_copyright" values={{ br: <br /> }} />
+                <FormattedMessage id="c_footer_copyright" values={{ br: <br />, year: currentYear }} />
             </section>
             <section className={styles.disclamer}>
                 <FormattedMessage id="c_footer_disclamer" />
