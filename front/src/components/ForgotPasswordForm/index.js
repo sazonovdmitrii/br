@@ -13,7 +13,7 @@ import Button from 'components/Button';
 
 import styles from './styles.css';
 
-const RestorePassword = () => {
+const ForgotPasswordForm = () => {
     const { createNotification } = useApp();
     const [email, setEmail] = useState('');
     const [restorePassword] = useMutation(RESTORE_PASSWORD, {
@@ -68,4 +68,4 @@ const RestorePassword = () => {
     );
 };
 
-export default RestorePassword;
+export default ForgotPasswordForm;

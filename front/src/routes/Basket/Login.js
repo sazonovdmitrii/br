@@ -9,7 +9,7 @@ import LoginForm from 'components/LoginForm';
 import UserForm from 'components/UserForm';
 import Link from 'components/Link';
 import Hr from 'components/Hr';
-import RestorePasswordForm from 'components/RestorePasswordForm';
+import ForgotPasswordForm from 'components/ForgotPasswordForm';
 
 import styles from './styles.css';
 
@@ -54,7 +54,7 @@ const Login = () => {
             )}
             {loginType === 'remind' && (
                 <>
-                    <RestorePasswordForm />
+                    <ForgotPasswordForm />
                     <Link onClick={() => setLoginType('login')}>
                         <FormattedMessage id="p_remind_password_login_link" />
                     </Link>

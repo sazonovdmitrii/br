@@ -263,5 +263,6 @@
 
     "p_login_meta_title": "Вход",
     "p_register_meta_title": "Регистрация",
-    "p_remind_password_meta_title": "Забыл пароль"
+    "p_remind_password_meta_title": "Забыл пароль",
+    "p_remind_password_success_message": "Ваш пароль был изменен"
 }
