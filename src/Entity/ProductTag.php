@@ -70,6 +70,11 @@ class ProductTag
      */
     private $is_on_product_page;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $sort_order;
+
     public function __construct()
     {
         $this->entity_id = new ArrayCollection();
@@ -255,5 +260,17 @@ class ProductTag
         $method = 'get'. ucfirst($name);
         $arguments = [];
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function getSortOrder(): ?int
+    {
+        return $this->sort_order;
+    }
+
+    public function setSortOrder(?int $sort_order): self
+    {
+        $this->sort_order = $sort_order;
+
+        return $this;
     }
 }

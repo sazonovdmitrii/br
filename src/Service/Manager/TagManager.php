@@ -148,24 +148,33 @@ class TagManager extends AbstractController
     public function getProductFilters()
     {
         $productTags = [];
+
         foreach ($this->getEntity()->getProducttagitem() as $productTag) {
-            $productTags[] = $productTag->getId();
+
+            $productTag->setCurrentLocale($this->getLocale());
+
+            $productTags[] = [
+                'sort' => intval($productTag->getEntityId()->getSortOrder()),
+                'value' => $productTag->getName(),
+                'name' => $productTag->getEntityId()->getName()
+            ];
         }
 
-        $tagsItems = $this->productTagItemRepository->findBy(['id' => $productTags], ['id' => 'DESC']);
-
-        $tags = [];
-        foreach ($tagsItems as $tag) {
-            if ($tag->getName()) {
-                $tagEntity = $tag->getEntityId();
-                $tagEntity->setCurrentLocale($this->getLocale());
-                $tags[] = [
-                    'name'  => $tagEntity->getName(),
-                    'value' => $tag->getName()
-                ];
+        uasort($productTags, function($a, $b) {
+            if ($a['sort'] == $b['sort']) {
+                return 0;
+            } else if ($a['sort'] < $b['sort']) {
+                return 1;
+            } else {
+                return -1;
             }
+        });
+
+        foreach($productTags as $productTag) {
+            unset($productTag['sort']);
         }
-        return $tags;
+
+        return $productTags;
     }
 
     /**

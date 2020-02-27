@@ -200,6 +200,7 @@ easy_admin:
             class: App\Entity\Orders
             controller: App\Controller\Admin\OrderController
             list:
+                actions: ['edit', '-delete']
                 fields:
                   - { property: 'id', label: 'Номер'}
                   - { property: 'user_id.email', label: 'Email'}
@@ -232,6 +233,7 @@ easy_admin:
               fields:
                 - { type: 'tab' , label: 'Основные' }
                 - { property: 'is_on_product_page', label: 'Видим на странице продукта (несистемный)'}
+                - sort_order
                 - { property: 'type', label: 'Тип', type: 'choice', type_options: {multiple: false, choices: {bool: 'bool', string: 'string', int: 'int', float: 'float', enum: 'enum'}} }
                 - { property: 'input_type', label: 'Тип ввода', type: 'choice', type_options: {multiple: false, choices: {multiple: 'multiple', once: 'once'}} }
                 - { property: 'visible', label: 'Видимость', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
@@ -660,7 +662,7 @@ easy_admin:
           - label: 'Меню'
             children: ['Menu', 'MenuItem']
           - label: 'Контент'
-            children: ['Page', 'Block', 'Banner', 'ImageManager', 'Store', 'Region', 'Courier', 'Pickup', 'City', 'PaymentMethod']
+            children: ['Page', 'Block', 'Banner', 'ImageManager', 'Store']
           - label: 'Лэндинги'
             children: ['LandingBlock', 'LandingPage']
           - label: 'Продажи'
