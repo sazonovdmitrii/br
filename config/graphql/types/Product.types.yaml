@@ -10,6 +10,12 @@ Product:
       name:
         type: "String"
         description: "Product Name"
+      google_title:
+        type: "String"
+        description: "Google Title"
+      google_description:
+        type: "String"
+        description: "Google Description"
       url:
         type: "String"
         description: "Product Url"

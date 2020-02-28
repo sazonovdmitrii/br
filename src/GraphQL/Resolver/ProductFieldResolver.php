@@ -125,6 +125,16 @@ class ProductFieldResolver extends LocaleAlias
         return $product->getId();
     }
 
+    public function google_title(Product $product)
+    {
+        return $product->getGoogleTitle();
+    }
+
+    public function google_description(Product $product)
+    {
+        return $product->getGoogleDescription();
+    }
+
     /**
      * @param Product $product
      * @return mixed
