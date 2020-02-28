@@ -43,7 +43,6 @@ class CatalogProductResolver implements ResolverInterface, AliasedInterface {
         $products = [];
         if($parsed['path']) {
             $catalogUrl = $this->catalogUrlRepository->findByUrl($parsed['path'] . '/');
-            
             if(count($parsed['filters'])) {
                 $productsIds = [];
                 foreach($parsed['filters'] as $filter) {
@@ -60,7 +59,7 @@ class CatalogProductResolver implements ResolverInterface, AliasedInterface {
                     $productsIds = array_map(function($product) { return $product['product_id']; }, $productsIds);
                 }
 
-                $products = $catalogUrl->getEntity()->setCurrentLocale($args['locale'])->getProductCollection();
+                $products = $catalogUrl->getEntity()->getProductCollection();
 
                 $products = $products->filter(
                     function($entry) use ($productsIds) {

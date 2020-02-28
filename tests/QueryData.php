@@ -128,7 +128,7 @@ GRAPHQL;
         return
 <<<'GRAPHQL'
             {
-              catalog(slug: "zhenskie-solncezashhitnye-ochki", tags: [3921, 3920, 1298]) {
+              catalog(slug: "zhenskie-solncezashhitnye-ochki", tags: [53]) {
                 id
                 name
                 banner

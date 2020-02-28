@@ -106,6 +106,6 @@ class RecipeTest extends GraphQLTesting
 
         $updatedRecipe = $recipe['data']['addRecipe']['recipe']['recipes']['extraData'];
         $this->assertNotEmpty($recipe);
-        $this->assertEquals($updatedRecipe[0]['value'], '52');
+        $this->assertEquals($updatedRecipe[0]['value'], '53');
     }
 }
