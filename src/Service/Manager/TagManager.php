@@ -101,7 +101,7 @@ class TagManager extends AbstractController
      */
     public function getCatalogFilters()
     {
-        $allTags = $this->productTagRepository->findAll();
+        $allTags = $this->productTagRepository->findBy(['filterable' => true]);
 
         $tags        = [];
         $productTags = [];

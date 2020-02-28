@@ -75,6 +75,11 @@ class ProductTag
      */
     private $sort_order;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $filterable;
+
     public function __construct()
     {
         $this->entity_id = new ArrayCollection();
@@ -270,6 +275,18 @@ class ProductTag
     public function setSortOrder(?int $sort_order): self
     {
         $this->sort_order = $sort_order;
+
+        return $this;
+    }
+
+    public function getFilterable(): ?bool
+    {
+        return $this->filterable;
+    }
+
+    public function setFilterable(?bool $filterable): self
+    {
+        $this->filterable = $filterable;
 
         return $this;
     }
