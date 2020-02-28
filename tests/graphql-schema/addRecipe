@@ -1,5 +1,5 @@
-mutation ($input: UpdateRecipeInput!) {
-  updateRecipe(input:$input){
+mutation ($input: NewRecipeInput!) {
+  addRecipe(input:$input){
     id
     recipe {
     	recipes {

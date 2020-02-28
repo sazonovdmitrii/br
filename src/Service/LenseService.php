@@ -52,11 +52,6 @@ class LenseService extends AbstractController
             return [];
         }
 
-        $cacheItem = $this->cache->getItem('lense_' . md5($lense));
-        if($cacheItem->isHit()) {
-            return $cacheItem->get();
-        }
-
         $lense = json_decode(str_replace('\'', '"', $lense), true);
 
         if (!$this->structureValidatorService->validateBasketRecipe($lense)) {
@@ -97,10 +92,7 @@ class LenseService extends AbstractController
         }
 
         $formattedRecipe['recipes'] = $recipes;
-
-        $cacheItem->set($formattedRecipe);
-        $this->cache->save($cacheItem);
-
+        
         return $formattedRecipe;
     }
 

@@ -22,18 +22,27 @@ class RecipeTest extends GraphQLTesting
         $this->assertArraySubset([
             'data' => [
                 'addRecipe' => [
+                    'recipe' => [
+                        'recipes' => [
+                            'sides' => [
+                                'left' => [
 
+                                ]
+                            ]
+                        ]
+                    ]
                 ]
             ]
         ], $recipe);
 
-        $recipe = $recipe['data']['addRecipe'];
+        $recipe = $recipe['data']['addRecipe']['recipe']['recipes']['sides']['left'];
         $this->assertNotEmpty($recipe);
 
         $this->assertArraySubset([
             'id',
-            'recipe'
-        ], array_keys($recipe));
+            'name',
+            'value'
+        ], array_keys($recipe[0]));
     }
 
     public function testDeleteRecipe()
@@ -74,7 +83,7 @@ class RecipeTest extends GraphQLTesting
             $this->getMutationTestQuery('updateRecipe'), [
                 'input' => [
                     'id' => $recipeId,
-                    'recipe' => '123123'
+                    'recipe' => "{'recipes':{'left':{'7':'4.25','8':'23','9':'90','10':'35.5'},'right':{'7':'-3.25','8':'13','9':'10','10':'25.5'},'extraData':{'11':'52'}}}"
                 ]
             ], $this->getToken()
         );
@@ -82,12 +91,21 @@ class RecipeTest extends GraphQLTesting
         $this->assertArraySubset([
             'data' => [
                 'updateRecipe' => [
+                    'recipe' => [
+                        'recipes' => [
+                            'sides' => [
+                                'left' => [
 
+                                ]
+                            ]
+                        ]
+                    ]
                 ]
             ]
         ], $updatedRecipe);
 
-        $updatedRecipe = $updatedRecipe['data']['updateRecipe']['recipe'];
-        $this->assertEquals($updatedRecipe, '123123');
+        $updatedRecipe = $recipe['data']['addRecipe']['recipe']['recipes']['extraData'];
+        $this->assertNotEmpty($recipe);
+        $this->assertEquals($updatedRecipe[0]['value'], '52');
     }
 }

@@ -70,10 +70,30 @@ GRAPHQL;
         return
 <<<'GRAPHQL'
             mutation ($input: NewRecipeInput!) {
-                addRecipe(input:$input){
-                    id
-                    recipe
+              addRecipe(input:$input){
+                id
+                recipe {
+                    recipes {
+                    sides {
+                      left {
+                        id
+                        name
+                        value
+                      }
+                      right {
+                        id
+                        name
+                        value
+                      }
+                    }
+                    extraData {
+                      id
+                      name
+                      value
+                    }
+                  }
                 }
+              }
             }
 GRAPHQL;
     }
@@ -144,7 +164,27 @@ GRAPHQL;
             mutation ($input: EntityIdInput!) {
               deleteRecipe(input:$input){
                 id
-                recipe
+                recipe {
+                    recipes {
+                    sides {
+                      left {
+                        id
+                        name
+                        value
+                      }
+                      right {
+                        id
+                        name
+                        value
+                      }
+                    }
+                    extraData {
+                      id
+                      name
+                      value
+                    }
+                  }
+                }
               }
             }
 GRAPHQL;
@@ -263,9 +303,29 @@ GRAPHQL;
             mutation ($input: UpdateRecipeInput!) {
               updateRecipe(input:$input){
                 id
-                recipe
+                recipe {
+                    recipes {
+                    sides {
+                      left {
+                        id
+                        name
+                        value
+                      }
+                      right {
+                        id
+                        name
+                        value
+                      }
+                    }
+                    extraData {
+                      id
+                      name
+                      value
+                    }
+                  }
+                }
               }
-            }            
+            }         
 GRAPHQL;
     }
 

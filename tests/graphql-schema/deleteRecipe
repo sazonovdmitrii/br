@@ -1,7 +1,27 @@
 mutation ($input: EntityIdInput!) {
   deleteRecipe(input:$input){
     id
-    recipe
+    recipe {
+        recipes {
+        sides {
+          left {
+            id
+            name
+            value
+          }
+          right {
+            id
+            name
+            value
+          }
+        }
+        extraData {
+          id
+          name
+          value
+        }
+      }
+    }
   }
 }
 

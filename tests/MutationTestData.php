@@ -27,7 +27,7 @@ trait MutationTestData
     public function addRecipeData()
     {
         return [
-            'recipe' => 'asdfasdf'
+            'recipe' => "{'recipes':{'left':{'7':'4.25','8':'23','9':'90','10':'35.5'},'right':{'7':'-3.25','8':'13','9':'10','10':'25.5'},'extraData':{'11':'53'}}}"
         ];
     }
 
