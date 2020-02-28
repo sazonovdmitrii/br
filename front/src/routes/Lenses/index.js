@@ -47,6 +47,7 @@ const Lenses = () => {
     return (
         <div className={styles.root}>
             <Helmet title={metaTitle}>
+                {/* TODO REMOVE */}
                 <meta name="robots" content="noindex" />
             </Helmet>
             <div className={styles.hero}>
