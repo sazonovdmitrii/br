@@ -317,6 +317,12 @@ class Users implements UserInterface
         return $this->recipes;
     }
 
+    public function setRecipes($recipes)
+    {
+        $this->recipes = $recipes;
+        return $this;
+    }
+
     public function addRecipe(Recipe $recipe): self
     {
         if (!$this->recipes->contains($recipe)) {
