@@ -5,6 +5,10 @@
     "p_order_address_title": "Shipping address",
     "p_order_address": "Address",
 
+    "p_orders_title": "Orders",
+    "p_orders_order_title": "Order №{id}",
+    "p_orders_order_action": "Details",
+
     "p_cart_address_title": "Choose a shipping address",
     "p_cart_address_title": "Create address",
     "p_cart_block_shipping": "shipping",

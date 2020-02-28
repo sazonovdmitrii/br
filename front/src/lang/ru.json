@@ -5,6 +5,10 @@
     "p_order_address_title": "Адрес доставки",
     "p_order_address": "Адрес",
 
+    "p_orders_title": "Заказы",
+    "p_orders_order_title": "Заказ №{id}",
+    "p_orders_order_action": "Подробнее",
+
     "p_cart_address_title": "Выберите адрес доставки",
     "p_cart_block_shipping": "Доставка",
     "p_cart_block_subtotal": "Промежуточный итог ({amount} шт.)",

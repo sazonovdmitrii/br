@@ -38,12 +38,12 @@ const RecipeTable = ({ recipe }) => {
                     {recipe.extraData.map(({ name, value }) => (
                         <Fragment key={name}>
                             <tr>
-                                <th className={styles.tableHeading} colSpan="4">
+                                <th className={styles.tableHeading} colSpan="5">
                                     {name}
                                 </th>
                             </tr>
                             <tr>
-                                <td className={styles.tableValue} colSpan="4">
+                                <td className={styles.tableValue} colSpan="5">
                                     {value}
                                 </td>
                             </tr>

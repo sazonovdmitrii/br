@@ -1,22 +1,39 @@
 import gql from 'graphql-tag';
 
+import { Address } from 'fragments';
+
 const GET_ORDERS = gql`
     {
-        users_orders {
+        user {
             orders {
                 id
+                secret_key
                 orderItems {
+                    price
+                    coupon_price
+                }
+                payment {
                     id
-                    qty
-                    item {
-                        id
-                        name
-                        price
-                    }
+                    title
+                    description
+                }
+                delivery {
+                    id
+                    comment
+                    service
+                    address
+                    schedule
+                    latitude
+                    longitude
+                    days
+                }
+                address_id {
+                    ...Address
                 }
             }
         }
     }
+    ${Address}
 `;
 
 export default GET_ORDERS;

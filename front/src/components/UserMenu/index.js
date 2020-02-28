@@ -131,7 +131,7 @@ const UserMenu = () => {
                                     <FormattedMessage id="favorites" />
                                 </Link> */}
                             </li>
-                            {/* <li className={styles.submenuItem}>
+                            <li className={styles.submenuItem}>
                                 <Link
                                     className={styles.submenuLink}
                                     to={ordersLink}
@@ -139,7 +139,7 @@ const UserMenu = () => {
                                 >
                                     <FormattedMessage id="orders" />
                                 </Link>
-                            </li> */}
+                            </li>
                             <li className={styles.submenuItem}>
                                 <button type="button" className={styles.submenuLink} onClick={handleLogOut}>
                                     <FormattedMessage id="sign_out" />
