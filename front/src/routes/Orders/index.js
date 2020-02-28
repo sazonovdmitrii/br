@@ -31,7 +31,23 @@ export default withErrorBoundary(() => {
                     title={<FormattedMessage id="p_orders_order_title" values={{ id }} />}
                     description={
                         <>
-                            {payment} {delivery}
+                            {payment && (
+                                <p>
+                                    <FormattedMessage id="p_order_payment_method" />: {payment.title}
+                                </p>
+                            )}
+                            {(address_id || delivery) && (
+                                <p>
+                                    {address_id ? (
+                                        <FormattedMessage id="p_addresses_address_text" values={address_id} />
+                                    ) : (
+                                        <>
+                                            <FormattedMessage id="p_order_address_title" />:{' '}
+                                            {delivery.address}
+                                        </>
+                                    )}
+                                </p>
+                            )}
                         </>
                     }
                     actions={
