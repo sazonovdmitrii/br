@@ -42,6 +42,10 @@ export default ({ lang, defaultLang }) => {
                       loadable(() => import('./Addresses'), loadableOpts),
                       routerOptions({ path: '/account/addresses' }),
                   ],
+                  [
+                      loadable(() => import('./Orders'), loadableOpts),
+                      routerOptions({ path: '/account/orders' }),
+                  ],
               ]
             : [
                   [RestorePassword, routerOptions({ path: '/account/forgot-password/:token?' })],
