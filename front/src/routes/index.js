@@ -53,6 +53,7 @@ export default ({ lang, defaultLang }) => {
                   [Login, routerOptions({ path: '/account/login' })],
               ]),
         [Basket, routerOptions({ path: '/cart' })],
+        [loadable(() => import('./GiftCard'), loadableOpts), routerOptions({ path: '/gift-card' })],
         [loadable(() => import('./Accessories'), loadableOpts), routerOptions({ path: '/accessories' })],
         [loadable(() => import('./Certificates'), loadableOpts), routerOptions({ path: '/certificates' })],
         [loadable(() => import('./HomeTryOn'), loadableOpts), routerOptions({ path: '/home-try-on' })],
