@@ -1,12 +1,32 @@
-mutation ($input: NewRecipeInput!) {
-  addRecipe(input:$input){
+mutation ($input: UpdateRecipeInput!) {
+  updateRecipe(input:$input){
     id
-    recipe
+    recipe {
+    	recipes {
+        sides {
+          left {
+            id
+            name
+            value
+          }
+          right {
+            id
+            name
+            value
+          }
+        }
+        extraData {
+          id
+          name
+          value
+        }
+      }
+    }
   }
 }
 
 {
   "input": {
-    "recipe": "asdfasdf"
+    "recipe": "{'recipes':{'left':{'7':'4.25','8':'23','9':'90','10':'35.5'},'right':{'7':'-3.25','8':'13','9':'10','10':'25.5'},'extraData':{'11':'53'}}}"
   }
 }

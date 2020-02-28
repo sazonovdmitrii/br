@@ -65,8 +65,9 @@ class LenseService extends AbstractController
 
         $formattedRecipe = BasketRecipe::FORMATTED_RECIPE;
 
-        if ($lenseEntity = $this->getLenseById($lense['lense'])) {
+        if (isset($lense['lense']) && $lenseEntity = $this->getLenseById($lense['lense'])) {
             $lenseResult = [
+                'id'      => $lenseEntity->getId(),
                 'name'    => $lenseEntity->getName(),
                 'price'   => $lenseEntity->getPrice(),
                 'options' => [
@@ -76,6 +77,7 @@ class LenseService extends AbstractController
 
             foreach ($lenseEntity->getLenseitemstags() as $lenseItemTag) {
                 $lenseResult['options'][] = [
+                    'id'    => $lenseItemTag->getId(),
                     'name'  => $lenseItemTag->getEntity()->getName(),
                     'value' => $lenseItemTag->getName()
                 ];
@@ -124,6 +126,7 @@ class LenseService extends AbstractController
     {
         if ($recipe = $this->getLenseTagById($recipeId)) {
             return [
+                'id'    => $recipe->getId(),
                 'name'  => $recipe->getName(),
                 'value' => $recipeValue
             ];

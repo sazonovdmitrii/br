@@ -9,7 +9,7 @@ namespace App\Service\Structure;
  */
 class BasketRecipe
 {
-    const RECIPE = [
+    const LENSE_RECIPE = [
         'recipes' => [
             'left'      => [
 
@@ -23,6 +23,20 @@ class BasketRecipe
         ],
         'lense'  => [
 
+        ]
+    ];
+
+    const RECIPE = [
+        'recipes' => [
+            'left'      => [
+
+            ],
+            'right'     => [
+
+            ],
+            'extraData' => [
+
+            ]
         ]
     ];
 

@@ -60,6 +60,9 @@ LenseOptionTag:
   config:
     description: "Lense Option Tag"
     fields:
+      id:
+        type: "Int"
+        description: "Lense Option Tag ID"
       name:
         type: "String"
         description: "Lense Option Tag Name"

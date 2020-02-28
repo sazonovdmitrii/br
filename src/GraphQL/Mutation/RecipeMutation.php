@@ -4,6 +4,7 @@ namespace App\GraphQL\Mutation;
 
 use App\Repository\RecipeRepository;
 use App\Service\AuthenticatorService;
+use App\Service\LenseService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
@@ -27,6 +28,10 @@ class RecipeMutation extends AuthMutation
      * @var RecipeRepository
      */
     private $recipeRepository;
+    /**
+     * @var LenseService
+     */
+    private $lenseService;
 
     public function __construct(
         Redis $redis,
@@ -34,7 +39,8 @@ class RecipeMutation extends AuthMutation
         AuthenticatorService $authenticatorService,
         UserService $userService,
         EntityManager $entityManager,
-        RecipeRepository $recipeRepository
+        RecipeRepository $recipeRepository,
+        LenseService $lenseService
     ) {
         parent::__construct($redis, $container, $authenticatorService, $userService);
 
@@ -43,6 +49,7 @@ class RecipeMutation extends AuthMutation
         }
         $this->entityManager = $entityManager;
         $this->recipeRepository = $recipeRepository;
+        $this->lenseService = $lenseService;
     }
 
     public function add(Argument $args)
@@ -56,7 +63,10 @@ class RecipeMutation extends AuthMutation
         $this->entityManager->persist($recipe);
         $this->entityManager->flush();
 
-        return $recipe;
+        return [
+            'id' => $recipe->getId(),
+            'recipe' => $this->lenseService->parse($input->recipe)
+        ];
     }
 
     public function update(Argument $args)
@@ -72,6 +82,11 @@ class RecipeMutation extends AuthMutation
 
         $this->entityManager->persist($recipe);
         $this->entityManager->flush();
+
+        return [
+            'id' => $recipe->getId(),
+            'recipe' => $this->lenseService->parse($recipe->getRecipe())
+        ];
 
         return $recipe;
     }

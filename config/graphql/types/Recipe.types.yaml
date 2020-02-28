@@ -7,7 +7,7 @@ Recipe:
         type: "Int!"
         description: "User Id."
       recipe:
-        type: "String"
+        type: "LensesRecipe"
         description: "Recipe"
       customer:
         type: "User"

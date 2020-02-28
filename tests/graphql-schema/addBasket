@@ -18,15 +18,18 @@ mutation ($input: AddBasketInput!) {
         recipes {
           sides {
             left {
+              id
               name
               value
             }
             right {
+              id
               name
               value
             }
           }
           extraData {
+            id
             name
             value
           }
@@ -38,7 +41,7 @@ mutation ($input: AddBasketInput!) {
 
 {
   "input": {
-    "item_id": 114,
-    "lense": "{'recipes':{'left':{'7':'4.25','8':'23','9':'90','10':'35.5'},'right':{'7':'-3.25','8':'13','9':'10','10':'25.5'}},'extraData':{'11':'53'},'lense':2}"
+    "item_id": 115,
+    "lense": "{'recipes':{'extraData':{'11':'53'},'left':{'7':'4.25','8':'23','9':'90','10':'35.5'},'right':{'7':'-3.25','8':'13','9':'10','10':'25.5'}},'lense':2}"
   }
 }
