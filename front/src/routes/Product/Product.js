@@ -82,16 +82,14 @@ const Product = ({
             }
         ) {
             /* <3 apollo */
-            [GET_SHORT_BASKET, GET_BASKET].forEach(query => {
-                cache.writeQuery({
-                    query,
-                    data: {
-                        basket: {
-                            products: addBasket.products,
-                            __typename: 'Basket',
-                        },
+            cache.writeQuery({
+                query: GET_SHORT_BASKET,
+                data: {
+                    basket: {
+                        products: addBasket.products,
+                        __typename: 'Basket',
                     },
-                });
+                },
             });
         },
     });

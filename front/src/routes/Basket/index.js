@@ -22,6 +22,7 @@ export default ({ lang }) => {
                 locale: lang,
             },
             ssr: false,
+            fetchPolicy: 'network-only',
         }
     );
 

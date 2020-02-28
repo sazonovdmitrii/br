@@ -226,16 +226,14 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
             }
         },
         update(cache) {
-            [GET_SHORT_BASKET, GET_BASKET].forEach(query => {
-                cache.writeQuery({
-                    query,
-                    data: {
-                        basket: {
-                            products: [],
-                            __typename: 'Basket',
-                        },
+            cache.writeQuery({
+                query: GET_SHORT_BASKET,
+                data: {
+                    basket: {
+                        products: [],
+                        __typename: 'Basket',
                     },
-                });
+                },
             });
         },
         onError({ graphQLErrors: [{ message }] }) {
