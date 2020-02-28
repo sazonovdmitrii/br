@@ -43,15 +43,20 @@ class Recipe
         return $this;
     }
 
-    public function getRecipe(): ?string
+    public function getRecipe()
     {
         return $this->recipe;
     }
 
-    public function setRecipe(?string $recipe): self
+    public function setRecipe($recipe): self
     {
         $this->recipe = $recipe;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return (string)self::getId();
     }
 }

@@ -204,6 +204,9 @@ GRAPHQL;
               user {
                 id
                 confirmationToken
+                recipes {
+                    id
+                }
               }
             }
 GRAPHQL;

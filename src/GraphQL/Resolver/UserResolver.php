@@ -42,11 +42,11 @@ class UserResolver extends AuthAlias {
             throw new UserError('User not authorized!');
         }
         $user = $this->usersRepository->find($this->getUser()->getId());
-        $recipes = [];
+
         foreach($user->getRecipes() as $recipe) {
-            $recipes[] = $this->lenseService->parse($recipe->getRecipe());
+            $recipe->setRecipe($this->lenseService->parse($recipe->getRecipe()));
         }
-        $user->setRecipes($recipes);
+
         return $user;
     }
 
