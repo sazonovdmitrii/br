@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet';
-import classnames from 'classnames/bind';
 import { FormattedMessage } from 'react-intl';
 
 import { useFormatMessage } from 'hooks';
 
 import Button from 'components/Button';
+import Nav from 'components/Nav';
 
 import styles from './styles.css';
 
@@ -15,8 +15,6 @@ import prescriptionTypesDarkImage from './images/pt-dark.jpg';
 import eyeglassesLensColorsImage from './images/eyeglasses-lens-colors.png';
 import sunglassesLensColorsImage from './images/sunglasses-lens-colors.jpg';
 import prSunglassesLensColorsImage from './images/pr-sunglasses-lens-colors.jpg';
-
-const cx = classnames.bind(styles);
 
 const NAV_HEIGHT = 66;
 
@@ -65,26 +63,7 @@ const Lenses = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.nav}>
-                <div className={styles.navInner}>
-                    {Object.entries(_sections).map(([id, { name }]) => {
-                        const navLinkClassName = cx(styles.navLink, {
-                            active: id === activeCategory,
-                        });
-
-                        return (
-                            <button
-                                key={id}
-                                type="button"
-                                className={navLinkClassName}
-                                onClick={() => handleClick(id)}
-                            >
-                                {name}
-                            </button>
-                        );
-                    })}
-                </div>
-            </div>
+            <Nav items={Object.entries(_sections)} value={activeCategory} onClick={id => handleClick(id)} />
             <div ref={_sections.eyeglasses.node} className={styles.category}>
                 <div className={styles.container}>
                     <div className={styles.section}>

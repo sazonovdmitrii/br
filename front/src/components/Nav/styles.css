@@ -1,0 +1,47 @@
+.root {
+    position: sticky;
+    top: -1px;
+    background-color: var(--color-background);
+    border-color: #e1e5e6;
+    border-width: 1px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+}
+
+.inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+
+    @media (min-width: 600px) {
+        font-size: 18px;
+    }
+}
+
+.link {
+    position: relative;
+    margin-right: 9px;
+    margin-left: 9px;
+    color: #a0a0a0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.1s;
+
+    &.active {
+        color: #414b56;
+        border-color: #414b56;
+    }
+
+    &:hover:not(.active) {
+        color: #a1a4a6;
+        border-color: #a1a4a6;
+    }
+
+    @media (--viewport-ipad) {
+        margin-right: 18px;
+        margin-left: 18px;
+    }
+}

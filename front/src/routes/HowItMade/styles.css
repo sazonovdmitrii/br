@@ -1,0 +1,162 @@
+.hero {
+    background: no-repeat var(--color-primary) url('./images/hero.jpg') 50% / cover;
+    padding-bottom: 100.52632%;
+    position: relative;
+    height: 0;
+
+    @media (min-width: 600px) {
+        padding-bottom: 54.94792%;
+    }
+
+    @media (min-width: 900px) {
+        padding-bottom: 34.74635%;
+    }
+}
+
+.heroInner {
+    max-width: 600px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+}
+
+.heroTitle {
+    max-width: 300px;
+    margin-top: 0;
+    font-size: 30px;
+    color: #fff;
+
+    @media (min-width: 600px) {
+        max-width: 100%;
+    }
+
+    @media (min-width: 1200px) {
+        font-size: 55px;
+    }
+}
+
+.section {
+    margin-top: 60px;
+
+    &:last-child {
+        margin-bottom: 84px;
+    }
+}
+
+.container {
+    padding-left: 18px;
+    padding-right: 18px;
+    max-width: 1440px;
+    margin: 0 auto;
+
+    @media (min-width: 600px) {
+        padding-left: 36px;
+        padding-right: 36px;
+    }
+
+    @media (min-width: 900px) {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+
+    @media (min-width: 1200px) {
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+}
+
+.row {
+    text-align: center;
+    font-size: 0;
+    display: block;
+    margin: 0 -12px;
+
+    @media (min-width: 900px) {
+        margin: 0 -18px;
+    }
+
+    @media (min-width: 1200px) {
+        margin: 0 -24px;
+    }
+}
+
+.col {
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 100%;
+
+    @media (min-width: 900px) {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    @media (min-width: 1200px) {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
+.categoryTitle {
+    text-transform: uppercase;
+    margin: 0 0 24px;
+    letter-spacing: 1.5px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.sectionTitle {
+    margin-bottom: 24px;
+    margin-top: 0;
+    font-size: 24px;
+
+    @media (min-width: 1200px) {
+        font-size: 40px;
+    }
+}
+
+.sectionText {
+    margin: 0 0 36px;
+    line-height: 26px;
+    font-size: 16px;
+    color: #676f78;
+
+    & ul {
+        list-style: disc;
+    }
+
+    @media (min-width: 600px) {
+        margin-bottom: 54px;
+    }
+
+    @media (min-width: 1200px) {
+        line-height: 28px;
+        font-size: 18px;
+    }
+}
+
+.imageCol {
+    width: 100%;
+
+    &:first-child {
+        margin-bottom: 54px;
+    }
+
+    @media (min-width: 600px) {
+        /*width: 50%;*/
+
+        &:first-child {
+            margin-bottom: 0;
+        }
+    }
+}

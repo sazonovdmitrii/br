@@ -58,6 +58,7 @@ export default ({ lang, defaultLang }) => {
         [loadable(() => import('./Certificates'), loadableOpts), routerOptions({ path: '/certificates' })],
         [loadable(() => import('./HomeTryOn'), loadableOpts), routerOptions({ path: '/home-try-on' })],
         [loadable(() => import('./Lenses'), loadableOpts), routerOptions({ path: '/lenses' })],
+        [loadable(() => import('./HowItMade')), routerOptions({ path: '/how-our-glasses-are-made' })],
         [
             loadable(() => import('./Landing/Eyeglasses'), loadableOpts),
             routerOptions({ path: '/eyeglasses' }),
