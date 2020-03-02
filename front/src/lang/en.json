@@ -224,12 +224,14 @@
     "p_404_text": "Go back to our <homelink>homepage</homelink>.",
     "our_newest_collections": "Our newest collections",
     "shop_now": "Shop now",
+    "p_eyeglasses_meta_title": "Eyeglasses",
     "p_eyeglasses_hero_title": "Eyeglasses",
     "p_eyeglasses_hero_text": "Prescription eyeglasses, starting at $95, with free shipping and free returns",
     "p_eyeglasses_button_men": "For men",
     "p_eyeglasses_button_women": "For women",
 
     "sunglasses": "Sunglasses",
+    "p_sunglasses_meta_title": "Sunglasses",
     "p_sunglasses_text": "Each pair is equipped with scratch-resistant lenses that block 100% of UVA and UVB rays. Starting at $95, with free shipping and free returns.",
 
     "quiz_action": "Take a quiz to find your frames",
