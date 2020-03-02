@@ -3,26 +3,26 @@ mutation ($input: NewRecipeInput!) {
     id
     recipe {
     	recipes {
-        sides {
-          left {
-            id
-            name
-            value
-          }
-          right {
-            id
-            name
-            value
+            sides {
+              left {
+                id
+                name
+                value
+              }
+              right {
+                id
+                name
+                value
+              }
+            }
+            extraData {
+              id
+              name
+              value
+            }
           }
         }
-        extraData {
-          id
-          name
-          value
-        }
-      }
     }
-  }
 }
 
 {

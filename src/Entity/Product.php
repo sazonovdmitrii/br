@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -502,5 +503,12 @@ class Product
         $this->priority = $priority;
 
         return $this;
+    }
+
+    public function getTagsCollection()
+    {
+        return $this->producttagitem->filter(function($productTagItem) {
+            return ($productTagItem->getEntityId()->getFilterable() == true);
+        });
     }
 }

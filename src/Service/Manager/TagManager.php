@@ -149,7 +149,7 @@ class TagManager extends AbstractController
     {
         $productTags = [];
 
-        foreach ($this->getEntity()->getProducttagitem() as $productTag) {
+        foreach ($this->getEntity()->getTagsCollection() as $productTag) {
 
             $productTag->setCurrentLocale($this->getLocale());
 
@@ -211,7 +211,7 @@ class TagManager extends AbstractController
      */
     public function getOneForProduct()
     {
-        return $this->getEntity()->getProducttagitem()->filter(function (ProductTagItem $productTagItem) {
+        return $this->getEntity()->getTagsCollection()->filter(function (ProductTagItem $productTagItem) {
             return $productTagItem->getEntityId()->getId() == $this->getTagId();
         }
         )->first();
@@ -252,7 +252,7 @@ class TagManager extends AbstractController
      */
     public function getMultipleForProduct()
     {
-        return $this->getEntity()->getProducttagitem()->filter(function (ProductTagItem $productTagItem) {
+        return $this->getEntity()->getTagsCollection()->filter(function (ProductTagItem $productTagItem) {
             return in_array($productTagItem->getEntityId()->getId(), $this->getTagsIds());
         }
         );
