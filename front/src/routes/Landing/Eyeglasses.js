@@ -1,8 +1,9 @@
 import React from 'react';
 // import { Link as LinkRoute } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { Helmet } from 'react-helmet';
 
-import { useLangLinks } from 'hooks';
+import { useFormatMessage, useLangLinks } from 'hooks';
 
 import Link from 'components/Link';
 // import Collections from 'components/Collections';
@@ -20,26 +21,33 @@ import lensesImage from './images/eyeglasses-lenses.jpg';
 // import videoPosterImage from './images/videposter.jpg';
 
 const Landing = () => {
-    const [manUrl, womanUrl, lensesUrl] = useLangLinks(['/muzhskie-opravy/', '/zhenskie-opravy/', '/lenses']);
+    const [metaTitle] = useFormatMessage([{ id: 'p_eyeglasses_meta_title' }]);
+    const [manUrl, womanUrl, lensesUrl] = useLangLinks([
+        '/muzhskie-opravy/',
+        '/zhenskie-opravy/',
+        '/info/lenses',
+    ]);
 
     return (
-        <Container>
-            <HeroLanding
-                title={<FormattedMessage id="p_eyeglasses_hero_title" />}
-                text={<FormattedMessage id="p_eyeglasses_hero_text" />}
-                image={{ source: heroImage }}
-                actions={
-                    <>
-                        <Button to={manUrl} kind="simple" bold>
-                            <FormattedMessage id="p_eyeglasses_button_men" />
-                        </Button>
-                        <Button to={womanUrl} kind="simple" bold>
-                            <FormattedMessage id="p_eyeglasses_button_women" />
-                        </Button>
-                    </>
-                }
-            />
-            {/* <section>
+        <>
+            <Helmet title={metaTitle} />
+            <Container>
+                <HeroLanding
+                    title={<FormattedMessage id="p_eyeglasses_hero_title" />}
+                    text={<FormattedMessage id="p_eyeglasses_hero_text" />}
+                    image={{ source: heroImage }}
+                    actions={
+                        <>
+                            <Button to={manUrl} kind="simple" bold>
+                                <FormattedMessage id="p_eyeglasses_button_men" />
+                            </Button>
+                            <Button to={womanUrl} kind="simple" bold>
+                                <FormattedMessage id="p_eyeglasses_button_women" />
+                            </Button>
+                        </>
+                    }
+                />
+                {/* <section>
                 <HomeTry
                     image={<img src={homeTryImage} alt="" />}
                     title={<FormattedMessage id="home_try_on" />}
@@ -68,26 +76,27 @@ const Landing = () => {
                     }
                 />
             </section> */}
-            <section className={styles.section}>
-                <Lenses
-                    image={<img src={lensesImage} alt="" />}
-                    title={<FormattedMessage id="eyeglasses_lenses_title" />}
-                    text={<FormattedMessage id="eyeglasses_lenses_text" />}
-                    items={[
-                        {
-                            label: <FormattedMessage id="prescription_types" />,
-                            value: <FormattedMessage id="prescription_types_text" />,
-                        },
-                    ]}
-                    action={
-                        <Button to={lensesUrl} kind="simple" size="large" bold>
-                            <FormattedMessage id="find_your_lenses" />
-                        </Button>
-                    }
-                />
-            </section>
-            {/* <Collections /> */}
-        </Container>
+                <section className={styles.section}>
+                    <Lenses
+                        image={<img src={lensesImage} alt="" />}
+                        title={<FormattedMessage id="eyeglasses_lenses_title" />}
+                        text={<FormattedMessage id="eyeglasses_lenses_text" />}
+                        items={[
+                            {
+                                label: <FormattedMessage id="prescription_types" />,
+                                value: <FormattedMessage id="prescription_types_text" />,
+                            },
+                        ]}
+                        action={
+                            <Button to={lensesUrl} kind="simple" size="large" bold>
+                                <FormattedMessage id="find_your_lenses" />
+                            </Button>
+                        }
+                    />
+                </section>
+                {/* <Collections /> */}
+            </Container>
+        </>
     );
 };
 

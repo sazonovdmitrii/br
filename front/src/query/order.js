@@ -9,6 +9,7 @@ const GET_ORDER = gql`
             orderItems {
                 id
                 item {
+                    name
                     product {
                         url
                         name

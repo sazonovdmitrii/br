@@ -42,6 +42,10 @@ export default ({ lang, defaultLang }) => {
                       loadable(() => import('./Addresses'), loadableOpts),
                       routerOptions({ path: '/account/addresses' }),
                   ],
+                  [
+                      loadable(() => import('./Orders'), loadableOpts),
+                      routerOptions({ path: '/account/orders' }),
+                  ],
               ]
             : [
                   [RestorePassword, routerOptions({ path: '/account/forgot-password/:token?' })],
@@ -49,6 +53,7 @@ export default ({ lang, defaultLang }) => {
                   [Login, routerOptions({ path: '/account/login' })],
               ]),
         [Basket, routerOptions({ path: '/cart' })],
+        [loadable(() => import('./GiftCard'), loadableOpts), routerOptions({ path: '/gift-card' })],
         [loadable(() => import('./Accessories'), loadableOpts), routerOptions({ path: '/accessories' })],
         [loadable(() => import('./Certificates'), loadableOpts), routerOptions({ path: '/certificates' })],
         [loadable(() => import('./HomeTryOn'), loadableOpts), routerOptions({ path: '/home-try-on' })],

@@ -1,9 +1,21 @@
 {
+    "p_gift_card_meta_title": "Gift card",
+    "p_gift_card_title": "The perfect present",
+    "p_gift_card_description": "Surprise a loved one by helping them into new glasses or sunglasses with a Brillenhof gift card.",
+    "p_gift_card_button_shop_now": "Shop now",
+    "p_gift_card_button_gift_faq": "Gift card FAQs",
+    "p_gift_card_faq_title": "How it works",
+    "p_gift_card_faq": "<title>How do I use my Brillenhof gift card?</title><text>Redeem it at brillenhof.com or at any of our retail locations. Just apply your gift card code during checkout.</text><title>How do I check my gift card balance?</title><text>Call +7 (495) 587 98 99, with your gift code and we’ll update you on your card’s balance.</text><title>Can I return a gift card?</title><text>Our gift cards are non-refundable. If you’d like to return a purchase made with a gift card, the funds will be credited back to your gift card.</text><title>What if I don’t use up my whole gift card?</title><text>The unused portion of your gift card will automatically self-destruct. Kidding! It remains on your balance and can be used toward any future Brillenhof purchase.</text><title>When will my gift card expire?</title><text>Never!</text><title>How does the e-gift card work?</title><text>It is a virtual version of a regular gift card; it works exactly the same, except it’s delivered via email.</text><title>Can I ship a gift card directly to the recipient?</title><text>Absolutely! Fill in the shipping address field with your recipient’s address during checkout, and we’ll send the gift card there. However, if you are purchasing multiple items that need to be sent to different addresses, you’ll need to place those orders separately.</text><title>How long will it take for a physical gift card to arrive?</title><text>Your physical gift card will arrive in five business days.</text><title>What about e-gift cards?</title><text>When you order an e-gift card, you can select any date within the next three months for delivery. If you’d like the e-gift card to be sent out the same day, it will be delivered within the hour. Otherwise, your recipient will receive the virtual gift and message the morning of the date you select.</text><title>Can I buy a gift card in person?</title><text>But of course. Physical gift cards are available for purchase at any of our stores. Find a store near you at <retailsLink>brillenhof.com/retail</retailsLink>; the stores are differentiated online from the showrooms by a little blue box with the letters WP.</text><title>Do you offer bulk or corporate orders?</title><text>We sure do. If you’d like to purchase Brillenhof gift cards in quantities greater than 10, send an email to info@brillenhof.com, and we’ll get you set up.</text><title>Can I order gift cards in denominations other than the $50, $95, $145 and $295 offered on the site?</title><text>We also offer $125 and $195 gift cards in-store and over the phone. If you’re interested in either of these denominations, drop by a location or give us a call at +7 (495) 587 98 99.</text>",
+
     "p_order_title": "Thanks for order №{id}",
     "p_order_payment_method": "Payment method",
     "p_order_delivery_method": "Delivery method",
     "p_order_address_title": "Shipping address",
     "p_order_address": "Address",
+
+    "p_orders_title": "Orders",
+    "p_orders_order_title": "Order №{id}",
+    "p_orders_order_action": "Details",
 
     "p_cart_address_title": "Choose a shipping address",
     "p_cart_address_title": "Create address",
@@ -212,12 +224,14 @@
     "p_404_text": "Go back to our <homelink>homepage</homelink>.",
     "our_newest_collections": "Our newest collections",
     "shop_now": "Shop now",
+    "p_eyeglasses_meta_title": "Eyeglasses",
     "p_eyeglasses_hero_title": "Eyeglasses",
     "p_eyeglasses_hero_text": "Prescription eyeglasses, starting at $95, with free shipping and free returns",
     "p_eyeglasses_button_men": "For men",
     "p_eyeglasses_button_women": "For women",
 
     "sunglasses": "Sunglasses",
+    "p_sunglasses_meta_title": "Sunglasses",
     "p_sunglasses_text": "Each pair is equipped with scratch-resistant lenses that block 100% of UVA and UVB rays. Starting at $95, with free shipping and free returns.",
 
     "quiz_action": "Take a quiz to find your frames",
