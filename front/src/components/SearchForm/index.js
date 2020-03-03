@@ -61,7 +61,7 @@ const SearchForm = ({ show, onClose, title, placeholder }) => {
 
     const Root = (
         <div className={styles.root} ref={overlayNode}>
-            <div className={styles.inner}>
+            <div className={styles.container}>
                 <button type="button" className={styles.closeButton} onClick={onClose}>
                     <CloseIcon className={styles.closeIcon} size="16" />
                 </button>
@@ -76,38 +76,40 @@ const SearchForm = ({ show, onClose, title, placeholder }) => {
                 />
             </div>
             <hr className={styles.hr} />
-            <div className={styles.inner}>
-                {called && search ? (
-                    loading ? (
-                        <Loader fullHeight />
-                    ) : products.length ? (
-                        <div className={styles.products}>
-                            {products.map(({ node: { id, name, url, items } }, index) => (
-                                <ProductCard
-                                    key={id}
-                                    id={id}
-                                    seo={{ position: index + 1, showPlace: 'Search' }} // for SEO
-                                    name={name}
-                                    url={url}
-                                    items={items.edges}
-                                    onClick={onClose}
+            <div className={styles.content}>
+                <div className={styles.container}>
+                    {called && search ? (
+                        loading ? (
+                            <Loader fullHeight />
+                        ) : products.length ? (
+                            <div className={styles.products}>
+                                {products.map(({ node: { id, name, url, items } }, index) => (
+                                    <ProductCard
+                                        key={id}
+                                        id={id}
+                                        seo={{ position: index + 1, showPlace: 'Search' }} // for SEO
+                                        name={name}
+                                        url={url}
+                                        items={items.edges}
+                                        onClick={onClose}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className={styles.emptyText}>
+                                <FormattedMessage
+                                    id="c_search_empty_text"
+                                    values={{
+                                        'men-eyeglasses': msg => <Link to={menEyeglasses}>{msg}</Link>,
+                                        'women-eyeglasses': msg => <Link to={womenEyeglasses}>{msg}</Link>,
+                                        'men-sunglasses': msg => <Link to={menSunglasses}>{msg}</Link>,
+                                        'women-sunglasses': msg => <Link to={womenSunglasses}>{msg}</Link>,
+                                    }}
                                 />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className={styles.emptyText}>
-                            <FormattedMessage
-                                id="c_search_empty_text"
-                                values={{
-                                    'men-eyeglasses': msg => <Link to={menEyeglasses}>{msg}</Link>,
-                                    'women-eyeglasses': msg => <Link to={womenEyeglasses}>{msg}</Link>,
-                                    'men-sunglasses': msg => <Link to={menSunglasses}>{msg}</Link>,
-                                    'women-sunglasses': msg => <Link to={womenSunglasses}>{msg}</Link>,
-                                }}
-                            />
-                        </div>
-                    )
-                ) : null}
+                            </div>
+                        )
+                    ) : null}
+                </div>
             </div>
         </div>
     );

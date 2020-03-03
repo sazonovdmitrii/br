@@ -8,7 +8,16 @@
     background: var(--color-background);
 }
 
-.inner {
+.content {
+    height: calc(100% - 150px);
+    overflow-y: auto;
+
+    @media (--viewport-ipad) {
+        height: calc(100% - 250px);
+    }
+}
+
+.container {
     position: relative;
     max-width: 1440px;
     margin: 0 auto;
@@ -100,9 +109,15 @@
 
 .products {
     display: grid;
+    grid-gap: 20px;
 
-    @media (--viewport-dekstop) {
+    @media (--viewport-ipad) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (--viewport-desktop) {
         grid-template-columns: repeat(4, 1fr);
+        grid-gap: 48px;
     }
 }
 
