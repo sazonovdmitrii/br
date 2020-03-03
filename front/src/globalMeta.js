@@ -36,8 +36,9 @@ export default {
             title: name,
         };
     },
-    product({ name, items = [] }) {
+    product({ name, og = {}, items = [] }) {
         return {
+            og,
             title: name,
             keywords: `${items.map(({ node }) => node.name).join(', ')}`,
             description: ``,

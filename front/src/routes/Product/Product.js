@@ -29,6 +29,8 @@ const cx = classnames.bind(styles);
 
 const Product = ({
     name,
+    google_title: googleTitle,
+    google_description: googleDescription,
     items: { edges: items = [] },
     tags,
     similars: { edges: similars = [] },
@@ -116,7 +118,13 @@ const Product = ({
 
     return (
         <Container>
-            <SeoHead type="product" name={name} items={items} image={images.length ? images[0].path : null} />
+            <SeoHead
+                type="product"
+                og={{ title: googleTitle, description: googleDescription }}
+                name={name}
+                items={items}
+                image={images.length ? images[0].path : null}
+            />
             {showChooseLenses && (
                 <ChooseLenses
                     product={{ name, item: selectedProduct }}

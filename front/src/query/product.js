@@ -4,6 +4,8 @@ const GET_PRODUCT = gql`
     query Product($slug: String!, $locale: String) {
         product(slug: $slug, locale: $locale) {
             name
+            google_title
+            google_description
             items(limit: 40, offset: 0) {
                 edges {
                     node {
