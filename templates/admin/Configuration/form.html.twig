@@ -151,6 +151,14 @@
                             <label for="profit">Наименование фида</label>
                             <input type="text" class="form-control" name="gm_name" id="gm_name" value="{{ list.gm_name is defined ? list.gm_name : '' }}"/>
                         </div>
+                        <div class="form-group">
+                            <label for="gm_title_mask">Маска Google Title</label>
+                            <input type="text" class="form-control" name="gm_title_mask" id="gm_title_mask" value="{{ list.gm_title_mask is defined ? list.gm_title_mask : '' }}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="gm_description_mask">Маска Google Description</label>
+                            <input type="text" class="form-control" name="gm_description_mask" id="gm_description_mask" value="{{ list.gm_description_mask is defined ? list.gm_description_mask : '' }}"/>
+                        </div>
                     </div>
                 </div>
             </div>

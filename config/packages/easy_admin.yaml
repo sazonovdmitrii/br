@@ -149,6 +149,8 @@ easy_admin:
                             default_locale: '%locale%',
                             fields: {
                                 name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                                google_title: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                                google_description: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
                             }
                         }
                       }
@@ -180,8 +182,6 @@ easy_admin:
                             fields: {
                                 name: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
                                 description: {field_type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
-                                google_title: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
-                                google_description: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
                             }
                         }
                       }
