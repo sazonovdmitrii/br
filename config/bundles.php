@@ -1,5 +1,6 @@
 <?php
 
+
 return [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle::class => ['all' => true],
@@ -14,11 +15,7 @@ return [
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
-    App\Lp\CmsBundle\LpCmsBundle::class => ['all' => true],
-    App\Lp\CatalogBundle\LpCatalogBundle::class => ['all' => true],
-    App\Lp\UrlsBundle\LpUrlsBundle::class => ['all' => true],
-    App\Lp\BasketBundle\LpBasketBundle::class => ['all' => true],
-    App\Lp\ProfileBundle\LpProfileBundle::class => ['all' => true],
+    App\Lp\PaymentBundle\LpPaymentBundle::class => ['all' => true],
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],

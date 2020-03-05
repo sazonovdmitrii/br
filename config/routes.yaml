@@ -1,15 +1,6 @@
 app_logout:
     path: /logout
 
-cms:
-    resource: "Lp/CmsBundle/Resources/config/routing.yaml"
-
-basket:
-    resource: "Lp/BasketBundle/Resources/config/routing.yaml"
-
-profile:
-    resource: "Lp/ProfileBundle/Resources/config/routing.yaml"
-
 images_upload:
     path: /admin/images/upload
     controller: App\Controller\Admin\ImagesController::upload
@@ -27,9 +18,8 @@ easy_admin_bundle:
     prefix: /admin
     type: annotation
 
-urls:
-    resource: "Lp/UrlsBundle/Resources/config/routing.yaml"
-
+app_yandex:
+    resource: "Lp/PaymentBundle/Resources/config/routing.yaml"
 
 
 

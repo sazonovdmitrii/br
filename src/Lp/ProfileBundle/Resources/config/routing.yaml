@@ -1,3 +1,0 @@
-profile:
-    path: /profile
-    controller: App\Lp\ProfileBundle\Controller\ProfileController::index

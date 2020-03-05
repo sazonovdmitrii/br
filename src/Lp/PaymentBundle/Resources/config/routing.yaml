@@ -1,0 +1,3 @@
+app_yandex_payment:
+  path: /app/yandex/payment
+  controller: App\Lp\PaymentBundle\Controller\YandexController::index
