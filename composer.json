@@ -12,6 +12,7 @@
         "easycorp/easyadmin-bundle": "^1.17",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
         "goltzchristian/graphql-client-php": "^1.0",
+        "graylog2/gelf-php": "^1.6",
         "impulze/intervention-image-bundle": "^1.2",
         "knplabs/doctrine-behaviors": "~1.1",
         "lexik/jwt-authentication-bundle": "^2.6",
@@ -42,7 +43,8 @@
         "symfony/yaml": "4.3.*",
         "twig/extensions": "^1.5",
         "vich/uploader-bundle": "^1.9",
-        "vitalybaev/google-merchant-feed": "^2.0"
+        "vitalybaev/google-merchant-feed": "^2.0",
+        "yandex-money/yandex-checkout-sdk-php": "^1.5"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
