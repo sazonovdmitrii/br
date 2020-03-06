@@ -17,7 +17,7 @@ class FeedDataAbstract
     /**
      * @var
      */
-    private $product;
+    private $item;
 
     /**
      * @var array
@@ -48,18 +48,18 @@ class FeedDataAbstract
     /**
      * @return mixed
      */
-    public function getProduct()
+    public function getItem()
     {
-        return $this->product;
+        return $this->item;
     }
 
     /**
-     * @param $product
+     * @param $item
      * @return $this
      */
-    public function setProduct($product)
+    public function setItem($item)
     {
-        $this->product = $product;
+        $this->item = $item;
         return $this;
     }
 
@@ -68,21 +68,24 @@ class FeedDataAbstract
      */
     public function getData()
     {
-        $product = $this->getProduct();
+        $item = $this->getItem();
+        $this->data = [];
 
-        $this->data = [
-            'id' => $product->getId(),
-            'title' => $product->getName(),
-            'description' => strip_tags($product->getDescription()),
-            'image' => $this->envService->getDomain() . $product->getMainImage(),
-            'availability' => Availability::IN_STOCK,
-            'price' => $product->getMainPrice(),
-            'google_category' => $product->getTagValue($this->configService->get('tag_gm')),
-            'brand' => $product->getTagValue($this->configService->get('brand_tag')),
-            'gtin' => $product->getGtin(),
-            'condition' => Condition::NEW_PRODUCT,
-            'link' => $this->envService->getDomain('/') . $product->getMainLink()
-        ];
+        if($item->getProduct()) {
+            $this->data = [
+                'id' => $item->getId(),
+                'title' => $item->getGoogleTitle(),
+                'description' => strip_tags($item->getGoogleDescription()),
+                'image' => $this->envService->getDomain() . $item->getProduct()->getMainImage(),
+                'availability' => Availability::IN_STOCK,
+                'price' => $item->getProduct()->getMainPrice(),
+                'google_category' => $item->getProduct()->getTagValue($this->configService->get('tag_gm')),
+                'brand' => $item->getProduct()->getTagValue($this->configService->get('brand_tag')),
+                'gtin' => $item->getProduct()->getGtin(),
+                'condition' => Condition::NEW_PRODUCT,
+                'link' => $this->envService->getDomain('/') . $item->getProduct()->getMainLink()
+            ];
+        }
 
         return $this->data;
     }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Command;
 
+use App\Repository\ProductItemRepository;
 use App\Service\ConfigService;
 use App\Service\EnvService;
 use Symfony\Component\Console\Input\InputInterface;
@@ -8,49 +9,74 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Vitalybaev\GoogleMerchant\Feed;
 use Vitalybaev\GoogleMerchant\Product;
-use App\Repository\ProductRepository;
 use App\Validator\GoogleMerchantProduct;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Command\FeedData\FeedFactory;
 
+/**
+ * Class GoogleMerchant
+ *
+ * @package App\Command
+ */
 class GoogleMerchant extends Command
 {
     protected static $defaultName = 'gm:generate';
+
     /**
-     * @var ProductRepository
+     * @var ProductItemRepository
      */
-    private $productRepository;
+    private $productItemRepository;
+
     /**
      * @var ConfigService
      */
     private $configService;
+
     /**
      * @var ValidatorInterface
      */
     private $validator;
 
-    private $product;
+    /**
+     * @var
+     */
+    private $item;
 
-    private $productData;
+    /**
+     * @var
+     */
+    private $itemData;
+
     /**
      * @var EnvService
      */
     private $envService;
 
+    /**
+     * @var
+     */
     private $type;
 
     const FEED_TYPES = ['gm', 'facebook'];
 
+    /**
+     * GoogleMerchant constructor.
+     *
+     * @param ConfigService $configService
+     * @param ValidatorInterface $validator
+     * @param EnvService $envService
+     * @param ProductItemRepository $productItemRepository
+     */
     public function __construct(
-        ProductRepository $productRepository,
         ConfigService $configService,
         ValidatorInterface $validator,
-        EnvService $envService
+        EnvService $envService,
+        ProductItemRepository $productItemRepository
     ) {
-        $this->productRepository = $productRepository;
         $this->configService = $configService;
         $this->validator = $validator;
         $this->envService = $envService;
+        $this->productItemRepository = $productItemRepository;
         parent::__construct();
     }
 
@@ -75,46 +101,46 @@ class GoogleMerchant extends Command
     /**
      * @return mixed
      */
-    public function getProductData()
+    public function getItemData()
     {
-        if($this->productData) {
-            return $this->productData;
+        if($this->itemData) {
+            return $this->itemData;
         }
         $feedFactory = new FeedFactory($this->getType(), $this->configService, $this->envService);
 
-        $this->setProductData($feedFactory->getDataProvider()
-            ->setProduct($this->product)
+        $this->setItemData($feedFactory->getDataProvider()
+            ->setItem($this->item)
             ->getData());
 
-        return $this->productData;
+        return $this->itemData;
     }
 
     /**
-     * @param $productData
+     * @param $itemData
      * @return $this
      */
-    public function setProductData($productData)
+    public function setItemData($itemData)
     {
-        $this->productData = $productData;
+        $this->itemData = $itemData;
         return $this;
     }
 
     /**
-     * @param $product
+     * @param $item
      * @return $this
      */
-    public function setProduct($product)
+    public function setItem($item)
     {
-        $this->product = $product;
+        $this->item = $item;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getProduct()
+    public function getItem()
     {
-        return $this->product;
+        return $this->item;
     }
 
     protected function configure()
@@ -137,16 +163,15 @@ class GoogleMerchant extends Command
 
             $gmValidator = new GoogleMerchantProduct();
 
-            foreach ($this->productRepository->findAll() as $product) {
+            foreach ($this->productItemRepository->findAll() as $item) {
 
-                $this->setProduct($product);
-
-                $errors = $this->validator->validate($this->getProductData(), $gmValidator);
+                $this->setItem($item);
+                $errors = $this->validator->validate($this->getItemData(), $gmValidator);
 
                 if(!$errors->count()) {
                     $product = new Product();
 
-                    foreach($this->getProductData() as $attribute => $value) {
+                    foreach($this->getItemData() as $attribute => $value) {
                         $product->setAttribute($attribute, $value);
                     }
 
@@ -156,7 +181,7 @@ class GoogleMerchant extends Command
                     $output->writeln((string)$errors);
                 }
 
-                $this->setProductData([]);
+                $this->setItemData([]);
             }
 
             $feedXml = $feed->build();

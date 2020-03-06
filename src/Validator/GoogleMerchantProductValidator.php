@@ -32,7 +32,7 @@ class GoogleMerchantProductValidator extends ConstraintValidator
         $validator  = Validation::createValidator();
         $violations = $validator->validate($data, $dataConstraint);
 
-        if ($violations->count()) {
+        if ($violations->count() && isset($data['id'])) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $data['id'])
                 ->addViolation();

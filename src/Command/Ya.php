@@ -28,7 +28,7 @@ class Ya extends Command
                 ),
                 'confirmation' => array(
                     'type' => 'redirect',
-                    'return_url' => 'https://www.merchant-website.com/return_url',
+                    'return_url' => 'https://www.brillenhof.com/app/yandex/payment',
                 ),
                 'description' => 'Заказ №72',
             ),
