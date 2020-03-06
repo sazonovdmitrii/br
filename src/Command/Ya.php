@@ -1,6 +1,8 @@
 <?php
 namespace App\Command;
 
+use App\Repository\OrdersRepository;
+use App\Service\ConfigService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
@@ -9,18 +11,38 @@ use YandexCheckout\Client;
 class Ya extends Command
 {
     protected static $defaultName = 'ya:test';
+    /**
+     * @var ConfigService
+     */
+    private $configService;
+    /**
+     * @var OrdersRepository
+     */
+    private $ordersRepository;
+
+    public function __construct($name = null, ConfigService $configService, OrdersRepository $ordersRepository)
+    {
+        parent::__construct($name);
+        $this->configService = $configService;
+        $this->ordersRepository = $ordersRepository;
+    }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $client = new Client();
-        $client->setAuth('501167', 'test_2mwDYuDm8AeeBzrqqMCl_DJ1NOcwN_f84YfxqtYfLsE');
+        $order = $this->ordersRepository->find(80);
 
+        $client = new Client();
+        $client->setAuth(
+            $this->configService->get('yandex_shop_id'),
+            $this->configService->get('yandex_secret_key')
+        );
 
         $idempotenceKey = uniqid('', true);
+
         $response = $client->createPayment(
             array(
                 'amount' => array(
-                    'value' => '2.00',
+                    'value' => $order->getTotalSum(),
                     'currency' => 'RUB',
                 ),
                 'payment_method_data' => array(
@@ -28,9 +50,9 @@ class Ya extends Command
                 ),
                 'confirmation' => array(
                     'type' => 'redirect',
-                    'return_url' => 'https://www.brillenhof.com/app/yandex/payment',
+                    'return_url' => $this->configService->get('yandex_return_url')
                 ),
-                'description' => 'Заказ №72',
+                'description' => 'Заказ №' . $order->getId(),
             ),
             $idempotenceKey
         );

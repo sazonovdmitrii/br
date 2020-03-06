@@ -363,4 +363,13 @@ class Orders
 
         return $this;
     }
+
+    public function getTotalSum()
+    {
+        $totalSum = 0;
+        foreach($this->getOrderItems() as $orderItem) {
+            $totalSum += $orderItem->getPrice();
+        }
+        return $totalSum;
+    }
 }
