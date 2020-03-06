@@ -96,6 +96,15 @@ class ProductFieldResolver extends LocaleAlias
         return $product->getName();
     }
 
+    /**
+     * @param Product $product
+     * @return string|null
+     */
+    public function sku(Product $product)
+    {
+        return $product->getSku();
+    }
+
     public function catalog(Product $product, $args)
     {
         foreach($product->getCatalog() as $catalog) {

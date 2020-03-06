@@ -10,6 +10,9 @@ Product:
       name:
         type: "String"
         description: "Product Name"
+      sku:
+        type: "String"
+        description: "Product Sku"
       google_title:
         type: "String"
         description: "Google Title"
