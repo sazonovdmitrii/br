@@ -23,6 +23,7 @@ class GoogleMerchantProductValidator extends ConstraintValidator
             'price'           => new Assert\NotBlank(),
             'google_category' => new Assert\NotBlank(),
             'brand'           => new Assert\NotBlank(),
+            'gtin'            => new Assert\Length(['min' => 0]),
             'condition'       => new Assert\NotBlank(),
             'link'            => new Assert\NotBlank()
         ]
