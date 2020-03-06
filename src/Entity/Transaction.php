@@ -93,4 +93,9 @@ class Transaction
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return (string)self::getName();
+    }
 }
