@@ -96,6 +96,6 @@ class Transaction
 
     public function __toString()
     {
-        return (string)self::getName();
+        return (string)self::getId();
     }
 }
