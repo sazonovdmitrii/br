@@ -1,3 +1,7 @@
 app_yandex_payment:
   path: /app/yandex/payment
   controller: App\Lp\PaymentBundle\Controller\YandexController::index
+
+app_yandex_success:
+  path: /app/yandex/success
+  controller: App\Lp\PaymentBundle\Controller\YandexController::success

@@ -92,10 +92,16 @@ class Orders
      */
     private $external_payment_code;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="entity")
+     */
+    private $transactions;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
         $this->created = new \DateTime('now');
+        $this->transactions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -323,6 +329,37 @@ class Orders
     public function setExternalPaymentCode(?string $external_payment_code): self
     {
         $this->external_payment_code = $external_payment_code;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): self
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions[] = $transaction;
+            $transaction->setEntity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): self
+    {
+        if ($this->transactions->contains($transaction)) {
+            $this->transactions->removeElement($transaction);
+            // set the owning side to null (unless already changed)
+            if ($transaction->getEntity() === $this) {
+                $transaction->setEntity(null);
+            }
+        }
 
         return $this;
     }
