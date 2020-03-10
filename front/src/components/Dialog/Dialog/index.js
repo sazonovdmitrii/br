@@ -3,15 +3,13 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 
-import { useOnClickOutside } from 'hooks';
-
 import { DialogHeader } from 'components/Dialog';
 
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Dialog = ({ title, children, open, onClose, classNames, fullWidth, maxWidth, closeOnClickOutside }) => {
+const Dialog = ({ title, children, open, onClose, classNames }) => {
     const overlayNode = useRef(null);
 
     if (typeof document === 'undefined') return null;
@@ -30,27 +28,13 @@ const Dialog = ({ title, children, open, onClose, classNames, fullWidth, maxWidt
         };
     }, [domNode.style, open]);
 
-    if (closeOnClickOutside) {
-        useOnClickOutside(overlayNode, () => {
-            onClose();
-        });
-    }
-
     const rootClassName = cx(styles.root, classNames.root);
-    const innerClassName = cx(styles.inner, classNames.inner, {
-        fullWidth,
-        [maxWidth]: !!maxWidth,
-    });
+    const innerClassName = cx(styles.inner, classNames.inner);
 
     const $Dialog = (
-        <div role="dialog" className={rootClassName}>
-            <div className={styles.overlay} />
-            <div className={styles.container}>
-                <div ref={overlayNode} className={innerClassName}>
-                    <DialogHeader title={title} onClose={onClose} />
-                    {children}
-                </div>
-            </div>
+        <div ref={overlayNode} role="dialog" className={rootClassName}>
+            <DialogHeader title={title} onClose={onClose} />
+            {children}
         </div>
     );
 
@@ -62,9 +46,6 @@ const Dialog = ({ title, children, open, onClose, classNames, fullWidth, maxWidt
 Dialog.defaultProps = {
     open: false,
     onClose: () => {},
-    fullWidth: false,
-    maxWidth: null,
-    closeOnClickOutside: true,
     classNames: {},
 };
 
@@ -74,7 +55,6 @@ Dialog.propTypes = {
     onClose: PropTypes.func,
     fullWidth: PropTypes.bool,
     maxWidth: PropTypes.string,
-    closeOnClickOutside: PropTypes.bool,
     classNames: PropTypes.objectOf(PropTypes.string),
 };
 

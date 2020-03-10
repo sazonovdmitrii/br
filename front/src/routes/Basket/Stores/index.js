@@ -30,7 +30,7 @@ const Row = memo(({ data: { items, onClick }, index, style }) => {
             id={id}
             style={style}
             address={address}
-            className={styles.point}
+            classNames={{ root: styles.point, address: styles.pointAddress }}
             deliveryDays={
                 <>
                     <FormattedMessage id="p_cart_pickup_delivery_days" />:{' '}

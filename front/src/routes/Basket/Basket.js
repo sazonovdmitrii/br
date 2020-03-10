@@ -435,7 +435,6 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                       <Dialog
                           open={openDialog}
                           onClose={handleCloseDialog}
-                          classNames={{ inner: styles.dialogInner }}
                           title={
                               <FormattedMessage
                                   id={isPickup ? 'p_cart_pickups_title' : 'p_cart_stores_title'}
