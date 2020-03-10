@@ -2,6 +2,7 @@
 
 namespace App\Lp\PaymentBundle\Service;
 use App\Lp\PaymentBundle\Service\PaymentInterface;
+use App\Service\ConfigService;
 
 /**
  * Class Payment
@@ -11,13 +12,31 @@ use App\Lp\PaymentBundle\Service\PaymentInterface;
 class Payment implements PaymentInterface
 {
     /**
+     * @var ConfigService
+     */
+    private $configService;
+
+    public function __construct(ConfigService $configService)
+    {
+        $this->configService = $configService;
+    }
+
+    /**
+     * @var
+     */
+    private $order;
+
+    /**
      * @return mixed
      */
-    public function getPaymentLink($methodCode)
+    public function getPaymentLink()
     {
-        if($paymentMethod = $this->getPaymentMethod($methodCode)) {
-            return $paymentMethod->getPaymentLink();
+        $order = $this->getOrder();
+
+        if($paymentMethod = $this->getPaymentMethod($order->getExternalPaymentCode())) {
+            return $paymentMethod->setConfig($this->configService)->getPaymentLink($order);
         }
+
         return '';
     }
 
@@ -40,5 +59,23 @@ class Payment implements PaymentInterface
             }
         }
         return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param $order
+     * @return $this
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+        return $this;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\GraphQL\Resolver;
 
+use App\Lp\PaymentBundle\Service\PaymentInterface;
 use App\Repository\ImageTypeRepository;
 use App\Repository\OrdersRepository;
 use App\Service\Image\GeneratorService;
@@ -33,12 +34,21 @@ class OrderResolver extends LocaleAlias
      * @var GeneratorService
      */
     private $generatorService;
+    /**
+     * @var PaymentInterface
+     */
+    private $paymentService;
 
     /**
      * OrderResolver constructor.
      *
      * @param EntityManager $em
      * @param OrdersRepository $ordersRepository
+     * @param InfoService $infoService
+     * @param LenseService $lenseService
+     * @param ImageTypeRepository $imageTypeRepository
+     * @param GeneratorService $generatorService
+     * @param PaymentInterface $paymentService
      */
     public function __construct(
         EntityManager $em,
@@ -46,7 +56,8 @@ class OrderResolver extends LocaleAlias
         InfoService $infoService,
         LenseService $lenseService,
         ImageTypeRepository $imageTypeRepository,
-        GeneratorService $generatorService
+        GeneratorService $generatorService,
+        PaymentInterface $paymentService
     ) {
         $this->em = $em;
         $this->ordersRepository = $ordersRepository;
@@ -54,6 +65,7 @@ class OrderResolver extends LocaleAlias
         $this->lenseService = $lenseService;
         $this->imageTypeRepository = $imageTypeRepository;
         $this->generatorService = $generatorService;
+        $this->paymentService = $paymentService;
     }
 
     /**
@@ -97,6 +109,8 @@ class OrderResolver extends LocaleAlias
                 json_decode(str_replace('\'', '"', $orderItem->getLenses()), true)
             );
         }
+
+        $order->setPaymentLink($this->paymentService->setOrder($order)->getPaymentLink());
 
         if(!$order) {
             throw new UserError('Ошибка! Заказ не найден.');

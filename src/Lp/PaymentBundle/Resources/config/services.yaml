@@ -1,2 +1,6 @@
 services:
   App\Lp\PaymentBundle\Service\PaymentInterface: '@App\Lp\PaymentBundle\Service\Payment'
+
+  App\Lp\PaymentBundle\Service\Payment:
+    arguments:
+      $configService: '@App\Service\ConfigService'

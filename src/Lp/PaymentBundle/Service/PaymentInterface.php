@@ -9,5 +9,5 @@ interface PaymentInterface
     /**
      * @return mixed
      */
-    public function getPaymentLink($methodCode);
+    public function getPaymentLink();
 }

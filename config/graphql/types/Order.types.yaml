@@ -21,6 +21,9 @@ Order:
       address_id:
         type: "Address"
         description: "Address Item"
+      payment_link:
+        type: "String"
+        description: "Order Payment Link"
 
 ExternalPayment:
   type: object

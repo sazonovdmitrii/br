@@ -97,6 +97,8 @@ class Orders
      */
     private $transactions;
 
+    private $payment_link;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
@@ -371,5 +373,21 @@ class Orders
             $totalSum += $orderItem->getPrice();
         }
         return $totalSum;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPaymentLink()
+    {
+        return $this->payment_link;
+    }
+
+    /**
+     * @param mixed $payment_link
+     */
+    public function setPaymentLink($payment_link)
+    {
+        $this->payment_link = $payment_link;
     }
 }
