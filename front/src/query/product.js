@@ -6,6 +6,7 @@ const GET_PRODUCT = gql`
             name
             google_title
             google_description
+            sku
             items(limit: 40, offset: 0) {
                 edges {
                     node {
