@@ -58,6 +58,7 @@ const GET_PRODUCT = gql`
                         items(limit: 1, offset: 0) {
                             edges {
                                 node {
+                                    name
                                     images
                                 }
                             }

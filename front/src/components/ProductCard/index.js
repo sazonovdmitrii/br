@@ -10,7 +10,18 @@ import Colors from 'components/Colors';
 import styles from './styles.css';
 import placeholderImage from './images/placeholder.png';
 
-const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, seo = {}, onClick }) => {
+const ProductCard = ({
+    id,
+    url,
+    items,
+    name,
+    subname,
+    loading,
+    price,
+    image: imageProps,
+    seo = {},
+    onClick,
+}) => {
     if (loading) return null;
 
     const colors = items.reduce((array, item) => {
@@ -88,7 +99,8 @@ const ProductCard = ({ id, url, items, name, loading, price, image: imageProps, 
                     <img className={styles.image} src={image} alt={name} />
                 )}
             </RootLink>
-            {name && <h2 className={styles.title}>{name}</h2>}
+            {name && <h2 className={styles.name}>{name}</h2>}
+            {subname && <p className={styles.subname}>{subname}</p>}
             {colors.length ? (
                 <div className={styles.colors}>
                     <Colors value={color} list={colors} onChange={value => handleChangeColor(value)} />

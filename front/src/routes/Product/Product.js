@@ -256,6 +256,7 @@ const Product = ({
                                     <ProductCard
                                         name={item.node.name}
                                         url={item.node.url}
+                                        subname={firstItem.name}
                                         image={firstItem.images[0] ? firstItem.images[0] : null}
                                     />
                                 </div>
