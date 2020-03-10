@@ -220,6 +220,7 @@
     "sign_in": "Войти",
     "sign_up": "Зарегистрироваться",
     "p_product_price": "Цена {price} руб. включая линзы",
+    "p_product_tags_sku": "Артикул",
     "p_product_buy_at_optics_for": "Купить в оптике",
     "p_product_add_to_cart": "Добавить в корзину",
     "p_product_select_lenses": "Выбрать линзы",

@@ -213,6 +213,7 @@
     "p_product_price": "${price} including lenses",
     "p_product_buy_at_optics_for": "Buy at optics",
     "p_product_add_to_cart": "Add to card",
+    "p_product_tags_sku": "Sku",
     "p_product_select_lenses": "Select lenses and purchase",
     "p_product_select_lenses_title": "Select a {step}",
     "p_product_select_lenses_edit_button": "Edit selections",

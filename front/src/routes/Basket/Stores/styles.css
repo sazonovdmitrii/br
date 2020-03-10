@@ -58,6 +58,12 @@
     }
 }
 
+.pointAddress {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .backButton {
     width: 100%;
     display: flex;

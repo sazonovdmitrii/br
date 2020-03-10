@@ -8,12 +8,12 @@ import styles from './styles.css';
 
 const DialogHeader = ({ title, actions, onClose }) => (
     <div className={styles.header}>
-        <DialogTitle>{title}</DialogTitle>
-        <div className={styles.actions}>
-            <button className={styles.closeButton} onClick={onClose}>
-                <CloseIcon />
-            </button>
+        <div className={styles.title}>
+            <DialogTitle>{title}</DialogTitle>
         </div>
+        <button className={styles.closeButton} onClick={onClose}>
+            <CloseIcon />
+        </button>
     </div>
 );
 

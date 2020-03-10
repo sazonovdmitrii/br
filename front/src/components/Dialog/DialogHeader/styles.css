@@ -1,9 +1,28 @@
 .header {
-    display: flex;
-    align-items: center;
-    padding: 16px 24px;
+    height: 60px;
+    border-bottom: 1px solid #00a2e1;
+    position: relative;
 }
 
-.actions {
-    margin-left: auto;
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 12px;
+}
+
+.closeButton {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    padding: 9px;
+    cursor: pointer;
+
+    & svg {
+        width: 20px;
+        height: 20px;
+    }
 }

@@ -29,6 +29,7 @@ const cx = classnames.bind(styles);
 
 const Product = ({
     name,
+    sku,
     google_title: googleTitle,
     google_description: googleDescription,
     items: { edges: items = [] },
@@ -199,7 +200,10 @@ const Product = ({
                 text={<FormattedMessage id="p_product_delivery_text" />}
             />
             <div className={styles.section}>
-                <ProductTags items={tags} image={images[1] ? images[1] : null} />
+                <ProductTags
+                    items={[{ name: <FormattedMessage id="p_product_tags_sku" />, value: sku }, ...tags]}
+                    image={images[1] ? images[1] : null}
+                />
             </div>
             <Delivery
                 title={<FormattedMessage id="p_product_lenses_block_title" />}
@@ -252,6 +256,7 @@ const Product = ({
                                     <ProductCard
                                         name={item.node.name}
                                         url={item.node.url}
+                                        subname={firstItem.name}
                                         image={firstItem.images[0] ? firstItem.images[0] : null}
                                     />
                                 </div>

@@ -420,11 +420,7 @@ const ChooseLenses = ({
                                                         }}
                                                     />
                                                 </p>
-                                            ) : (
-                                                <p className={styles.railPrice}>
-                                                    <FormattedMessage id="free" />
-                                                </p>
-                                            )}
+                                            ) : null}
                                         </div>
                                         {description && (
                                             <div

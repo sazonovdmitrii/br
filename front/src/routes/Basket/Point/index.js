@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames/bind';
+import classnames from 'classnames';
 
 import styles from './styles.css';
 
-const cx = classnames.bind(styles);
-
-const Point = ({ address, price, deliveryDays, meta, actions, className, style, onClick }) => {
-    const rootClassName = cx(styles.root, className);
+const Point = ({ address, price, deliveryDays, meta, actions, classNames, style, onClick }) => {
+    const rootClassName = classnames(styles.root, classNames.root);
+    const addressClassName = classnames(styles.address, classNames.address);
     const Root = onClick ? 'button' : 'div';
 
     return (
         <Root type={onClick ? 'button' : null} className={rootClassName} style={style} onClick={onClick}>
-            <div className={styles.address}>{address}</div>
+            <div className={addressClassName}>{address}</div>
             {(price || deliveryDays) && (
                 <div className={styles.info}>
                     {price && <span className={styles.price}>{price}</span>}
@@ -37,7 +36,7 @@ Point.defaultProps = {
     deliveryDays: null,
     meta: [],
     actions: null,
-    className: null,
+    classNames: {},
     style: null,
     onClick: null,
 };
@@ -48,7 +47,7 @@ Point.propTypes = {
     deliveryDays: PropTypes.string,
     meta: PropTypes.arrayOf(PropTypes.string),
     actions: PropTypes.string,
-    className: PropTypes.string,
+    classNames: PropTypes.objectOf(PropTypes.string),
     style: PropTypes.objectOf(PropTypes.string),
     onClick: PropTypes.func,
 };
