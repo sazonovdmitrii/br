@@ -15,7 +15,7 @@ import styles from './styles.css';
 
 const Login = () => {
     const { login } = useApp();
-    const [loginType, setLoginType] = useState('login');
+    const [loginType, setLoginType] = useState('register');
     const handleLogInCompleted = ({ auth: { hash } }) => {
         login(hash);
     };
