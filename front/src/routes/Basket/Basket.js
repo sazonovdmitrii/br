@@ -290,15 +290,6 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        const footerNode = document.querySelector('#footer');
-
-        if (step === 1) {
-            footerNode.style.display = 'none';
-        }
-
-        return () => {
-            footerNode.style.display = 'block';
-        };
     }, [step]);
 
     useEffect(() => {

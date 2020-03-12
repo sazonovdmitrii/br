@@ -21,7 +21,7 @@ const Footer = ({ lang }) => {
     const currentYear = date.getFullYear();
 
     return (
-        <footer id="footer" className={styles.root}>
+        <footer className={styles.root}>
             <section className={styles.top}>
                 <div className={styles.row}>
                     <FooterMenu lang={lang} className={styles.menu} />
