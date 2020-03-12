@@ -516,7 +516,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                     </div>
                     <Sidebar
                         className={styles.sidebar}
-                        messages={['p_cart_sidebar_message']}
+                        messages={['p_cart_sidebar_message', 'p_cart_sidebar_free_shipping']}
                         pricing={[
                             { name: 'p_cart_sidebar_total', value: totalSum },
                             isCouponApplied && {
