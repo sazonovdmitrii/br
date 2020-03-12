@@ -1,4 +1,15 @@
 {
+    "form_address_city": "Город",
+    "form_address_street": "Улица",
+    "form_address_zip": "Индекс",
+    "form_address_house": "Дом",
+    "form_address_flat": "Офис/квартира",
+    "form_address_code": "Домофон",
+    "form_address_corp": "Корпус",
+    "form_address_level": "Этаж",
+    "form_address_person": "Получатель",
+    "form_address_name": "Название адреса",
+
     "p_how_it_made_meta_title": "Как наши очки изготавливаются",
     "p_how_it_made_hero_title": "Как изготавливаются очки Brillenhof",
     "p_how_it_made_nav_design": "Дизайн",

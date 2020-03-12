@@ -58,7 +58,11 @@ const AddressForm = ({ className, values: valuesProp, onSubmit, history, actions
         <form className={className} onSubmit={handleSubmit}>
             <InputGroup>
                 <Autocomplete
-                    label="Город*"
+                    label={
+                        <>
+                            <FormattedMessage id="form_address_city" />*
+                        </>
+                    }
                     value={city}
                     onInputChange={handeChangeAutocomplite}
                     onSelectValue={handleSelectAutocomplite}
@@ -66,21 +70,70 @@ const AddressForm = ({ className, values: valuesProp, onSubmit, history, actions
                 />
             </InputGroup>
             <InputGroup>
-                <Input label="Улица" name="street" value={street} onChange={handleChange} required />
+                <Input
+                    label={<FormattedMessage id="form_address_street" />}
+                    name="street"
+                    value={street}
+                    onChange={handleChange}
+                    required
+                />
             </InputGroup>
             <InputGroup>
-                <Input label="Индекс" name="zip" value={zip} onChange={handleChange} required />
+                <Input
+                    label={<FormattedMessage id="form_address_zip" />}
+                    name="zip"
+                    value={zip}
+                    onChange={handleChange}
+                    required
+                />
             </InputGroup>
             <InputGroup>
-                <Input label="Дом" name="house" value={house} onChange={handleChange} required />
-                <Input label="Офис/квартира" name="flat" value={flat} onChange={handleChange} required />
-                <Input label="Домофон" name="code" value={code} onChange={handleChange} />
-                <Input label="Корпус" name="corp" value={corp} onChange={handleChange} />
-                <Input label="Этаж" name="level" value={level} onChange={handleChange} />
+                <Input
+                    label={<FormattedMessage id="form_address_house" />}
+                    name="house"
+                    value={house}
+                    onChange={handleChange}
+                    required
+                />
+                <Input
+                    label={<FormattedMessage id="form_address_flat" />}
+                    name="flat"
+                    value={flat}
+                    onChange={handleChange}
+                    required
+                />
+                <Input
+                    label={<FormattedMessage id="form_address_code" />}
+                    name="code"
+                    value={code}
+                    onChange={handleChange}
+                />
+                <Input
+                    label={<FormattedMessage id="form_address_corp" />}
+                    name="corp"
+                    value={corp}
+                    onChange={handleChange}
+                />
+                <Input
+                    label={<FormattedMessage id="form_address_level" />}
+                    name="level"
+                    value={level}
+                    onChange={handleChange}
+                />
             </InputGroup>
             <InputGroup>
-                <Input label="Получатель" name="person" value={person} onChange={handleChange} />
-                <Input label="Название адреса" name="name" value={name} onChange={handleChange} required />
+                <Input
+                    label={<FormattedMessage id="form_address_person" />}
+                    name="person"
+                    value={person}
+                    onChange={handleChange}
+                />
+                <Input
+                    label={<FormattedMessage id="form_address_name" />}
+                    name="name"
+                    value={name}
+                    onChange={handleChange}
+                />
             </InputGroup>
             <div className={styles.actions}>
                 <Button type="submit" kind="primary" bold>

@@ -1,4 +1,15 @@
 {
+    "form_address_city": "City",
+    "form_address_street": "Street",
+    "form_address_zip": "Zip code",
+    "form_address_house": "House",
+    "form_address_flat": "Office/apartment",
+    "form_address_code": "Interphone",
+    "form_address_corp": "Corpus",
+    "form_address_level": "Floor",
+    "form_address_person": "Receiver",
+    "form_address_name": "Name of address",
+
     "p_how_it_made_meta_title": "How Our Glasses Are Made",
     "p_how_it_made_hero_title": "How Brillenhof glasses are made",
     "p_how_it_made_nav_design": "Design",
