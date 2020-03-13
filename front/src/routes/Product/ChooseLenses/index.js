@@ -57,7 +57,7 @@ const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
 
         if (visible) {
             const currentOption = obj[id];
-            const prices = currentOption ? currentOption.prices : [];
+            const prices = currentOption?.prices || [];
 
             obj[id] = {
                 ...rest,
@@ -97,7 +97,6 @@ const ChooseLenses = ({
     const [values, setValues] = useState([]);
     const [recipe, setRecipe] = useState(INITIAL_RECIPE);
     const [imageIndex, setImageIndex] = useState(0);
-    // const [prevStep, setPrevStep] = useState(false);
 
     const selectedLenses = getLensesByValues({ lenses, values });
     const [selectedLens = {}] = selectedLenses;
@@ -110,6 +109,7 @@ const ChooseLenses = ({
     );
     const [firstStep] = steps;
     const [currentStep, setCurrentStep] = useState(firstStep);
+    const [edit, setEdit] = useState(false);
     const isFirstStep = currentStep === firstStep;
 
     if (typeof document === 'undefined') return null;
@@ -134,23 +134,24 @@ const ChooseLenses = ({
         onClose();
     };
 
-    const handleClick = item => {
+    const handleNextStep = () => {
         const nextStep = steps[stepIndex + 1];
         const newImageIndex = (imageIndex + 1) % images.length;
         const nextImage = images[newImageIndex];
 
-        // setPrevStep(false);
         setImageIndex(nextImage ? newImageIndex : 0);
-        setValues(prevState => [...prevState, { name: currentStep, ...item }]);
-
         setCurrentStep(nextStep);
     };
 
     const handleSubmitRecipe = () => {
-        const nextStep = steps[stepIndex + 1];
+        setCurrentStep(FINAL_STEP);
+    };
 
-        setImageIndex(0);
-        setCurrentStep(nextStep);
+    const handleClick = item => {
+        setEdit(false);
+
+        setValues(prevState => [...prevState, { name: currentStep, ...item }]);
+        handleNextStep();
     };
 
     const handleChangeSelect = ({ id, value, side }) => {
@@ -184,6 +185,7 @@ const ChooseLenses = ({
         const prevStepIndex = stepIndex - 1;
 
         if (prevStepIndex >= 0) {
+            setEdit(true);
             if (currentStep !== FINAL_STEP) {
                 setValues(prevValues => prevValues.slice(0, prevValues.length - 1));
             }
@@ -202,6 +204,29 @@ const ChooseLenses = ({
     );
     const stepWidthStyle = 100 / steps.length;
     const progressWidth = `${stepWidthStyle * stepIndex}%`;
+
+    const currentOptions = getOptionsByStep({
+        stepPrice,
+        lenses: getLensesByValues({ lenses, values }),
+        step: currentStep,
+    });
+
+    useEffect(() => {
+        if (!edit && currentOptions?.length === 1) {
+            const [{ id, name, price }] = currentOptions;
+
+            setValues(prevValues => [
+                ...prevValues,
+                {
+                    id,
+                    price,
+                    value: name,
+                    name: currentStep,
+                },
+            ]);
+            handleNextStep();
+        }
+    }, [currentOptions]);
 
     const StepView = () => {
         const { recipes } = selectedLens;
@@ -383,12 +408,6 @@ const ChooseLenses = ({
                 );
             }
             default: {
-                const currentOptions = getOptionsByStep({
-                    stepPrice,
-                    lenses: getLensesByValues({ lenses, values }),
-                    step: currentStep,
-                });
-
                 return (
                     <>
                         <div className={styles.heading}>
