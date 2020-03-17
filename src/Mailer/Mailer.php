@@ -2,6 +2,7 @@
 
 namespace App\Mailer;
 
+use App\Entity\Orders;
 use App\Entity\Users;
 use App\Repository\UsersRepository;
 
@@ -47,6 +48,21 @@ class Mailer
             ->setSubject('Hello test letter')
             ->setFrom($this->mailFrom)
             ->setTo($user->getEmail())
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
+
+    public function sendOrderCreateEmail(Orders $order)
+    {
+        $body = $this->twig->render('emails/order/create.html.twig', [
+            'order' => $order
+        ]);
+
+        $message = (new \Swift_Message())
+            ->setSubject('Hello test letter')
+            ->setFrom($this->mailFrom)
+            ->setTo($order->getUserId()->getEmail())
             ->setBody($body, 'text/html');
 
         $this->mailer->send($message);

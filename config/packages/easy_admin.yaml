@@ -616,8 +616,6 @@ easy_admin:
                         }
                     }
                   }
-                - { type: 'tab' , label: 'Адреса' }
-                - { property: slug, label: 'Адрес'}
                 - { type: 'tab' , label: 'Цены' }
                 - { property: price, label: 'Цена'}
             list:

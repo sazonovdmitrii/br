@@ -76,7 +76,7 @@ class FeedDataAbstract
                 'id' => $item->getId(),
                 'title' => $item->getGoogleTitle(),
                 'description' => strip_tags($item->getGoogleDescription()),
-                'image' => $this->envService->getDomain() . $item->getProduct()->getMainImage(),
+                'image_link' => $this->envService->getDomain() . $item->getProduct()->getMainImage(),
                 'availability' => Availability::IN_STOCK,
                 'price' => $item->getProduct()->getMainPrice(),
                 'google_category' => $item->getProduct()->getTagValue($this->configService->get('tag_gm')),

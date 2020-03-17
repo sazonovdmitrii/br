@@ -35,7 +35,8 @@ class TestLetter extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->mailer->sendRestorePasswordEmail($this->usersRepository->find(1));
+//        $this->mailer->sendRestorePasswordEmail($this->usersRepository->find(1));
+        $this->mailer->sendOrderCreateEmail($this->usersRepository->find(1));
         $output->writeln('Success');
     }
 }

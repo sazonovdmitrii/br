@@ -315,7 +315,9 @@ class TagManager extends AbstractController
         $categoriesProductsIds = [];
         foreach ($this->getEntity()->getCatalog() as $catalog) {
             foreach ($catalog->getProducts() as $product) {
-                $categoriesProductsIds[] = $product->getId();
+                if($this->getEntity()->getId() != $product->getId()) {
+                    $categoriesProductsIds[] = $product->getId();
+                }
             }
         }
 

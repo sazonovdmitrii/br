@@ -48,6 +48,11 @@ class UserMutation extends AuthMutation
     private $userService;
 
     /**
+     * @var BasketService
+     */
+    private $basketService;
+
+    /**
      * @var EntityManager
      */
     private $entityManager;
