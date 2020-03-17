@@ -161,9 +161,9 @@ class OrderMutation extends AuthMutation
         $this->manager->persist($order);
         $this->manager->flush();
 
-        $this->basketService
-            ->setAuthKey($this->getAuthKey())
-            ->delete();
+//        $this->basketService
+//            ->setAuthKey($this->getAuthKey())
+//            ->delete();
         $this->eventDispatcher->dispatch(
             CreateOrderEvent::NAME, new CreateOrderEvent($order)
         );
