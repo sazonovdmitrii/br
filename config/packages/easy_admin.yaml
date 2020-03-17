@@ -192,6 +192,7 @@ easy_admin:
                     - { type: 'tab', label: 'Адреса' }
                     - { property: 'productUrls', type: 'form', type_options: {block_name: 'products_urls', allow_extra_fields: true}}
                     - { type: 'tab', label: 'Теги' }
+                    - { property: 'alternate_model', label: 'Альтернативная модель'}
                     - { property: 'producttagitem', type_options: { block_name: 'products_tags_items' }}
                     - { type: 'tab' , label: 'Линзы' }
                     - { property: 'lenses', type_options: { block_name: 'product_lenses' }}

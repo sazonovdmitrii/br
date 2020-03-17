@@ -101,6 +101,11 @@ class Product
      */
     private $priority;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $alternate_model;
+
     public function __construct()
     {
         $this->catalog = new ArrayCollection();
@@ -510,5 +515,17 @@ class Product
         return $this->producttagitem->filter(function($productTagItem) {
             return ($productTagItem->getEntityId()->getFilterable() == true);
         });
+    }
+
+    public function getAlternateModel(): ?string
+    {
+        return $this->alternate_model;
+    }
+
+    public function setAlternateModel(?string $alternate_model): self
+    {
+        $this->alternate_model = $alternate_model;
+
+        return $this;
     }
 }

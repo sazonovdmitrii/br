@@ -13,6 +13,9 @@ Product:
       sku:
         type: "String"
         description: "Product Sku"
+      alternate_model:
+        type: "String"
+        description: "Alternate Model"
       google_title:
         type: "String"
         description: "Google Title"

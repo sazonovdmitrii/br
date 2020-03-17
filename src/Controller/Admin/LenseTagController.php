@@ -5,17 +5,27 @@ namespace App\Controller\Admin;
 use App\Controller\AdminController;
 use App\Entity\LenseTag;
 use App\Entity\LenseItemTag;
+use App\Service\ConfigService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class LenseTagController extends AdminController
 {
     private $entityManager;
+    /**
+     * @var ConfigService
+     */
+    private $configService;
+
+    private $defaultLocale;
 
     public function __construct(
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        ConfigService $configService
     ) {
         $this->entityManager = $entityManager;
+        $this->configService = $configService;
+        $this->defaultLocale = $this->configService->getServiceConfig('a2lix_translation_form.default_locale');
     }
 
     protected function addAction()
@@ -27,7 +37,9 @@ class LenseTagController extends AdminController
             $productTag = $this->_getLenseTag($requestData->get('tag_id'));
 
             $tagItem = new LenseItemTag();
-            $tagItem->translate('en')->setName($requestData->get('option'));
+
+            $tagItem->translate($this->defaultLocale)
+                ->setName($requestData->get('option'));
 
             $tagItem->setEntity($productTag);
             $tagItem->mergeNewTranslations();
