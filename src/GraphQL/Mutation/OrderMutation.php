@@ -3,7 +3,6 @@
 namespace App\GraphQL\Mutation;
 
 use App\Entity\OrderItem;
-use App\Entity\ProductItem;
 use App\Entity\Orders;
 use App\Repository\AddressRepository;
 use App\Repository\CourierRepository;
@@ -20,30 +19,50 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\GraphQL\Input\OrderInput;
 use GraphQL\Error\UserError;
 use App\Service\UserService;
+use App\Event\CreateOrderEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class OrderMutation extends AuthMutation
 {
+    /**
+     * @var AuthenticatorService
+     */
     private $authenticatorService;
+
     /**
      * @var PickupRepository
      */
     private $pickupRepository;
+
     /**
      * @var CourierRepository
      */
     private $courierRepository;
+
     /**
      * @var PaymentMethodRepository
      */
     private $paymentMethodRepository;
+
     /**
      * @var AddressRepository
      */
     private $addressRepository;
+
     /**
      * @var ProductItemRepository
      */
     private $productItemRepository;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
+     * @var ObjectManager
+     */
+    private $manager;
 
     public function __construct(
         EntityManager $em,
@@ -57,19 +76,21 @@ class OrderMutation extends AuthMutation
         CourierRepository $courierRepository,
         PaymentMethodRepository $paymentMethodRepository,
         AddressRepository $addressRepository,
-        ProductItemRepository $productItemRepository
+        ProductItemRepository $productItemRepository,
+        EventDispatcherInterface $eventDispatcher
     ) {
+        parent::__construct($redis, $container, $authenticatorService, $userService);
         $this->manager              = $manager;
         $this->redis                = $redis;
         $this->em                   = $em;
         $this->basketService        = $basketService;
         $this->authenticatorService = $authenticatorService;
-        parent::__construct($redis, $container, $authenticatorService, $userService);
         $this->pickupRepository = $pickupRepository;
         $this->courierRepository = $courierRepository;
         $this->paymentMethodRepository = $paymentMethodRepository;
         $this->addressRepository = $addressRepository;
         $this->productItemRepository = $productItemRepository;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function create(Argument $args)
@@ -143,6 +164,9 @@ class OrderMutation extends AuthMutation
         $this->basketService
             ->setAuthKey($this->getAuthKey())
             ->delete();
+        $this->eventDispatcher->dispatch(
+            CreateOrderEvent::NAME, new CreateOrderEvent($order)
+        );
         
         return [
             'id' => $order->getId(),
