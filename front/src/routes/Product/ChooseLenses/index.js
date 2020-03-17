@@ -255,10 +255,7 @@ const ChooseLenses = ({
                     <>
                         <div className={styles.heading}>
                             <Title className={styles.stepTitle}>
-                                <FormattedMessage
-                                    id="p_product_select_lenses_title"
-                                    values={{ step: currentStep.toLowerCase() }}
-                                />
+                                <FormattedMessage id="p_product_select_lenses_recipe_title" />
                             </Title>
                         </div>
                         <div className={styles.stepInner}>
