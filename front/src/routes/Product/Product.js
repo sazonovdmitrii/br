@@ -20,9 +20,13 @@ import ProductTags from 'components/ProductTags';
 import ProductCard from 'components/ProductCard';
 import ProductCarousel from 'components/ProductCarousel';
 import Loader from 'components/Loader';
+import LiteraryCallout from 'components/LiteraryCallout';
 
 import styles from './styles.css';
-// import headTurnImage from './headturn.jpg';
+import caseAndLensClothImage from './images/case-and-lens-cloth.jpg';
+import caseAndLensClothImageRetina from './images/case-and-lens-cloth@2x.jpg';
+import caseAndLensClothImageWebp from './images/case-and-lens-cloth.webp';
+import caseAndLensClothImageWebpRetina from './images/case-and-lens-cloth@2x.webp';
 import ChooseLenses from './ChooseLenses';
 
 const cx = classnames.bind(styles);
@@ -116,6 +120,7 @@ const Product = ({
     };
 
     const sectionTitleCenterClassName = cx(styles.sectionTitle, styles.center);
+    const sectionTags = cx(styles.section, styles.tags);
 
     return (
         <Container>
@@ -195,11 +200,7 @@ const Product = ({
                     )}
                 </div>
             </div>
-            <Delivery
-                title={<FormattedMessage id="p_product_delivery_title" />}
-                text={<FormattedMessage id="p_product_delivery_text" />}
-            />
-            <div className={styles.section}>
+            <div className={sectionTags}>
                 <ProductTags
                     items={[{ name: <FormattedMessage id="p_product_tags_sku" />, value: sku }, ...tags]}
                     image={images[1] ? images[1] : null}
@@ -220,6 +221,13 @@ const Product = ({
                     </picture>
                 </div>
             )}
+            <LiteraryCallout
+                image={{
+                    root: { original: caseAndLensClothImage, retina: caseAndLensClothImageRetina },
+                    webp: { original: caseAndLensClothImageWebp, retina: caseAndLensClothImageWebpRetina },
+                }}
+                text={<FormattedMessage id="p_product_delivery_text" />}
+            />
             {items.length > 1 ? (
                 <div className={styles.section}>
                     <h2 className={sectionTitleCenterClassName}>

@@ -23,7 +23,7 @@
     }
 
     @media (--viewport-wide) {
-        padding: 0 30px;
+        padding: 0 35px;
     }
 }
 
@@ -42,7 +42,7 @@
     }
 
     @media (--viewport-wide) {
-        padding: 0 30px;
+        padding: 0 35px;
     }
 }
 
@@ -52,7 +52,7 @@
 }
 
 .buttons {
-    display: grid;
+    display: inline-grid;
     grid-gap: 8px;
     margin-top: 24px;
 
@@ -61,7 +61,9 @@
     }
 
     @media (--viewport-desktop) {
+        display: grid;
         grid-template-columns: 1fr;
+        grid-gap: 12px;
         margin: 18px 0 12px;
     }
 }
@@ -151,6 +153,12 @@
 
 .center {
     text-align: center;
+}
+
+.tags {
+    margin: 0;
+    padding: 72px 0;
+    box-shadow: 0 -24px 24px -24px rgba(43, 52, 62, 0.08);
 }
 
 .related {
