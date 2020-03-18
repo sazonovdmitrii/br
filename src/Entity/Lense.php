@@ -60,7 +60,6 @@ class Lense
      */
     private $landingBlocks;
 
-
     public function __construct()
     {
         $this->lenseitemstags = new ArrayCollection();
@@ -246,7 +245,7 @@ class Lense
         $iterator = $this->lenseitemstags->getIterator();
 
         $iterator->uasort(function ($a, $b) {
-            return $a->getEntity()->getPriority() <= $b->getEntity()->getPriority();
+            return ($a->getEntity()->getPriority() < $b->getEntity()->getPriority()) ? -1 : 1 ;
         });
 
         return new ArrayCollection(iterator_to_array($iterator));

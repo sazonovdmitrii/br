@@ -77,7 +77,7 @@ class LenseFieldResolver extends LocaleAlias
 
     public function lenseitemstags(Lense $lense)
     {
-        return $lense->getLenseitemstags();
+        return $lense->getLensesTagsCollection();
     }
 
     public function recipes(Lense $lense)
