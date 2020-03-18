@@ -586,6 +586,7 @@ easy_admin:
                 - { type: 'tab' , label: 'Основные' }
                 - { property: 'visible', label: 'Видимость', type: 'choice', type_options: {multiple: false, choices: {No: 'No', Yes: 'Yes'}}}
                 - { property: 'type', label: 'Тип', type: 'App\Form\Filter\LensesTagsFilterType' }
+                - { property: 'priority', label: 'Сортировка' }
                 - { type: 'tab' , label: 'Мультиязычный контент' }
                 - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
                     type_options: {
@@ -674,10 +675,10 @@ easy_admin:
           - Translation
         assets:
             css:
-                - '/bundles/lp/css/lp.css'
-                - '/bundles/lp/css/steps.css'
+                - '/admin/lp/css/lp.css'
+                - '/admin/lp/css/steps.css'
             js:
                 - 'https://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js'
-                - '/bundles/lp/js/jq-ui.js'
-                - '/bundles/lp/js/fileupload.js'
-                - '/bundles/lp/js/jquery.steps.min.js'
+                - '/admin/lp/js/jq-ui.js'
+                - '/admin/lp/js/fileupload.js'
+                - '/admin/lp/js/jquery.steps.min.js'
