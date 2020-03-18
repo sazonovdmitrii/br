@@ -210,17 +210,6 @@ const Product = ({
                 title={<FormattedMessage id="p_product_lenses_block_title" />}
                 text={<FormattedMessage id="p_product_lenses_block_text" />}
             />
-            {images[2] && (
-                <div className={styles.sectionImage}>
-                    <picture>
-                        <source
-                            srcSet={`${images[2].middle.webp} 1x, ${images[2].big.webp} 2x`}
-                            type="image/webp"
-                        />
-                        <img src={images[2].middle.original} srcSet={`${images[2].big.original} 2x`} alt="" />
-                    </picture>
-                </div>
-            )}
             <LiteraryCallout
                 image={{
                     root: { original: caseAndLensClothImage, retina: caseAndLensClothImageRetina },

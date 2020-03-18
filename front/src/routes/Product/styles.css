@@ -128,14 +128,6 @@
     margin: 72px 0;
 }
 
-.sectionImage {
-    @media (min-width: 600px) {
-        width: 90%;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-}
-
 .sectionTitle {
     margin-top: 0;
     margin-bottom: 36px;
