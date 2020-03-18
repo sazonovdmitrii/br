@@ -20,21 +20,22 @@
 
     @media (--viewport-tablet) {
         margin: 0;
-        flex: 0 0 60%;
-        max-width: 60%;
+        flex: 0 0 50%;
+        max-width: 50%;
     }
 }
 
 .content {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     flex: 0 0 100%;
     max-width: 100%;
     padding: 0 15px;
 
     @media (--viewport-tablet) {
-        flex: 0 0 40%;
-        max-width: 40%;
+        flex: 0 0 50%;
+        max-width: 50%;
         text-align: center;
     }
 }
@@ -44,12 +45,7 @@
     color: #414b56;
     margin-bottom: 12px;
     font-weight: 100;
-    font-family: utopia-std-display;
     font-size: 24px;
-
-    @media (--viewport-ipad) {
-        font-size: 24px;
-    }
 
     @media (--viewport-tablet) {
         font-size: 30px;

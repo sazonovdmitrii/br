@@ -119,7 +119,6 @@ const Product = ({
         setShowChooseLenses(!showChooseLenses);
     };
 
-    const sectionTitleCenterClassName = cx(styles.sectionTitle, styles.center);
     const sectionTags = cx(styles.section, styles.tags);
 
     return (
@@ -210,17 +209,6 @@ const Product = ({
                 title={<FormattedMessage id="p_product_lenses_block_title" />}
                 text={<FormattedMessage id="p_product_lenses_block_text" />}
             />
-            {images[2] && (
-                <div className={styles.sectionImage}>
-                    <picture>
-                        <source
-                            srcSet={`${images[2].middle.webp} 1x, ${images[2].big.webp} 2x`}
-                            type="image/webp"
-                        />
-                        <img src={images[2].middle.original} srcSet={`${images[2].big.original} 2x`} alt="" />
-                    </picture>
-                </div>
-            )}
             <LiteraryCallout
                 image={{
                     root: { original: caseAndLensClothImage, retina: caseAndLensClothImageRetina },
@@ -230,7 +218,7 @@ const Product = ({
             />
             {items.length > 1 ? (
                 <div className={styles.section}>
-                    <h2 className={sectionTitleCenterClassName}>
+                    <h2 className={styles.sectionTitle}>
                         <FormattedMessage id="p_product_section_colors_title" />
                     </h2>
                     <div className={styles.related}>
@@ -252,7 +240,7 @@ const Product = ({
             ) : null}
             {similars.length ? (
                 <div className={styles.section}>
-                    <h2 className={sectionTitleCenterClassName}>
+                    <h2 className={styles.sectionTitle}>
                         <FormattedMessage id="recommended" />
                     </h2>
                     <div className={styles.related}>
