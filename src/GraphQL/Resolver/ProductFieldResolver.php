@@ -248,7 +248,7 @@ class ProductFieldResolver extends LocaleAlias
         $lenses = $product->getLenses();
 
         foreach($lenses as &$lense) {
-            foreach($lense->getLenseitemstags() as &$lenseitemstag) {
+            foreach($lense->getLensesTagsCollection() as &$lenseitemstag) {
                 $lenseitemstag->setCurrentLocale($product->getCurrentLocale());
                 $lenseitemstag->getEntity()->setCurrentLocale($product->getCurrentLocale());
             }

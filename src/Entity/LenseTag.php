@@ -57,6 +57,11 @@ class LenseTag
 
     private $input_type;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $priority;
+
     public function __construct()
     {
         $this->lenseItemTags = new ArrayCollection();
@@ -200,6 +205,18 @@ class LenseTag
     public function setInputType($input_type)
     {
         $this->input_type = $input_type;
+        return $this;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(?int $priority): self
+    {
+        $this->priority = $priority;
+
         return $this;
     }
 }

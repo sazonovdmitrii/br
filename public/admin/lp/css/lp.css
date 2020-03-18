@@ -1,0 +1,36 @@
+#easyadmin-new-ProductTag label[for=producttag_productTagItems],
+label[for=catalog_catalogUrls],
+label[for=catalog_productTagItems],
+label[for=product_producttagitem],
+label[for=product_productItems],
+label[for=product_catalog],
+label[for=product_producttagitem],
+.easyadmin.edit-product #_easyadmin_form_design_element_7 label,
+.new-items label[for=items_product_id],
+.edit-items label[for=items_product_id],
+.edit-items label[for=items_productItemImages],
+.new-items label[for=items_productItemImages],
+label[for=productitemtagitem_entity],
+label[for=items_productItemTagItems],
+label[for=store_storeUrls],
+label[for=landingpage_blocks],
+label[for=lense_recipes],
+label[for=product_productCollections],
+label[for=banner_bannerItems],
+label[for=lense_lenseitemstags],
+#_easyadmin_form_design_element_10 .col-sm-2.control-label:first-of-type
+{
+    display: none;
+}
+.edit-productitemtag .thumbnail .btn.pull-right .glyphicon-remove,
+.edit-productitemtag .thumbnail .btn.pull-right {
+    line-height: 0.43;
+}
+.field-a2lix_translations .col-sm-2:not(.control-label) {
+    display: none;
+}
+@media (min-width: 768px) {
+    .a2lix_translationsFields.tab-content .field-ckeditor .col-sm-10{
+        width: 100% !important;
+    }
+}

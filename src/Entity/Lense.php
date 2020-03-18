@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -238,5 +239,16 @@ class Lense
         }
 
         return $this;
+    }
+
+    public function getLensesTagsCollection()
+    {
+        $iterator = $this->lenseitemstags->getIterator();
+
+        $iterator->uasort(function ($a, $b) {
+            return $a->getEntity()->getPriority() <= $b->getEntity()->getPriority();
+        });
+
+        return new ArrayCollection(iterator_to_array($iterator));
     }
 }
