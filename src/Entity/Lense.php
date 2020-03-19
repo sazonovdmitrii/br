@@ -60,6 +60,11 @@ class Lense
      */
     private $landingBlocks;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $is_recipe;
+
     public function __construct()
     {
         $this->lenseitemstags = new ArrayCollection();
@@ -249,5 +254,17 @@ class Lense
         });
 
         return new ArrayCollection(iterator_to_array($iterator));
+    }
+
+    public function getIsRecipe(): ?bool
+    {
+        return $this->is_recipe;
+    }
+
+    public function setIsRecipe(?bool $is_recipe): self
+    {
+        $this->is_recipe = $is_recipe;
+
+        return $this;
     }
 }

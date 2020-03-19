@@ -437,6 +437,7 @@ easy_admin:
                     - { property: 'name', label: 'Наименование'}
                     - { property: 'price', label: 'Цена'}
                     - { type: 'tab', label: 'Теги' }
+                    - { property: 'is_recipe', label: 'С рецептом'}
                     - { property: 'lenseitemstags', type_options: { block_name: 'lense_tags_items' }}
                     - { type: 'tab', label: 'Рецепт' }
                     - { property: 'recipes', type_options: { block_name: 'lense_recipes' }}

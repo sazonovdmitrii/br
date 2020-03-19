@@ -96,6 +96,9 @@ Lense:
       name:
         type: "String"
         description: "Lense Item Name"
+      is_recipe:
+        type: "Boolean"
+        description: "Lense Is Recipe"
       price:
         type: "String"
         description: "Lense Item Price"

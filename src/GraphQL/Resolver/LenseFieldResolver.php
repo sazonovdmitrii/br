@@ -75,6 +75,15 @@ class LenseFieldResolver extends LocaleAlias
         return $lense->getPrice();
     }
 
+    /**
+     * @param Lense $lense
+     * @return bool|null
+     */
+    public function is_recipe(Lense $lense)
+    {
+        return boolval($lense->getIsRecipe());
+    }
+
     public function lenseitemstags(Lense $lense)
     {
         return $lense->getLensesTagsCollection();
