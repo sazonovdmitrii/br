@@ -61,7 +61,7 @@
 .benefitsSection {
     padding: 60px 0;
 
-    @media (min-width: 600px) {
+    @media (--viewport-ipad) {
         padding: 72px 0;
     }
 }

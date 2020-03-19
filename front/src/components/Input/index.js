@@ -161,7 +161,7 @@ const Input = ({
 };
 
 Input.propTypes = {
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
     mask: PropTypes.string,
     max: PropTypes.string,
     min: PropTypes.string,

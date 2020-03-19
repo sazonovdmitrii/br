@@ -118,7 +118,7 @@ Map.defaultProps = {
 Map.propTypes = {
     onClickMarker: PropTypes.func,
     zoom: PropTypes.number,
-    value: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     items: PropTypes.arrayOf(PropTypes.object),
     mapHeight: PropTypes.string,
 };

@@ -200,7 +200,7 @@ Stores.defaultProps = {
 };
 
 Stores.propTypes = {
-    value: PropTypes.oneOfType(PropTypes.string, PropTypes.nubmer),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.nubmer]),
     items: PropTypes.arrayOf(PropTypes.object),
     onChange: PropTypes.func,
 };

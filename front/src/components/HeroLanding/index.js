@@ -27,7 +27,7 @@ HeroLanding.defaultProps = {
 
 HeroLanding.propTypes = {
     text: PropTypes.string,
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     image: PropTypes.objectOf(PropTypes.string),
     actions: PropTypes.node,
 };

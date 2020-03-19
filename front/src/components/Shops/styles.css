@@ -3,7 +3,7 @@
     column-count: 2;
     column-gap: 96px;
 
-    @media (min-width: 960px) {
+    @media (--viewport-desktop) {
         column-count: 3;
         column-gap: 84px;
     }

@@ -15,9 +15,17 @@
 .name {
     margin: 24px 0 6px;
     font-weight: var(--headings-font-weight);
-    font-size: 24px;
+    font-size: 20px;
     font-family: var(--headings-font);
     line-height: var(--headings-line-height);
+
+    @media (--viewport-desktop) {
+        font-size: 22px;
+    }
+
+    @media (--viewport-wide) {
+        font-size: 24px;
+    }
 }
 
 .subname {

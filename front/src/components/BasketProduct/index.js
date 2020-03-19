@@ -139,7 +139,7 @@ BasketProduct.propTypes = {
     subName: PropTypes.string,
     onRemove: PropTypes.func,
     name: PropTypes.string,
-    price: PropTypes.oneOfType(PropTypes.node, PropTypes.string, PropTypes.number),
+    price: PropTypes.oneOfType([PropTypes.node, PropTypes.string, PropTypes.number]),
     options: PropTypes.arrayOf(PropTypes.object),
 };
 
