@@ -64,7 +64,6 @@ export default ({ lang }) => {
                                             className={styles.slideButton}
                                             to={menEyeglassesUrl}
                                             kind="primary"
-                                            size="small"
                                             bold
                                             outlined
                                             rounded
@@ -75,7 +74,6 @@ export default ({ lang }) => {
                                             className={styles.slideButton}
                                             to={womenEyeglassesUrl}
                                             kind="primary"
-                                            size="small"
                                             bold
                                             outlined
                                             rounded
