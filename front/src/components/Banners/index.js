@@ -18,12 +18,12 @@ const Banners = ({ children, interval, autoPlay: autoPlayProp }) => {
                 case 'NEXT':
                     return {
                         ...prevState,
-                        active: (state.active + 1) % childLength,
+                        active: (prevState.active + 1) % childLength,
                     };
                 case 'PREV':
                     return {
                         ...prevState,
-                        active: (state.active - 1 + childLength) % childLength,
+                        active: (prevState.active - 1 + childLength) % childLength,
                     };
                 case 'PAUSE':
                     return {
@@ -81,9 +81,13 @@ const Banners = ({ children, interval, autoPlay: autoPlayProp }) => {
     });
 
     return (
-        <div className={styles.wrapper} onMouseEnter={handleHover} onMouseLeave={handleHover}>
+        <div
+            className={styles.wrapper}
+            onMouseEnter={autoPlayProp ? handleHover : null}
+            onMouseLeave={autoPlayProp ? handleHover : null}
+        >
             <div className={styles.items}>{getChildrens}</div>
-            <Nav index={state.active} onChange={handleChange} />
+            {children.length > 1 && <Nav index={state.active} onChange={handleChange} />}
         </div>
     );
 };
