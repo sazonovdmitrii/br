@@ -39,7 +39,7 @@ const Addresses = ({ items = [], onSubmit }) => {
         // if edit take new addresses from data.data
         // esle add new address from data to items
         setShowForm(null);
-        onSubmit(data.data ? data.data : data);
+        if (onSubmit) onSubmit(data.data ? data.data : data);
     };
 
     useEffect(() => {

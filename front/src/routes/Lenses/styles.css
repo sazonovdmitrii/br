@@ -188,7 +188,7 @@
 
 .markdown {
     & a {
-        color: #00a2e1;
+        color: var(--color-primary);
         font-weight: 700;
     }
 

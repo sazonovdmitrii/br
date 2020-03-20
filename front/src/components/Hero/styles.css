@@ -34,7 +34,7 @@
     letter-spacing: 2.5px;
     text-transform: uppercase;
 
-    @media (min-width: 900px) {
+    @media (--viewport-desktop) {
         font-size: var(--font-size-extra-small);
     }
 }

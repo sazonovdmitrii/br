@@ -105,7 +105,7 @@
         font-size: var(--font-siez-base);
         margin: 0 0 24px;
 
-        @media (min-width: 900px) {
+        @media (--viewport-desktop) {
             font-size: var(--font-size-large);
         }
     }

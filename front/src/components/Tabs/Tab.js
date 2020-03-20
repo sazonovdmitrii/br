@@ -26,7 +26,7 @@ Tab.defaultProps = {
 
 Tab.propTypes = {
     onClick: PropTypes.func,
-    children: PropTypes.oneOfType(PropTypes.node, PropTypes.string).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
     className: PropTypes.string,
     active: PropTypes.bool,
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,

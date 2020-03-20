@@ -32,7 +32,7 @@ Nav.defaultProps = {
 
 Nav.propTypes = {
     items: PropTypes.arrayOf(PropTypes.object),
-    value: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onClick: PropTypes.func,
 };
 

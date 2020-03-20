@@ -14,11 +14,11 @@
     line-height: var(--headings-line-height);
     text-align: center;
 
-    @media (min-width: 900px) {
+    @media (--viewport-desktop) {
         font-size: 30px;
     }
 
-    @media (min-width: 1200px) {
+    @media (--viewport-wide) {
         text-align: left;
     }
 }
