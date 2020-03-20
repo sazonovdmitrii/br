@@ -31,13 +31,14 @@ class ProductItemRepository extends ServiceEntityRepository
 
     public function search($searchable)
     {
+        $searchable = strtolower($searchable);
         $stmt = $this->_queryManager()->prepare(
             "SELECT pi.id, pi.product_id FROM productitem pi "
             . "JOIN productitemtranslation pit "
             . "ON pit.translatable_id = pi.id "
             . "JOIN product p "
             . "ON p.id = pi.product_id "
-            . "WHERE pit.name LIKE '%" . $searchable . "%' OR p.sku LIKE '%" . $searchable . "%'"
+            . "WHERE LOWER(pit.name) LIKE '%" . $searchable . "%' OR LOWER(p.sku) LIKE '%" . $searchable . "%'"
         );
 
         $stmt->execute();
@@ -47,7 +48,7 @@ class ProductItemRepository extends ServiceEntityRepository
             "SELECT p.id AS product_id FROM product p "
             . "JOIN producttranslation pt "
             . "ON pt.translatable_id = p.id "
-            . "WHERE pt.name LIKE '%" . $searchable . "%'"
+            . "WHERE LOWER(pt.name) LIKE '%" . $searchable . "%'"
         );
         $stmt->execute();
         $productsIds = array_merge($productsIds, $stmt->fetchAll());
