@@ -54,7 +54,10 @@ export default ({ lang }) => {
                                 </picture>
                                 <div className={styles.slideText}>
                                     <div className={styles.slideHeading}>
-                                        <Title dangerouslySetInnerHTML={createMarkup(description)} />
+                                        <Title
+                                            element="h1"
+                                            dangerouslySetInnerHTML={createMarkup(description)}
+                                        />
                                     </div>
                                     <div className={styles.slideButtons}>
                                         <Button
