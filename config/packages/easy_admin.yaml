@@ -347,6 +347,8 @@ easy_admin:
             form:
                 fields:
                     - { type: 'tab' , label: 'Основные' }
+                    - name
+                    - { type: 'tab' , label: 'Мультиязычный контент' }
                     - { property: 'translations', label: false, type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
                         type_options: {
                             default_locale: '%locale%',

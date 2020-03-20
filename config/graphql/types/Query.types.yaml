@@ -88,12 +88,15 @@ Query:
       users_orders:
         type: "UsersOrders"
         resolve: "@=resolver('UsersOrders', [args])"
-      banners:
-        type: "Banners"
+      banner:
+        type: "Banner"
         resolve: "@=resolver('Banner', [args])"
         args:
           locale:
             description: "Locale"
+            type: "String"
+          name:
+            description: "Name"
             type: "String"
       sale:
         type: "Sale"

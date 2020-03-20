@@ -60,30 +60,25 @@ class BannerResolver extends LocaleAlias implements ResolverInterface, AliasedIn
      */
     public function resolve($args)
     {
-        $banners = $this->bannerRepository->findCurrents();
+        $banner = $this->bannerRepository->findOneBy(['name' => $args['name']]);
 
         $imageConfiguration = $this->imageTypeRepository->findAll();
 
-        foreach($banners as $banner) {
+        $banner->setCurrentLocale($args['locale']);
 
-            $banner->setCurrentLocale($args['locale']);
-
-            $images = [];
-            foreach($banner->getBannerItems() as $bannerItem) {
-                $images[] = $this->imageGenerator
-                    ->setImage($bannerItem)
-                    ->setTypes(['original', 'webp'])
-                    ->setConfig($imageConfiguration)
-                    ->getAll();
-                if(count($images)) {
-                    $bannerItem->setImages($images[0]);
-                }
+        $images = [];
+        foreach($banner->getBannerItems() as $bannerItem) {
+            $images[] = $this->imageGenerator
+                ->setImage($bannerItem)
+                ->setTypes(['original', 'webp'])
+                ->setConfig($imageConfiguration)
+                ->getAll();
+            if(count($images)) {
+                $bannerItem->setImages($images[0]);
             }
         }
 
-        return [
-            'data' => $banners
-        ];
+        return $banner;
     }
 
     /**

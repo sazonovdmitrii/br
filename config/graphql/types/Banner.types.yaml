@@ -1,10 +1,3 @@
-Banners:
-  type: object
-  config:
-    description: "Banners"
-    fields:
-      data:
-        type: "[Banner]"
 Banner:
   type: object
   config:

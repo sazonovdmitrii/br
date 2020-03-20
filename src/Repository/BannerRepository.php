@@ -19,15 +19,6 @@ class BannerRepository extends ServiceEntityRepository
         parent::__construct($registry, Banner::class);
     }
 
-    public function findCurrents()
-    {
-        $qb = $this->createQueryBuilder("b");
-        $qb->where('b.show_from < :now AND b.show_to > :now')
-            ->setParameter('now', new \DateTime())
-        ;
-        return $qb->getQuery()->getResult();
-    }
-
     /*
     public function findOneBySomeField($value): ?Banner
     {

@@ -41,6 +41,11 @@ class Banner
      */
     private $created;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
+
     public function __construct()
     {
         $this->bannerItems = new ArrayCollection();
@@ -131,5 +136,17 @@ class Banner
         $method = 'get'. ucfirst($name);
         $arguments = [];
         return $this->proxyCurrentLocaleTranslation($method, $arguments);
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 }
