@@ -32,12 +32,19 @@
     }
 }
 
-.slideActions {
+.slideButtons {
     display: inline-grid;
     grid-auto-columns: 1fr;
     grid-auto-flow: column;
     grid-gap: 12px;
     width: 100%;
+}
+
+.slideButton {
+    @media (--viewport-desktop) {
+        background: var(--color-background);
+        border-color: transparent;
+    }
 }
 
 .main {

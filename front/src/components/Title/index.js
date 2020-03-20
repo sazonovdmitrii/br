@@ -4,10 +4,14 @@ import classnames from 'classnames';
 
 import styles from './styles.css';
 
-const Title = ({ children, className, element: Root }) => {
+const Title = ({ dangerouslySetInnerHTML, children, className, element: Root }) => {
     const rootClassName = classnames(styles.root, className);
 
-    return <Root className={rootClassName}>{children}</Root>;
+    return (
+        <Root className={rootClassName} dangerouslySetInnerHTML={dangerouslySetInnerHTML}>
+            {children}
+        </Root>
+    );
 };
 
 Title.defaultProps = {

@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 
 import { useLangLinks } from 'hooks';
 import { GET_BANNER } from 'query';
+import { createMarkup } from 'utils';
 
 import Title from 'components/Title';
 import Banners from 'components/Banners';
@@ -53,10 +54,11 @@ export default ({ lang }) => {
                                 </picture>
                                 <div className={styles.slideText}>
                                     <div className={styles.slideHeading}>
-                                        <Title>{description}</Title>
+                                        <Title dangerouslySetInnerHTML={createMarkup(description)} />
                                     </div>
-                                    <div className={styles.slideActions}>
+                                    <div className={styles.slideButtons}>
                                         <Button
+                                            className={styles.slideButton}
                                             to={menEyeglassesUrl}
                                             kind="primary"
                                             size="small"
@@ -67,6 +69,7 @@ export default ({ lang }) => {
                                             <FormattedMessage id="shop_men" />
                                         </Button>
                                         <Button
+                                            className={styles.slideButton}
                                             to={womenEyeglassesUrl}
                                             kind="primary"
                                             size="small"
