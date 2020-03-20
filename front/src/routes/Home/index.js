@@ -1,12 +1,15 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useQuery } from '@apollo/react-hooks';
 
 import { useLangLinks } from 'hooks';
+import { GET_BANNER } from 'query';
 
+import Title from 'components/Title';
+import Banners from 'components/Banners';
 import Button from 'components/Button';
 import CollectionSection from 'components/CollectionSection';
 import Container from 'components/Container';
-import HeroLanding from 'components/HeroLanding';
 
 import styles from './styles.css';
 import bgImage from './images/bg.jpg';
@@ -23,7 +26,13 @@ import womenEyeglassesImgWebp from './images/women-eyeglasses.webp';
 
 const VALUES = { br: <br /> };
 
-export default () => {
+export default ({ lang }) => {
+    const { loading: loadingBanner, error: errorBanner, data: { banner } = {} } = useQuery(GET_BANNER, {
+        variables: {
+            name: 'main',
+            locale: lang,
+        },
+    });
     const [menSunglassesUrl, womenSunglassesUrl, menEyeglassesUrl, womenEyeglassesUrl] = useLangLinks([
         '/muzhskie-solncezashhitnye-ochki/',
         '/zhenskie-solncezashhitnye-ochki/',
@@ -34,20 +43,45 @@ export default () => {
     return (
         <>
             <Container>
-                <HeroLanding
-                    title={<FormattedMessage id="p_home_hero_title" values={VALUES} />}
-                    image={{ source: bgImage, retina: bgImageRetina }}
-                    actions={
-                        <>
-                            <Button to={menEyeglassesUrl} kind="primary" size="small" bold outlined rounded>
-                                <FormattedMessage id="shop_men" />
-                            </Button>
-                            <Button to={womenEyeglassesUrl} kind="primary" size="small" bold outlined rounded>
-                                <FormattedMessage id="shop_women" />
-                            </Button>
-                        </>
-                    }
-                />
+                {loadingBanner || errorBanner ? null : (
+                    <Banners>
+                        {banner.bannerItems.map(({ id, description, images }) => (
+                            <div key={id}>
+                                <picture>
+                                    <source type="image/webp" srcSet={images.banner.webp} />
+                                    <img src={images.banner.original} alt="" />
+                                </picture>
+                                <div className={styles.slideText}>
+                                    <div className={styles.slideHeading}>
+                                        <Title>{description}</Title>
+                                    </div>
+                                    <div className={styles.slideActions}>
+                                        <Button
+                                            to={menEyeglassesUrl}
+                                            kind="primary"
+                                            size="small"
+                                            bold
+                                            outlined
+                                            rounded
+                                        >
+                                            <FormattedMessage id="shop_men" />
+                                        </Button>
+                                        <Button
+                                            to={womenEyeglassesUrl}
+                                            kind="primary"
+                                            size="small"
+                                            bold
+                                            outlined
+                                            rounded
+                                        >
+                                            <FormattedMessage id="shop_women" />
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </Banners>
+                )}
             </Container>
             {/*
             <div className={styles.main}>

@@ -20,6 +20,7 @@ export { default as GET_STORE } from './store';
 export { default as GET_STORES } from './stores';
 export { default as GET_USER } from './user';
 export { default as SEARCH_PRODUCTS } from './search-products';
+export { default as GET_BANNER } from './banner';
 
 export const IS_LOGGED_IN = gql`
     query IsUserLoggedIn {
