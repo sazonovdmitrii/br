@@ -18,7 +18,7 @@
         width: 30%;
         position: absolute;
         top: 50%;
-        right: 4%;
+        right: 10%;
         transform: translateY(-50%);
     }
 }
