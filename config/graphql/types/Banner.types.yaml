@@ -25,6 +25,9 @@ BannerItem:
       path:
         type: "String"
         description: "Path"
+      description:
+        type: "String"
+        description: "Description"
       images:
         type: "ItemsImages"
         description: "Images"
