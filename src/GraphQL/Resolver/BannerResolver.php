@@ -68,6 +68,7 @@ class BannerResolver extends LocaleAlias implements ResolverInterface, AliasedIn
 
         $images = [];
         foreach($banner->getBannerItems() as $bannerItem) {
+            $bannerItem->setCurrentLocale($args['locale']);
             $images[] = $this->imageGenerator
                 ->setImage($bannerItem)
                 ->setTypes(['original', 'webp'])
