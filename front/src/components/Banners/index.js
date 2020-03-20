@@ -9,7 +9,7 @@ import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
-const Banners = ({ children, interval, autoPlay: autoPlayProp }) => {
+const Banners = ({ className, children, interval, autoPlay: autoPlayProp }) => {
     const [state, dispatch] = useReducer(
         (prevState, action) => {
             const childLength = children.length;
@@ -80,9 +80,11 @@ const Banners = ({ children, interval, autoPlay: autoPlayProp }) => {
         );
     });
 
+    const rootClassName = cx(styles.wrapper, className);
+
     return (
         <div
-            className={styles.wrapper}
+            className={rootClassName}
             onMouseEnter={autoPlayProp ? handleHover : null}
             onMouseLeave={autoPlayProp ? handleHover : null}
         >

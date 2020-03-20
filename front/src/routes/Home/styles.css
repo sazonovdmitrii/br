@@ -1,3 +1,7 @@
+.banner {
+    margin-bottom: 48px;
+}
+
 .slideText {
     animation-name: fade-in;
     margin-bottom: 30px;

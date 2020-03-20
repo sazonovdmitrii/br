@@ -45,7 +45,7 @@ export default ({ lang }) => {
         <>
             <Container>
                 {loadingBanner || errorBanner ? null : (
-                    <Banners>
+                    <Banners className={styles.banner}>
                         {banner.bannerItems.map(({ id, description, images }) => (
                             <div key={id}>
                                 <picture>
