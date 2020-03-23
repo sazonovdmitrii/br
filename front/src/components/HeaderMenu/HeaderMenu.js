@@ -26,7 +26,7 @@ const HeaderMenu = ({ items }) => {
     const domNode = isBrowser ? document.body : {};
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-        if (state.active) {
+        if (state.open) {
             domNode.style.paddingRight = '15px';
             domNode.style.overflow = 'hidden';
         }
@@ -34,7 +34,7 @@ const HeaderMenu = ({ items }) => {
         return () => {
             domNode.style = null;
         };
-    }, [state.active, domNode.style]);
+    }, [state.open, domNode.style]);
 
     const homeTryId = 'homeTry';
     const homeTryActive = state.active === homeTryId;
