@@ -5,6 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import styles from './styles.css';
 
 const RecipeTable = ({ recipe }) => {
+    if (!recipe.sides) return null;
+
     const sides = Object.entries(recipe.sides)
         .map(([key, value]) => (/left|right/.test(key) ? { side: key, items: value } : null))
         .filter(Boolean);
