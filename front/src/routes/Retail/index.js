@@ -16,22 +16,11 @@ import styles from './styles.css';
 import bgImage from './images/bg.jpg';
 
 const Retail = ({ lang }) => {
-    const { loading: loadingStores, data: { stores } = {} } = useQuery(GET_STORES, {
+    const { loading, data: { stores, storesWithVision } = {} } = useQuery(GET_STORES, {
         variables: {
             locale: lang,
-            vision: false,
         },
     });
-    const { loading: loadingStoresWithVision, data: { stores: storesWithVision } = {} } = useQuery(
-        GET_STORES,
-        {
-            variables: {
-                locale: lang,
-                vision: true,
-            },
-        }
-    );
-    const loading = loadingStores && loadingStoresWithVision;
 
     return (
         <div>
@@ -41,7 +30,7 @@ const Retail = ({ lang }) => {
                     <h2 className={styles.title}>
                         <FormattedMessage id="p_retail_title" />
                     </h2>
-                    {loadingStoresWithVision ? (
+                    {loading ? (
                         <Loader />
                     ) : (
                         <>
@@ -49,12 +38,6 @@ const Retail = ({ lang }) => {
                                 <FormattedMessage id="p_retail_store_vision_title" />
                             </Title>
                             <Shops items={storesWithVision.data} kind="row" />
-                        </>
-                    )}
-                    {loadingStores ? (
-                        <Loader />
-                    ) : (
-                        <>
                             <Title className={styles.subTitle}>
                                 <FormattedMessage id="p_retail_store_title" />
                             </Title>
