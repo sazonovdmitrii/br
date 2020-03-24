@@ -30,6 +30,7 @@ const GET_PRODUCT = gql`
                 id
                 name
                 price
+                is_recipe
                 recipes {
                     id
                     name

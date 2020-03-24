@@ -1,0 +1,67 @@
+.root {
+    width: 100%;
+    margin-top: 18px;
+    padding: 0 0 3px;
+    font: inherit;
+    background: inherit;
+    border: inherit;
+    outline: inherit;
+    cursor: pointer;
+
+    @media (--viewport-desktop) {
+        margin-top: 24px;
+
+        &:hover .pill {
+            background: #e1e9ee;
+        }
+    }
+
+    &:hover .pill {
+        color: #414b56;
+        outline: none;
+    }
+}
+
+.head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.price {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-small);
+    white-space: nowrap;
+
+    @media (--viewport-desktop) {
+        font-size: var(--font-size-base);
+    }
+}
+
+.description {
+    margin-top: 10px;
+    margin-left: 14px;
+    color: #676f78;
+    font-size: var(--font-size-small);
+    line-height: 24px;
+    text-align: left;
+
+    @media (--viewport-desktop) {
+        font-size: var(--font-size-base);
+    }
+}
+
+.pill {
+    display: inline-block;
+    padding: 5px 14px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-small);
+    background: #eff3f5;
+    border-radius: 17px;
+    transition: background 0.2s ease-in-out;
+
+    @media (--viewport-desktop) {
+        padding: 6px 16px;
+        font-size: var(--font-size-base);
+    }
+}

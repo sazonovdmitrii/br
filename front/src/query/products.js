@@ -1,5 +1,7 @@
 import gql from 'graphql-tag';
 
+import { ProductCard } from 'fragments';
+
 const GET_PRODUCTS = gql`
     query Products($slug: String!, $offset: Int!, $limit: Int!, $tags: [Int], $locale: String) {
         catalog(slug: $slug, tags: $tags, locale: $locale) {
@@ -8,24 +10,7 @@ const GET_PRODUCTS = gql`
             products(limit: $limit, offset: $offset) {
                 edges {
                     node {
-                        id
-                        name
-                        url
-                        items(limit: 40, offset: 0) {
-                            edges {
-                                node {
-                                    id
-                                    images
-                                    name
-                                    price
-                                    productItemTagItems {
-                                        id
-                                        name
-                                        image
-                                    }
-                                }
-                            }
-                        }
+                        ...ProductCard
                     }
                 }
             }
@@ -40,6 +25,7 @@ const GET_PRODUCTS = gql`
             }
         }
     }
+    ${ProductCard}
 `;
 
 export default GET_PRODUCTS;

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const GET_PICKUPS = gql`
-    query pickups($city_id: Int) {
+    query pickups($city_id: Int!) {
         pickups(city_id: $city_id) {
             data {
                 id

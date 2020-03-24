@@ -1,16 +1,14 @@
 import gql from 'graphql-tag';
 
+import { User } from 'fragments';
+
 const GET_USER = gql`
     {
         user {
-            id
-            email
-            gender
-            firstname
-            lastname
-            phone
+            ...User
         }
     }
+    ${User}
 `;
 
 export default GET_USER;

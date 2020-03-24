@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 import { X as CloseIcon, ArrowLeft } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
-
-import { createMarkup } from 'utils';
 
 import Title from 'components/Title';
 import Link from 'components/Link';
@@ -14,12 +12,13 @@ import Select from 'components/Select';
 import InputGroup from 'components/InputGroup';
 import RecipeTable from 'components/RecipeTable';
 
+import Rail from './Rail';
+
 import styles from './styles.css';
 
 const PUPIL_DISTANCE_ID = 11;
 const RECIPE_STEP = 'Recipe';
 const FINAL_STEP = 'Review';
-
 const SIDES = ['left', 'right'];
 const INITIAL_RECIPE = SIDES.reduce(
     (acc, side) => ({
@@ -31,6 +30,17 @@ const INITIAL_RECIPE = SIDES.reduce(
     }),
     { extraData: {} }
 );
+const INITIAL_STATE = {
+    currentLens: null,
+    currentStep: null,
+    imageIndex: 0,
+    isEdit: false,
+    options: [],
+    steps: [],
+    recipe: [],
+    values: [],
+};
+let firstRender = true;
 
 const getRecipeItems = ({ rangeFrom, rangeTo, step }) => {
     const items = [];
@@ -83,6 +93,29 @@ const getOptionsByStep = ({ lenses = [], step, stepPrice }) => {
     return optionsWithMinPrice;
 };
 
+const getProgressBarWidth = ({ steps = [], currentStep }) => {
+    const stepWidthStyle = 100 / steps.length;
+    const stepIndex = steps.indexOf(currentStep);
+
+    return `${stepWidthStyle * stepIndex}%`;
+};
+
+const getSteps = ({ lenseitemstags, is_recipe: isRecipe } = {}) => {
+    const steps = lenseitemstags.map(({ entity }) => (entity.visible ? entity.name : null)).filter(Boolean);
+
+    return [...steps, isRecipe ? RECIPE_STEP : null, FINAL_STEP].filter(Boolean);
+};
+
+const init = (lens) => {
+    const steps = getSteps(lens);
+
+    return {
+        ...INITIAL_STATE,
+        steps,
+        currentStep: steps[0],
+    };
+};
+
 const ChooseLenses = ({
     product: {
         name: productName,
@@ -93,27 +126,126 @@ const ChooseLenses = ({
     onAddToCart,
     onClose,
 }) => {
-    const overlayNode = useRef(null);
-    const [values, setValues] = useState([]);
-    const [recipe, setRecipe] = useState(INITIAL_RECIPE);
-    const [imageIndex, setImageIndex] = useState(0);
-
-    const selectedLenses = getLensesByValues({ lenses, values });
-    const [selectedLens = {}] = selectedLenses;
-    const _steps = lenses[0].lenseitemstags
-        .map(({ entity }) => (entity.visible ? entity.name : null))
-        .filter(Boolean);
-    const steps = useMemo(
-        () => [..._steps, selectedLens.recipes.length ? RECIPE_STEP : null, FINAL_STEP].filter(Boolean),
-        [_steps, selectedLens.recipes.length]
-    );
-    const [firstStep] = steps;
-    const [currentStep, setCurrentStep] = useState(firstStep);
-    const [edit, setEdit] = useState(false);
-    const isFirstStep = currentStep === firstStep;
-
     if (typeof document === 'undefined') return null;
 
+    const overlayNode = useRef(null);
+    const [state, dispatch] = useReducer(
+        (prevState, action) => {
+            console.log('🔥 reducer:', action.type, 'payload:', action.payload);
+
+            switch (action.type) {
+                case 'GET_STEPS': {
+                    const { currentLens } = prevState;
+                    const { is_recipe: isRecipe } = currentLens;
+
+                    return {
+                        ...prevState,
+                        isRecipe,
+                        recipe: isRecipe ? INITIAL_RECIPE : [],
+                        steps: getSteps(currentLens),
+                    };
+                }
+                case 'GET_OPTIONS': {
+                    return {
+                        ...prevState,
+                        options: getOptionsByStep({
+                            stepPrice: prevState.values.reduce((acc, { price }) => acc + price, 0),
+                            lenses: getLensesByValues({ lenses, values: prevState.values }),
+                            step: prevState.currentStep,
+                        }),
+                    };
+                }
+                case 'SET_STEP': {
+                    return {
+                        ...prevState,
+                        currentStep: action.payload.step,
+                    };
+                }
+                case 'SET_RECIPE': {
+                    const { side, id, value } = action.payload;
+
+                    return {
+                        ...prevState,
+                        recipe: {
+                            ...prevState.recipe,
+                            ...(side
+                                ? {
+                                      [side]: {
+                                          ...prevState.recipe[side],
+                                          [id]: value,
+                                      },
+                                  }
+                                : {
+                                      extraData: {
+                                          ...prevState.recipe.extraData,
+                                          [id]: value,
+                                      },
+                                  }),
+                        },
+                    };
+                }
+                case 'NEXT_STEP': {
+                    const stepIndex = prevState.steps.indexOf(prevState.currentStep);
+                    const newCurrentStep = prevState.steps[stepIndex + 1];
+                    const newImageIndex = (prevState.imageIndex + 1) % images.length;
+                    const nextImage = images[newImageIndex];
+
+                    return {
+                        ...prevState,
+                        imageIndex: nextImage ? newImageIndex : 0,
+                        currentStep: newCurrentStep,
+                    };
+                }
+                case 'PREV_STEP': {
+                    const stepIndex = prevState.steps.indexOf(prevState.currentStep);
+                    const prevStepIndex = stepIndex - 1;
+                    const newCurrentStep = prevState.steps[prevStepIndex];
+                    const newImageIndex = (prevState.imageIndex - 1 + images.length) % images.length;
+                    const nextImage = images[newImageIndex];
+
+                    return {
+                        ...prevState,
+                        isEdit: true,
+                        imageIndex: nextImage ? newImageIndex : 0,
+                        currentStep: newCurrentStep,
+                        ...(newCurrentStep !== FINAL_STEP || newCurrentStep !== RECIPE_STEP
+                            ? { values: prevState.values.slice(0, prevState.values.length - 1) }
+                            : {}),
+                    };
+                }
+                case 'SET_VALUE': {
+                    return {
+                        ...prevState,
+                        isEdit: false,
+                        values: [...prevState.values, { name: prevState.currentStep, ...action.payload }],
+                    };
+                }
+                case 'SET_LENS': {
+                    return {
+                        ...prevState,
+                        currentLens: action.payload,
+                    };
+                }
+                case 'RESET': {
+                    return init(lenses[0]);
+                }
+                default:
+                    return prevState;
+            }
+        },
+        lenses[0],
+        init
+    );
+    console.log('state: ', state);
+    console.log('CURRENT STEP: ', state.currentStep);
+
+    const [firstStep] = state.steps;
+    const isFirstStep = state.currentStep === firstStep;
+    const totalPrice = state.values.reduce(
+        (acc, { price }) => (price ? acc + parseInt(price, 10) : acc),
+        parseInt(itemPrice, 10)
+    );
+    const progressWidth = getProgressBarWidth({ steps: state.steps, currentStep: state.currentStep });
     const domNode = document.body;
 
     useEffect(() => {
@@ -127,111 +259,71 @@ const ChooseLenses = ({
         };
     }, [domNode.style]);
 
-    const stepIndex = steps.indexOf(currentStep);
-    const stepPrice = values.reduce((acc, { price }) => acc + price, 0);
+    useEffect(() => {
+        console.log('INIT STATE');
+        dispatch({ type: 'GET_OPTIONS' });
+    }, []);
+
+    useEffect(() => {
+        if (!firstRender) {
+            console.log('EFFECT');
+
+            const [selectedLens] = getLensesByValues({ lenses, values: state.values });
+
+            dispatch({ type: 'SET_LENS', payload: selectedLens });
+            dispatch({ type: 'GET_STEPS' });
+
+            if (!state.isEdit) dispatch({ type: 'NEXT_STEP' });
+
+            if (state.currentStep !== RECIPE_STEP || state.currentStep !== FINAL_STEP) {
+                dispatch({ type: 'GET_OPTIONS' });
+            }
+        }
+
+        firstRender = false;
+    }, [lenses, state.values]);
+
+    useEffect(() => {
+        if (!state.isEdit && state.options.length === 1) {
+            const [{ id, name, price }] = state.options;
+
+            dispatch({ type: 'SET_VALUE', payload: { id, price, value: name, name: state.currentStep } });
+        }
+    }, [state.options]);
 
     const handleClose = () => {
         onClose();
     };
 
-    const handleNextStep = () => {
-        const nextStep = steps[stepIndex + 1];
-        const newImageIndex = (imageIndex + 1) % images.length;
-        const nextImage = images[newImageIndex];
-
-        setImageIndex(nextImage ? newImageIndex : 0);
-        setCurrentStep(nextStep);
-    };
-
     const handleSubmitRecipe = () => {
-        setCurrentStep(FINAL_STEP);
+        dispatch({ type: 'SET_STEP', payload: { step: FINAL_STEP } });
     };
 
-    const handleClick = item => {
-        setEdit(false);
-
-        setValues(prevState => [...prevState, { name: currentStep, ...item }]);
-        handleNextStep();
+    const handleClick = (item) => {
+        dispatch({ type: 'SET_VALUE', payload: item });
     };
 
     const handleChangeSelect = ({ id, value, side }) => {
-        setRecipe(prevRecipe => ({
-            ...prevRecipe,
-            ...(side
-                ? {
-                      [side]: {
-                          ...prevRecipe[side],
-                          [id]: value,
-                      },
-                  }
-                : {
-                      extraData: {
-                          ...prevRecipe.extraData,
-                          [id]: value,
-                      },
-                  }),
-        }));
+        dispatch({ type: 'SET_RECIPE', payload: { id, value, side } });
     };
 
     const handleReset = () => {
-        setValues([]);
-        setCurrentStep(firstStep);
-        setRecipe(INITIAL_RECIPE);
-        setImageIndex(0);
+        firstRender = true;
+        dispatch({ type: 'RESET' });
+        dispatch({ type: 'INIT_STEPS', payload: { lens: lenses[0] } });
+        dispatch({ type: 'GET_OPTIONS' });
+
         console.log('RESET');
     };
 
     const handlePrevStep = () => {
-        const prevStepIndex = stepIndex - 1;
-
-        if (prevStepIndex >= 0) {
-            setEdit(true);
-            if (currentStep !== FINAL_STEP) {
-                setValues(prevValues => prevValues.slice(0, prevValues.length - 1));
-            }
-
-            const newImageIndex = (imageIndex - 1 + images.length) % images.length;
-            const nextImage = images[newImageIndex];
-
-            setImageIndex(nextImage ? newImageIndex : 0);
-            setCurrentStep(steps[prevStepIndex]);
-        }
+        dispatch({ type: 'PREV_STEP' });
     };
 
-    const totalPrice = values.reduce(
-        (acc, { price }) => (price ? acc + parseInt(price, 10) : acc),
-        parseInt(itemPrice, 10)
-    );
-    const stepWidthStyle = 100 / steps.length;
-    const progressWidth = `${stepWidthStyle * stepIndex}%`;
-
-    const currentOptions = getOptionsByStep({
-        stepPrice,
-        lenses: getLensesByValues({ lenses, values }),
-        step: currentStep,
-    });
-
-    useEffect(() => {
-        if (!edit && currentOptions?.length === 1) {
-            const [{ id, name, price }] = currentOptions;
-
-            setValues(prevValues => [
-                ...prevValues,
-                {
-                    id,
-                    price,
-                    value: name,
-                    name: currentStep,
-                },
-            ]);
-            handleNextStep();
-        }
-    }, [currentOptions]);
-
     const StepView = () => {
-        const { recipes } = selectedLens;
+        const { recipes } = state?.currentLens || {};
 
-        switch (currentStep) {
+        switch (state.currentStep) {
             case RECIPE_STEP: {
                 const recipeItems = recipes
                     .map(({ id, name, range_from: rangeFrom, range_to: rangeTo, step }) => {
@@ -242,9 +334,9 @@ const ChooseLenses = ({
                         return { id, name, items };
                     })
                     .filter(Boolean);
-                const getRecipeById = searchId => {
+                const getRecipeById = (searchId) => {
                     const { id, name, range_from: rangeFrom, range_to: rangeTo, step } =
-                        recipes.find(item => item.id === searchId) || {};
+                        recipes.find((item) => item.id === searchId) || {};
                     const items = getRecipeItems({ rangeFrom, rangeTo, step });
 
                     return { id, name, items };
@@ -264,16 +356,16 @@ const ChooseLenses = ({
                                     label={pupilDistance.name}
                                     name={pupilDistance.id}
                                     items={pupilDistance.items}
-                                    value={recipe.extraData[pupilDistance.id]}
-                                    onChange={value =>
+                                    value={state.recipe.extraData[pupilDistance.id]}
+                                    onChange={(value) => {
                                         handleChangeSelect({
                                             value,
                                             id: pupilDistance.id,
-                                        })
-                                    }
+                                        });
+                                    }}
                                 />
                             </InputGroup>
-                            {SIDES.map(side => (
+                            {SIDES.map((side) => (
                                 <div key={side}>
                                     <Title className={styles.recipeTitle}>
                                         <FormattedMessage id={`p_product_select_lenses_${side}`} />
@@ -284,14 +376,16 @@ const ChooseLenses = ({
                                                 label={name}
                                                 name={id}
                                                 items={items}
-                                                value={recipe[side][id]}
-                                                onChange={value => handleChangeSelect({ id, value, side })}
+                                                value={state.recipe[side][id]}
+                                                onChange={(value) => {
+                                                    handleChangeSelect({ id, value, side });
+                                                }}
                                             />
                                         </InputGroup>
                                     ))}
                                 </div>
                             ))}
-                            <div className={styles.reviewActions}>
+                            <div className={styles.stepFooter}>
                                 <Button
                                     kind="primary"
                                     size="large"
@@ -307,9 +401,9 @@ const ChooseLenses = ({
                 );
             }
             case FINAL_STEP: {
-                const recipeList = Object.entries(recipe).reduce((obj, [key, value]) => {
+                const recipeList = Object.entries(state.recipe).reduce((obj, [key, value]) => {
                     const newValue = Object.entries(value).map(([id, value]) => {
-                        const { name } = recipes.find(item => item.id === parseInt(id, 10)) || {};
+                        const { name } = recipes.find((item) => item.id === parseInt(id, 10)) || {};
 
                         return { name, id: parseInt(id, 10), value };
                     });
@@ -330,6 +424,8 @@ const ChooseLenses = ({
                     };
                 }, {});
 
+                console.log('🤯 recipeList', recipeList);
+
                 return (
                     <>
                         <div className={styles.heading}>
@@ -341,7 +437,7 @@ const ChooseLenses = ({
                             <FormattedMessage id="p_product_select_lenses_review_text" />
                         </div>
                         <div className={styles.reviewsWrapper}>
-                            {values.map(({ name, id, value, price }) => (
+                            {state.values.map(({ name, id, value, price }) => (
                                 <div key={id} className={styles.review}>
                                     <div>
                                         <div className={styles.reviewTitle}>{name}</div>
@@ -364,22 +460,22 @@ const ChooseLenses = ({
                                     )}
                                 </div>
                             ))}
-                            {recipes.length ? <RecipeTable recipe={recipeList} /> : null}
+                            {state.isRecipe && <RecipeTable recipe={recipeList} />}
                         </div>
                         <div className={styles.reviewActions}>
                             <Button
                                 kind="primary"
                                 size="large"
                                 onClick={() => {
-                                    if (!selectedLens) return;
+                                    if (!state.currentLens) return;
 
                                     onAddToCart({
                                         variables: {
                                             input: {
                                                 item_id: itemId,
                                                 lense: JSON.stringify({
-                                                    recipes: recipes.length ? recipe : {},
-                                                    lense: selectedLens.id,
+                                                    recipes: state.isRecipe ? state.recipe : {},
+                                                    lense: state.currentLens.id,
                                                 }),
                                             },
                                         },
@@ -411,23 +507,19 @@ const ChooseLenses = ({
                             <Title className={styles.stepTitle}>
                                 <FormattedMessage
                                     id="p_product_select_lenses_title"
-                                    values={{ step: currentStep.toLowerCase() }}
+                                    values={{ step: state.currentStep?.toLowerCase() }}
                                 />
                             </Title>
                         </div>
                         <div className={styles.stepInner}>
                             <div>
-                                {currentOptions.map(({ id, name, price, description }) => (
-                                    <button
+                                {state.options.map(({ id, name, price, description }) => (
+                                    <Rail
                                         key={id}
-                                        type="button"
-                                        className={styles.rail}
-                                        onClick={() => handleClick({ id, value: name, price })}
-                                    >
-                                        <div className={styles.railHead}>
-                                            <div className={styles.pill}>{name}</div>
-                                            {price > 0 ? (
-                                                <p className={styles.railPrice}>
+                                        name={name}
+                                        price={
+                                            price > 0 ? (
+                                                <>
                                                     +{' '}
                                                     <FormattedMessage
                                                         id="currency"
@@ -435,16 +527,12 @@ const ChooseLenses = ({
                                                             price,
                                                         }}
                                                     />
-                                                </p>
-                                            ) : null}
-                                        </div>
-                                        {description && (
-                                            <div
-                                                className={styles.railDescription}
-                                                dangerouslySetInnerHTML={createMarkup(description)}
-                                            />
-                                        )}
-                                    </button>
+                                                </>
+                                            ) : null
+                                        }
+                                        description={description}
+                                        onClick={() => handleClick({ id, value: name, price })}
+                                    />
                                 ))}
                             </div>
                             <div className={styles.stepFooter}>
@@ -516,12 +604,14 @@ const ChooseLenses = ({
                         <div className={styles.frameDisplay}>
                             <picture>
                                 <source
-                                    srcSet={`${images[imageIndex].middle.webp} 1x, ${images[imageIndex].big.webp} 2x`}
+                                    srcSet={`${images[state.imageIndex].middle.webp} 1x, ${
+                                        images[state.imageIndex].big.webp
+                                    } 2x`}
                                     type="image/webp"
                                 />
                                 <img
-                                    src={images[imageIndex].middle.original}
-                                    srcSet={`${images[imageIndex].big.original} 2x`}
+                                    src={images[state.imageIndex].middle.original}
+                                    srcSet={`${images[state.imageIndex].big.original} 2x`}
                                     alt=""
                                 />
                             </picture>
@@ -597,5 +687,6 @@ ChooseLenses.propTypes = {
         })
     ).isRequired,
 };
+ChooseLenses.whyDidYouRender = true;
 
 export default ChooseLenses;

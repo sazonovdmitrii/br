@@ -1,16 +1,14 @@
 import gql from 'graphql-tag';
 
+import { User } from 'fragments';
+
 const UPDATE_USER_MUTATION = gql`
     mutation updateUser($input: UpdateUserInput!) {
         updateUser(input: $input) {
-            id
-            email
-            gender
-            firstname
-            lastname
-            phone
+            ...User
         }
     }
+    ${User}
 `;
 
 export default UPDATE_USER_MUTATION;

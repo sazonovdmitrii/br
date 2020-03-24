@@ -27,6 +27,7 @@ module.exports = api => {
             ],
         ],
         plugins: [
+            '@babel/plugin-proposal-optional-chaining',
             '@babel/plugin-transform-react-constant-elements',
             [
                 '@babel/plugin-proposal-class-properties',

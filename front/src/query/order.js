@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { Address } from 'fragments';
 
 const GET_ORDER = gql`
-    query order($hash: String, $locale: String) {
+    query order($hash: String!, $locale: String) {
         order(secret_key: $hash, locale: $locale) {
             id
             orderItems {
