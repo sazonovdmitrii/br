@@ -42,20 +42,23 @@ const Filters = ({ list, count, onChange }) => {
             domNode.style = null;
         };
     }, [tab.active, tablet]);
-    const handleChangeTab = newValue => {
-        setTab(prevState => ({
+    const handleChangeTab = (newValue) => {
+        setTab((prevState) => ({
             ...prevState,
             value: tab.value === newValue ? null : newValue,
             active: tab.value !== newValue,
         }));
     };
     const handleChangeFilter = (tagId, active) => {
-        setTagsIds(prevState => {
-            const newTagsIds = active ? [...prevState, tagId] : prevState.filter(id => id !== tagId);
+        setTagsIds((prevState) => {
+            const newTagsIds = active ? [...prevState, tagId] : prevState.filter((id) => id !== tagId);
             onChange(newTagsIds);
 
             return newTagsIds;
         });
+    };
+    const handleClose = () => {
+        setTab({ value: null, active: false });
     };
     const resetFilters = () => {
         setTagsIds([]);
@@ -87,7 +90,7 @@ const Filters = ({ list, count, onChange }) => {
             <div className={innerClassName}>
                 {list.length ? (
                     <Tabs className={tabsClassName} value={tab.value} onChange={handleChangeTab}>
-                        {list.map(item => {
+                        {list.map((item) => {
                             if (!item.childrens.length) return null;
 
                             const tabClassName = cx(styles.tab, {
@@ -110,7 +113,7 @@ const Filters = ({ list, count, onChange }) => {
                 ) : null}
                 {list.length ? (
                     <div className={tabWrapperClassName}>
-                        {list.map(item => {
+                        {list.map((item) => {
                             if (!item.childrens.length) return null;
 
                             const tabContentClassName = cx(styles.tabContent, {
@@ -142,7 +145,7 @@ const Filters = ({ list, count, onChange }) => {
                 ) : null}
             </div>
             <div className={modalFooterClassName}>
-                <Button className={styles.modalButton} kind="simple">
+                <Button className={styles.modalButton} onClick={handleClose} kind="simple">
                     <FormattedMessage id="p_catalog_filters_modal_button" values={{ count }} />
                 </Button>
                 <button type="button" className={styles.resetButton} onClick={resetFilters}>
