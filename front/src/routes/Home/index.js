@@ -49,8 +49,15 @@ export default ({ lang }) => {
                         {banner.bannerItems.map(({ id, description, images }) => (
                             <div key={id}>
                                 <picture>
-                                    <source type="image/webp" srcSet={images.banner.webp} />
-                                    <img src={images.banner.original} alt="" />
+                                    <source
+                                        type="image/webp"
+                                        srcSet={`${images.banner.webp} 1x, ${images.bannerRetina.webp} 2x`}
+                                    />
+                                    <img
+                                        src={images.banner.original}
+                                        srcSet={`${images.bannerRetina.original}`}
+                                        alt=""
+                                    />
                                 </picture>
                                 <div className={styles.slideText}>
                                     <div className={styles.slideHeading}>
