@@ -6,7 +6,6 @@ const GET_PRODUCTS = gql`
     query Products($slug: String!, $offset: Int!, $limit: Int!, $tags: [Int], $locale: String) {
         catalog(slug: $slug, tags: $tags, locale: $locale) {
             name
-            count
             products(limit: $limit, offset: $offset) {
                 edges {
                     node {

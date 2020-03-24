@@ -53,16 +53,16 @@ const Products = ({ slug, limit, offset, className }) => {
         return null;
     }
 
-    const { products, tags, count } = data.catalog;
+    const { products, tags } = data.catalog;
     const rowClassName = classnames(styles.row, className);
 
     return (
         <>
             {tags.length ? (
                 <Filters
-                    count={count}
+                    count={products.edges.length}
                     list={tags}
-                    onChange={newTags => {
+                    onChange={(newTags) => {
                         refetch({ slug, limit, offset, tags: newTags });
                     }}
                 />
