@@ -31,13 +31,13 @@ const BasketProduct = ({ url, name, subName, images, oldPrice, price, options, r
                 <Link to={url}>
                     <picture>
                         <source
-                            srcSet={`${images.basket.webp} 1x, ${images.middle.webp} 2x`}
+                            srcSet={`${images.original.webp} 1x, ${images.retina.webp} 2x`}
                             type="image/webp"
                         />
                         <img
                             className={styles.image}
-                            src={images.basket.original}
-                            srcSet={`${images.middle.original} 2x`}
+                            src={images.original.original}
+                            srcSet={`${images.retina.original} 2x`}
                             alt=""
                         />
                     </picture>

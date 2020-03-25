@@ -53,7 +53,7 @@ const Order = ({ id, address_id, orderItems = [], delivery, payment }) => {
                         url={item.product.url}
                         options={lense.options ? lense.options : []}
                         recipes={lense.recipes}
-                        images={item.images ? item.images[0] : null}
+                        images={{ original: item.images[0].order, retina: item.images[0].middle }}
                         oldPrice={
                             isCouponApplied && (
                                 <FormattedMessage

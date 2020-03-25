@@ -478,7 +478,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                         {products.map(({ name, item, lense, price, coupon_price: couponPrice, url }) => (
                             <BasketProduct
                                 key={item.id}
-                                images={item.images[0]}
+                                images={{ original: item.images[0].basket, retina: item.images[0].middle }}
                                 name={name}
                                 recipes={lense.recipes}
                                 options={lense.options ? lense.options : []}
