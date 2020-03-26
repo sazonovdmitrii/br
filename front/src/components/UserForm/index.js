@@ -13,8 +13,8 @@ export default ({ type, onSubmit = () => {}, onCompleted = () => {}, data = {} }
         const [createUser] = useMutation(CREATE_USER_MUTATION, {
             onCompleted({ register: { hash } }) {
                 if (hash) {
-                    login(hash);
                     onCompleted();
+                    login(hash);
                 }
             },
             onError({ graphQLErrors: [{ message }] }) {

@@ -19,8 +19,11 @@ export default ({ onCompleted }) => {
     const { createNotification, login } = useApp();
     const [auth] = useMutation(LOGIN_MUTATION, {
         onCompleted({ auth: { hash } }) {
-            login(hash);
-            if (onCompleted) onCompleted();
+            if (hash) {
+                if (onCompleted) onCompleted();
+
+                login(hash);
+            }
         },
         onError({ graphQLErrors: [{ message }] }) {
             createNotification({ type: 'error', message });

@@ -16,12 +16,6 @@ import styles from './styles.css';
 const Login = () => {
     const { login } = useApp();
     const [loginType, setLoginType] = useState('register');
-    const handleLogInCompleted = ({ auth: { hash } }) => {
-        login(hash);
-    };
-    const handleRegisterCompleted = ({ register: { hash } }) => {
-        login(hash);
-    };
 
     return (
         <div className={styles.containerSmall}>
@@ -30,7 +24,7 @@ const Login = () => {
                     <Title>
                         <FormattedMessage id="c_login_title" />
                     </Title>
-                    <LoginForm onCompleted={handleLogInCompleted} />
+                    <LoginForm />
                     {/* <Link onClick={() => setLoginType('remind')}>
                         <FormattedMessage id="forgot_password" />?
                     </Link> */}
@@ -45,7 +39,7 @@ const Login = () => {
                     <Title>
                         <FormattedMessage id="c_register_title" />!
                     </Title>
-                    <UserForm type="registration" onCompleted={handleRegisterCompleted} />
+                    <UserForm type="registration" />
                     <Hr />
                     <Link onClick={() => setLoginType('login')}>
                         <FormattedMessage id="i_have_an_account" />
