@@ -3,17 +3,9 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 import { useApp } from 'hooks';
+import { LOGIN_MUTATION } from 'mutations';
 
 import LoginForm from './LoginForm';
-
-const LOGIN_MUTATION = gql`
-    mutation($input: UserInput!) {
-        auth(input: $input) {
-            email
-            hash
-        }
-    }
-`;
 
 export default ({ onCompleted }) => {
     const { createNotification, login } = useApp();
