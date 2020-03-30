@@ -2,7 +2,7 @@ import { useState, useContext, useReducer, useEffect } from 'react';
 import hardtack from 'hardtack';
 import nanoid from 'nanoid';
 
-import { createClient } from 'lib/apollo';
+import createClient from 'server/apollo';
 import { AppContext } from 'AppContext';
 
 const useApp = () => {

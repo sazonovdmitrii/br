@@ -2,7 +2,7 @@ module.exports = {
     apps: [
         {
             name: 'br',
-            script: './serverBabel/index.js',
+            script: './.server/index.js',
             exec_mode: 'cluster',
             watch: './dist/node/loadable-stats.json',
             instances: 'max',

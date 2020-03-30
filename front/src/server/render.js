@@ -14,7 +14,7 @@ import jwt from 'jsonwebtoken';
 import Html from './Html';
 import config from './config';
 
-const checkToken = token => {
+const checkToken = (token) => {
     const pathToCert = path.join('../config/jwt/public.pem');
     const cert = fs.readFileSync(pathToCert);
 
@@ -25,17 +25,12 @@ const checkToken = token => {
     }
 };
 
-export default async ctx => {
-    const location = ctx.request.url;
-    // get token from cookies 🍪
-    const token = checkToken(ctx.cookies.get('token'));
+export default async ({ location, token, reply }) => {
     const client = config.client({ token });
-
     const nodeExtractor = new ChunkExtractor({ statsFile: config.nodeStats });
     const { default: App } = nodeExtractor.requireEntrypoint();
     // We create an extractor from the statsFile
     const webExtractor = new ChunkExtractor({ statsFile: config.webStats });
-
     const routerContext = {};
     const components = (
         <ApolloProvider client={client}>
@@ -51,34 +46,26 @@ export default async ctx => {
     } catch (error) {
         // Prevent GraphQL client errors from crashing SSR.
         console.error('Error while running `getDataFromTree`', error, location);
-        // const errorRender = renderToString(
-        //     <ErrorPage helmet={Helmet.renderStatic()} bundle={webExtractor} />
-        // );
-
-        // ctx.status = 500;
-        // ctx.body = `<!DOCTYPE html>${errorRender}`;
-
-        // return;
     }
 
+    // TODO
     if ([301, 302].includes(routerContext.statusCode)) {
         // 301 = permanent redirect, 302 = temporary
-        ctx.statusCode = routerContext.statusCode;
-
-        // Issue the new `Location:` header
-        ctx.redirect(routerContext.url);
+        reply.redirect(routerContext.statusCode, routerContext.url);
 
         // Return early -- no need to set a response body
         return;
     }
 
+    console.log('🔥', routerContext);
     if (routerContext.statusCode === 404) {
+        console.log('🔥 404');
         // By default, just set the statusCode to 404. You can
         // modify this section to do things like log errors to a
         // third-party, or redirect users to a dedicated 404 page
 
-        ctx.status = 404;
-        // ctx.body = 'Not found';
+        reply.statusCode = 404;
+        // request.body = 'Not found';
 
         // return;
     }
@@ -95,6 +82,6 @@ export default async ctx => {
         />
     );
 
-    ctx.type = 'text/html';
-    ctx.body = `<!DOCTYPE html>${reactRender}`;
+    reply.type('text/html; charset=utf-8');
+    reply.send(`<!DOCTYPE html>${reactRender}`);
 };

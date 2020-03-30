@@ -89,9 +89,9 @@ const create = ({ session, token } = {}) => {
                             : `../lang/${fileName}`
                         : `lang/${fileName}`;
 
-                    const {
-                        default: intlMessages,
-                    } = await import(/* webpackChunkName: 'i18n-[request]' */ foo);
+                    const { default: intlMessages } = await import(
+                        /* webpackChunkName: 'i18n-[request]' */ foo
+                    );
 
                     return intlMessages;
                 },
@@ -131,7 +131,7 @@ const create = ({ session, token } = {}) => {
     return client;
 };
 
-export function createClient({ session = '', token = '' } = {}) {
+export default ({ session = '', token = '' } = {}) => {
     if (isServer) return create({ token });
 
     if (token !== userToken || !graphQLClient) {
@@ -140,4 +140,4 @@ export function createClient({ session = '', token = '' } = {}) {
     }
 
     return graphQLClient;
-}
+};
