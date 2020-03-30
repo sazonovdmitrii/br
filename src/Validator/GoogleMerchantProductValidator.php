@@ -18,7 +18,7 @@ class GoogleMerchantProductValidator extends ConstraintValidator
             'id'              => new Assert\NotBlank(),
             'title'           => new Assert\NotBlank(),
             'description'     => new Assert\NotBlank(),
-            'image'           => new Assert\NotBlank(),
+            'image_link'           => new Assert\NotBlank(),
             'availability'    => new Assert\NotBlank(),
             'price'           => new Assert\NotBlank(),
             'google_category' => new Assert\NotBlank(),
