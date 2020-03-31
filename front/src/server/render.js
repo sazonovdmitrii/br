@@ -14,7 +14,7 @@ import jwt from 'jsonwebtoken';
 import Html from './Html';
 import config from './config';
 
-const checkToken = token => {
+const checkToken = (token) => {
     const pathToCert = path.join('../config/jwt/public.pem');
     const cert = fs.readFileSync(pathToCert);
 
@@ -25,7 +25,7 @@ const checkToken = token => {
     }
 };
 
-export default async ctx => {
+export default async (ctx) => {
     const location = ctx.request.url;
     // get token from cookies 🍪
     const token = checkToken(ctx.cookies.get('token'));
@@ -51,21 +51,12 @@ export default async ctx => {
     } catch (error) {
         // Prevent GraphQL client errors from crashing SSR.
         console.error('Error while running `getDataFromTree`', error, location);
-        // const errorRender = renderToString(
-        //     <ErrorPage helmet={Helmet.renderStatic()} bundle={webExtractor} />
-        // );
-
-        // ctx.status = 500;
-        // ctx.body = `<!DOCTYPE html>${errorRender}`;
-
-        // return;
     }
 
     if ([301, 302].includes(routerContext.statusCode)) {
         // 301 = permanent redirect, 302 = temporary
         ctx.statusCode = routerContext.statusCode;
 
-        // Issue the new `Location:` header
         ctx.redirect(routerContext.url);
 
         // Return early -- no need to set a response body

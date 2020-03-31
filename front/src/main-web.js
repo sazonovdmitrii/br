@@ -16,7 +16,7 @@ import { isProd, createSession } from 'utils';
 import { useApp } from 'hooks';
 import { AppProvider } from 'AppContext';
 
-import { createClient } from 'lib/apollo';
+import { createClient } from 'server/apollo';
 import App from './App';
 
 // if (isProd && process.env.REACT_APP_GA_TRACKING_ID) {

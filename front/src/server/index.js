@@ -5,7 +5,7 @@ import Koa from 'koa';
 
 import middlewares from './middlewares';
 import config from './config';
-import ssr from './ssr';
+import render from './render';
 
 require('dotenv').config();
 
@@ -18,7 +18,6 @@ const app = new Koa();
 
 middlewares(app);
 
-// TODO fix hmr
 if (process.env.NODE_ENV !== 'production') {
     (async () => {
         /* eslint-disable global-require, import/no-extraneous-dependencies */
@@ -27,16 +26,10 @@ if (process.env.NODE_ENV !== 'production') {
         const { default: webpackConfig } = require('../../webpack.config.babel');
         const koaWebpack = require('koa-webpack');
         /* eslint-enable global-require, import/no-extraneous-dependencies */
-
-        // Set hot client options
-        const hotClient = {
-            host: config.host,
-        };
-        const compiler = process.env.SSR ? webpack(webpackConfig) : webpack(webpackConfig[1]);
+        const compiler = webpack(webpackConfig);
         // Set default options for koaWebpack
         const defaultOptions = {
             compiler,
-            hotClient,
             devMiddleware: {
                 logLevel: 'silent',
                 publicPath: '/',
@@ -50,22 +43,8 @@ if (process.env.NODE_ENV !== 'production') {
 
         // Attach middleware to our passed Koa app
         app.use(middleware);
-
-        if (process.env.SSR) {
-            app.use(ssr);
-        } else {
-            app.use(async ctx => {
-                const filename = path.resolve(webpackConfig[1].output.path, '../index.html');
-
-                ctx.response.type = 'html';
-                ctx.response.body = middleware.devMiddleware.fileSystem.createReadStream(filename);
-            });
-        }
     })();
-} else {
-    app.use(ssr);
 }
-
 
 app.listen(config.port, () => {
     config.spinner.succeed(`Graphql server: ${process.env.GRAPHQL}`);

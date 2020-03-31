@@ -2,7 +2,7 @@ import { useState, useContext, useReducer, useEffect } from 'react';
 import hardtack from 'hardtack';
 import nanoid from 'nanoid';
 
-import { createClient } from 'lib/apollo';
+import { createClient } from 'server/apollo';
 import { AppContext } from 'AppContext';
 
 const useApp = () => {
@@ -12,18 +12,18 @@ const useApp = () => {
         if (state.notifications.length > state.maxNotifications) {
             const notifications = state.notifications.slice(-state.maxNotifications);
 
-            setState(prevState => ({
+            setState((prevState) => ({
                 ...prevState,
                 notifications,
             }));
         }
     }, [setState, state.notifications, state.maxNotifications]);
 
-    const init = token => {
+    const init = (token) => {
         const session = hardtack.get('session_key');
         const client = createClient({ token, session });
 
-        setState(prevState => ({
+        setState((prevState) => ({
             ...prevState,
             client,
         }));
@@ -31,7 +31,7 @@ const useApp = () => {
         return client;
     };
 
-    const login = token => {
+    const login = (token) => {
         if (!token) return;
 
         const date = new Date();
@@ -55,16 +55,16 @@ const useApp = () => {
     };
 
     const createNotification = (notification = null) => {
-        setState(prevState => ({
+        setState((prevState) => ({
             ...prevState,
             notifications: [...prevState.notifications, { ...notification, id: nanoid() }],
         }));
     };
 
-    const removeNotification = id => {
-        setState(prevState => ({
+    const removeNotification = (id) => {
+        setState((prevState) => ({
             ...prevState,
-            notifications: prevState.notifications.filter(item => item.id !== id),
+            notifications: prevState.notifications.filter((item) => item.id !== id),
         }));
     };
 

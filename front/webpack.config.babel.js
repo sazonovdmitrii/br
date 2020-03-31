@@ -27,7 +27,7 @@ const PATHS = {
     public: '/static/',
 };
 
-const getConfig = target => {
+const getConfig = (target) => {
     const isNode = target === 'node';
 
     return {
@@ -227,6 +227,7 @@ const getConfig = target => {
                 : new CaseSensitivePathsPlugin(),
             isAnalyze && new BundleAnalyzerPlugin(),
             !isNode &&
+                !isProd &&
                 new HtmlWebpackPlugin({
                     alwaysWriteToDisk: true,
                     inject: true,
