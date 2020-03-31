@@ -9,7 +9,6 @@ module.exports = {
             restart_delay: 3000,
             env: {
                 NODE_ENV: 'production',
-                RUNNER: 'production',
                 SERVER: true,
             },
             vizion: false,

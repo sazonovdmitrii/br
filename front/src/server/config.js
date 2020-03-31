@@ -10,7 +10,6 @@ export default {
     nodeStats: path.resolve('./dist/node/loadable-stats.json'),
     webStats: path.resolve('./dist/public/static/loadable-stats.json'),
     dist: path.resolve('./dist'),
-    isProd: process.env.NODE_ENV === 'production',
     host: process.env.HOST || '0.0.0.0',
     port: (process.env.PORT && parseInt(process.env.PORT)) || 3000,
     spinner: ora(),

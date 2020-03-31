@@ -13,6 +13,8 @@ import config from './config';
 import router from './router';
 import { getPath, missingSlash } from './utils';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 // Static file serving
 const staticMiddleware = ({ root, maxage }) => async (ctx, next) => {
     try {
@@ -30,7 +32,7 @@ const staticMiddleware = ({ root, maxage }) => async (ctx, next) => {
 };
 
 export default (app) => {
-    if (config.idProd) {
+    if (isProd) {
         app.use(helmet()).use(cors());
     }
 
@@ -72,7 +74,7 @@ export default (app) => {
         .use(
             staticMiddleware({
                 root: path.resolve(config.dist, 'public'),
-                maxage: config.isProd ? 31536000 : 0,
+                maxage: isProd ? 31536000 : 0,
             })
         )
         // ... and then fall-back to <root>/public
