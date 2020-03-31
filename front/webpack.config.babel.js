@@ -235,7 +235,7 @@ const getConfig = (target) => {
                     chunksSortMode: 'none',
                     template: './index.html',
                 }),
-            !isNode && new HtmlWebpackHarddiskPlugin(),
+            !isNode && !isProd && new HtmlWebpackHarddiskPlugin(),
         ].filter(Boolean),
         resolve: {
             extensions: ['.js'],
