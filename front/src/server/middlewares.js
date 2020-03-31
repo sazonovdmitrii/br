@@ -16,13 +16,13 @@ import { getPath, missingSlash } from './utils';
 const isProd = process.env.NODE_ENV === 'production';
 
 // Static file serving
-const staticMiddleware = ({ root, maxage }) => async (ctx, next) => {
+const staticMiddleware = ({ root, maxage, immutable }) => async (ctx, next) => {
     try {
         if (ctx.path !== '/') {
-            // If we're in production, try <dist>/public first
             return await koaSend(ctx, ctx.path, {
                 root,
                 maxage,
+                immutable,
             });
         }
     } catch (e) {
@@ -74,7 +74,8 @@ export default (app) => {
         .use(
             staticMiddleware({
                 root: path.resolve(config.dist, 'public'),
-                maxage: isProd ? 31536000 : 0,
+                maxage: isProd ? 31536000000 : 0,
+                immutable: true,
             })
         )
         // ... and then fall-back to <root>/public
