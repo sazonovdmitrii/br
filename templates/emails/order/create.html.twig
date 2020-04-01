@@ -2,6 +2,330 @@
 
 {% block title %}Reset password{% endblock %}
 
+{% set currency = 'руб.' %}
+{% set address = order.getAddressId() %}
+{% set delivery = order.delivery %}
+{% set SITE = 'https://www.brillenhof.com' %}
+{% set totalSum = 0 %}
+
 {% block body %}
-    <p style="margin: 0 0 1em">Hi {{ order.id }},</p>
+    <p style="margin: 0 0 1em">Спасибо за покупку!</p>
+    <p style="margin: 0 0 1em">Дождитесь, пожалуйста, звонка менеджера для уточнения деталей доставки.</p>
+    <p style="margin: 0 0 1em">Если у Вас возникли вопросы, позвоните нам по телефону</p>
+
+    <ul style="padding: 0; list-style: none">
+        <li><b>Дата заказа:</b> {{ order.created |date("Y.m.d H:i:s") }}</li>
+        {% if delivery %}
+            <li><b>Способ доставки:</b> {{ delivery.service }}</li>
+            <li><b>Адрес доставки:</b> {{ delivery.service }}</li>
+            <li><b>Телефон:</b> {{ delivery.phones }}</li>
+            <li><b>Время работы:</b> {{ delivery.schedule }}</li>
+            <li><b>Ожидаемое время доставки:</b> {{ delivery.days }} день/дня/дней</li>
+            <li><b>Комментарий:</b> {{ delivery.comment }}</li>
+            <li><b>Ориентир:</b> {{ delivery.how_to_get_there }}</li>
+        {% endif %}
+
+        {% if address %}
+            <li>
+                <b>Адрес доставки:</b> {{ address.city }} {{ address.street }} {{ address.house }}
+            </li>
+        {% endif %}
+
+        {% if order.payment %}
+            <li><b>Способ оплаты:</b> {{ order.payment.title }}</li>
+        {% endif %}
+    </ul>
+
+    {% for orderItem in order.getOrderItems() %}
+        {% set productItem = orderItem.item %}
+        {% set product = productItem.product %}
+        {% set url = productItem.product.productUrls|first %}
+        {% set image = productItem.productItemImages|first %}
+        {% set lens = json.json_decode(orderItem.getLenses()) %}
+        {% set recipe = lens.recipes %}
+
+        <div
+            style="
+                display: flex;
+                align-items: center;
+                padding: 0px 24px 0px 0px;
+                position: relative;
+                line-height: 1.63;
+                background-color: rgb(255, 255, 255);
+                box-shadow: rgba(239, 243, 245, 0.48) 0px 6px 12px 0px, rgba(228, 230, 232, 0.6) 0px 1px 4px 0px;
+                margin: 0px auto 12px;
+                padding: 18px 18px 12px;
+                overflow: hidden;
+                border-radius: 4px;
+            "
+        >
+            <div style="padding: 12px 16px;">
+                <a href="{{ SITE }}/{{ url }}">
+                    <img
+                        style="max-width: 90%; display: block; width: 100%; margin: 0px auto;"
+                        src="{{ SITE }}{{ image.path }}"
+                        alt=""
+                    />
+                </a>
+                {% if recipe %}
+                    <div style="overflow-x: auto;overflow-y: hidden;">
+                        <table
+                            style="
+                                border-collapse: collapse;
+                                border-spacing: 0;
+                                width: 100%;
+                                border-width: 1px;
+                                border-style: solid;
+                                border-color: rgb(210, 214, 217);
+                                border-image: initial;
+                                margin: 16px 0px;
+                            "
+                        >
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+                                            font-weight: 600;
+                                            font-size: 14px;
+                                            line-height: 20px;
+                                            text-align: center;
+                                            border: 1px solid #d2d6d9;
+                                            padding: 8px;
+                                            border-bottom-width: 2px;
+                                            vertical-align: bottom;
+                                            border-bottom: 2px solid rgb(210, 214, 217);
+                                        "
+                                    ></th>
+                                    {% for item in recipe.sides.left %}
+                                        <th
+                                            style="
+                                                font-weight: 600;
+                                                font-size: 14px;
+                                                line-height: 20px;
+                                                text-align: center;
+                                                border: 1px solid #d2d6d9;
+                                                padding: 8px;
+                                                border-bottom-width: 2px;
+                                                vertical-align: bottom;
+                                                border-bottom: 2px solid rgb(210, 214, 217);
+                                            "
+                                        >
+                                            {{ item.name }}
+                                        </th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th
+                                        style="
+                                            vertical-align: top;
+                                            border-width: 1px;
+                                            border-style: solid;
+                                            border-color: rgb(210, 214, 217);
+                                            border-image: initial;
+                                            padding: 8px;
+                                            text-align: center;
+                                        "
+                                    >
+                                        Левый
+                                    </th>
+                                    {% for item in recipe.sides.left %}
+                                        <td
+                                            style="
+                                                vertical-align: top;
+                                                border-width: 1px;
+                                                border-style: solid;
+                                                border-color: rgb(210, 214, 217);
+                                                border-image: initial;
+                                                padding: 8px;
+                                                color: rgb(103, 111, 120);
+                                                font-size: 14px;
+                                                line-height: 24px;
+                                                text-align: center;
+                                            "
+                                        >
+                                            {{ item.value }}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                                <tr>
+                                    <th
+                                        style="
+                                            vertical-align: top;
+                                            border-width: 1px;
+                                            border-style: solid;
+                                            border-color: rgb(210, 214, 217);
+                                            border-image: initial;
+                                            padding: 8px;
+                                            text-align: center;
+                                        "
+                                    >
+                                        Правый
+                                    </th>
+                                    {% for item in recipe.sides.right %}
+                                        <td
+                                            style="
+                                                vertical-align: top;
+                                                border-width: 1px;
+                                                border-style: solid;
+                                                border-color: rgb(210, 214, 217);
+                                                border-image: initial;
+                                                padding: 8px;
+                                                color: rgb(103, 111, 120);
+                                                font-size: 14px;
+                                                line-height: 24px;
+                                                text-align: center;
+                                            "
+                                        >
+                                            {{ item.value }}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                                {% for item in recipe.extraData %}
+                                    <tr>
+                                        <th
+                                            style="
+                                                vertical-align: top;
+                                                border-width: 1px;
+                                                border-style: solid;
+                                                border-color: rgb(210, 214, 217);
+                                                border-image: initial;
+                                                padding: 8px;
+                                                text-align: center;
+                                            "
+                                            colspan="5"
+                                        >
+                                            {{ item.name }}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            colspan="5"
+                                            style="
+                                                vertical-align: top;
+                                                border-width: 1px;
+                                                border-style: solid;
+                                                border-color: rgb(210, 214, 217);
+                                                border-image: initial;
+                                                padding: 8px;
+                                                color: rgb(103, 111, 120);
+                                                font-size: 14px;
+                                                line-height: 24px;
+                                                text-align: center;
+                                            "
+                                        >
+                                            {{ item.value }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+            <div
+                style="
+                    width: 100%;
+                    max-width: 296px;
+                    margin-left: auto;
+                    padding-top: 40px;
+                "
+            >
+                <h4
+                    style="
+                        font-size: 20px;
+                        width: 100%;
+                        color: rgb(65, 75, 86);
+                        font-weight: 600;
+                        line-height: 1.3;
+                    "
+                >
+                    <a
+                        href="{{ SITE }}/{{ url }}"
+                        style="text-decoration: none;color: rgb(65, 75, 86);"
+                    >{{ product.name }}</a>
+                </h4>
+                <div style="position: relative;width: 100%;">
+                    <p
+                        style="
+                            color: rgb(161, 164, 166);
+                            font-size: 14px;
+                            font-family: Literata, Charter, Georgia, serif;
+                            font-style: italic;
+                            text-transform: capitalize;
+                            margin: 0px;
+                        "
+                    >
+                        {{ productItem.name }}
+                    </p>
+                    {% if lens %}
+                        <div
+                            style="
+                                margin-bottom: 68px;
+                                padding-bottom: 6px;
+                                max-height: none !important;
+                                border-color: rgb(242, 242, 242) !important;
+                                width: 100%;
+                                pointer-events: none;
+                                margin: 0px;
+                                overflow: hidden;
+                                border-bottom: 1px solid transparent;
+                            "
+                        >
+                            <div style="padding-top: 18px;">
+                                {% for option in lens.options %}
+
+                                    <h5 style="font-weight: 600;font-size: 14px;margin: 0px;">{{ option.name }}</h5>
+                                    <p
+                                        style="
+                                            color: rgb(103, 111, 120);
+                                            font-size: 14px;
+                                            line-height: 24px;
+                                            margin: 0px 0px 12px;
+                                        "
+                                    >
+                                        {{ option.value }}
+                                    </p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div style="bottom: 14px; position: absolute; right: 0px;">
+                        <span
+                            style="
+                                display: inline-block;
+                                color: rgb(65, 75, 86);
+                                font-weight: 600;
+                                font-size: 14px;
+                            "
+                        >
+                            {% if orderItem.getCouponPrice() %}
+                                {% set totalSum = totalSum + orderItem.getCouponPrice() %}
+
+                                <p style="text-decoration: line-through;">{{ productItem.price }} {{ currency }}</p>
+                                <p>{{ orderItem.getCouponPrice() }} {{ currency }}</p>
+                            {% else %}
+                                {% set totalSum = totalSum + productItem.price %}
+
+                                <p>{{ productItem.price }} {{ currency }}</p>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div>
+        {% if delivery %}
+            {% set totalSum = totalSum + delivery.price %}
+            <div style="display: flex;">
+                <b>Доставка:</b> <span style="margin-left: auto">{{ delivery.price }} {{ currency }}</span>
+            </div>
+        {% endif %}
+        <div style="display: flex;">
+            <b>Итого:</b> <span style="margin-left: auto">{{ totalSum }} {{ currency }}</span>
+        </div>
+    </div>
 {% endblock %}
