@@ -36,6 +36,16 @@
     }
 }
 
+.slideTitle {
+    @media (--viewport-desktop) {
+        color: var(--color-white);
+    }
+
+    @media (--viewport-wide) {
+        font-size: 46px;
+    }
+}
+
 .slideButtons {
     display: inline-grid;
     grid-auto-columns: 1fr;

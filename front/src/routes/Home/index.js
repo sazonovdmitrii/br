@@ -55,6 +55,7 @@ export default ({ lang }) => {
                                 <div className={styles.slideText}>
                                     <div className={styles.slideHeading}>
                                         <Title
+                                            className={styles.slideTitle}
                                             element="h1"
                                             dangerouslySetInnerHTML={createMarkup(description)}
                                         />
