@@ -19,12 +19,6 @@ import { AppProvider } from 'AppContext';
 import { createClient } from 'server/apollo';
 import App from './App';
 
-// if (isProd && process.env.REACT_APP_GA_TRACKING_ID) {
-//     const ReactGA = require('react-ga');
-
-//     ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
-// }
-
 if (!isProd) {
     // for debugging GTM
     window.dataLayer = [];
@@ -66,6 +60,12 @@ const init = () => {
 
 if (process.env.SSR || isProd) {
     loadableReady(init);
+
+    // if ('serviceWorker' in navigator) {
+    //     window.addEventListener('load', () => {
+    //         navigator.serviceWorker.register('/sw.js');
+    //     });
+    // }
 } else {
     init();
 }

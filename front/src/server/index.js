@@ -5,7 +5,6 @@ import Koa from 'koa';
 
 import middlewares from './middlewares';
 import config from './config';
-import render from './render';
 
 require('dotenv').config();
 
