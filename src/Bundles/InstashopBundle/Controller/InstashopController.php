@@ -9,6 +9,8 @@ namespace App\Bundles\InstashopBundle\Controller;
 
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
+use App\Bundles\InstashopBundle\Service\Instashop;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 
 class InstashopController extends BaseAdminController
@@ -27,8 +29,8 @@ class InstashopController extends BaseAdminController
         $this->db = $db;
     }
 
-    public function search(): void
+    public function search(Request $request, Instashop $service): void
     {
-        dd(__METHOD__);
+        dd($service->search());
     }
 }

@@ -5,9 +5,21 @@ services:
     public: false
 
   App\Bundles\InstashopBundle\:
-      resource: '../../*'
-      exclude: '../../{DependencyInjection,Entity,Migrations,Tests}'
+    resource: '../../*'
+    exclude: '../../{DependencyInjection,Entity,Migrations,Tests}'
 
   App\Bundles\InstashopBundle\Controller\:
-        resource: '../../Controller'
-        tags: ['controller.service_arguments']
+    resource: '../../Controller'
+    tags: ['controller.service_arguments']
+
+  instashop.service.provider.array:
+    class: App\Bundles\InstashopBundle\Service\ArrayProvider
+
+  instashop.service.provider.upload:
+    class: App\Bundles\InstashopBundle\Service\UploadProvider
+
+  instashop.service.provider.instagram:
+    class:  App\Bundles\InstashopBundle\Service\InstagramProvider
+
+  App\Bundles\InstashopBundle\Service\ProviderInterface:
+    alias: instashop.service.provider.array
