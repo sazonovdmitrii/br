@@ -21,6 +21,5 @@ easy_admin_bundle:
 app_yandex:
     resource: "Lp/PaymentBundle/Resources/config/routing.yaml"
 
-
-
-
+bundles:
+    resource: "@InstashopBundle/Resources/config/routing.yaml"

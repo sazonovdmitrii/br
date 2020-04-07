@@ -1,0 +1,44 @@
+instashop:
+  instagram:
+    client_id: none
+    token: none
+
+easy_admin:
+  entities:
+    InstashopRaw:
+      class: App\Entity\Instashop
+      label: 'Необработанные'
+      controller: App\Bundles\InstashopBundle\Controller\InstashopController
+      list:
+        title: 'Необработанные'
+        fields:
+          - id
+          - { property: 'path', type: 'image' }
+          - { property: 'created', format: 'j/n/Y' }
+        dql_filter: "entity.status = 'new'"
+    InstashopApproved:
+      class: App\Entity\Instashop
+      label: 'Утвержденные'
+      controller: App\Bundles\InstashopBundle\Controller\InstashopController
+      list:
+        title: 'Утвержденные'
+        fields:
+          - id
+          - { property: 'path', type: 'image' }
+          - { property: 'created', format: 'j/n/Y' }
+        dql_filter: "entity.status = 'approved'"
+    InstashopRejected:
+      class: App\Entity\Instashop
+      label: 'Отклоненные'
+      controller: App\Bundles\InstashopBundle\Controller\InstashopController
+      list:
+        title: 'Отклоненные'
+        fields:
+          - id
+          - { property: 'path', type: 'image' }
+          - { property: 'created', format: 'j/n/Y' }
+        dql_filter: "entity.status = 'rejected'"
+  design:
+    menu:
+      - label: 'Instashop'
+        children: ['InstashopRaw', 'InstashopApproved', 'InstashopRejected']
