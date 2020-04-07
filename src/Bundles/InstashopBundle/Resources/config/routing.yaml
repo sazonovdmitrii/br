@@ -1,15 +1,3 @@
-new:
-  path: /admin/instashop/new
-  controller: App\Bundles\InstashopBundle\Controller\InstashopController::new
-
 search:
   path: /admin/instashop/new/search
   controller: App\Bundles\InstashopBundle\Controller\InstashopController::search
-
-approved:
-  path: /admin/instashop/approved
-  controller: App\Bundles\InstashopBundle\Controller\InstashopController::approved
-
-rejected:
-  path: /admin/instashop/rejected
-  controller: App\Bundles\InstashopBundle\Controller\InstashopController::rejected

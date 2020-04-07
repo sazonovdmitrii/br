@@ -1,7 +1,7 @@
 {% extends '@EasyAdmin/default/list.html.twig' %}
 {% block search_action %}
     <div class="form-action {{ _action.css_class|default('') }}">
-        <form method="get" action="/admin/instashop/search">
+        <form method="get" action="/admin/instashop/new/search">
             <div class="input-group">
                 <input class="form-control" type="search" name="query" value="#brillenhof">
                 <span class="input-group-btn">

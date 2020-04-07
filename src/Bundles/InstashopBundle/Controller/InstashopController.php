@@ -27,25 +27,8 @@ class InstashopController extends BaseAdminController
         $this->db = $db;
     }
 
-    public function raw(): void
-    {
-        dd(__METHOD__);
-    }
-
     public function search(): void
     {
         dd(__METHOD__);
     }
-
-    public function approved(): void
-    {
-        dd(__METHOD__);
-    }
-
-    public function rejected(): void
-    {
-        dd(__METHOD__);
-    }
-
-
 }

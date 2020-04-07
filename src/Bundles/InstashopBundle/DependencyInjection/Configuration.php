@@ -35,15 +35,7 @@ class Configuration implements ConfigurationInterface
                 ->end() // instagram
             ->end();
 
-        $rootNode
-            ->children()
-                ->arrayNode('easy_admin')
-                    ->children()
-                        ->scalarNode('client_id')->end()
-                        ->scalarNode('token')->end()
-                    ->end()
-                ->end() // instagram
-            ->end();
+        $rootNode->children()->arrayNode('easy_admin')->end()->end();
 
         return $treeBuilder;
     }

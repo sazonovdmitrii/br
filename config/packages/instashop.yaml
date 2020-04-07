@@ -6,39 +6,59 @@ instashop:
 easy_admin:
   entities:
     InstashopRaw:
-      class: App\Entity\Instashop
+      class: App\Bundles\InstashopBundle\Entity\Instashop
       label: 'Необработанные'
       controller: App\Bundles\InstashopBundle\Controller\InstashopController
       list:
-        title: 'Необработанные'
+        title: 'Необработанные изображения'
         fields:
           - id
           - { property: 'path', type: 'image' }
           - { property: 'created', format: 'j/n/Y' }
         dql_filter: "entity.status = 'new'"
+      templates:
+        list: 'admin/instashop/new.html.twig'
     InstashopApproved:
-      class: App\Entity\Instashop
+      class: App\Bundles\InstashopBundle\Entity\Instashop
       label: 'Утвержденные'
       controller: App\Bundles\InstashopBundle\Controller\InstashopController
       list:
-        title: 'Утвержденные'
+        title: 'Утвержденные изображения'
         fields:
           - id
           - { property: 'path', type: 'image' }
           - { property: 'created', format: 'j/n/Y' }
         dql_filter: "entity.status = 'approved'"
+      templates:
+        list: 'admin/instashop/approved.html.twig'
     InstashopRejected:
-      class: App\Entity\Instashop
+      class: App\Bundles\InstashopBundle\Entity\Instashop
       label: 'Отклоненные'
       controller: App\Bundles\InstashopBundle\Controller\InstashopController
       list:
-        title: 'Отклоненные'
+        title: 'Отклоненные изображения'
         fields:
           - id
           - { property: 'path', type: 'image' }
           - { property: 'created', format: 'j/n/Y' }
         dql_filter: "entity.status = 'rejected'"
+      templates:
+        list: 'admin/instashop/rejected.html.twig'
   design:
     menu:
       - label: 'Instashop'
         children: ['InstashopRaw', 'InstashopApproved', 'InstashopRejected']
+
+doctrine:
+  orm:
+    default_entity_manager: default
+    entity_managers:
+      default:
+        connection: default
+        mappings:
+          Instashop:
+            is_bundle: false
+            type: annotation
+            dir: '%kernel.project_dir%/src/Bundles/InstashopBundle/Entity'
+            prefix: 'App\Bundles\InstashopBundle\Entity'
+            alias: Instashop
