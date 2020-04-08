@@ -9,8 +9,6 @@ namespace App\Bundles\InstashopBundle;
 
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use App\Bundles\InstashopBundle\Service\ProviderInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Class Instashop

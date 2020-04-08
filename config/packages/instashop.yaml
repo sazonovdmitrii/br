@@ -13,9 +13,9 @@ easy_admin:
         title: 'Необработанные изображения'
         fields:
           - id
-          - { property: 'path', type: 'image' }
-          - { property: 'created', format: 'j/n/Y' }
-        dql_filter: "entity.status = 'new'"
+          - { property: 'path', type: 'image', label: 'Изображение' }
+          - { property: 'created', format: 'j F Y' }
+        dql_filter: "entity.status = 'raw'"
       templates:
         list: 'admin/instashop/new.html.twig'
     InstashopApproved:
@@ -26,8 +26,8 @@ easy_admin:
         title: 'Утвержденные изображения'
         fields:
           - id
-          - { property: 'path', type: 'image' }
-          - { property: 'created', format: 'j/n/Y' }
+          - { property: 'path', type: 'image', label: 'Изображение' }
+          - { property: 'created', format: 'j F Y', label: 'Дата импорта' }
         dql_filter: "entity.status = 'approved'"
       templates:
         list: 'admin/instashop/approved.html.twig'
@@ -39,8 +39,8 @@ easy_admin:
         title: 'Отклоненные изображения'
         fields:
           - id
-          - { property: 'path', type: 'image' }
-          - { property: 'created', format: 'j/n/Y' }
+          - { property: 'path', type: 'image', label: 'Изображение' }
+          - { property: 'created', format: 'j F Y', label: 'Дата импорта' }
         dql_filter: "entity.status = 'rejected'"
       templates:
         list: 'admin/instashop/rejected.html.twig'

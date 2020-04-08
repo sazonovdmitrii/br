@@ -14,11 +14,23 @@ namespace App\Bundles\InstashopBundle\Service;
  */
 class InstagramProvider implements ProviderInterface
 {
+    private $query;
+
     /**
      * @return array
      */
     public function get(): array
     {
         // TODO: Implement get() method.
+    }
+
+    /**
+     * @param string $query
+     * @return ProviderInterface
+     */
+    public function setQueryString(string $query): ProviderInterface
+    {
+        $this->query = mb_strtolower(trim($query));
+        return $this;
     }
 }

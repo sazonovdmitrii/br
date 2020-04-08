@@ -15,6 +15,11 @@ namespace App\Bundles\InstashopBundle\Service;
 class Instashop
 {
     /**
+     * @var string
+     */
+    private $query;
+
+    /**
      * @var ProviderInterface
      */
     private $provider;
@@ -28,12 +33,27 @@ class Instashop
         $this->provider = $provider;
     }
 
-    /**
-     * @return array
-     */
-    public function search(): array
+    public function get(): Collection
     {
-        dd(\get_class($this->provider));
-        return $this->provider->get();
+        $items = $this->provider->setQueryString($this->getQuery())->get();
+        return new Collection($items);
+    }
+
+    /**
+     * @return string
+     */
+    public function getQuery(): string
+    {
+        return $this->query;
+    }
+
+    /**
+     * @param string $query
+     * @return $this
+     */
+    public function setQuery(string $query): self
+    {
+        $this->query = $query;
+        return $this;
     }
 }

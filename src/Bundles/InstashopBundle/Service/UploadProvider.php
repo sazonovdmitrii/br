@@ -21,4 +21,13 @@ class UploadProvider implements ProviderInterface
     {
         // TODO: Implement get() method.
     }
+
+    /**
+     * @param string $query
+     * @return ProviderInterface
+     */
+    public function setQueryString(string $query): ProviderInterface
+    {
+        return $this;
+    }
 }

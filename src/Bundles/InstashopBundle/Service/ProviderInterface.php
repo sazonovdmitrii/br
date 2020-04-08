@@ -18,4 +18,10 @@ interface ProviderInterface
      * @return array
      */
     public function get(): array;
+
+    /**
+     * @param string $query
+     * @return self
+     */
+    public function setQueryString(string $query): self;
 }
