@@ -20,6 +20,8 @@ class Instashop
     public const APPROVED = 'approved';
     public const REJECTED = 'rejected';
 
+//    use Translatable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -30,6 +32,11 @@ class Instashop
      * @ORM\Column(type="integer", unique=true)
      */
     protected $instagram_id;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    protected $hash_tag;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -43,6 +50,10 @@ class Instashop
      * @ORM\Column(type="string", length=25, nullable=true)
      */
     protected $status;
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default" : "True"})
+     */
+    protected $visible;
     /**
      * @ORM\Column(type="datetime")
      */
@@ -71,6 +82,24 @@ class Instashop
     public function setInstagramId($InstagramId): self
     {
         $this->instagram_id = $InstagramId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHashTag(): string
+    {
+        return $this->hash_tag;
+    }
+
+    /**
+     * @param mixed $tag
+     * @return $this
+     */
+    public function setHashTag($tag): self
+    {
+        $this->hash_tag = $tag;
         return $this;
     }
 
@@ -127,6 +156,25 @@ class Instashop
         $this->status = $status;
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function getVisible(): bool
+    {
+        return (bool)$this->visible;
+    }
+
+    /**
+     * @param mixed $visible
+     * @return $this
+     */
+    public function setVisible($visible = true): self
+    {
+        $this->visible = (bool)$visible;
+        return $this;
+    }
+
 
     /**
      * @return DateTimeInterface|null

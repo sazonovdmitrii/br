@@ -10,8 +10,11 @@ namespace App\Bundles\InstashopBundle\Repository;
 use Error;
 use DateTime;
 use Exception;
+use Doctrine\ORM\ORMException;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
 use App\Bundles\InstashopBundle\Service\Collection;
@@ -39,23 +42,26 @@ class InstashopRepository extends ServiceEntityRepository
 
     /**
      * @param Collection $collection
+     * @param string $hashTag
      * @return bool
      * @throws Exception
      */
-    public function import(Collection $collection): bool
+    public function import(Collection $collection, string $hashTag): bool
     {
         if ($collection->isEmpty() === false) {
             $this->_em->beginTransaction();
             try {
                 foreach ($collection->getItems() as $item) {
                     if (!empty($item['id']) && !empty($item['path'])) {
-                        $model = new Entity();
-                        $model->setInstagramId($item['id']);
-                        $model->setPath($item['path']);
-                        $model->setStatus(Entity::RAW);
-                        $model->setDescription(null);
-                        $model->setCreated(new DateTime());
-                        $this->_em->persist($model);
+                        $entity = new Entity();
+                        $entity->setInstagramId($item['id']);
+                        $entity->setHashTag($hashTag);
+                        $entity->setPath($item['path']);
+                        $entity->setStatus(Entity::RAW);
+                        $entity->setDescription(null);
+                        $entity->setVisible(true);
+                        $entity->setCreated(new DateTime());
+                        $this->_em->persist($entity);
                         $this->_em->flush();
                     }
                 }
@@ -91,31 +97,55 @@ class InstashopRepository extends ServiceEntityRepository
         return $this;
     }
 
-    // /**
-    //  * @return Instashop[] Returns an array of Instashop objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param int $entityId
+     * @return bool
+     * @throws NonUniqueResultException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function approve(int $entityId): bool
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $entity = $this->findOneById($entityId);
+        if ($entity !== null) {
+            $entity->setStatus(Entity::APPROVED);
+            $this->_em->persist($entity);
+            $this->_em->flush();
+            return true;
+        }
+        return false;
     }
-    */
-    /*
-    public function findOneBySomeField($value): ?Instashop
+
+    /**
+     * @param int $entityId
+     * @return bool
+     * @throws NonUniqueResultException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function reject(int $entityId): bool
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $entity = $this->findOneById($entityId);
+        if ($entity !== null) {
+            $entity->setStatus(Entity::REJECTED);
+            $this->_em->persist($entity);
+            $this->_em->flush();
+            return true;
+        }
+        return false;
     }
-    */
+
+    /**
+     * @param int $id
+     * @return Entity|null
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?Entity
+    {
+        return $this->createQueryBuilder('instashop')
+            ->andWhere('instashop.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

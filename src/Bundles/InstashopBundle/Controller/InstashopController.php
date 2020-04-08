@@ -10,6 +10,9 @@ namespace App\Bundles\InstashopBundle\Controller;
 
 use Error;
 use Exception;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\NonUniqueResultException;
 use App\Bundles\InstashopBundle\Service\{Instashop, Collection};
 use Symfony\Component\HttpFoundation\{Request, RedirectResponse};
 use App\Bundles\InstashopBundle\Repository\InstashopRepository as Repository;
@@ -41,7 +44,7 @@ class InstashopController extends BaseAdminController
         try {
             /** @var Collection $images */
             $images = $service->setQuery($request->query->get('query'))->get();
-            $this->repository->truncate()->import($images);
+            $this->repository->truncate()->import($images, $request->query->get('query'));
             $this->addFlash('success', sprintf('Operation completed successfully. Imported %d new images', $images->length()));
         } catch (Exception $exception) {
             $this->addFlash('warning', $exception->getMessage());
@@ -49,5 +52,46 @@ class InstashopController extends BaseAdminController
             $this->addFlash('error', $exception->getMessage());
         }
         return $this->redirect($request->headers->get('referer'));
+    }
+
+
+    /**
+     * @return RedirectResponse
+     * @throws NonUniqueResultException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function approveAction(): RedirectResponse
+    {
+        $result = $this->repository->approve($this->request->query->get('id'));
+        if ($result === true) {
+            $this->addFlash('success', 'Operation completed successfully. Image is approved');
+        } else {
+            $this->addFlash('error', 'Operation failed. Image is not approved');
+        }
+        return $this->redirectToRoute('easyadmin', array(
+            'action' => 'list',
+            'entity' => $this->request->query->get('entity'),
+        ));
+    }
+
+    /**
+     * @return RedirectResponse
+     * @throws NonUniqueResultException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function rejectAction(): RedirectResponse
+    {
+        $result = $this->repository->reject($this->request->query->get('id'));
+        if ($result === true) {
+            $this->addFlash('success', 'Operation completed successfully. Image is rejected');
+        } else {
+            $this->addFlash('error', 'Operation failed. Image is not rejected');
+        }
+        return $this->redirectToRoute('easyadmin', array(
+            'action' => 'list',
+            'entity' => $this->request->query->get('entity'),
+        ));
     }
 }

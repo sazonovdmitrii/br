@@ -11,8 +11,13 @@ easy_admin:
       controller: App\Bundles\InstashopBundle\Controller\InstashopController
       list:
         title: 'Необработанные изображения'
+        actions:
+          - { name: 'approve', label: 'Утвердить' }
+          - { name: 'reject', label: 'Отклонить' }
+          - { name: '-edit' }
+          - { name: '-delete' }
         fields:
-          - id
+          - { property: 'hash_tag', label: 'Хэш-тег' }
           - { property: 'path', type: 'image', label: 'Изображение' }
           - { property: 'created', format: 'j F Y' }
         dql_filter: "entity.status = 'raw'"
