@@ -12,14 +12,14 @@ easy_admin:
       list:
         title: 'Необработанные изображения'
         actions:
-          - { name: 'approve', label: 'Утвердить' }
-          - { name: 'reject', label: 'Отклонить' }
+          - { name: 'approve', label: 'Утвердить', css_class: 'text-success' }
+          - { name: 'reject', label: 'Отклонить', css_class: 'text-danger' }
           - { name: '-edit' }
           - { name: '-delete' }
         fields:
           - { property: 'hash_tag', label: 'Хэш-тег' }
           - { property: 'path', type: 'image', label: 'Изображение' }
-          - { property: 'created', format: 'j F Y' }
+          - { property: 'created', format: 'j F Y', label: 'Дата импорта' }
         dql_filter: "entity.status = 'raw'"
       templates:
         list: 'admin/instashop/new.html.twig'
@@ -29,8 +29,10 @@ easy_admin:
       controller: App\Bundles\InstashopBundle\Controller\InstashopController
       list:
         title: 'Утвержденные изображения'
+        actions:
+          - { name: '-delete' }
         fields:
-          - id
+          - { property: 'hash_tag', label: 'Хэш-тег' }
           - { property: 'path', type: 'image', label: 'Изображение' }
           - { property: 'created', format: 'j F Y', label: 'Дата импорта' }
         dql_filter: "entity.status = 'approved'"
@@ -42,8 +44,12 @@ easy_admin:
       controller: App\Bundles\InstashopBundle\Controller\InstashopController
       list:
         title: 'Отклоненные изображения'
+        actions:
+          - { name: 'approve', label: 'Утвердить', css_class: 'text-success' }
+          - { name: '-edit' }
+          - { name: '-delete' }
         fields:
-          - id
+          - { property: 'hash_tag', label: 'Хэш-тег' }
           - { property: 'path', type: 'image', label: 'Изображение' }
           - { property: 'created', format: 'j F Y', label: 'Дата импорта' }
         dql_filter: "entity.status = 'rejected'"

@@ -14,7 +14,6 @@ use Doctrine\ORM\ORMException;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
 use App\Bundles\InstashopBundle\Service\Collection;
@@ -61,8 +60,7 @@ class InstashopRepository extends ServiceEntityRepository
                         $entity->setDescription(null);
                         $entity->setVisible(true);
                         $entity->setCreated(new DateTime());
-                        $this->_em->persist($entity);
-                        $this->_em->flush();
+                        $this->save($entity);
                     }
                 }
                 $this->_em->commit();
@@ -100,18 +98,15 @@ class InstashopRepository extends ServiceEntityRepository
     /**
      * @param int $entityId
      * @return bool
-     * @throws NonUniqueResultException
      * @throws ORMException
      * @throws OptimisticLockException
      */
     public function approve(int $entityId): bool
     {
-        $entity = $this->findOneById($entityId);
+        $entity = $this->find($entityId);
         if ($entity !== null) {
             $entity->setStatus(Entity::APPROVED);
-            $this->_em->persist($entity);
-            $this->_em->flush();
-            return true;
+            return $this->save($entity);
         }
         return false;
     }
@@ -119,33 +114,29 @@ class InstashopRepository extends ServiceEntityRepository
     /**
      * @param int $entityId
      * @return bool
-     * @throws NonUniqueResultException
      * @throws ORMException
      * @throws OptimisticLockException
      */
     public function reject(int $entityId): bool
     {
-        $entity = $this->findOneById($entityId);
+        $entity = $this->find($entityId);
         if ($entity !== null) {
             $entity->setStatus(Entity::REJECTED);
-            $this->_em->persist($entity);
-            $this->_em->flush();
-            return true;
+            return $this->save($entity);
         }
         return false;
     }
 
     /**
-     * @param int $id
-     * @return Entity|null
-     * @throws NonUniqueResultException
+     * @param Entity $entity
+     * @return bool
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
-    public function findOneById(int $id): ?Entity
+    private function save(Entity $entity): bool
     {
-        return $this->createQueryBuilder('instashop')
-            ->andWhere('instashop.id = :val')
-            ->setParameter('val', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
+        $this->_em->persist($entity);
+        $this->_em->flush();
+        return true;
     }
 }
