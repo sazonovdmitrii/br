@@ -10,6 +10,7 @@ namespace App\Bundles\InstashopBundle\Repository;
 use Error;
 use DateTime;
 use Exception;
+use App\Entity\Product;
 use Doctrine\ORM\ORMException;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -124,6 +125,25 @@ class InstashopRepository extends ServiceEntityRepository
             return $this->save($entity);
         }
         return false;
+    }
+
+    /**
+     * @param mixed $entity
+     * @param array $productsIds
+     * @return bool
+     * @throws ORMException
+     */
+    public function joinProducts($entity, array $productsIds): bool
+    {
+        if ($entity instanceof Entity) {
+            foreach ($productsIds as $productsId) {
+                $product = $this->_em->getReference(Product::class, $productsId);
+                if ($product instanceof Product) {
+                    $entity->addInstashopProduct($product);
+                }
+            }
+        }
+        return $this->save($entity);
     }
 
     /**

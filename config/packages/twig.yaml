@@ -9,6 +9,7 @@ twig:
         tags: '@App\Service\Twig\Tags'
         catalog_urls: '@App\Service\Twig\CatalogUrls'
         catalogs: '@App\Service\Twig\Catalogs'
+        products: '@App\Service\Twig\Products'
         config: '@App\Service\Twig\Config'
         lense_tags: '@App\Service\Twig\LenseTags'
         json: '@App\Service\Twig\Json'

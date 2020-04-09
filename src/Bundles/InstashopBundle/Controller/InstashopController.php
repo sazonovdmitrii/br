@@ -10,14 +10,20 @@ namespace App\Bundles\InstashopBundle\Controller;
 
 use Error;
 use Exception;
-use Doctrine\ORM\{ORMException, OptimisticLockException};
 use App\Bundles\InstashopBundle\Service\{Instashop, Collection};
 use Symfony\Component\HttpFoundation\{Request, RedirectResponse};
+use Doctrine\ORM\{ORMException, EntityManager, OptimisticLockException};
 use App\Bundles\InstashopBundle\Repository\InstashopRepository as Repository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 
 class InstashopController extends BaseAdminController
 {
+    /** @var EntityManager The Doctrine entity manager for the current entity */
+    protected $em;
+
+    /** @var Request The instance of the current Symfony request */
+    protected $request;
+
     /**
      * @var Repository
      */
@@ -33,16 +39,15 @@ class InstashopController extends BaseAdminController
     }
 
     /**
-     * @param Request $request
      * @param Instashop $service
      * @return RedirectResponse
      */
-    public function search(Request $request, Instashop $service): RedirectResponse
+    public function search(Instashop $service): RedirectResponse
     {
         try {
             /** @var Collection $images */
-            $images = $service->setQuery($request->query->get('query'))->get();
-            $this->repository->truncate()->import($images, $request->query->get('query'));
+            $images = $service->setQuery($this->request->query->get('query'))->get();
+            $this->repository->truncate()->import($images, $this->request->query->get('query'));
             $this->addFlash('success', sprintf('Operation completed successfully. Imported %d new images', $images->length()));
         } catch (Exception $exception) {
             $this->addFlash('warning', $exception->getMessage());
@@ -89,5 +94,18 @@ class InstashopController extends BaseAdminController
             'action' => 'list',
             'entity' => $this->request->query->get('entity'),
         ));
+    }
+
+    /**
+     * Allows applications to modify the entity associated with the item being
+     * edited before updating it.
+     *
+     * @param object $entity
+     * @throws ORMException
+     */
+    protected function updateEntity($entity): void
+    {
+        $this->repository->joinProducts($entity, $this->request->request->get('products'));
+        parent::updateEntity($entity);
     }
 }
