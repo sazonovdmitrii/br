@@ -2,7 +2,7 @@
 /**
  * Разработчик: Харсеев Владимир Александрович
  * Email: vkharseev@gmail.com
- * Последнее обновление: 06.04.2020.
+ * Последнее обновление: 09.04.2020.
  */
 
 namespace App\Bundles\InstashopBundle\Controller;
@@ -10,9 +10,7 @@ namespace App\Bundles\InstashopBundle\Controller;
 
 use Error;
 use Exception;
-use Doctrine\ORM\ORMException;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\{ORMException, OptimisticLockException};
 use App\Bundles\InstashopBundle\Service\{Instashop, Collection};
 use Symfony\Component\HttpFoundation\{Request, RedirectResponse};
 use App\Bundles\InstashopBundle\Repository\InstashopRepository as Repository;
@@ -51,13 +49,12 @@ class InstashopController extends BaseAdminController
         } catch (Error $exception) {
             $this->addFlash('error', $exception->getMessage());
         }
-        return $this->redirect($request->headers->get('referer'));
+        return $this->redirectToReferrer();
     }
 
 
     /**
      * @return RedirectResponse
-     * @throws NonUniqueResultException
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -77,7 +74,6 @@ class InstashopController extends BaseAdminController
 
     /**
      * @return RedirectResponse
-     * @throws NonUniqueResultException
      * @throws ORMException
      * @throws OptimisticLockException
      */

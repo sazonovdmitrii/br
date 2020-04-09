@@ -1,3 +1,17 @@
+doctrine:
+  orm:
+    default_entity_manager: default
+    entity_managers:
+      default:
+        connection: default
+        mappings:
+          Instashop:
+            is_bundle: false
+            type: annotation
+            dir: '%kernel.project_dir%/src/Bundles/InstashopBundle/Entity'
+            prefix: 'App\Bundles\InstashopBundle\Entity'
+            alias: Instashop
+
 instashop:
   instagram:
     client_id: none
@@ -35,7 +49,37 @@ easy_admin:
           - { property: 'hash_tag', label: 'Хэш-тег' }
           - { property: 'path', type: 'image', label: 'Изображение' }
           - { property: 'created', format: 'j F Y', label: 'Дата импорта' }
+          - { property: 'visible', type: 'boolean', label: 'Видимость' }
         dql_filter: "entity.status = 'approved'"
+      edit:
+        title: 'Редактирование утвержденного изображения'
+        actions:
+          - { name: '-delete' }
+      form:
+        fields:
+          - { type: 'tab' , label: 'Продукты' }
+          - {
+              label: 'Закрепленные продукты',
+              property: 'instashopProducts',
+              type_options: {
+                block_name: 'instashop_products',
+              }
+            }
+          - { type: 'tab' , label: 'Мультиязычный контент' }
+          - {
+              property: 'translations',
+              label: false,
+              type: A2lix\TranslationFormBundle\Form\Type\TranslationsType ,
+              type_options: {
+                default_locale: '%locale%',
+                fields: {
+                  title: {field_type: 'Symfony\Component\Form\Extension\Core\Type\TextType' }
+                    description: {field_type: 'FOS\CKEditorBundle\Form\Type\CKEditorType' }
+                }
+              }
+            }
+          - { type: 'tab' , label: 'Дополнительно' }
+          - { property: 'visible', label: 'Видимость'}
       templates:
         list: 'admin/instashop/approved.html.twig'
     InstashopRejected:
@@ -56,20 +100,11 @@ easy_admin:
       templates:
         list: 'admin/instashop/rejected.html.twig'
   design:
+    assets:
+      favicon:
+        path: '/admin/favicon.ico'
+        mime_type: 'image/ico'
+    brand_color: '#1ABC9C'
     menu:
       - label: 'Instashop'
         children: ['InstashopRaw', 'InstashopApproved', 'InstashopRejected']
-
-doctrine:
-  orm:
-    default_entity_manager: default
-    entity_managers:
-      default:
-        connection: default
-        mappings:
-          Instashop:
-            is_bundle: false
-            type: annotation
-            dir: '%kernel.project_dir%/src/Bundles/InstashopBundle/Entity'
-            prefix: 'App\Bundles\InstashopBundle\Entity'
-            alias: Instashop

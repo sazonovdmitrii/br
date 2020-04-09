@@ -2,7 +2,7 @@
 /**
  * Разработчик: Харсеев Владимир Александрович
  * Email: vkharseev@gmail.com
- * Последнее обновление: 06.04.2020.
+ * Последнее обновление: 09.04.2020.
  */
 
 namespace App\Bundles\InstashopBundle\Repository;
@@ -57,7 +57,6 @@ class InstashopRepository extends ServiceEntityRepository
                         $entity->setHashTag($hashTag);
                         $entity->setPath($item['path']);
                         $entity->setStatus(Entity::RAW);
-                        $entity->setDescription(null);
                         $entity->setVisible(true);
                         $entity->setCreated(new DateTime());
                         $this->save($entity);

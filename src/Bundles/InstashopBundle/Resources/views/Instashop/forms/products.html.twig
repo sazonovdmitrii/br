@@ -1,9 +1,10 @@
-{% block _product_products_catalogs_widget %}
+{% block _instashop_approved_instashop_products_widget %}
     {% set currentProduct = form.parent.vars.data %}
     {% set productCatalogs = [] %}
     {% for key, catalog in form.parent.vars.data.catalog %}
         {% set productCatalogs = productCatalogs|merge([catalog.id]) %}
     {% endfor %}
+
     <div class="form-group row">
         <div class="col-sm-10">
             <select id="catalogs" multiple="multiple" type="multiple" name="catalogs[]" class="select2 form-control">

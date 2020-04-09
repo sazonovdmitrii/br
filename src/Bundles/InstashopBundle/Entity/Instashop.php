@@ -2,13 +2,17 @@
 /**
  * Разработчик: Харсеев Владимир Александрович
  * Email: vkharseev@gmail.com
- * Последнее обновление: 06.04.2020.
+ * Последнее обновление: 09.04.2020.
  */
 
 namespace App\Bundles\InstashopBundle\Entity;
 
 use DateTimeInterface;
+use App\Entity\Product;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 
 /**
  * @ORM\Entity(repositoryClass="App\Bundles\InstashopBundle\Repository\InstashopRepository")
@@ -20,7 +24,21 @@ class Instashop
     public const APPROVED = 'approved';
     public const REJECTED = 'rejected';
 
-//    use Translatable;
+    use Translatable;
+
+
+    /**
+     * Instashop constructor.
+     */
+    public function __construct()
+    {
+        $this->instashopProducts = new ArrayCollection();
+    }
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product", inversedBy="instashop")
+     */
+    private $instashopProducts;
 
     /**
      * @ORM\Id()
@@ -42,10 +60,6 @@ class Instashop
      * @ORM\Column(type="string", length=255)
      */
     protected $path;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $description;
     /**
      * @ORM\Column(type="string", length=25, nullable=true)
      */
@@ -124,24 +138,6 @@ class Instashop
     /**
      * @return string|null
      */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string|null $description
-     * @return $this
-     */
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getStatus(): ?string
     {
         return $this->status;
@@ -191,6 +187,38 @@ class Instashop
     public function setCreated(DateTimeInterface $created): self
     {
         $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getInstashopProducts(): Collection
+    {
+        return $this->instashopProducts;
+    }
+
+    /**
+     * @param Product $product
+     * @return $this
+     */
+    public function addInstashopProduct(Product $product): self
+    {
+        if (!$this->instashopProducts->contains($product)) {
+            $this->instashopProducts[] = $product;
+        }
+        return $this;
+    }
+
+    /**
+     * @param Product $product
+     * @return $this
+     */
+    public function removeInstashopProduct(Product $product): self
+    {
+        if ($this->instashopProducts->contains($product)) {
+            $this->instashopProducts->removeElement($product);
+        }
         return $this;
     }
 }
