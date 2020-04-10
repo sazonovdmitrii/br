@@ -61,6 +61,10 @@ class Instashop
      */
     protected $path;
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $coordinates;
+    /**
      * @ORM\Column(type="string", length=25, nullable=true)
      */
     protected $status;
@@ -132,6 +136,33 @@ class Instashop
     public function setPath(string $path): self
     {
         $this->path = $path;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCoordinates(): array
+    {
+        return json_decode($this->coordinates ?: '[]', true);
+    }
+
+    /**
+     * @param mixed $coordinates
+     * @return $this
+     */
+    public function setCoordinates($coordinates): self
+    {
+        $this->coordinates = '[]';
+        if (!empty($coordinates)) {
+            if (is_string($coordinates)) {
+                $coordinates = json_decode($coordinates, false);
+            }
+            if (is_array($coordinates) === false) {
+                $coordinates = [$coordinates];
+            }
+            $this->coordinates = json_encode($coordinates, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
         return $this;
     }
 
@@ -220,5 +251,18 @@ class Instashop
             $this->instashopProducts->removeElement($product);
         }
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInstashopProductsList(): array
+    {
+        $products = [];
+        foreach ($this->instashopProducts as $product) {
+            /** @var Product $product */
+            $products[$product->getId()] = $product->translate($product->getCurrentLocale())->getName() . ' (' . $product->getSku() . ')';
+        }
+        return $products;
     }
 }

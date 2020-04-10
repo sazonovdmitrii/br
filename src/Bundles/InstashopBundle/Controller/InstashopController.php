@@ -39,22 +39,23 @@ class InstashopController extends BaseAdminController
     }
 
     /**
+     * @param Request $request
      * @param Instashop $service
      * @return RedirectResponse
      */
-    public function search(Instashop $service): RedirectResponse
+    public function search(Request $request, Instashop $service): RedirectResponse
     {
         try {
             /** @var Collection $images */
-            $images = $service->setQuery($this->request->query->get('query'))->get();
-            $this->repository->truncate()->import($images, $this->request->query->get('query'));
+            $images = $service->setQuery($request->query->get('query'))->get();
+            $this->repository->truncate()->import($images, $request->query->get('query'));
             $this->addFlash('success', sprintf('Operation completed successfully. Imported %d new images', $images->length()));
         } catch (Exception $exception) {
             $this->addFlash('warning', $exception->getMessage());
         } catch (Error $exception) {
             $this->addFlash('error', $exception->getMessage());
         }
-        return $this->redirectToReferrer();
+        return $this->redirect($request->headers->get('referer'));
     }
 
 
@@ -105,7 +106,8 @@ class InstashopController extends BaseAdminController
      */
     protected function updateEntity($entity): void
     {
-        $this->repository->joinProducts($entity, $this->request->request->get('products'));
+        $this->repository->joinProducts($entity, $this->request->request->get('products', []));
+        $this->repository->saveCoordinates($entity, $this->request->request->get('coordinates', ''));
         parent::updateEntity($entity);
     }
 }

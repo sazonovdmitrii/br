@@ -59,10 +59,18 @@ easy_admin:
         fields:
           - { type: 'tab' , label: 'Продукты' }
           - {
-              label: 'Закрепленные продукты',
+              label: 'Продукты',
               property: 'instashopProducts',
               type_options: {
                 block_name: 'instashop_products',
+              }
+            }
+          - {
+              label: 'Изображение',
+              property: 'products_in_image',
+              type_options: {
+                block_name: 'instashop_products_in_image',
+                mapped: false
               }
             }
           - { type: 'tab' , label: 'Мультиязычный контент' }
@@ -104,7 +112,6 @@ easy_admin:
       favicon:
         path: '/admin/favicon.ico'
         mime_type: 'image/ico'
-    brand_color: '#1ABC9C'
     menu:
       - label: 'Instashop'
         children: ['InstashopRaw', 'InstashopApproved', 'InstashopRejected']

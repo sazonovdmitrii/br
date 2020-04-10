@@ -57,6 +57,7 @@ class InstashopRepository extends ServiceEntityRepository
                         $entity->setInstagramId($item['id']);
                         $entity->setHashTag($hashTag);
                         $entity->setPath($item['path']);
+                        $entity->setCoordinates([]);
                         $entity->setStatus(Entity::RAW);
                         $entity->setVisible(true);
                         $entity->setCreated(new DateTime());
@@ -84,7 +85,7 @@ class InstashopRepository extends ServiceEntityRepository
         $table = $this->table->getTableName();
         $sequence = $this->table->getSequenceName(new PostgreSQL100Platform);
         $queries = [
-            "TRUNCATE {$table} RESTART IDENTITY",
+            "TRUNCATE {$table} RESTART IDENTITY CASCADE",
             "ALTER SEQUENCE {$sequence} RESTART WITH 1",
             "UPDATE {$table} SET id=nextval('{$sequence}')"
         ];
@@ -133,7 +134,7 @@ class InstashopRepository extends ServiceEntityRepository
      * @return bool
      * @throws ORMException
      */
-    public function joinProducts($entity, array $productsIds): bool
+    public function joinProducts($entity, array $productsIds = []): bool
     {
         if ($entity instanceof Entity) {
             foreach ($productsIds as $productsId) {
@@ -144,6 +145,22 @@ class InstashopRepository extends ServiceEntityRepository
             }
         }
         return $this->save($entity);
+    }
+
+    /**
+     * @param $entity
+     * @param string $jsonCoordinates
+     * @return bool
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function saveCoordinates($entity, string $jsonCoordinates = ''): bool
+    {
+        if ($entity instanceof Entity) {
+            $entity->setCoordinates($jsonCoordinates);
+            return $this->save($entity);
+        }
+        return false;
     }
 
     /**

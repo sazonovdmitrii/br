@@ -6,8 +6,8 @@
     {% endfor %}
     <div class="form-group row">
         <div class="col-sm-10">
-            <label for="catalogs"></label>
-            <select id="catalogs" multiple="multiple" type="multiple" name="products[]" class="select2 form-control">
+            <label for="instashop-image-products"></label>
+            <select id="instashop-image-products" multiple="multiple" type="multiple" name="products[]" class="select2 form-control">
                 {% for product in products.all() %}
                     <option value="{{ product.id }}" {% if product.id in instashopProducts %} selected {% endif %}>
                         {{ product.translate(product.currentLocale).name }}. ({{ product.sku }})

@@ -662,6 +662,7 @@ easy_admin:
             - 'admin/form/upload.html.twig'
             - 'admin/form/image.html.twig'
             - 'admin/instashop/forms/products.html.twig'
+            - 'admin/instashop/forms/image.html.twig'
         menu:
           - label: 'Каталог'
             children: ['Catalog', 'Product', 'Items', 'ProductTag', 'ProductTagItem', 'ProductItemTag', 'ProductItemTagItem', 'Lense', 'LenseTag', 'LenseTagItem', 'ProductCollection']
