@@ -3,7 +3,7 @@
     <input type="hidden"
            id="instashop-coordinates-input"
            name="coordinates"
-           value="{{ image.getCoordinates|json_encode|raw }}">
+           value="{{ image.getCoordinates|json_encode }}">
     {% if image.instashopProducts.count() %}
         <style>
             .bull-point {
@@ -74,8 +74,10 @@
                 let y;
                 $("#instashop-image-product").select2();
                 coordinates.forEach(function (value) {
-                    let productTitle = products[value['product']] || 'Не определено';
-                    setPoint(value['coordinates']['y'], value['coordinates']['x'], productTitle);
+                    let productTitle = products[value['product']] || undefined;
+                    if (productTitle !== undefined){
+                        setPoint(value['coordinates']['y'], value['coordinates']['x'], productTitle);
+                    }
                 });
                 if (coordinates.length > 0) {
                     $("#instashop-product-image--reset").removeClass('hidden');

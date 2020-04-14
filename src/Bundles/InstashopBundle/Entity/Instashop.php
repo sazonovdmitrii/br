@@ -2,7 +2,7 @@
 /**
  * Разработчик: Харсеев Владимир Александрович
  * Email: vkharseev@gmail.com
- * Последнее обновление: 09.04.2020.
+ * Последнее обновление: 14.04.2020.
  */
 
 namespace App\Bundles\InstashopBundle\Entity;
@@ -23,9 +23,7 @@ class Instashop
     public const RAW = 'raw';
     public const APPROVED = 'approved';
     public const REJECTED = 'rejected';
-
     use Translatable;
-
 
     /**
      * Instashop constructor.
@@ -39,7 +37,6 @@ class Instashop
      * @ORM\ManyToMany(targetEntity="App\Entity\Product", inversedBy="instashop")
      */
     private $instashopProducts;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -50,12 +47,10 @@ class Instashop
      * @ORM\Column(type="integer", unique=true)
      */
     protected $instagram_id;
-
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     protected $hash_tag;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -161,7 +156,15 @@ class Instashop
             if (is_array($coordinates) === false) {
                 $coordinates = [$coordinates];
             }
-            $this->coordinates = json_encode($coordinates, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            $validCoordinates = [];
+            foreach ($coordinates as $coordinate) {
+                foreach ($this->getInstashopProducts() as $product) {
+                    if ((int)$product->getId() === (int)$coordinate->product) {
+                        $validCoordinates[] = $coordinate;
+                    }
+                }
+            }
+            $this->coordinates = json_encode($validCoordinates, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
         return $this;
     }
@@ -201,7 +204,6 @@ class Instashop
         $this->visible = (bool)$visible;
         return $this;
     }
-
 
     /**
      * @return DateTimeInterface|null
