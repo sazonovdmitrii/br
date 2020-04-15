@@ -2,7 +2,7 @@
 /**
  * Разработчик: Харсеев Владимир Александрович
  * Email: vkharseev@gmail.com
- * Последнее обновление: 07.04.2020.
+ * Последнее обновление: 15.04.2020.
  */
 
 namespace App\Bundles\InstashopBundle\Service;
@@ -32,5 +32,13 @@ class InstagramProvider implements ProviderInterface
     {
         $this->query = mb_strtolower(trim($query));
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return 'instagram';
     }
 }

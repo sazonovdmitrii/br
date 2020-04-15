@@ -2,14 +2,14 @@
 /**
  * Разработчик: Харсеев Владимир Александрович
  * Email: vkharseev@gmail.com
- * Последнее обновление: 07.04.2020.
+ * Последнее обновление: 15.04.2020.
  */
 
 namespace App\Bundles\InstashopBundle\Service;
 
-
 /**
  * Class ArrayProvider
+ *
  * @package App\Bundles\InstashopBundle\Service
  */
 class ArrayProvider implements ProviderInterface
@@ -62,5 +62,13 @@ class ArrayProvider implements ProviderInterface
     public function setQueryString(string $query): ProviderInterface
     {
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return 'array';
     }
 }

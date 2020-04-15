@@ -22,4 +22,5 @@ services:
     class:  App\Bundles\InstashopBundle\Service\InstagramProvider
 
   App\Bundles\InstashopBundle\Service\ProviderInterface:
-    alias: instashop.service.provider.array
+    alias: instashop.service.provider.upload
+    public: true

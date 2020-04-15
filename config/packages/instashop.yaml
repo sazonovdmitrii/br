@@ -17,6 +17,10 @@ instashop:
     client_id: none
     token: none
 
+twig:
+  globals:
+    instashopDataProvider: '@App\Bundles\InstashopBundle\Service\ProviderInterface'
+
 easy_admin:
   entities:
     InstashopRaw:

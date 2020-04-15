@@ -1,3 +1,7 @@
 search:
   path: /admin/instashop/new/search
   controller: App\Bundles\InstashopBundle\Controller\InstashopController::search
+
+upload:
+  path: /admin/instashop/new/upload
+  controller: App\Bundles\InstashopBundle\Controller\InstashopController::upload
