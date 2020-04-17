@@ -1,0 +1,5 @@
+easy_admin:
+    design:
+        form_theme:
+            - 'admin/instashop/forms/products.html.twig'
+            - 'admin/instashop/forms/image.html.twig'
