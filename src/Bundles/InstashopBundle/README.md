@@ -22,3 +22,12 @@ Content-Type: application/x-www-form-urlencoded
 id - (integer) идентификатор изображения (не обязательно)
 ids - (array) список идентификаторов изображений  (не обязательно)
 ```
+
+##### Получение изображений по тегу
+
+Метод: GET
+
+URL: /api/v1/instashop/images/find?tag=brillenhof
+```
+tag - (string) идентификатор изображения. Можно указывать без символа #
+```

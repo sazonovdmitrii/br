@@ -11,15 +11,13 @@ use Error;
 use DateTime;
 use Exception;
 use App\Entity\Product;
-use Doctrine\ORM\ORMException;
-use Doctrine\DBAL\DBALException;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\OptimisticLockException;
+use App\Bundles\InstashopBundle\Traits\Locale;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
 use App\Bundles\InstashopBundle\Service\Collection;
 use App\Bundles\InstashopBundle\Entity\Instashop as Entity;
+use Doctrine\DBAL\{DBALException, Platforms\PostgreSQL100Platform};
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\{ORMException, Mapping\ClassMetadata, OptimisticLockException};
 
 /**
  * @method Entity|null find($id, $lockMode = null, $lockVersion = null)
@@ -29,14 +27,12 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class InstashopRepository extends ServiceEntityRepository
 {
+    use Locale;
+
     /**
      * @var ClassMetadata
      */
     private $table;
-    /**
-     * @var string
-     */
-    private $locale;
 
     /**
      * InstashopRepository constructor.
@@ -264,7 +260,6 @@ class InstashopRepository extends ServiceEntityRepository
     private function toList(Collection $collection): array
     {
         $images = [];
-        setlocale(LC_TIME, strtolower($this->getLocale()) . '_' . strtoupper($this->getLocale()));
         foreach ($collection->getItems() as $image) {
             if ($image instanceof Entity) {
                 $images[] = [
@@ -276,7 +271,7 @@ class InstashopRepository extends ServiceEntityRepository
                     'purchases'   => $image->getPurchases(),
                     'clicks'      => $image->getClicks(),
                     'created'     => $image->getCreated()->format('Y-m-d H:i:s'),
-                    'products'    => $image->getProducts($this->getLocale()),
+                    'products'    => $image->getProducts(),
                 ];
             }
         }
@@ -284,20 +279,14 @@ class InstashopRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param Collection $collection
      * @return string
      */
-    public function getLocale(): string
+    public function listToJson(Collection $collection): string
     {
-        return $this->locale;
-    }
-
-    /**
-     * @param string $locale
-     * @return $this
-     */
-    public function setLocale(string $locale): self
-    {
-        $this->locale = $locale;
-        return $this;
+        return json_encode(
+            $this->toList($collection),
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        );
     }
 }

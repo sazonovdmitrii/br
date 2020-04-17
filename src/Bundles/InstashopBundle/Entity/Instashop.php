@@ -336,25 +336,30 @@ class Instashop
                     $images = [];
                     foreach ($item->getImagesCollection() as $image) {
                         /** @var ProductItemImage $image */
-                        $images[$image->getId()] = [
+                        $images[] = [
                             'id'    => $image->getId(),
                             'path'  => $image->getPath(),
                             'title' => $image->getTitle(),
                         ];
                     }
                     $items[$item->getId()] = [
-                        'id'     => $item->getId(),
-                        'title'  => $item->getSku(),
-                        'price'  => $item->getPrice(),
-                        'images' => $images,
+                        'id'        => $item->getId(),
+                        'title'     => $item->getSku(),
+                        'price'     => $item->getPrice(),
+                        'wholesale' => $item->getWholesalePrice(),
+                        'images'    => $images,
                     ];
                 }
                 if (count($items)) {
                     $products[$product->getId()] = [
-                        'id'    => $product->getId(),
-                        'title' => $product->translate($product->getCurrentLocale())->getName(),
-                        'sku'   => $product->getSku(),
-                        'items' => $items,
+                        'id'          => $product->getId(),
+                        'title'       => $product->translate($product->getCurrentLocale())->getName(),
+                        'description' => $product->translate($product->getCurrentLocale())->getDescription(),
+                        'sku'         => $product->getSku(),
+                        'image'       => $product->getMainImage(),
+                        'link'        => $product->getMainLink(),
+                        'price'       => $product->getMainPrice(),
+                        'items'       => $items,
                     ];
                 }
             }
@@ -382,23 +387,28 @@ class Instashop
         return $translation->getDescription();
     }
 
-    public function getProducts(string $locale = 'ru'): array
+    public function getProducts(): array
     {
         $products = [];
+        $joinProducts = $this->getInstashopProductsList();
         foreach ($this->getCoordinates() as $coordinate) {
-            foreach ($this->getInstashopProducts() as $product) {
-                /** @var Product $product */
-                if ((int)$product->getId() === (int)$coordinate['product']) {
-                    $products[] = [
-                        'id'          => $product->getId(),
-                        'price'       => $product->getMainPrice(),
-                        'link'        => $product->getMainLink(),
-                        'coordinates' => [
-                            'x' => $coordinate['coordinates']['x'] ?? 0,
-                            'y' => $coordinate['coordinates']['y'] ?? 0,
-                        ],
-                    ];
-                }
+            if (isset($joinProducts[$coordinate['product']]['items'][$coordinate['item']])) {
+                $productItem = $joinProducts[$coordinate['product']]['items'][$coordinate['item']];
+                $products[] = [
+                    'product'     => [
+                        'id'          => $coordinate['product'],
+                        'sku'         => $joinProducts[$coordinate['product']]['sku'],
+                        'title'       => $joinProducts[$coordinate['product']]['title'],
+                        'description' => $joinProducts[$coordinate['product']]['description'],
+                        'image'       => $joinProducts[$coordinate['product']]['image'],
+                        'link'        => $joinProducts[$coordinate['product']]['link'],
+                    ],
+                    'item'        => $productItem,
+                    'coordinates' => [
+                        'x' => $coordinate['coordinates']['x'] ?? 0,
+                        'y' => $coordinate['coordinates']['y'] ?? 0,
+                    ],
+                ];
             }
         }
         return $products;

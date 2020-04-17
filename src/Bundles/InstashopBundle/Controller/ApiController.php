@@ -56,8 +56,11 @@ class ApiController extends AbstractController
      */
     public function saveClick(Request $request): Response
     {
-        $this->repository->click($request->request->get('id'));
-        return $this->response();
+        if ($request->request->has('id')) {
+            $this->repository->click($request->request->get('id'));
+            return $this->response();
+        }
+        return $this->response(['status' => false], Response::HTTP_BAD_REQUEST);
     }
 
     /**

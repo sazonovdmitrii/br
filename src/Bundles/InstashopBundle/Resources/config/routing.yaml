@@ -1,3 +1,8 @@
+public.index.page:
+  path: /instashop
+  controller: App\Bundles\InstashopBundle\Controller\PublicController::index
+  methods:  [GET]
+
 images.search:
   path: /admin/instashop/new/search
   controller: App\Bundles\InstashopBundle\Controller\InstashopController::search

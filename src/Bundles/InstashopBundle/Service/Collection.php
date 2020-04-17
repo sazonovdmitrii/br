@@ -99,22 +99,6 @@ class Collection
     }
 
     /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return implode(PHP_EOL, $this->items);
-    }
-
-    /**
-     * @return string
-     */
-    public function toArray(): string
-    {
-        return implode(PHP_EOL, $this->items);
-    }
-
-    /**
      * @param $key
      * @return mixed|null
      */
