@@ -1,2 +1,0 @@
-bundles:
-    resource: "@InstashopBundle/Resources/config/routing.yaml"
