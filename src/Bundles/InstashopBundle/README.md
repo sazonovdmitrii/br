@@ -31,3 +31,21 @@ URL: /api/v1/instashop/images/find?tag=brillenhof
 ```
 tag - (string) идентификатор изображения. Можно указывать без символа #
 ```
+
+##### Получение изображений по продукту
+
+Метод: GET
+
+URL: /api/v1/instashop/images/find?product=70
+```
+product - (int) идентификатор продукта
+```
+
+##### Получение изображений по товару
+
+Метод: GET
+
+URL: /api/v1/instashop/images/find?item=139
+```
+item - (int) идентификатор товара
+```

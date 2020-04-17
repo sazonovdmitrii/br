@@ -10,7 +10,7 @@ namespace App\Bundles\InstashopBundle\Repository;
 use Error;
 use DateTime;
 use Exception;
-use App\Entity\Product;
+use App\Entity\{Product, ProductItem};
 use App\Bundles\InstashopBundle\Traits\Locale;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Bundles\InstashopBundle\Service\Collection;
@@ -241,6 +241,49 @@ class InstashopRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param Product $product
+     * @return array
+     * @throws DBALException
+     */
+    public function findByProduct(Product $product): array
+    {
+        $query = "SELECT instashop_id FROM instashop_product WHERE product_id = {$product->getId()}";
+        $statement = $this->_em->getConnection()->prepare($query);
+        $statement->execute();
+        $imagesIds = array_column($statement->fetchAll(), 'instashop_id');
+        if (!empty($imagesIds)) {
+            $collection = new Collection();
+            $collection->setItems(
+                $images = $this->createQueryBuilder('instashop')
+                    ->andWhere('instashop.id IN (:ids)')
+                    ->setParameters(['ids' => $imagesIds])
+                    ->getQuery()
+                    ->execute()
+            );
+            return $this->toShortList($collection);
+        }
+        return [];
+    }
+
+    /**
+     * @param ProductItem $productItem
+     * @return array
+     * @throws DBALException
+     */
+    public function findByProductItem(ProductItem $productItem): array
+    {
+        $images = [];
+        foreach ($this->findByProduct($productItem->getProduct()) as $image) {
+            foreach ($image['products'] as $coordinate) {
+                if ((int)$coordinate['item'] === $productItem->getId()) {
+                    $images[] = $image;
+                }
+            }
+        }
+        return $images;
+    }
+
+    /**
      * @param Entity $entity
      * @return bool
      * @throws ORMException
@@ -272,6 +315,31 @@ class InstashopRepository extends ServiceEntityRepository
                     'clicks'      => $image->getClicks(),
                     'created'     => $image->getCreated()->format('Y-m-d H:i:s'),
                     'products'    => $image->getProducts(),
+                ];
+            }
+        }
+        return $images;
+    }
+
+    /**
+     * @param Collection $collection
+     * @return array
+     */
+    private function toShortList(Collection $collection): array
+    {
+        $images = [];
+        foreach ($collection->getItems() as $image) {
+            if ($image instanceof Entity) {
+                $images[] = [
+                    'id'          => $image->getId(),
+                    'path'        => $image->getPath(),
+                    'tag'         => $image->getHashTag(),
+                    'title'       => $image->getTitle($this->getLocale()),
+                    'description' => $image->getDescription($this->getLocale()),
+                    'purchases'   => $image->getPurchases(),
+                    'clicks'      => $image->getClicks(),
+                    'created'     => $image->getCreated()->format('Y-m-d H:i:s'),
+                    'products'    => $image->getCoordinates(),
                 ];
             }
         }

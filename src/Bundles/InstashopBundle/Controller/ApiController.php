@@ -7,10 +7,12 @@
 
 namespace App\Bundles\InstashopBundle\Controller;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\{ORMException, OptimisticLockException};
 use Symfony\Component\HttpFoundation\{Request, Response};
+use App\Repository\{ProductRepository, ProductItemRepository};
+use App\Bundles\InstashopBundle\Repository\InstashopRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Bundles\InstashopBundle\Repository\InstashopRepository as Repository;
 
 /**
  * Class ApiController
@@ -20,30 +22,59 @@ use App\Bundles\InstashopBundle\Repository\InstashopRepository as Repository;
 class ApiController extends AbstractController
 {
     /**
-     * @var Repository
+     * @var Request
+     */
+    private $request;
+    /**
+     * @var InstashopRepository
      */
     private $repository;
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
+    /**
+     * @var ProductItemRepository
+     */
+    private $itemRepository;
 
     /**
      * InstashopController constructor.
      *
-     * @param Repository $repository
+     * @param InstashopRepository $repository
+     * @param ProductRepository $productRepository
+     * @param ProductItemRepository $itemRepository
      */
-    public function __construct(Repository $repository)
-    {
+    public function __construct(
+        InstashopRepository $repository,
+        ProductRepository $productRepository,
+        ProductItemRepository $itemRepository
+    ) {
         $this->repository = $repository;
+        $this->productRepository = $productRepository;
+        $this->itemRepository = $itemRepository;
     }
 
     /**
      * @param Request $request
      * @return Response
+     * @throws DBALException
      */
-    public function findByTag(Request $request): Response
+    public function findByCriteria(Request $request): Response
     {
-        $this->repository->setLocale($request->getLocale());
-        $images = $this->repository->findByTag($request->query->get('tag'));
+        $this->setRequest($request);
+        $this->repository->setLocale($this->getRequest()->getLocale());
+        if ($this->hasRequestQuery('tag')) {
+            $images = $this->getImagesByTag();
+        } elseif ($this->hasRequestQuery('product')) {
+            $images = $this->getImagesByProduct();
+        } elseif ($this->hasRequestQuery('item')) {
+            $images = $this->getImagesByProductItem();
+        } else {
+            return $this->response(['status' => false], Response::HTTP_BAD_REQUEST);
+        }
         return $this->response([
-            'tag'    => $request->query->get('tag'),
+            'status' => true,
             'images' => $images,
         ]);
     }
@@ -56,8 +87,9 @@ class ApiController extends AbstractController
      */
     public function saveClick(Request $request): Response
     {
-        if ($request->request->has('id')) {
-            $this->repository->click($request->request->get('id'));
+        $this->setRequest($request);
+        if ($this->hasRequestParam('id')) {
+            $this->repository->click($this->getRequestParam('id'));
             return $this->response();
         }
         return $this->response(['status' => false], Response::HTTP_BAD_REQUEST);
@@ -71,11 +103,12 @@ class ApiController extends AbstractController
      */
     public function savePurchases(Request $request): Response
     {
-        if ($request->request->has('id')) {
-            $this->repository->purchase($request->request->get('id'));
+        $this->setRequest($request);
+        if ($this->hasRequestParam('id')) {
+            $this->repository->purchase($this->getRequestParam('id'));
         }
-        if ($request->request->has('ids')) {
-            $this->repository->purchases($request->request->get('ids'));
+        if ($this->hasRequestParam('ids')) {
+            $this->repository->purchases($this->getRequestParam('ids'));
         }
         return $this->response();
     }
@@ -92,5 +125,95 @@ class ApiController extends AbstractController
         $response->setStatusCode($code ?: Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    /**
+     * @return array
+     */
+    private function getImagesByTag(): array
+    {
+        return $this->repository->findByTag($this->getRequestQuery('tag'));
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    private function getImagesByProduct(): array
+    {
+        $product = $this->productRepository->find($this->getRequestQuery('product'));
+        if ($product) {
+            return $this->repository->findByProduct($product);
+        }
+        return [];
+    }
+
+    /**
+     * @return array
+     * @throws DBALException
+     */
+    private function getImagesByProductItem(): array
+    {
+        $productItem = $this->itemRepository->find($this->getRequestQuery('item'));
+        if ($productItem) {
+            return $this->repository->findByProductItem($productItem);
+        }
+        return [];
+    }
+
+    /**
+     * @return Request
+     */
+    private function getRequest(): Request
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param Request $request
+     * @return $this
+     */
+    private function setRequest(Request $request): self
+    {
+        $this->request = $request;
+        return $this;
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    private function hasRequestQuery($key): bool
+    {
+        return $this->getRequest()->query->has($key);
+    }
+
+    /**
+     * @param $key
+     * @param string $default
+     * @return mixed
+     */
+    private function getRequestQuery($key, $default = '')
+    {
+        return $this->getRequest()->query->get($key, $default);
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    private function hasRequestParam($key): bool
+    {
+        return $this->getRequest()->request->has($key);
+    }
+
+    /**
+     * @param $key
+     * @param string $default
+     * @return mixed
+     */
+    private function getRequestParam($key, $default = '')
+    {
+        return $this->getRequest()->request->get($key, $default);
     }
 }

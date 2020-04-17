@@ -15,7 +15,7 @@ images.upload:
 
 api.search.images:
   path: /api/v1/instashop/images/find
-  controller: App\Bundles\InstashopBundle\Controller\ApiController::findByTag
+  controller: App\Bundles\InstashopBundle\Controller\ApiController::findByCriteria
   methods:  [GET]
 
 api.save.click:
