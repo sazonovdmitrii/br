@@ -2,20 +2,19 @@
 /**
  * Разработчик: Харсеев Владимир Александрович
  * Email: vkharseev@gmail.com
- * Последнее обновление: 08.04.2020.
+ * Последнее обновление: 17.04.2020.
  */
 
 namespace App\Bundles\InstashopBundle\Service;
 
-
 /**
  * Class Collection
+ *
  * @package App\Bundles\InstashopBundle\Service
  */
 class Collection
 {
     private const DEFAULT_ITEM_VALUE = null;
-
     /**
      * @var array
      */
@@ -23,15 +22,12 @@ class Collection
 
     /**
      * Collection constructor.
+     *
      * @param array $items
      */
     public function __construct(array $items = [])
     {
-        if (!empty($items)) {
-            foreach ($items as $item) {
-                $this->addItem($item);
-            }
-        }
+        $this->setItems($items);
     }
 
     /**
@@ -72,7 +68,7 @@ class Collection
     /**
      * @return int
      */
-    public function length(): int
+    public function count(): int
     {
         return count($this->items);
     }
@@ -82,7 +78,7 @@ class Collection
      */
     public function isEmpty(): bool
     {
-        return $this->length() === 0;
+        return $this->count() === 0;
     }
 
     /**
@@ -111,6 +107,14 @@ class Collection
     }
 
     /**
+     * @return string
+     */
+    public function toArray(): string
+    {
+        return implode(PHP_EOL, $this->items);
+    }
+
+    /**
      * @param $key
      * @return mixed|null
      */
@@ -125,5 +129,19 @@ class Collection
     public function getItems(): array
     {
         return $this->items;
+    }
+
+    /**
+     * @param array $items
+     * @return $this
+     */
+    public function setItems(array $items = []): self
+    {
+        if (!empty($items)) {
+            foreach ($items as $item) {
+                $this->addItem($item);
+            }
+        }
+        return $this;
     }
 }

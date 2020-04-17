@@ -49,8 +49,12 @@
                 <div class="col-sm-12">
                     <label for="instashop-image-product"><b>Выберите продукт</b></label>
                     <select id="instashop-image-product" class="select2 form-control">
-                        {% for id, title in image.getInstashopProductsList %}
-                            <option value="{{ id }}">{{ title }}</option>
+                        {% for product in image.getInstashopProductsList %}
+                            <optgroup data-product-id="{{ product['id'] }}" label="{{ product['title'] }}">
+                                {% for item in product['items'] %}
+                                    <option value="{{ item['id'] }}">{{ item['title'] }}</option>
+                                {% endfor %}
+                            </optgroup>
                         {% endfor %}
                     </select>
                 </div>
@@ -72,12 +76,12 @@
                 let form = document.getElementById("instashop-product-image--form");
                 let x;
                 let y;
+
                 $("#instashop-image-product").select2();
                 coordinates.forEach(function (value) {
-                    let productTitle = products[value['product']] || undefined;
-                    if (productTitle !== undefined){
-                        setPoint(value['coordinates']['y'], value['coordinates']['x'], productTitle);
-                    }
+                    let itemTitle = products[value['product']]['items'][value['item']]['title'];
+                    let productTitle = products[value['product']]['title'];
+                    setPoint(value['coordinates']['y'], value['coordinates']['x'], itemTitle + ' (' + productTitle + ')');
                 });
                 if (coordinates.length > 0) {
                     $("#instashop-product-image--reset").removeClass('hidden');
@@ -94,13 +98,15 @@
                     form.style.display = "none";
                 });
                 $("#instashop-popup-submit").click(function () {
-                    let product = $("#instashop-image-product").val();
-                    let productTitle = $("#instashop-image-product option:selected").html();
-                    coordinates.push({'product': product, 'coordinates': {'x': x, 'y': y}});
+                    let item = $("#instashop-image-product").val();
+                    let product = $("#instashop-image-product option:selected").parents('optgroup').data('product-id');
+                    let itemTitle = $("#instashop-image-product option:selected").html();
+                    let productTitle = $("#instashop-image-product option:selected").parents('optgroup').attr('label');
+                    coordinates.push({'product': product, 'item': item, 'coordinates': {'x': x, 'y': y}});
                     $("#instashop-coordinates-input").val(JSON.stringify(coordinates));
                     form.style.display = "none";
                     $("#instashop-product-image--reset").removeClass('hidden');
-                    setPoint(y, x, productTitle);
+                    setPoint(y, x, itemTitle + ' (' + productTitle + ')');
                 });
                 $("#instashop-product-image--reset").click(function () {
                     if (confirm('Continue?')) {

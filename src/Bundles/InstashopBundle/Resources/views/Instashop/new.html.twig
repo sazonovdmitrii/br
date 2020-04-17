@@ -25,8 +25,7 @@
             .dropzone {
                 position: relative;
                 background: #eaeaea;
-                border: none;
-                padding-bottom: 62px;
+                min-height: auto !important;
             }
 
             .dz-preview.dz-image-preview {
@@ -52,9 +51,14 @@
                     dictCancelUploadConfirmation: "Вы действительно хотите отменить загрузку?",
                     dictRemoveFile: "Удалить из списка",
                     dictMaxFilesExceeded: "Достигнут лимит на количествово загруженных файлов",
-                    error: function(file, xhr) {
+                    complete: function (file) {
+                        if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                            location.reload(true);
+                        }
+                    },
+                    error: function (file, xhr) {
                         $(file.previewElement).addClass("dz-error").find('.dz-error-message span').text(xhr.message);
-                    }
+                    },
                 };
                 Dropzone.autoDiscover = false;
                 $("div#instashop-upload-files").addClass('dropzone').dropzone(DropZoneOptions);

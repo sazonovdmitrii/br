@@ -2,7 +2,7 @@
 /**
  * Разработчик: Харсеев Владимир Александрович
  * Email: vkharseev@gmail.com
- * Последнее обновление: 09.04.2020.
+ * Последнее обновление: 17.04.2020.
  */
 
 namespace App\Bundles\InstashopBundle\Repository;
@@ -33,7 +33,16 @@ class InstashopRepository extends ServiceEntityRepository
      * @var ClassMetadata
      */
     private $table;
+    /**
+     * @var string
+     */
+    private $locale;
 
+    /**
+     * InstashopRepository constructor.
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Entity::class);
@@ -87,7 +96,7 @@ class InstashopRepository extends ServiceEntityRepository
         $queries = [
             "TRUNCATE {$table} RESTART IDENTITY CASCADE",
             "ALTER SEQUENCE {$sequence} RESTART WITH 1",
-            "UPDATE {$table} SET id=nextval('{$sequence}')"
+            "UPDATE {$table} SET id=nextval('{$sequence}')",
         ];
         foreach ($queries as $query) {
             $statement = $this->_em->getConnection()->prepare($query);
@@ -164,6 +173,78 @@ class InstashopRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int $entityId
+     * @return bool
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function click(int $entityId): bool
+    {
+        $entity = $this->find($entityId);
+        if ($entity !== null) {
+            $entity->addClick();
+            return $this->save($entity);
+        }
+        return false;
+    }
+
+    /**
+     * @param int $entityId
+     * @return bool
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function purchase(int $entityId): bool
+    {
+        $entity = $this->find($entityId);
+        if ($entity !== null) {
+            $entity->addPurchase();
+            return $this->save($entity);
+        }
+        return false;
+    }
+
+    /**
+     * @param mixed $entityIds
+     * @return bool
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function purchases($entityIds): bool
+    {
+        if (is_string($entityIds)) {
+            $entityIds = json_decode($entityIds, true);
+        }
+        if (is_array($entityIds)) {
+            foreach ($entityIds as $id) {
+                $this->purchase($id);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param string $tag
+     * @return array
+     */
+    public function findByTag(string $tag): array
+    {
+        $collection = new Collection();
+        $collection->setItems(
+            $this->findBy(
+                [
+                    'hash_tag' => '#' . preg_replace('/#/', '', $tag),
+                    'status'   => Entity::APPROVED,
+                    'visible'  => true,
+                ],
+                ['purchases' => 'DESC', 'clicks' => 'DESC', 'created' => 'DESC']
+            )
+        );
+        return $this->toList($collection);
+    }
+
+    /**
      * @param Entity $entity
      * @return bool
      * @throws ORMException
@@ -174,5 +255,49 @@ class InstashopRepository extends ServiceEntityRepository
         $this->_em->persist($entity);
         $this->_em->flush();
         return true;
+    }
+
+    /**
+     * @param Collection $collection
+     * @return array
+     */
+    private function toList(Collection $collection): array
+    {
+        $images = [];
+        setlocale(LC_TIME, strtolower($this->getLocale()) . '_' . strtoupper($this->getLocale()));
+        foreach ($collection->getItems() as $image) {
+            if ($image instanceof Entity) {
+                $images[] = [
+                    'id'          => $image->getId(),
+                    'path'        => $image->getPath(),
+                    'tag'         => $image->getHashTag(),
+                    'title'       => $image->getTitle($this->getLocale()),
+                    'description' => $image->getDescription($this->getLocale()),
+                    'purchases'   => $image->getPurchases(),
+                    'clicks'      => $image->getClicks(),
+                    'created'     => $image->getCreated()->format('Y-m-d H:i:s'),
+                    'products'    => $image->getProducts($this->getLocale()),
+                ];
+            }
+        }
+        return $images;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     * @return $this
+     */
+    public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+        return $this;
     }
 }

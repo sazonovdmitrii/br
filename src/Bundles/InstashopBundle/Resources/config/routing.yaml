@@ -1,7 +1,24 @@
-search:
+images.search:
   path: /admin/instashop/new/search
   controller: App\Bundles\InstashopBundle\Controller\InstashopController::search
+  methods:  [GET]
 
-upload:
+images.upload:
   path: /admin/instashop/new/upload
   controller: App\Bundles\InstashopBundle\Controller\InstashopController::upload
+  methods:  [POST]
+
+api.search.images:
+  path: /api/v1/instashop/images/find
+  controller: App\Bundles\InstashopBundle\Controller\ApiController::findByTag
+  methods:  [GET]
+
+api.save.click:
+  path: /api/v1/instashop/click/save
+  controller: App\Bundles\InstashopBundle\Controller\ApiController::saveClick
+  methods:  [POST]
+
+api.save.purchase:
+  path: /api/v1/instashop/purchase/save
+  controller: App\Bundles\InstashopBundle\Controller\ApiController::savePurchases
+  methods:  [POST]

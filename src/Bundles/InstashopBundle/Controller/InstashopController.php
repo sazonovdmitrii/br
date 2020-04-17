@@ -2,7 +2,7 @@
 /**
  * Разработчик: Харсеев Владимир Александрович
  * Email: vkharseev@gmail.com
- * Последнее обновление: 15.04.2020.
+ * Последнее обновление: 16.04.2020.
  */
 
 namespace App\Bundles\InstashopBundle\Controller;
@@ -10,8 +10,7 @@ namespace App\Bundles\InstashopBundle\Controller;
 use Error;
 use Exception;
 use App\Bundles\InstashopBundle\Service\{Instashop};
-use App\Bundles\InstashopBundle\Service\ProviderInterface;
-use Doctrine\ORM\{ORMException, EntityManager, OptimisticLockException};
+use Doctrine\ORM\{ORMException, OptimisticLockException};
 use App\Bundles\InstashopBundle\Repository\InstashopRepository as Repository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Symfony\Component\HttpFoundation\{Request, Response, File\File, RedirectResponse, File\UploadedFile};
@@ -23,13 +22,9 @@ use Symfony\Component\HttpFoundation\{Request, Response, File\File, RedirectResp
  */
 class InstashopController extends BaseAdminController
 {
-    /** @var EntityManager The Doctrine entity manager for the current entity */
-    protected $em;
     /** @var Request The instance of the current Symfony request */
     protected $request;
-    /**
-     * @var Repository
-     */
+    /** @var Repository */
     private $repository;
 
     /**
@@ -43,19 +38,6 @@ class InstashopController extends BaseAdminController
     }
 
     /**
-     * The method that is executed when the user performs a 'list' action on an entity.
-     *
-     * @return Response
-     */
-    protected function listAction(): Response
-    {
-        if ($this->container->has(ProviderInterface::class)) {
-            $provider = $this->container->get(ProviderInterface::class);
-        }
-        return parent::listAction();
-    }
-
-    /**
      * @param Request $request
      * @param Instashop $service
      * @return RedirectResponse
@@ -66,7 +48,7 @@ class InstashopController extends BaseAdminController
             $images = $service->setQuery($request->query->get('query'))->get();
             $this->repository->truncate()->import($images, $request->query->get('query'));
             $this->addFlash('success',
-                sprintf('Operation completed successfully. Imported %d new images', $images->length())
+                sprintf('Operation completed successfully. Imported %d new images', $images->count())
             );
         } catch (Exception $exception) {
             $this->addFlash('warning', $exception->getMessage());
@@ -97,6 +79,7 @@ class InstashopController extends BaseAdminController
                 );
                 if ($uploadedFile instanceof File) {
                     $images = $service->setQuery($uploadedFile->getRealPath())->get();
+//                    $this->repository->truncate();
                     $this->repository->import($images, '#dropzona');
                     $content = ['status' => true, 'message' => 'Загружено'];
                     $response->setStatusCode(Response::HTTP_CREATED);

@@ -10,9 +10,9 @@ namespace App\Bundles\InstashopBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Translatable\Translation;
 
-
 /**
  * Class InstashopTranslation
+ *
  * @package App\Bundles\InstashopBundle\Entity
  * @ORM\Entity(repositoryClass="App\Bundles\InstashopBundle\Repository\TranslationRepository")
  * @ORM\Table(name="InstashopTranslations")
@@ -26,7 +26,6 @@ class InstashopTranslation
      * @ORM\JoinTable(name="instashop_product")
      */
     private $title;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
