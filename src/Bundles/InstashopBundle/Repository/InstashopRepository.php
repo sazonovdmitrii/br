@@ -65,6 +65,8 @@ class InstashopRepository extends ServiceEntityRepository
                         $entity->setCoordinates([]);
                         $entity->setStatus(Entity::RAW);
                         $entity->setVisible(true);
+                        $entity->setClicks(0);
+                        $entity->setPurchases(0);
                         $entity->setCreated(new DateTime());
                         $this->save($entity);
                     }
