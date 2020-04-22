@@ -372,6 +372,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
             },
         });
     };
+
     const handleSubmitAddress = data => {
         if (data.id) {
             setValues(prevState => ({
@@ -380,6 +381,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
             }));
         }
     };
+
     const handleChangeAddress = data => {
         setValues(prevState => ({ ...prevState, address: data }));
     };
@@ -388,12 +390,14 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
+
     const handleClickListItem = ({ data, type }) => {
         setValues(prevState => ({
             ...prevState,
             [type]: data,
         }));
     };
+
     const handeChangeAutocomplite = (event, value) => {
         setValues(prevValues => ({ ...prevValues, city: { name: value } }));
     };
@@ -403,6 +407,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
         localStorage.setItem('city', JSON.stringify(newCity));
         setValues(prevValues => ({ ...prevValues, city: newCity }));
     };
+
     const handleResetAutocomplite = () => {
         setValues(initialValues);
         setDeliveryMethods(initialDeliveryMethods);
