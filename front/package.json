@@ -131,6 +131,7 @@
         "react-virtualized-auto-sizer": "^1.0.2",
         "react-window": "^1.8.5",
         "regenerator-runtime": "^0.13.3",
+        "serialize-javascript": "^3.0.0",
         "siema": "^1.5.1",
         "terser-webpack-plugin": "^2.3.5",
         "unfetch": "^4.1.0",

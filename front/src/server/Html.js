@@ -1,4 +1,5 @@
 import React from 'react';
+import serialize from 'serialize-javascript';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -22,7 +23,7 @@ export default ({ bundle, helmet, html, window = {} }) => (
             <script
                 dangerouslySetInnerHTML={{
                     __html: Object.keys(window).reduce(
-                        (out, key) => (out += `window.${key}=${JSON.stringify(window[key])};`),
+                        (out, key) => (out += `window.${key}=${serialize(window[key], { isJSON: true })};`),
                         ''
                     ),
                 }}
