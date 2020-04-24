@@ -50,17 +50,26 @@ class AddressesResolver extends AuthAlias
     /**
      * @return mixed
      */
-    public function resolve()
+    public function resolve($args)
     {
         if($this->getUser()) {
-            return [
-                'data' => $this->getUser()->getAddresses()
-            ];
+            $addresses = $this->getUser()->getAddresses();
         } else {
-            return [
-                'data' => $this->addressRepository->findBy(['session_key' => $this->getAuthKey()])
-            ];
+            $addresses = $this->addressRepository->findBy(
+                ['session_key' => $this->getAuthKey()]
+            );
         }
+
+        if(isset($args['city_fias_id'])) {
+            $addresses = $addresses->filter(function($address) use ($args) {
+                    return $address->getCityFiasId() == $args['city_fias_id'];
+                }
+            );
+        }
+
+        return [
+            'data' => $addresses
+        ];
     }
 
     /**
