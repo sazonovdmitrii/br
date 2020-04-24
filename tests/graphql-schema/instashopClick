@@ -1,0 +1,10 @@
+mutation ($input: InstashopClickInput!) {
+  instashopClick(input: $input) {
+    message
+  }
+}
+{
+  "input": {
+    "id":"8"
+  }
+}

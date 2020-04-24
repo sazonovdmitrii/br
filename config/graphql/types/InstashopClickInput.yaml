@@ -1,0 +1,6 @@
+InstashopClickInput:
+  type: input-object
+  config:
+    fields:
+      id:
+        type: "Int"

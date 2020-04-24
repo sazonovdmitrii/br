@@ -1,0 +1,6 @@
+InstashopPurchasesInput:
+  type: input-object
+  config:
+    fields:
+      ids:
+        type: "String"

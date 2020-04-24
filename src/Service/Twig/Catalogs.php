@@ -6,17 +6,14 @@ use Doctrine\ORM\EntityManager;
 
 class Catalogs
 {
-    private $em;
     /**
      * @var CatalogRepository
      */
     private $catalogRepository;
 
     public function __construct(
-        EntityManager $entityManager,
         CatalogRepository $catalogRepository
     ) {
-        $this->em = $entityManager;
         $this->catalogRepository = $catalogRepository;
     }
 

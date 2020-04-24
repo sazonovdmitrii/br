@@ -1,0 +1,47 @@
+Instashop:
+  type: object
+  config:
+    description: "Instashop"
+    fields:
+      data:
+        type: "[InstashopItem]"
+InstashopItem:
+  type: object
+  config:
+    description: "Instashop Item"
+    fields:
+      id:
+        type: "Int!"
+        description: "ID"
+      path:
+        type: "String"
+        description: "Path"
+      tag:
+        type: "String"
+        description: "Path"
+      title:
+        type: "String"
+        description: "Path"
+      description:
+        type: "String"
+        description: "Path"
+      purchases:
+        type: "String"
+        description: "Path"
+      clicks:
+        type: "String"
+        description: "Path"
+      created:
+        type: "String"
+        description: "Path"
+      products:
+        type: "[InstashopProduct]"
+        description: "Instashop Product"
+InstashopProduct:
+  type: object
+  config:
+    description: "Instashop Product"
+    fields:
+      id:
+        type: "Int!"
+        description: "Instashop Product Int"

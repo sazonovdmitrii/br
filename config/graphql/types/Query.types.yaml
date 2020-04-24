@@ -205,6 +205,22 @@ Query:
       wholesale:
         type: "Wholesale"
         resolve: "@=resolver('Wholesale', [args])"
+      instashop_images:
+        type: "Instashop"
+        args:
+          tag:
+            description: "By Tag"
+            type: "String"
+          item_id:
+            description: "By Item ID"
+            type: "Int"
+          product_id:
+            description: "By Product ID"
+            type: "Int"
+          locale:
+            description: "Locale"
+            type: "String"
+        resolve: "@=resolver('Instashop', [args])"
 DateTime:
     type: custom-scalar
     config:

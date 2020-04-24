@@ -63,13 +63,14 @@ class ApiController extends AbstractController
     public function findByCriteria(Request $request): Response
     {
         $this->setRequest($request);
-        $this->repository->setLocale($this->getRequest()->getLocale());
+        $locale = ($this->getLocale()) ? $this->getLocale() : $this->getRequest()->getLocale();
+        $this->repository->setLocale($locale);
         if ($this->hasRequestQuery('tag')) {
-            $images = $this->getImagesByTag();
+            $images = $this->getImagesByTag($this->getRequestQuery('tag'));
         } elseif ($this->hasRequestQuery('product')) {
-            $images = $this->getImagesByProduct();
+            $images = $this->getImagesByProduct($this->getRequestQuery('product'));
         } elseif ($this->hasRequestQuery('item')) {
-            $images = $this->getImagesByProductItem();
+            $images = $this->getImagesByProductItem($this->getRequestQuery('item'));
         } else {
             return $this->response(['status' => false], Response::HTTP_BAD_REQUEST);
         }
@@ -89,7 +90,7 @@ class ApiController extends AbstractController
     {
         $this->setRequest($request);
         if ($this->hasRequestParam('id')) {
-            $this->repository->click($this->getRequestParam('id'));
+            $this->click($this->getRequestParam('id'));
             return $this->response();
         }
         return $this->response(['status' => false], Response::HTTP_BAD_REQUEST);
@@ -105,10 +106,10 @@ class ApiController extends AbstractController
     {
         $this->setRequest($request);
         if ($this->hasRequestParam('id')) {
-            $this->repository->purchase($this->getRequestParam('id'));
+            $this->purchase($this->getRequestParam('id'));
         }
         if ($this->hasRequestParam('ids')) {
-            $this->repository->purchases($this->getRequestParam('ids'));
+            $this->purchases($this->getRequestParam('ids'));
         }
         return $this->response();
     }
@@ -130,18 +131,18 @@ class ApiController extends AbstractController
     /**
      * @return array
      */
-    private function getImagesByTag(): array
+    public function getImagesByTag($tagName): array
     {
-        return $this->repository->findByTag($this->getRequestQuery('tag'));
+        return $this->repository->findByTag($tagName);
     }
 
     /**
      * @return array
      * @throws DBALException
      */
-    private function getImagesByProduct(): array
+    public function getImagesByProduct($productId): array
     {
-        $product = $this->productRepository->find($this->getRequestQuery('product'));
+        $product = $this->productRepository->find($productId);
         if ($product) {
             return $this->repository->findByProduct($product);
         }
@@ -152,9 +153,9 @@ class ApiController extends AbstractController
      * @return array
      * @throws DBALException
      */
-    private function getImagesByProductItem(): array
+    public function getImagesByProductItem($productItemId): array
     {
-        $productItem = $this->itemRepository->find($this->getRequestQuery('item'));
+        $productItem = $this->itemRepository->find($productItemId);
         if ($productItem) {
             return $this->repository->findByProductItem($productItem);
         }
@@ -215,5 +216,42 @@ class ApiController extends AbstractController
     private function getRequestParam($key, $default = '')
     {
         return $this->getRequest()->request->get($key, $default);
+    }
+
+    /**
+     * @param $locale
+     * @return $this
+     */
+    public function setRepositoryLocale($locale)
+    {
+        $this->repository->setLocale($locale);
+        return $this;
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function click(int $id)
+    {
+        return $this->repository->click($id);
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function purchase(int $id)
+    {
+        return $this->repository->purchase($id);
+    }
+
+    /**
+     * @param array $ids
+     * @return bool
+     */
+    public function purchases(array $ids)
+    {
+        return $this->repository->purchases($ids);
     }
 }

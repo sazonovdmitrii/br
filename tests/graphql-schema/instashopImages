@@ -1,0 +1,16 @@
+{
+  instashop_images(tag:"#brillenhof", locale:"ru") {
+    data{
+      id
+      path
+      tag
+      created
+      purchases
+      clicks
+      description
+      products {
+        id
+      }
+    }
+  }
+}

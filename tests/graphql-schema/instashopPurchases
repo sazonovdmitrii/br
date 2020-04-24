@@ -1,0 +1,10 @@
+mutation ($input: InstashopPurchasesInput!) {
+  instashopPurchases(input: $input) {
+    message
+  }
+}
+{
+  "input": {
+    "ids":"8,9,10"
+  }
+}

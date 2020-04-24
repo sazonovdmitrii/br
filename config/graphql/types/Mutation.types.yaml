@@ -104,3 +104,15 @@ Mutation:
         args:
           input:
             type: CouponInput!
+      instashopClick:
+        type: Result!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\InstashopMutation::click", [args])'
+        args:
+          input:
+            type: InstashopClickInput!
+      instashopPurchases:
+        type: Result!
+        resolve: '@=mutation("App\\GraphQL\\Mutation\\InstashopMutation::purchases", [args])'
+        args:
+          input:
+            type: InstashopPurchasesInput!
