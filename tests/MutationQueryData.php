@@ -344,6 +344,31 @@ GRAPHQL;
 GRAPHQL;
     }
 
+    private function instashopClickQuery()
+    {
+        return
+<<<'GRAPHQL'
+            mutation ($input: InstashopClickInput!) {
+              instashopClick(input: $input) {
+                message
+              }
+            }            
+GRAPHQL;
+    }
+
+    private function instashopPurchasesQuery()
+    {
+        return
+<<<'GRAPHQL'
+            mutation ($input: InstashopPurchasesInput!) {
+              instashopPurchases(input: $input) {
+                message
+              }
+            }            
+GRAPHQL;
+    }
+
+
     public function getMutationTestQuery($type)
     {
         $method = $type . 'Query';

@@ -101,6 +101,20 @@ trait MutationTestData
         ];
     }
 
+    public function instashopClickData()
+    {
+        return [
+            'id' => '8'
+        ];
+    }
+
+    public function instashopPurchasesData()
+    {
+        return [
+            'ids' => '8,9,10'
+        ];
+    }
+
     public function getMutationTestData($type, $param = false)
     {
         $method = $type . 'Data';

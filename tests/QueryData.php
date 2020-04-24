@@ -417,6 +417,28 @@ GRAPHQL;
         ';
     }
 
+    private function instashopImagesQuery()
+    {
+        return '
+            {
+              instashop_images(tag:"#brillenhof", locale:"ru") {
+                data{
+                  id
+                  path
+                  tag
+                  created
+                  purchases
+                  clicks
+                  description
+                  products {
+                    id
+                  }
+                }
+              }
+            }
+        ';
+    }
+
     public function getQueryTestQuery($type, $param = '')
     {
         $method = $type . 'Query';
