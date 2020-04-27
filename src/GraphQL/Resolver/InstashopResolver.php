@@ -42,8 +42,10 @@ class InstashopResolver extends LocaleAlias implements ResolverInterface, Aliase
             $data = $dataResolver->getImagesByTag($args['tag']);
         } elseif(isset($args['product_id'])) {
             $data = $dataResolver->getImagesByProduct($args['product_id']);
-        } else {
+        } elseif(isset($args['item_id'])) {
             $data = $dataResolver->getImagesByProductItem($args['item_id']);
+        } else {
+            $data = $dataResolver->getAllImages();
         }
         return [
             'data' => $data

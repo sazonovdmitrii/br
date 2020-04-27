@@ -133,7 +133,7 @@ class ApiController extends AbstractController
      */
     public function getImagesByTag($tagName): array
     {
-        return $this->repository->findByTag($tagName);
+        return $this->repository->findBy(['hash_tag' => $tagName]);
     }
 
     /**
@@ -160,6 +160,11 @@ class ApiController extends AbstractController
             return $this->repository->findByProductItem($productItem);
         }
         return [];
+    }
+
+    public function getAllImages()
+    {
+        return $this->repository->findBy([], ['id' => 'DESC']);
     }
 
     /**
