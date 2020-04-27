@@ -1,5 +1,5 @@
 import hardtack from 'hardtack';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 
 const createSession = () => {
     let session = hardtack.get('session_key');

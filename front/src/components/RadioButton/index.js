@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 import classnames from 'classnames/bind';
 
 import styles from './styles.css';

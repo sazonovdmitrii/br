@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect } from 'react';
 import { withRouter } from 'react-router';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 import LANGS from 'lang';
 import { isProd } from 'utils';
@@ -26,7 +26,7 @@ ym(55754116, "init", {
 const Meta = ({ lang, location: { pathname }, match: { path } }) => {
     const [defaultTitle] = useFormatMessage([{ id: 'meta_title' }]);
     const disabledPages = ['/cart', '/order/'];
-    const disabledLiveTex = useMemo(() => disabledPages.some((page) => pathname.indexOf(page) >= 0), [
+    const disabledLiveTex = useMemo(() => disabledPages.some(page => pathname.indexOf(page) >= 0), [
         pathname,
     ]);
 
@@ -52,8 +52,11 @@ const Meta = ({ lang, location: { pathname }, match: { path } }) => {
                 {isProd && <style>{`.async-hide { opacity: 0 !important}`}</style>}
                 {/* 16103 */}
                 <link rel="preconnect" href="https://cs15.livetex.ru" />
+                <link rel="preconnect" href="https://www.facebook.com" />
+                <link rel="preconnect" href="https://mc.yandex.ru" />
+                <link rel="preconnect" href="https://www.google-analytics.com" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                {LANGS.map((item) => {
+                {LANGS.map(item => {
                     const isDefault = item.default;
                     const isActive = item.value === lang;
                     const href = `/${isDefault ? '' : `${item.value}/`}${pathname

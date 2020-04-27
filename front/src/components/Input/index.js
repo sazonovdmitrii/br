@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { IMaskMixin } from 'react-imask';
 import classnames from 'classnames/bind';
-import nanoid from 'nanoid';
+import { nanoid } from 'nanoid';
 
 import styles from './styles.css';
 

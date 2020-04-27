@@ -2,7 +2,7 @@ import path from 'path';
 import webpack from 'webpack';
 
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import LoadablePlugin from '@loadable/webpack-plugin';
@@ -27,7 +27,7 @@ const PATHS = {
     public: '/static/',
 };
 
-const getConfig = (target) => {
+const getConfig = target => {
     const isNode = target === 'node';
 
     return {
@@ -204,7 +204,6 @@ const getConfig = (target) => {
                 }),
             new webpack.DefinePlugin({
                 'process.env.GRAPHQL': JSON.stringify(process.env.GRAPHQL),
-                'process.env.IMAGES_PATH': JSON.stringify(process.env.IMAGES_PATH),
                 'process.env.SERVER': isNode,
                 SERVER: isNode,
                 SEOHIDE: !isNode,
@@ -220,8 +219,7 @@ const getConfig = (target) => {
                 writeToDisk: true,
             }),
             isProd
-                ? new CleanWebpackPlugin([PATHS[target]], {
-                      beforeEmit: true,
+                ? new CleanWebpackPlugin({
                       verbose: true,
                   })
                 : new CaseSensitivePathsPlugin(),

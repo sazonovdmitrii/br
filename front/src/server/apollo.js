@@ -27,6 +27,7 @@ const create = ({ session, token } = {}) => {
         // credentials: 'include',
         uri: isServer ? process.env.GRAPHQL_SSR : process.env.GRAPHQL,
     });
+
     const middlewareLink = new ApolloLink((operation, forward) => {
         operation.setContext({
             headers: session
@@ -89,9 +90,9 @@ const create = ({ session, token } = {}) => {
                             : `../lang/${fileName}`
                         : `lang/${fileName}`;
 
-                    const {
-                        default: intlMessages,
-                    } = await import(/* webpackChunkName: 'i18n-[request]' */ foo);
+                    const { default: intlMessages } = await import(
+                        /* webpackChunkName: 'i18n-[request]' */ foo
+                    );
 
                     return intlMessages;
                 },

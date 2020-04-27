@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { getDataFromTree } from '@apollo/react-ssr';
 import { ApolloProvider } from '@apollo/react-common';
 import { StaticRouter } from 'react-router';
@@ -13,8 +13,9 @@ import jwt from 'jsonwebtoken';
 
 import Html from './Html';
 import config from './config';
+import { createClient } from './apollo';
 
-const checkToken = (token) => {
+const checkToken = token => {
     const pathToCert = path.join('../config/jwt/public.pem');
     const cert = fs.readFileSync(pathToCert);
 
@@ -25,11 +26,11 @@ const checkToken = (token) => {
     }
 };
 
-export default async (ctx) => {
+export default async ctx => {
     const location = ctx.request.url;
     // get token from cookies 🍪
     const token = checkToken(ctx.cookies.get('token'));
-    const client = config.client({ token });
+    const client = createClient({ token });
 
     const nodeExtractor = new ChunkExtractor({ statsFile: config.nodeStats });
     const { default: App } = nodeExtractor.requireEntrypoint();
