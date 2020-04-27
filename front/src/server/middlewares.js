@@ -6,7 +6,7 @@ import ms from 'microseconds';
 // Enable cross-origin requests
 import cors from '@koa/cors';
 // Logger
-import logger from 'koa-logger';
+import logger from 'koa-pino-logger';
 import helmet from 'koa-helmet';
 
 import config from './config';
@@ -31,12 +31,21 @@ const staticMiddleware = ({ root, maxage, immutable }) => async (ctx, next) => {
     return next();
 };
 
-export default (app) => {
+export default app => {
     if (isProd) {
         app.use(helmet()).use(cors());
     }
 
-    app.use(logger())
+    app.use(
+        logger({
+            level: 'warn',
+            prettyPrint: {
+                levelFirst: true,
+                colorize: true,
+                translateTime: 'dd-mm-yyyy h:MM:ss TT',
+            },
+        })
+    )
         .use(async (ctx, next) => {
             let path;
             if (ctx.status !== 301) {
