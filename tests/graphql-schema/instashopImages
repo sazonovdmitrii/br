@@ -1,15 +1,18 @@
 {
-  instashop_images(tag:"#brillenhof", locale:"ru") {
-    data{
-      id
-      path
-      tag
-      created
-      purchases
-      clicks
-      description
-      products {
-        id
+  instashop_images(locale:"ru") {
+    data(limit:1, offset:1){
+      edges {
+        node {
+          id
+          path
+          tag
+          purchases
+          clicks
+          description
+          products {
+            id
+          }
+        }
       }
     }
   }
