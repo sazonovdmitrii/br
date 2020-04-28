@@ -1,0 +1,4 @@
+InstashopConnection:
+    type: relay-connection
+    config:
+        nodeType: InstashopItem!

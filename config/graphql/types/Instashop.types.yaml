@@ -4,7 +4,10 @@ Instashop:
     description: "Instashop"
     fields:
       data:
-        type: "[InstashopItem]"
+        type: InstashopConnection
+        argsBuilder: PaginatoringBuilder
+        resolve: '@=resolver("InstashopItem", [value, args])'
+
 InstashopItem:
   type: object
   config:
@@ -29,9 +32,6 @@ InstashopItem:
         type: "String"
         description: "Path"
       clicks:
-        type: "String"
-        description: "Path"
-      created:
         type: "String"
         description: "Path"
       products:
