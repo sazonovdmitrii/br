@@ -63,7 +63,7 @@ class ApiController extends AbstractController
     public function findByCriteria(Request $request): Response
     {
         $this->setRequest($request);
-        $locale = ($this->getLocale()) ? $this->getLocale() : $this->getRequest()->getLocale();
+        $locale = $this->getLocale() ?: $this->getRequest()->getLocale();
         $this->repository->setLocale($locale);
         if ($this->hasRequestQuery('tag')) {
             $images = $this->getImagesByTag($this->getRequestQuery('tag'));
@@ -129,6 +129,7 @@ class ApiController extends AbstractController
     }
 
     /**
+     * @param $tagName
      * @return array
      */
     public function getImagesByTag($tagName): array
@@ -137,6 +138,7 @@ class ApiController extends AbstractController
     }
 
     /**
+     * @param $productId
      * @return array
      * @throws DBALException
      */
@@ -150,6 +152,7 @@ class ApiController extends AbstractController
     }
 
     /**
+     * @param $productItemId
      * @return array
      * @throws DBALException
      */
@@ -162,7 +165,10 @@ class ApiController extends AbstractController
         return [];
     }
 
-    public function getAllImages()
+    /**
+     * @return array
+     */
+    public function getAllImages(): array
     {
         return $this->repository->findBy([], ['id' => 'DESC']);
     }
@@ -227,7 +233,7 @@ class ApiController extends AbstractController
      * @param $locale
      * @return $this
      */
-    public function setRepositoryLocale($locale)
+    public function setRepositoryLocale($locale): self
     {
         $this->repository->setLocale($locale);
         return $this;
@@ -236,8 +242,10 @@ class ApiController extends AbstractController
     /**
      * @param int $id
      * @return bool
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
-    public function click(int $id)
+    public function click(int $id): bool
     {
         return $this->repository->click($id);
     }
@@ -245,8 +253,10 @@ class ApiController extends AbstractController
     /**
      * @param int $id
      * @return bool
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
-    public function purchase(int $id)
+    public function purchase(int $id): bool
     {
         return $this->repository->purchase($id);
     }
@@ -254,8 +264,10 @@ class ApiController extends AbstractController
     /**
      * @param array $ids
      * @return bool
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
-    public function purchases(array $ids)
+    public function purchases(array $ids): bool
     {
         return $this->repository->purchases($ids);
     }
