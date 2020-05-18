@@ -300,5 +300,6 @@
     "p_login_meta_title": "Sign in",
     "p_register_meta_title": "Create account",
     "p_remind_password_meta_title": "Forgot password",
-    "p_remind_password_success_message": "Your password was changed"
+    "p_remind_password_success_message": "Your password was changed",
+    "p_catalog_filters_reset_filters": "Reset Filters"
 }

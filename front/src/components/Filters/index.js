@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { Filter as FilterIcon, X as CloseIcon } from 'react-feather';
 import { FormattedMessage } from 'react-intl';
@@ -42,17 +43,18 @@ const Filters = ({ list, count, onChange }) => {
             domNode.style = null;
         };
     }, [tab.active, tablet]);
-    const handleChangeTab = (newValue) => {
-        setTab((prevState) => ({
+    const handleChangeTab = newValue => {
+        setTab(prevState => ({
             ...prevState,
             value: tab.value === newValue ? null : newValue,
             active: tab.value !== newValue,
         }));
     };
-    const handleChangeFilter = (tagId, active) => {
-        setTagsIds((prevState) => {
-            const newTagsIds = active ? [...prevState, tagId] : prevState.filter((id) => id !== tagId);
-            onChange(newTagsIds);
+    const handleChangeFilter = ({ id, name, active }) => {
+        setTagsIds(prevState => {
+            const newTagsIds = active ? [...prevState, { id, name }] : prevState.filter(tag => tag.id !== id);
+            const allIds = newTagsIds.map(tag => tag.id);
+            onChange(allIds);
 
             return newTagsIds;
         });
@@ -60,7 +62,7 @@ const Filters = ({ list, count, onChange }) => {
     const handleClose = () => {
         setTab({ value: null, active: false });
     };
-    const resetFilters = () => {
+    const handleResetFilters = () => {
         setTagsIds([]);
         onChange([]);
     };
@@ -72,6 +74,8 @@ const Filters = ({ list, count, onChange }) => {
     const modalFooterClassName = cx(styles.modalFooter, { expanded: tab.active });
     const tabsClassName = cx(styles.tabs, { expanded: tab.active });
     const buttonsClassName = cx(styles.buttons, { expanded: tab.active });
+
+    const tagsForShow = tagsIds.map(({ name }) => name).join(', ');
 
     return (
         <div ref={overlayNode} className={wrapperClassName}>
@@ -90,7 +94,7 @@ const Filters = ({ list, count, onChange }) => {
             <div className={innerClassName}>
                 {list.length ? (
                     <Tabs className={tabsClassName} value={tab.value} onChange={handleChangeTab}>
-                        {list.map((item) => {
+                        {list.map(item => {
                             if (!item.childrens.length) return null;
 
                             const tabClassName = cx(styles.tab, {
@@ -113,7 +117,7 @@ const Filters = ({ list, count, onChange }) => {
                 ) : null}
                 {list.length ? (
                     <div className={tabWrapperClassName}>
-                        {list.map((item) => {
+                        {list.map(item => {
                             if (!item.childrens.length) return null;
 
                             const tabContentClassName = cx(styles.tabContent, {
@@ -131,7 +135,9 @@ const Filters = ({ list, count, onChange }) => {
                                                     <Checkbox
                                                         label={name}
                                                         name={id}
-                                                        onChange={(e, value) => handleChangeFilter(id, value)}
+                                                        onChange={(e, value) =>
+                                                            handleChangeFilter({ id, name, active: value })
+                                                        }
                                                         checked={tagsIds.indexOf(id) !== -1}
                                                     />
                                                 </div>
@@ -143,12 +149,24 @@ const Filters = ({ list, count, onChange }) => {
                         })}
                     </div>
                 ) : null}
+                {tagsForShow ? (
+                    <div className={styles.selectedFilter}>
+                        <div className={styles.selectedFilterValue}>{tagsForShow}</div>
+                        <button
+                            type="button"
+                            className={styles.selectedFilterButton}
+                            onClick={handleResetFilters}
+                        >
+                            <FormattedMessage id="p_catalog_filters_reset_filters" />
+                        </button>
+                    </div>
+                ) : null}
             </div>
             <div className={modalFooterClassName}>
                 <Button className={styles.modalButton} onClick={handleClose} kind="simple">
                     <FormattedMessage id="p_catalog_filters_modal_button" values={{ count }} />
                 </Button>
-                <button type="button" className={styles.resetButton} onClick={resetFilters}>
+                <button type="button" className={styles.resetButton} onClick={handleResetFilters}>
                     <FormattedMessage
                         id="p_catalog_filters_modal_reset_button"
                         values={{ count: tagsIds.length }}
@@ -171,6 +189,23 @@ const Filters = ({ list, count, onChange }) => {
             </div>
         </div>
     );
+};
+
+Filters.propTypes = {
+    onChange: PropTypes.func,
+    count: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    list: PropTypes.arrayOf({
+        id: PropTypes.number,
+        childrens: PropTypes.shape({
+            id: PropTypes.number,
+            name: PropTypes.string,
+        }),
+    }).isRequired,
+};
+
+Filters.defaultProps = {
+    count: 0,
+    onChange() {},
 };
 
 export default Filters;
