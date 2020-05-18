@@ -7,9 +7,9 @@
 
 namespace App\Bundles\InstashopBundle\Service;
 
-
 /**
  * Class Instashop
+ *
  * @package App\Bundles\InstashopBundle\Service
  */
 class Instashop
@@ -18,7 +18,6 @@ class Instashop
      * @var string
      */
     private $query;
-
     /**
      * @var ProviderInterface
      */
@@ -26,6 +25,7 @@ class Instashop
 
     /**
      * Instashop constructor.
+     *
      * @param ProviderInterface provider
      */
     public function __construct(ProviderInterface $provider)

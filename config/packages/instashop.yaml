@@ -14,7 +14,7 @@ doctrine:
 
 instashop:
   instagram:
-    client_id: none
+    client_id: '218999106.5b39702.a3ba10949971406ebc6b037750bc6323'
     token: none
 
 twig:
