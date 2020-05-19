@@ -151,7 +151,7 @@ const Filters = ({ list, count, onChange }) => {
                         })}
                     </div>
                 ) : null}
-                {tagsForShow ? (
+                {selectedFiltersAsString ? (
                     <div className={styles.selectedFilter}>
                         <div className={styles.selectedFilterValue}>{selectedFiltersAsString}</div>
                         <button
