@@ -19,7 +19,7 @@ const Filters = ({ list, count, onChange }) => {
         value: null,
         active: false,
     });
-    const [tagsIds, setTagsIds] = useState([]);
+    const [selectedFilters, setSelectedFilters] = useState([]);
     const overlayNode = useRef(null);
     const [tablet, setTablet] = useState(isBrowser ? window.innerWidth < 768 : false);
 
@@ -51,19 +51,21 @@ const Filters = ({ list, count, onChange }) => {
         }));
     };
     const handleChangeFilter = ({ id, name, active }) => {
-        setTagsIds(prevState => {
-            const newTagsIds = active ? [...prevState, { id, name }] : prevState.filter(tag => tag.id !== id);
-            const allIds = newTagsIds.map(tag => tag.id);
+        setSelectedFilters(prevState => {
+            const newSelectedFilters = active
+                ? [...prevState, { id, name }]
+                : prevState.filter(tag => tag.id !== id);
+            const allIds = newSelectedFilters.map(tag => tag.id);
             onChange(allIds);
 
-            return newTagsIds;
+            return newSelectedFilters;
         });
     };
     const handleClose = () => {
         setTab({ value: null, active: false });
     };
     const handleResetFilters = () => {
-        setTagsIds([]);
+        setSelectedFilters([]);
         onChange([]);
     };
 
@@ -75,7 +77,7 @@ const Filters = ({ list, count, onChange }) => {
     const tabsClassName = cx(styles.tabs, { expanded: tab.active });
     const buttonsClassName = cx(styles.buttons, { expanded: tab.active });
 
-    const tagsForShow = tagsIds.map(({ name }) => name).join(', ');
+    const selectedFiltersAsString = selectedFilters.map(({ name }) => name).join(', ');
 
     return (
         <div ref={overlayNode} className={wrapperClassName}>
@@ -138,7 +140,7 @@ const Filters = ({ list, count, onChange }) => {
                                                         onChange={(e, value) =>
                                                             handleChangeFilter({ id, name, active: value })
                                                         }
-                                                        checked={tagsIds.indexOf(id) !== -1}
+                                                        checked={selectedFilters.find(tag => tag.id === id)}
                                                     />
                                                 </div>
                                             );
@@ -151,7 +153,7 @@ const Filters = ({ list, count, onChange }) => {
                 ) : null}
                 {tagsForShow ? (
                     <div className={styles.selectedFilter}>
-                        <div className={styles.selectedFilterValue}>{tagsForShow}</div>
+                        <div className={styles.selectedFilterValue}>{selectedFiltersAsString}</div>
                         <button
                             type="button"
                             className={styles.selectedFilterButton}
@@ -169,7 +171,7 @@ const Filters = ({ list, count, onChange }) => {
                 <button type="button" className={styles.resetButton} onClick={handleResetFilters}>
                     <FormattedMessage
                         id="p_catalog_filters_modal_reset_button"
-                        values={{ count: tagsIds.length }}
+                        values={{ count: selectedFilters.length }}
                     />
                 </button>
             </div>
