@@ -7,7 +7,7 @@ import { GET_PRODUCTS } from 'query';
 import { metrics } from 'utils';
 import { useLang } from 'hooks';
 
-import ProductCard from 'components/ProductCard';
+import ProductCard, { ProductCardSkeleton } from 'components/ProductCard';
 import Loader from 'components/Loader';
 import Filters from 'components/Filters';
 
@@ -62,25 +62,26 @@ const Products = ({ slug, limit, offset, className }) => {
                 <Filters
                     count={products.edges.length}
                     list={tags}
-                    onChange={(newTags) => {
+                    onChange={newTags => {
                         refetch({ slug, limit, offset, tags: newTags });
                     }}
                 />
             ) : null}
             <div className={styles.root}>
                 <div className={rowClassName}>
-                    {products &&
-                        products.edges.map(({ node: { id, name, url, items } }, index) => (
-                            <ProductCard
-                                key={id}
-                                id={id}
-                                seo={{ position: index + 1, showPlace: 'Catalog' }} // for SEO
-                                name={name}
-                                url={url}
-                                items={items.edges}
-                                loading={loading}
-                            />
-                        ))}
+                    {loading
+                        ? [...new Array(6).keys()].map(index => <ProductCardSkeleton key={index} />)
+                        : products &&
+                          products.edges.map(({ node: { id, name, url, items } }, index) => (
+                              <ProductCard
+                                  key={id}
+                                  id={id}
+                                  seo={{ position: index + 1, showPlace: 'Catalog' }} // for SEO
+                                  name={name}
+                                  url={url}
+                                  items={items.edges}
+                              />
+                          ))}
                 </div>
             </div>
         </>
