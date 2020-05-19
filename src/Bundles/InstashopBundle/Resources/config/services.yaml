@@ -21,8 +21,8 @@ services:
   instashop.service.provider.instagram:
     class:  App\Bundles\InstashopBundle\Service\InstagramProvider
     arguments:
-      $clientId: null
-      $token: 218999106.5b39702.a3ba10949971406ebc6b037750bc6323
+      $secret: bec9daf74becb0efc53365f7824d9377
+      $token: IGQVJYNmlOb2VxYkhXZAGZAOZA3hDSXVKNzFQMmlRVDFEYmdVMzVVN2xNdnFWVkNyMzdHc0NJMmhzR3hVU0F3YUppTzkxMjZACRGUzMm41YWZA5d1dkMXZAsSGxURkFrTkdCRy1JQ0Q1eXNB
 
   App\Bundles\InstashopBundle\Service\ProviderInterface:
     alias: instashop.service.provider.instagram

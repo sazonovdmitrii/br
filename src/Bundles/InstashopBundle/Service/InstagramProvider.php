@@ -25,15 +25,15 @@ class InstagramProvider implements ProviderInterface
     /**
      * @var string
      */
-    private $clientId;
+    private $secret;
     /**
      * @var string|null
      */
     private $token;
 
-    public function __construct(string $clientId = null, string $token = null)
+    public function __construct(string $secret = null, string $token = null)
     {
-        $this->clientId = $clientId;
+        $this->secret = $secret;
         $this->token = $token;
     }
 

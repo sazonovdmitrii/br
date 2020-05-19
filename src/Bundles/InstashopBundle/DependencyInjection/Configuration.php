@@ -29,6 +29,9 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('instagram')
                     ->children()
                         ->scalarNode('client_id')->end()
+                        ->scalarNode('fb_id')->end()
+                        ->scalarNode('app_id')->end()
+                        ->scalarNode('secret')->end()
                         ->scalarNode('token')->end()
                     ->end()
                 ->end() // instagram
