@@ -9,10 +9,10 @@ namespace App\Bundles\InstashopBundle\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\{ServerExceptionInterface,
+    ClientExceptionInterface,
+    TransportExceptionInterface,
+    RedirectionExceptionInterface};
 
 /**
  * Class InstagramProvider
@@ -79,5 +79,76 @@ class InstagramProvider implements ProviderInterface
     public function getName(): string
     {
         return 'instagram';
+    }
+
+    /**
+     * Refresh a Long-Lived Token
+     *
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    private function refresh(): void
+    {
+        $url = sprintf(
+            'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=%s',
+            $this->token
+        );
+        $client = HttpClient::create();
+        $response = $client->request('GET', $url);
+        if ($response->getStatusCode() === Response::HTTP_OK) {
+            $this->token = $response->getContent();
+        }
+    }
+
+    /**
+     * Узел User
+     *
+     * @param string $userId
+     * @return string|null
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    private function profile(string $userId = 'me'): ?string
+    {
+        $url = sprintf(
+            'https://graph.instagram.com/%s?fields=id,username&access_token=%s',
+            $userId,
+            $this->token
+        );
+        $client = HttpClient::create();
+        $response = $client->request('GET', $url);
+        if ($response->getStatusCode() === Response::HTTP_OK) {
+            return $response->getContent();
+        }
+        return null;
+    }
+
+    /**
+     * Поиск User
+     *
+     * @param string $nickname
+     * @return string|null
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    private function search(string $nickname): ?string
+    {
+        $url = sprintf(
+            'https://api.instagram.com/v1/users/search?q=%s&access_token=%s',
+            $nickname,
+            $this->token
+        );
+        $client = HttpClient::create();
+        $response = $client->request('GET', $url);
+        if ($response->getStatusCode() === Response::HTTP_OK) {
+            return $response->getContent(false);
+        }
+        return null;
     }
 }
