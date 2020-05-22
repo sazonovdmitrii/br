@@ -27,7 +27,7 @@ import caseAndLensClothImage from './images/case-and-lens-cloth.jpg';
 import caseAndLensClothImageRetina from './images/case-and-lens-cloth@2x.jpg';
 import caseAndLensClothImageWebp from './images/case-and-lens-cloth.webp';
 import caseAndLensClothImageWebpRetina from './images/case-and-lens-cloth@2x.webp';
-import ChooseLenses from './ChooseLenses';
+import { ChooseLensesPortal } from './ChooseLenses';
 
 const cx = classnames.bind(styles);
 
@@ -82,12 +82,7 @@ const Product = ({
         onError({ graphQLErrors: [{ message }] }) {
             createNotification({ type: 'error', message });
         },
-        update(
-            cache,
-            {
-                data: { addBasket },
-            }
-        ) {
+        update(cache, { data: { addBasket } }) {
             /* <3 apollo */
             cache.writeQuery({
                 query: GET_SHORT_BASKET,
@@ -131,7 +126,7 @@ const Product = ({
                 image={images.length ? images[0].path : null}
             />
             {showChooseLenses && (
-                <ChooseLenses
+                <ChooseLensesPortal
                     product={{ name, item: selectedProduct }}
                     lenses={lenses}
                     loading={loadingAddToCart}
