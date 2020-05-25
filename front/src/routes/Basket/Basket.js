@@ -6,7 +6,7 @@ import classnames from 'classnames/bind';
 import { useHistory } from 'react-router';
 
 import { useApp, useLang } from 'hooks';
-import { GET_SHORT_BASKET, GET_BASKET } from 'query';
+import { GET_SHORT_BASKET } from 'query';
 import { REMOVE_PRODUCT_MUTATION, CREATE_ORDER_MUTATION, APPLY_COUPON_MUTATION } from 'mutations';
 import { isNumber, metrics, formatDate } from 'utils';
 import LANGS from 'lang';
@@ -22,17 +22,13 @@ import Autocomplete from 'components/Autocomplete';
 import InputGroup from 'components/InputGroup';
 import Input from 'components/Input';
 import { Dialog, DialogContent } from 'components/Dialog';
-// TODO REMOVE
-import Order from 'routes/Order/Order';
-
-// import Success from 'routes/Success';
 
 import api from './api';
 import Empty from './Empty';
 import Sidebar from './Sidebar';
 import Login from './Login';
-import Pickups from './Pickups';
-import Stores from './Stores';
+import PointsMap from './PointsMap';
+
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
@@ -59,8 +55,8 @@ const getLocalCity = () => {
 
     try {
         localCity = JSON.parse(localStorage.getItem('city')) || {};
-    } catch (e) {
-        console.error(e);
+    } catch (error) {
+        console.error(error);
     }
 
     return localCity;
@@ -102,6 +98,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
         ...initialValues,
         city: getLocalCity(),
     });
+    const [openDialog, setOpenDialog] = useState(false);
 
     const isPickup = values.deliveryMethod.id === 'pvz';
     const isStore = values.deliveryMethod.id === 'stores';
@@ -162,7 +159,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                 data: {
                     remove: {
                         products: seoProducts
-                            .filter(({ item: { id } }) => ids.indexOf(id) === -1)
+                            .filter(({ item: { id } }) => !ids.includes(id))
                             .map(({ name, item, price, qty }) => ({
                                 price,
                                 name, // Name or ID is required.
@@ -175,12 +172,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
             });
             setProducts(removeBasket.products);
         },
-        update(
-            cache,
-            {
-                data: { removeBasket },
-            }
-        ) {
+        update(cache, { data: { removeBasket } }) {
             cache.writeQuery({
                 query: GET_SHORT_BASKET,
                 data: {
@@ -194,8 +186,8 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
     });
 
     const [createOrder] = useMutation(CREATE_ORDER_MUTATION, {
-        onCompleted({ order: { secret_key, id } }) {
-            if (secret_key && id) {
+        onCompleted({ order: { secret_key: secretKey, id } }) {
+            if (secretKey && id) {
                 metrics('gtm', {
                     event: 'transaction',
                     data: {
@@ -221,7 +213,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
 
                 const defaultLang = LANGS.find(item => item.default);
                 history.push(
-                    defaultLang.value === locale ? `/order/${secret_key}` : `/${locale}/order/${secret_key}`
+                    defaultLang.value === locale ? `/order/${secretKey}` : `/${locale}/order/${secretKey}`
                 );
             }
         },
@@ -386,7 +378,6 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
         setValues(prevState => ({ ...prevState, address: data }));
     };
 
-    const [openDialog, setOpenDialog] = useState(false);
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
@@ -441,31 +432,18 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                           fullWidth
                       >
                           <DialogContent className={styles.dialogContent}>
-                              {isPickup ? (
-                                  <Pickups
-                                      items={pickups}
-                                      value={currentDelivery}
-                                      onChange={value => {
-                                          handleClickListItem({
-                                              type: 'pvz',
-                                              data: value,
-                                          });
-                                          handleCloseDialog();
-                                      }}
-                                  />
-                              ) : (
-                                  <Stores
-                                      items={pickups}
-                                      value={currentDelivery}
-                                      onChange={value => {
-                                          handleClickListItem({
-                                              type: 'stores',
-                                              data: value,
-                                          });
-                                          handleCloseDialog();
-                                      }}
-                                  />
-                              )}
+                              <PointsMap
+                                  items={pickups}
+                                  value={currentDelivery || null}
+                                  onChange={value => {
+                                      handleClickListItem({
+                                          type: isPickup ? 'pvz' : 'stores',
+                                          data: value,
+                                      });
+                                      handleCloseDialog();
+                                  }}
+                                  filterKey={isPickup ? 'service' : null}
+                              />
                           </DialogContent>
                       </Dialog>
                   )}
@@ -483,7 +461,10 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                         {products.map(({ name, item, lense, price, coupon_price: couponPrice, url }) => (
                             <BasketProduct
                                 key={item.id}
-                                images={{ original: item.images[0].basket, retina: item.images[0].middle }}
+                                images={{
+                                    original: item.images[0].basket,
+                                    retina: item.images[0].middle,
+                                }}
                                 name={name}
                                 recipes={lense.recipes}
                                 options={lense.options ? lense.options : []}
@@ -580,6 +561,7 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                 onResetValue={handleResetAutocomplite}
                             />
                         </div>
+                        {/* eslint-disable-next-line no-nested-ternary */}
                         {!calledDeliveryMethods ? null : loadingDeliveryMethods ? (
                             <Loader />
                         ) : (
@@ -609,9 +591,10 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                                                     : 'free'
                                                             }
                                                             values={{
-                                                                price: `${item.prices.min_price}${item.prices
-                                                                    .max_price &&
-                                                                    `-${item.prices.max_price}`}`,
+                                                                price: `${item.prices.min_price}${
+                                                                    item.prices.max_price &&
+                                                                    `-${item.prices.max_price}`
+                                                                }`,
                                                             }}
                                                         />
                                                     </b>
@@ -716,7 +699,10 @@ const Basket = ({ basket: { products: productsProps, coupon: couponProp }, addre
                                             name="comment"
                                             value={values.comment}
                                             onChange={({ target: { value } }) =>
-                                                setValues(prevValues => ({ ...prevValues, comment: value }))
+                                                setValues(prevValues => ({
+                                                    ...prevValues,
+                                                    comment: value,
+                                                }))
                                             }
                                             multiline
                                         />
@@ -840,8 +826,14 @@ Basket.propTypes = {
                 price: PropTypes.string,
             })
         ),
+        coupon: PropTypes.shape({
+            value: PropTypes.string,
+            active: PropTypes.bool,
+        }),
     }),
     addresses: PropTypes.arrayOf(PropTypes.object),
 };
+
+Basket.whyDidYouRender = true;
 
 export default Basket;

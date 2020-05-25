@@ -13,6 +13,18 @@
     height: calc(100% - 63px);
     display: flex;
 
+    &.withFilters {
+        height: calc(100% - 160px);
+
+        @media (--viewport-ipad) {
+            height: calc(100% - 124px);
+        }
+
+        @media (--viewport-wide) {
+            height: calc(100% - 63px);
+        }
+    }
+
     @media (--viewport-wide) {
         height: 100%;
     }
@@ -46,7 +58,7 @@
     }
 }
 
-.pickupsFilters {
+.filters {
     display: flex;
     flex-wrap: wrap;
     padding: 15px 20px 10px;
@@ -74,7 +86,7 @@
     }
 }
 
-.pickupsList {
+.pointsList {
     /*height: 100%;*/
     flex: 1;
 }

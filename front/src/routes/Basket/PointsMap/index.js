@@ -1,8 +1,9 @@
-import React, { useState, useMemo, memo } from 'react';
+import React, { useState, memo, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
-import { FixedSizeList as List, areEqual } from 'react-window';
+import { FixedSizeList as List } from 'react-window';
+import isEqual from 'react-fast-compare';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import memoize from 'memoize-one';
 import classnames from 'classnames/bind';
@@ -12,25 +13,27 @@ import { formatDate, exitFullscreen } from 'utils';
 
 import Button from 'components/Button';
 
-import Map from '../Map';
-import Point from '../Point';
+import Map from './Map';
+import Point from './Point';
 
 import styles from './styles.css';
 
 const cx = classnames.bind(styles);
 
+// eslint-disable-next-line react/prop-types
 const Row = memo(({ data: { items, onClick }, index, style }) => {
     // Data passed to List as "itemData" is available as props.data
     const locale = useLang();
     const item = items[index];
-    const { service, address, id, days, storage_time: storageTime } = item;
+    // eslint-disable-next-line react/prop-types
+    const { service, address, price, days, storage_time: storageTime } = item;
 
     return (
         <Point
-            id={id}
             style={style}
             address={address}
             classNames={{ root: styles.point, address: styles.pointAddress }}
+            price={<FormattedMessage id={price ? 'currency' : 'free'} values={{ price }} />}
             deliveryDays={
                 <>
                     <FormattedMessage id="p_cart_pickup_delivery_days" />:{' '}
@@ -39,16 +42,18 @@ const Row = memo(({ data: { items, onClick }, index, style }) => {
             }
             meta={[
                 service,
-                <>
-                    <FormattedMessage id="p_cart_pickup_storage_time" />: {storageTime}
-                </>,
-            ]}
+                storageTime && (
+                    <>
+                        <FormattedMessage id="p_cart_pickup_storage_time" />: {storageTime}
+                    </>
+                ),
+            ].filter(Boolean)}
             onClick={() => {
                 onClick(item);
             }}
         />
     );
-}, areEqual);
+}, isEqual);
 
 const createItemData = memoize((items, onClick) => ({
     items,
@@ -57,34 +62,47 @@ const createItemData = memoize((items, onClick) => ({
 
 const getItemKey = (index, { items }, { id } = items[index]) => id;
 
-const Stores = ({ value, items, onChange }) => {
-    console.log(value);
+const filterItems = ({ key, value, items }) =>
+    items.map(({ id, longitude, latitude, ...any }) => ({
+        id,
+        longitude,
+        latitude,
+        visible: value ? any[key] === value : true,
+    }));
+
+const getFiltersLabels = ({ items, key }) => {
+    const allNames = items.map(item => item[key]);
+
+    return [...new Set(allNames)];
+};
+
+const PointsMap = ({ value, items, filterKey, onChange }) => {
     const locale = useLang();
+    const [filter, setFilter] = useState(null);
     const [active, setActive] = useState(value);
     const [showList, setShowList] = useState(!!value);
 
-    const itemsForMap = useMemo(
-        () =>
-            items.map(({ id, price, latitude, longitude }) => ({
-                id,
-                latitude,
-                longitude,
-                price,
-            })),
-        [items]
-    );
     const handleClickPoint = point => {
         setActive(point);
     };
-    const handleClickMarker = id => {
-        setActive(items.find(item => item.id === id));
-        setShowList(true);
-        exitFullscreen();
-    };
+    const handleClickMarker = useCallback(
+        id => {
+            setActive(items.find(item => item.id === id));
+            setShowList(true);
+            exitFullscreen();
+        },
+        [items]
+    );
 
-    const itemData = createItemData(items, handleClickPoint);
+    const filteredMapItems = filterKey ? filterItems({ items, value: filter, key: filterKey }) : items;
+    const filteredPoints = filterKey && filter ? items.filter(item => item[filterKey] === filter) : items;
+    const filters = filterKey ? getFiltersLabels({ items, key: filterKey }) : [];
+    const itemData = createItemData(filteredPoints, handleClickPoint);
+    const autoSizerStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
+
     const listClassName = cx(styles.list, { show: showList });
     const mapClassName = cx(styles.map, { show: !showList });
+    const mapWrapperClassName = cx(styles.mapWrapper, { withFilters: !!filterKey });
 
     return (
         <>
@@ -93,10 +111,33 @@ const Stores = ({ value, items, onChange }) => {
                     <FormattedMessage id={showList ? 'p_cart_map_show_map' : 'p_cart_map_show_list'} />
                 </Button>
             </div>
-            <div className={styles.mapWrapper}>
+            {filterKey && (
+                <div className={styles.filters}>
+                    {filters.map(name => {
+                        const buttonClassName = cx(styles.filterButton, {
+                            active: filter === name,
+                        });
+
+                        return (
+                            <Button
+                                key={name}
+                                className={buttonClassName}
+                                kind="simple"
+                                size="small"
+                                onClick={() => {
+                                    setFilter(name === filter ? null : name);
+                                }}
+                            >
+                                {name}
+                            </Button>
+                        );
+                    })}
+                </div>
+            )}
+            <div className={mapWrapperClassName}>
                 <div className={mapClassName}>
                     <Map
-                        items={itemsForMap}
+                        items={filteredMapItems}
                         value={active ? active.id : null}
                         mapHeight="100%"
                         onClickMarker={handleClickMarker}
@@ -118,19 +159,23 @@ const Stores = ({ value, items, onChange }) => {
                             <div className={styles.activePoint}>
                                 <Point
                                     address={active.address}
+                                    price={
+                                        <FormattedMessage
+                                            id={active.price ? 'currency' : 'free'}
+                                            values={{ price: active.price }}
+                                        />
+                                    }
                                     deliveryDays={
                                         <>
                                             <FormattedMessage id="p_cart_pickup_delivery_days" />:{' '}
-                                            {formatDate({ locale, day: active.days, format: 'D MMMM YYYY' })}
+                                            {formatDate({
+                                                locale,
+                                                day: active.days,
+                                                format: 'D MMMM YYYY',
+                                            })}
                                         </>
                                     }
-                                    meta={[
-                                        active.service,
-                                        <>
-                                            <FormattedMessage id="p_cart_pickup_storage_time" />:{' '}
-                                            {active.storage_time}
-                                        </>,
-                                    ]}
+                                    meta={[active.service]}
                                     actions={
                                         <Button
                                             kind="primary"
@@ -173,11 +218,11 @@ const Stores = ({ value, items, onChange }) => {
                             </div>
                         </>
                     ) : (
-                        <AutoSizer style={{ height: '100%', width: '100%' }}>
+                        <AutoSizer style={autoSizerStyle}>
                             {({ height, width }) => (
                                 <List
                                     height={height}
-                                    itemCount={items.length}
+                                    itemCount={filteredPoints.length}
                                     itemData={itemData}
                                     itemKey={getItemKey}
                                     itemSize={132}
@@ -193,16 +238,20 @@ const Stores = ({ value, items, onChange }) => {
     );
 };
 
-Stores.defaultProps = {
+PointsMap.defaultProps = {
     items: [],
     onChange: () => {},
     value: null,
+    filterKey: null,
 };
 
-Stores.propTypes = {
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.nubmer]),
+PointsMap.propTypes = {
+    filterKey: PropTypes.string,
+    value: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
     items: PropTypes.arrayOf(PropTypes.object),
     onChange: PropTypes.func,
 };
 
-export default Stores;
+PointsMap.whyDidYouRender = true;
+
+export default PointsMap;
