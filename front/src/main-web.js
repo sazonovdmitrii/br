@@ -3,6 +3,8 @@ import 'destyle.css';
 import './fonts';
 import './globalStyles.css';
 
+import './wdyr';
+
 import React from 'react';
 import { render, hydrate } from 'react-dom';
 import { Router } from 'react-router';
