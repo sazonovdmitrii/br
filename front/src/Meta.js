@@ -42,9 +42,9 @@ const Meta = ({ lang, location: { pathname }, match: { path } }) => {
         <>
             <Helmet defaultTitle={defaultTitle} titleTemplate={SEO.titleTemplate}>
                 <html lang={lang} />
+                {isProd && <script>{YANDEX_METRIKA}</script>}
                 {isProd && <script>{GTM}</script>}
                 {isProd && <script>{AFSGO}</script>}
-                {isProd && <script>{YANDEX_METRIKA}</script>}
                 {!disabledLiveTex && isProd && <script>{LIVETEX}</script>}
                 {/* 16103 */}
                 {isProd && <style>{`.async-hide { opacity: 0 !important}`}</style>}
