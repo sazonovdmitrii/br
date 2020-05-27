@@ -49,7 +49,7 @@ module.exports = api => {
                 },
             ],
             '@loadable/babel-plugin',
-            'babel-plugin-transform-minify-gql-template-literals',
+            'babel-plugin-import-graphql',
         ].filter(Boolean),
     };
 };
