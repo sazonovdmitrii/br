@@ -218,11 +218,7 @@ const getConfig = target => {
             new LoadablePlugin({
                 writeToDisk: true,
             }),
-            isProd
-                ? new CleanWebpackPlugin({
-                      verbose: true,
-                  })
-                : new CaseSensitivePathsPlugin(),
+            isProd ? new CleanWebpackPlugin() : new CaseSensitivePathsPlugin(),
             isAnalyze && new BundleAnalyzerPlugin(),
             !isNode &&
                 !isProd &&

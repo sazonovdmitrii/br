@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ContentLoader from 'react-content-loader';
 
-export default () => (
+const ProductCardSkeleton = ({ width, height, speed }) => (
     <ContentLoader
-        speed={0}
-        width={408}
-        height={280}
-        viewBox="0 0 400 280"
+        speed={speed}
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
         backgroundColor="#f3f3f3"
         foregroundColor="#ecebeb"
     >
@@ -16,3 +17,17 @@ export default () => (
         <circle cx="55%" cy="250" r="15" />
     </ContentLoader>
 );
+
+ProductCardSkeleton.defaultProps = {
+    width: 408,
+    height: 280,
+    speed: 0,
+};
+
+ProductCardSkeleton.propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+    speed: PropTypes.number,
+};
+
+export default ProductCardSkeleton;
