@@ -25,7 +25,7 @@ const staticMiddleware = ({ root, maxage, immutable }) => async (ctx, next) => {
                 immutable,
             });
         }
-    } catch (e) {
+    } catch (error) {
         /* Error? Go to next middleware... */
     }
     return next();
@@ -47,16 +47,13 @@ export default app => {
         })
     )
         .use(async (ctx, next) => {
-            let path;
-            if (ctx.status !== 301) {
-                path = getPath(ctx.originalUrl, ctx.querystring);
-            }
+            const $path = ctx.status !== 301 ? getPath(ctx.originalUrl, ctx.querystring) : null;
 
-            if (path && (!ctx.body || ctx.status !== 200) && missingSlash(path)) {
-                const query = ctx.querystring.length ? '?' + ctx.querystring : '';
+            if ($path && (!ctx.body || ctx.status !== 200) && missingSlash($path)) {
+                const query = ctx.querystring.length ? `?${ctx.querystring}` : '';
 
                 ctx.status = 301;
-                ctx.redirect(path + '/' + query);
+                ctx.redirect(`${$path}/${query}`);
             }
 
             await next();
@@ -65,10 +62,10 @@ export default app => {
         .use(async (ctx, next) => {
             try {
                 await next();
-            } catch (e) {
-                console.log('Error:', e);
+            } catch (error) {
+                console.log('Error:', error);
                 ctx.status = 500;
-                ctx.body = `There was an error. Please try again later. \n ${e.message}`;
+                ctx.body = `There was an error. Please try again later. \n ${error.message}`;
             }
         })
         // Timing

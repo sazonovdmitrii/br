@@ -26,9 +26,7 @@ ym(55754116, "init", {
 const Meta = ({ lang, location: { pathname }, match: { path } }) => {
     const [defaultTitle] = useFormatMessage([{ id: 'meta_title' }]);
     const disabledPages = ['/cart', '/order/'];
-    const disabledLiveTex = useMemo(() => disabledPages.some(page => pathname.indexOf(page) >= 0), [
-        pathname,
-    ]);
+    const disabledLiveTex = useMemo(() => disabledPages.some(page => pathname.includes(page)), [pathname]);
 
     useEffect(() => {
         try {
@@ -37,28 +35,28 @@ const Meta = ({ lang, location: { pathname }, match: { path } }) => {
             } else {
                 window.LiveTex.showLabel();
             }
-        } catch (e) {}
+        } catch (error) {}
     }, [disabledLiveTex]);
 
     return (
         <>
             <Helmet defaultTitle={defaultTitle} titleTemplate={SEO.titleTemplate}>
                 <html lang={lang} />
-                {!disabledLiveTex && isProd && <script>{LIVETEX}</script>}
                 {isProd && <script>{GTM}</script>}
-                {isProd && <script>{YANDEX_METRIKA}</script>}
                 {isProd && <script>{AFSGO}</script>}
+                {isProd && <script>{YANDEX_METRIKA}</script>}
+                {!disabledLiveTex && isProd && <script>{LIVETEX}</script>}
                 {/* 16103 */}
                 {isProd && <style>{`.async-hide { opacity: 0 !important}`}</style>}
                 {/* 16103 */}
+                <link rel="preconnect" href="https://www.googletagmanager.com" />
+                <link rel="preconnect" href="https://www.google-analytics.com" />
                 <link rel="preconnect" href="https://cs15.livetex.ru" />
                 <link rel="preconnect" href="https://www.facebook.com" />
                 <link rel="preconnect" href="https://mc.yandex.ru" />
-                <link rel="preconnect" href="https://www.google-analytics.com" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 {LANGS.map(item => {
                     const isDefault = item.default;
-                    const isActive = item.value === lang;
                     const href = `/${isDefault ? '' : `${item.value}/`}${pathname
                         .replace(path, '')
                         .replace(/^\//, '')}`;
