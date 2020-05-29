@@ -1,7 +1,7 @@
 version: '2'
 services:
-    br_php:
-        container_name: br_php
+    bh_php:
+        container_name: bh_php
         build: php-fpm
         ports:
             - '9008:9000'
@@ -10,17 +10,17 @@ services:
             - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
             - ./docker/php/php.ini:/usr/local/etc/php/php.ini
         links:
-            - br_db
-            - br_redis
+            - bh_db
+            - bh_redis
         environment:
-            REDIS_HOST: br_redis
+            REDIS_HOST: bh_redis
             REDIS_PORT: 6379
         networks:
             main:
                 aliases:
-                    - br_php
-    br_postgres:
-        container_name: br_postgres
+                    - bh_php
+    bh_postgres:
+        container_name: bh_postgres
         image: postgres
         environment:
         - POSTGRES_DB=symfony
@@ -34,24 +34,24 @@ services:
         networks:
             main:
                 aliases:
-                    - br_postgres
-    br_nginx:
-        container_name: br_nginx
+                    - bh_postgres
+    bh_nginx:
+        container_name: bh_nginx
         build: nginx
         ports:
             - '8084:80'
             - '1341:1341'
         volumes_from:
-            - br_php
+            - bh_php
         volumes:
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
             - ./logs/nginx/:/var/log/nginx:cached
         networks:
             main:
                 aliases:
-                    - br_nginx
-    br_db:
-        container_name: br_db
+                    - bh_nginx
+    bh_db:
+        container_name: bh_db
         image: mariadb:latest
         restart: on-failure
         ports:
@@ -67,12 +67,12 @@ services:
             main:
                 aliases:
                     - mysql
-    br_redis:
-        container_name: br_redis
+    bh_redis:
+        container_name: bh_redis
         image: redis:4-alpine
         networks:
             main:
                 aliases:
-                    - br_redis
+                    - bh_redis
 networks:
     main:
